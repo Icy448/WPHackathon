@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Westpac Online Banking</title>
+<style>
+  :root{
+    --brand:#da1710; --brand-strong:#b2110c; --brand-soft:#fdeceb;
+    --ink:#1b1f27; --muted:#5b616e; --line:#e4e6eb; --surface:#fff; --bg:#f0f1f4;
+    --success:#008a4b; --credit:#008a4b;
+    --font:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
+    --radius:8px; --maxw:1200px; --sidebar:248px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.5}
+  a{color:var(--brand);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .screen[hidden]{display:none}
+
+  .logo{display:inline-flex;align-items:center;gap:10px}
+  .logo .sq{width:34px;height:34px;border-radius:6px;background:#fff;color:var(--brand);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;line-height:1}
+  .logo .wm{font-size:22px;font-weight:700;color:#fff}
+
+  .btn{font-family:inherit;font-size:15px;font-weight:700;border-radius:999px;border:2px solid var(--brand);
+    padding:12px 22px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;justify-content:center}
+  .btn-primary{background:var(--brand);color:#fff}
+  .btn-primary:hover{background:var(--brand-strong);border-color:var(--brand-strong)}
+  .btn-ghost{background:#fff;color:var(--brand)}
+  .btn-ghost:hover{background:var(--brand-soft)}
+  .btn-block{width:100%}
+  label.fld{display:block;margin-bottom:16px}
+  label.fld .lab{font-size:13px;font-weight:700;display:block;margin-bottom:6px}
+  input[type=text],input[type=password]{width:100%;font-family:inherit;font-size:16px;padding:12px 14px;border:1px solid #bcc0c8;border-radius:8px}
+  input:focus{outline:2px solid var(--brand);border-color:var(--brand)}
+
+  /* ================= LOGIN ================= */
+  .login-top{background:var(--brand)}
+  .login-top .bar{max-width:var(--maxw);margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+  .login-top .secure{font-size:13px;color:#fff;display:flex;align-items:center;gap:7px;opacity:.95}
+  .login-wrap{min-height:calc(100vh - 66px);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:48px 20px}
+  .login-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:32px;width:100%;max-width:420px;box-shadow:0 10px 30px rgba(20,24,33,.08)}
+  .login-card h2{font-size:24px;margin-bottom:4px}
+  .login-card .sub{font-size:14px;color:var(--muted);margin-bottom:24px}
+  .row-between{display:flex;align-items:center;justify-content:space-between;margin:4px 0 20px}
+  .check{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted)}
+  .divider{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13px;margin:22px 0}
+  .divider::before,.divider::after{content:"";height:1px;background:var(--line);flex:1}
+  .trust{margin-top:22px;color:var(--muted);font-size:13px;max-width:420px;text-align:center;display:flex;gap:9px;justify-content:center}
+
+  /* ================= APP SHELL ================= */
+  header.app{background:var(--brand);position:sticky;top:0;z-index:10}
+  header.app .top{max-width:var(--maxw);margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+  header.app .icons{display:flex;align-items:center;gap:22px}
+  header.app .icons a{color:#fff;display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;opacity:.92}
+  header.app .icons a:hover{opacity:1;text-decoration:none}
+  header.app .icons .ic{font-size:17px}
+
+  .shell{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:var(--sidebar) 1fr;min-height:calc(100vh - 62px)}
+  aside.nav{background:#fff;border-right:1px solid var(--line);padding:18px 0}
+  aside.nav a{display:flex;align-items:center;gap:13px;padding:12px 24px;color:var(--ink);font-size:15px;font-weight:600;border-left:3px solid transparent}
+  aside.nav a:hover{background:var(--bg);text-decoration:none}
+  aside.nav a.active{border-left-color:var(--brand);color:var(--brand);background:var(--brand-soft)}
+  aside.nav a .ic{font-size:18px;width:22px;text-align:center}
+  aside.nav .grp{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9a9ea6;padding:16px 24px 6px;font-weight:700}
+
+  main.content{padding:28px 32px 48px;min-width:0}
+  .greet{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:22px}
+  .greet h1{font-size:26px}
+  .greet .muted{color:var(--muted);font-size:13px}
+
+  .sec-h{display:flex;align-items:center;justify-content:space-between;margin:26px 0 12px}
+  .sec-h h2{font-size:16px}
+  .sec-h .total{font-size:14px;color:var(--muted)}
+  .sec-h .total b{color:var(--ink)}
+
+  .tile{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin-bottom:12px;
+    display:flex;align-items:center;gap:16px;border-left:4px solid transparent;cursor:pointer;transition:box-shadow .15s}
+  .tile:hover{box-shadow:0 4px 14px rgba(20,24,33,.08)}
+  .tile.sel{border-left-color:var(--brand)}
+  .tile .t-main{flex:1;min-width:0}
+  .tile .t-name{font-size:16px;font-weight:700}
+  .tile .t-num{font-size:13px;color:var(--muted);margin-top:2px}
+  .tile .t-bal{text-align:right;white-space:nowrap}
+  .tile .t-bal .k{font-size:12px;color:var(--muted)}
+  .tile .t-bal .avail{font-size:22px;font-weight:800;letter-spacing:-.01em}
+  .tile .t-bal .cur{font-size:13px;color:var(--muted);margin-top:2px}
+  .tile .chev{color:#b7bbc3;font-size:20px;font-weight:700}
+
+  /* account detail / transactions */
+  .acctbar{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}
+  .acctbar .an{font-size:18px;font-weight:700}
+  .acctbar .anum{font-size:13px;color:var(--muted);margin-top:2px}
+  .acctbar .bals{display:flex;gap:34px;text-align:right}
+  .acctbar .bals .k{font-size:12px;color:var(--muted)}
+  .acctbar .bals .v{font-size:22px;font-weight:800}
+  .acctbar .bals .v.small{font-size:16px;font-weight:700;color:var(--muted)}
+
+  .txs{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .txs .th{display:grid;grid-template-columns:110px 1fr 130px 130px;gap:8px;padding:12px 20px;background:#f7f8fa;
+    font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+  .txs .th .r{text-align:right}
+  .tx{display:grid;grid-template-columns:110px 1fr 130px 130px;gap:8px;padding:14px 20px;border-top:1px solid var(--line);font-size:14px;align-items:center}
+  .tx .date{color:var(--muted);font-size:13px}
+  .tx .desc{font-weight:600}
+  .tx .amt{text-align:right;font-weight:700}
+  .tx .amt.credit{color:var(--credit)}
+  .tx .bal{text-align:right;color:var(--muted)}
+  .pending{padding:10px 20px;background:#fffaf0;border-top:1px solid var(--line);font-size:12px;font-weight:700;color:#8a6d00;text-transform:uppercase;letter-spacing:.04em}
+
+  footer.app{background:#2b2f38;color:#c9ccd3}
+  footer.app .in{max-width:var(--maxw);margin:0 auto;padding:28px 24px;display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between}
+  footer.app a{color:#c9ccd3;font-size:13px}
+  footer.app .links{display:flex;gap:24px;flex-wrap:wrap}
+  footer.app .cp{font-size:12px;color:#9a9ea6;width:100%;border-top:1px solid #3a3f49;padding-top:14px}
+
+  @media(max-width:980px){
+    .shell{grid-template-columns:1fr}
+    aside.nav{display:none}
+    .txs .th{grid-template-columns:90px 1fr 100px;}
+    .txs .th .balcol{display:none}
+    .tx{grid-template-columns:90px 1fr 100px}
+    .tx .bal{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== LOGIN ===================== -->
+<div id="login" class="screen">
+  <div class="login-top">
+    <div class="bar">
+      <span class="logo"><span class="sq">W</span><span class="wm">Westpac</span></span>
+      <span class="secure">🔒 Secure sign in</span>
+    </div>
+  </div>
+  <div class="login-wrap">
+    <form class="login-card" id="loginForm">
+      <h2>Sign in</h2>
+      <div class="sub">Westpac Online Banking</div>
+      <label class="fld"><span class="lab">Customer ID</span>
+        <input type="text" name="cid" placeholder="Enter your Customer ID" autocomplete="username"></label>
+      <label class="fld"><span class="lab">Password</span>
+        <input type="password" name="pwd" placeholder="Enter your password" autocomplete="current-password"></label>
+      <div class="row-between">
+        <label class="check"><input type="checkbox"> Remember Customer ID</label>
+        <a href="#" onclick="return false">Forgotten?</a>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+      <div class="divider">New to Westpac?</div>
+      <button type="button" class="btn btn-ghost btn-block" onclick="enter()">Register for Online Banking</button>
+    </form>
+    <div class="trust">🛡️ Westpac will never ask for your password by phone or email.</div>
+  </div>
+</div>
+
+<!-- ===================== APP ===================== -->
+<div id="app" class="screen" hidden>
+  <header class="app">
+    <div class="top">
+      <span class="logo"><span class="sq">W</span><span class="wm">Westpac</span></span>
+      <div class="icons">
+        <a href="#" onclick="return false"><span class="ic">✉️</span>Inbox</a>
+        <a href="#" onclick="return false"><span class="ic">⚙️</span>Settings</a>
+        <a href="#" onclick="logout();return false"><span class="ic">⎋</span>Sign out</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="nav">
+      <a href="#" class="active"><span class="ic">⌂</span>Home</a>
+      <a href="#" onclick="return false"><span class="ic">⇄</span>Pay or transfer</a>
+      <a href="#" onclick="return false"><span class="ic">👥</span>Payees &amp; billers</a>
+      <a href="#" onclick="return false"><span class="ic">▭</span>Cards</a>
+      <div class="grp">Manage</div>
+      <a href="#" onclick="return false"><span class="ic">🧾</span>Statements</a>
+      <a href="#" onclick="return false"><span class="ic">🛟</span>Service centre</a>
+      <a href="#" onclick="return false"><span class="ic">⚙︎</span>Settings</a>
+    </aside>
+
+    <main class="content">
+      <div class="greet">
+        <h1>Hi Alex</h1>
+        <span class="muted">Last signed in: today, 9:41 AM</span>
+      </div>
+
+      <div class="sec-h">
+        <h2>Bank accounts</h2>
+        <span class="total">Total available <b>$4,820.60</b></span>
+      </div>
+
+      <div class="tile sel">
+        <div class="t-main">
+          <div class="t-name">Westpac Choice</div>
+          <div class="t-num">BSB 032-000 · Acc 1234 5678</div>
+        </div>
+        <div class="t-bal">
+          <div class="k">Available</div>
+          <div class="avail">$3,080.60</div>
+          <div class="cur">Current $3,080.60</div>
+        </div>
+        <div class="chev">›</div>
+      </div>
+
+      <div class="tile">
+        <div class="t-main">
+          <div class="t-name">Westpac Life</div>
+          <div class="t-num">BSB 032-000 · Acc 8765 4321</div>
+        </div>
+        <div class="t-bal">
+          <div class="k">Available</div>
+          <div class="avail">$1,740.00</div>
+          <div class="cur">Current $1,740.00</div>
+        </div>
+        <div class="chev">›</div>
+      </div>
+
+      <div class="sec-h"><h2>Credit cards</h2></div>
+      <div class="tile">
+        <div class="t-main">
+          <div class="t-name">Low Rate Card</div>
+          <div class="t-num">Card ending 4417</div>
+        </div>
+        <div class="t-bal">
+          <div class="k">Available credit</div>
+          <div class="avail">$4,312.00</div>
+          <div class="cur">Owing $688.00</div>
+        </div>
+        <div class="chev">›</div>
+      </div>
+
+      <!-- Account detail: transactions -->
+      <div class="sec-h" style="margin-top:34px">
+        <h2>Westpac Choice — Transactions</h2>
+        <span class="total">BSB 032-000 · Acc 1234 5678</span>
+      </div>
+
+      <div class="acctbar">
+        <div>
+          <div class="an">Westpac Choice</div>
+          <div class="anum">BSB 032-000 · Account 1234 5678</div>
+        </div>
+        <div class="bals">
+          <div><div class="k">Available balance</div><div class="v">$3,080.60</div></div>
+          <div><div class="k">Current balance</div><div class="v small">$3,080.60</div></div>
+        </div>
+      </div>
+
+      <div class="txs">
+        <div class="th"><span>Date</span><span>Description</span><span class="r">Amount</span><span class="r balcol">Balance</span></div>
+
+        <div class="pending">Pending</div>
+        <div class="tx"><span class="date">16 Nov</span><span class="desc">Caltex Woolworths Bondi</span><span class="amt">−$68.40</span><span class="bal balcol">—</span></div>
+
+        <div class="tx"><span class="date">15 Nov</span><span class="desc">Woolworths 1234 Bondi Junction</span><span class="amt">−$84.20</span><span class="bal balcol">$3,080.60</span></div>
+        <div class="tx"><span class="date">15 Nov</span><span class="desc">Transport for NSW Opal</span><span class="amt">−$7.50</span><span class="bal balcol">$3,164.80</span></div>
+        <div class="tx"><span class="date">14 Nov</span><span class="desc">Transfer to Westpac Life</span><span class="amt">−$200.00</span><span class="bal balcol">$3,172.30</span></div>
+        <div class="tx"><span class="date">14 Nov</span><span class="desc">Salary — Acme Pty Ltd</span><span class="amt credit">+$2,480.00</span><span class="bal balcol">$3,372.30</span></div>
+        <div class="tx"><span class="date">13 Nov</span><span class="desc">Netflix.com</span><span class="amt">−$18.99</span><span class="bal balcol">$892.30</span></div>
+        <div class="tx"><span class="date">12 Nov</span><span class="desc">Origin Energy BPAY</span><span class="amt">−$142.30</span><span class="bal balcol">$911.29</span></div>
+        <div class="tx"><span class="date">11 Nov</span><span class="desc">Coles Express</span><span class="amt">−$55.10</span><span class="bal balcol">$1,053.59</span></div>
+        <div class="tx"><span class="date">10 Nov</span><span class="desc">Osko payment — J. Nguyen</span><span class="amt credit">+$40.00</span><span class="bal balcol">$1,108.69</span></div>
+        <div class="tx"><span class="date">09 Nov</span><span class="desc">Bunnings Warehouse</span><span class="amt">−$112.85</span><span class="bal balcol">$1,068.69</span></div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="app">
+    <div class="in">
+      <div class="links">
+        <a href="#" onclick="return false">Privacy</a>
+        <a href="#" onclick="return false">Security</a>
+        <a href="#" onclick="return false">Terms &amp; conditions</a>
+        <a href="#" onclick="return false">Accessibility</a>
+        <a href="#" onclick="return false">Contact us</a>
+      </div>
+      <div class="cp">© 2026 Westpac Banking Corporation ABN 33 007 457 141. Concept prototype for demonstration only — not affiliated with or endorsed by Westpac.</div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  var form=document.getElementById('loginForm');
+  form.addEventListener('submit',function(e){e.preventDefault();enter();});
+  function enter(){document.getElementById('login').hidden=true;document.getElementById('app').hidden=false;window.scrollTo(0,0);}
+  function logout(){document.getElementById('app').hidden=true;document.getElementById('login').hidden=false;window.scrollTo(0,0);}
+</script>
+</body>
+</html>
