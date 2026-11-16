@@ -122,6 +122,17 @@
   .lastsign{margin-top:46px;font-size:13px;color:var(--muted)}
   .disclaimer{margin-top:10px;font-size:11px;color:#b0b0b0}
   .placeholder{border:1px solid var(--line2);padding:40px;text-align:center;color:var(--muted);font-size:15px}
+  .banksmart-tab{display:inline-flex;align-items:center;gap:6px}
+  .bs-hero{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+  .bs-hero h1{font-size:33px;font-weight:500}
+  .bs-tag{color:var(--muted);font-size:15px;margin-bottom:26px;max-width:640px}
+  .bs-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .bs-card{border:1px solid var(--line2);border-radius:8px;padding:20px;display:flex;gap:14px}
+  .bs-card .ic{flex:0 0 auto;width:42px;height:42px;border-radius:10px;background:#fdeceb;display:flex;align-items:center;justify-content:center;font-size:20px}
+  .bs-card h3{font-size:16px;margin-bottom:4px}
+  .bs-card p{font-size:13.5px;color:var(--muted);line-height:1.5}
+  .bs-note{margin-top:18px;font-size:12.5px;color:var(--muted);display:flex;gap:8px;align-items:center}
+  @media(max-width:900px){.bs-grid{grid-template-columns:1fr}}
 
   @media(max-width:900px){
     .util .in{gap:14px;flex-wrap:wrap}
@@ -249,9 +260,10 @@
       <a data-nav="overview" class="active" onclick="go('overview')">Overview</a>
       <a data-nav="payments" onclick="go('payments')">Payments</a>
       <a data-nav="service" onclick="go('service')">Service</a>
-      <a data-nav="administration" onclick="go('administration')">Administration</a>
       <a data-nav="hub" onclick="go('hub')">Business Hub</a>
       <a data-nav="products" onclick="go('products')">Products</a>
+      <a data-nav="banksmart" class="banksmart-tab" onclick="go('banksmart')"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="sg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#da1710"/><stop offset="1" stop-color="#ff7468"/></linearGradient></defs><path fill="url(#sg1)" d="M12 1.5l1.9 7.1 7.1 1.9-7.1 1.9L12 22.5l-1.9-10.1L3 10.5l7.1-1.9z"/></svg>BankSmart</a>
+      <a data-nav="settings" onclick="go('settings')">Settings</a>
     </div>
   </nav>
 
@@ -341,13 +353,30 @@
       </div>
     </section>
 
-    <section class="page" data-page="administration" hidden>
-      <div class="pagehead"><h1>Administration</h1></div>
+    <section class="page" data-page="banksmart" hidden>
+      <div class="bs-hero">
+        <svg width="34" height="34" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="sg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#da1710"/><stop offset="1" stop-color="#ff7468"/></linearGradient></defs><path fill="url(#sg2)" d="M12 1.5l1.9 7.1 7.1 1.9-7.1 1.9L12 22.5l-1.9-10.1L3 10.5l7.1-1.9z"/></svg>
+        <h1>BankSmart</h1>
+      </div>
+      <div class="bs-tag">Your AI assistant for business banking — it watches your cash flow and keeps money in the right place across your own accounts, automatically.</div>
+      <div class="bs-grid">
+        <div class="bs-card"><div class="ic">📈</div><div><h3>Cash-flow forecast</h3><p>Projects your balance weeks ahead and flags a shortfall before it happens — like the week three supplier bills and payroll collide.</p></div></div>
+        <div class="bs-card"><div class="ic">⟳</div><div><h3>Smart sweeps</h3><p>Moves surplus between your own accounts to pre-fund upcoming bills and earn on idle cash. Internal only — money never leaves your business.</p></div></div>
+        <div class="bs-card"><div class="ic">🧾</div><div><h3>Payment insights</h3><p>Spots duplicate invoices, price creep from suppliers, and unusual outgoing payments across all your accounts.</p></div></div>
+        <div class="bs-card"><div class="ic">🛡️</div><div><h3>Fraud &amp; anomaly alerts</h3><p>Learns your normal payment patterns and raises the one alert that matters — before an approval goes through.</p></div></div>
+      </div>
+      <div class="bs-note">🔒 BankSmart only moves money between your own business accounts — never to third parties.</div>
+    </section>
+
+    <section class="page" data-page="settings" hidden>
+      <div class="pagehead"><h1>Settings</h1></div>
       <div class="tbl">
-        <div class="thead" style="grid-template-columns:1fr 160px"><span>Admin</span><span class="r">Action</span></div>
+        <div class="thead" style="grid-template-columns:1fr 160px"><span>Setting</span><span class="r">Action</span></div>
         <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Users &amp; permissions</div><div class="v"><a onclick="return false">Manage</a></div></div>
         <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Approval settings</div><div class="v"><a onclick="go('approval')">Manage</a></div></div>
         <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Daily limits</div><div class="v"><a onclick="return false">Manage</a></div></div>
+        <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Security &amp; sign-in</div><div class="v"><a onclick="return false">Manage</a></div></div>
+        <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Notifications</div><div class="v"><a onclick="go('inbox')">Manage</a></div></div>
       </div>
     </section>
 
