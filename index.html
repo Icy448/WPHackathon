@@ -167,11 +167,44 @@
   .allocbar span{height:100%}
   .legend{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:13px;color:var(--muted)}
   .legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:7px;vertical-align:middle}
-  .pots{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
-  .pot{border:1px solid var(--line2);border-radius:8px;padding:16px}
+  .pots{display:grid;grid-template-columns:repeat(auto-fill, minmax(210px, 1fr));gap:14px;margin-top:22px}
+  .pot{border:1px solid var(--line2);border-radius:8px;padding:16px;background:#fff;position:relative;display:flex;flex-direction:column}
   .pot .pn{font-size:13px;color:var(--muted);font-weight:700;display:flex;align-items:center;gap:7px}
   .pot .pv{font-size:22px;font-weight:800;margin-top:8px}
   .pot .pnote{font-size:12px;font-weight:700;margin-top:8px}
+  .pot-tag{display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;padding:2px 6px;border-radius:4px;background:#f1f1f1;color:var(--muted);margin-left:auto}
+  .pot-del{position:absolute;top:10px;right:10px;background:none;border:none;color:#aaa;cursor:pointer;font-size:16px;line-height:1;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .pot-del:hover{background:#fee2e2;color:var(--brand)}
+  .pot .potbar{height:6px;background:#e7e7e7;border-radius:999px;overflow:hidden;margin-top:8px}
+  .pot .potbar span{display:block;height:100%;border-radius:999px}
+  .pot-add-card{border:2px dashed #d0d0d0;border-radius:8px;padding:16px;background:#fafafa;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;min-height:120px;color:var(--brand);transition:border-color .15s, background .15s}
+  .pot-add-card:hover{border-color:var(--brand);background:var(--soft)}
+  .pot-add-card .plus-icon{font-size:26px;font-weight:700;line-height:1;margin-bottom:6px}
+  .pot-add-card .txt{font-size:13px;font-weight:700}
+
+  /* Modal Dialog for Add Goal / Bucket */
+  .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:900;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(2px)}
+  .modal-backdrop[hidden]{display:none}
+  .modal-box{background:#fff;border-radius:12px;box-shadow:0 12px 36px rgba(0,0,0,0.22);max-width:480px;width:100%;max-height:92vh;overflow-y:auto;padding:24px}
+  .modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;border-bottom:1px solid var(--line);padding-bottom:12px}
+  .modal-head h2{font-size:20px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:8px}
+  .modal-close{background:none;border:none;font-size:22px;color:#777;cursor:pointer;padding:4px 8px;border-radius:4px;line-height:1}
+  .modal-close:hover{background:#f1f1f1;color:#111}
+  .form-group{margin-bottom:15px}
+  .form-group label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:#2d2d2d}
+  .form-group input, .form-group select{width:100%;padding:10px 12px;border:1px solid #767676;border-radius:4px;font-size:14.5px;font-family:inherit}
+  .form-group input:focus, .form-group select:focus{outline:2px solid #1a6fd4;border-color:#1a6fd4}
+  .color-swatches{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px}
+  .color-swatch{width:28px;height:28px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:transform .15s}
+  .color-swatch.active{border-color:#222;transform:scale(1.15)}
+  .type-toggle{display:flex;border:1px solid #c7c7c7;border-radius:6px;overflow:hidden;margin-bottom:18px}
+  .type-btn{flex:1;padding:10px;text-align:center;font-size:14px;font-weight:700;background:#f9f9f9;border:none;cursor:pointer;color:var(--ink);transition:.15s}
+  .type-btn.active{background:var(--brand2);color:#fff}
+  .chip-presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .preset-chip{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;border:1px solid var(--line2);background:#f7f7f7;cursor:pointer;color:#333}
+  .preset-chip:hover{background:var(--soft);border-color:var(--brand);color:var(--brand)}
+  .toast{position:fixed;bottom:24px;left:24px;background:#2d2a54;color:#fff;padding:12px 20px;border-radius:6px;font-size:14px;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,0.2);display:flex;align-items:center;gap:10px;z-index:999;transition:opacity .3s, transform .3s}
+  .toast[hidden]{display:none}
   .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
   .grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;align-items:start}
   .chart{width:100%;height:210px;display:block;padding:8px 10px 0}
@@ -331,14 +364,21 @@
           <div class="linked">
             <div class="sub-row">
               <div><div class="nm">Westpac Life <span class="tag">Linked savings</span></div><div class="num">BSB 032-000 · 8765 4321 · where your savings &amp; goals live</div></div>
-              <div class="v">$1,740.00</div>
+              <div class="v" id="westpacLifeTotal">$1,740.00</div>
             </div>
-            <div class="goal">Rental bond goal — <strong>$1,740</strong> of $2,500 · on track for March
-              <div class="goalbar"><span style="width:70%"></span></div>
+            <div id="overviewGoalsContainer">
+              <div class="goal">Rental bond goal — <strong>$1,740</strong> of $2,500 · on track for March
+                <div class="goalbar"><span style="width:70%"></span></div>
+              </div>
+            </div>
+            <div style="margin-top:12px">
+              <button class="hbtn" onclick="openPlanModal('goal')" style="font-size:12.5px;padding:5px 12px;color:var(--brand);border-color:#d9d9d9">
+                <span style="font-weight:700;margin-right:2px">+</span> Add saving goal
+              </button>
             </div>
           </div>
         </div>
-        <div class="totrow" style="border:1px solid var(--line);border-top:none;border-radius:0 0 8px 8px;margin-top:-12px;margin-bottom:12px"><div class="lbl">Accounts total</div><div class="v">$4,820.60</div><div class="v">$4,820.60</div><div></div></div>
+        <div class="totrow" style="border:1px solid var(--line);border-top:none;border-radius:0 0 8px 8px;margin-top:-12px;margin-bottom:12px"><div class="lbl">Accounts total</div><div class="v" id="overviewAccountsTotal">$4,820.60</div><div class="v" id="overviewAccountsTotalCur">$4,820.60</div><div></div></div>
 
         <div class="section-gap"></div>
         <div class="tbl">
@@ -402,18 +442,22 @@
         </div>
 
         <div class="panelbox">
-          <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px">
-            <div><div class="sts-label">Safe to spend</div><div class="sts">$428<small>.60</small></div><div class="pill">✓ Bills &amp; rent already set aside · until payday Fri 28 Nov</div></div>
-            <div style="text-align:right"><div class="sts-label">Current balance</div><div class="sts" style="font-size:26px">$3,080.60</div></div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px">
+            <div>
+              <div class="sts-label">Safe to spend</div>
+              <div class="sts">$428<small>.60</small></div>
+              <div class="pill">✓ Bills &amp; rent already set aside · until payday Fri 28 Nov</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px">
+              <div style="text-align:right"><div class="sts-label">Current balance</div><div class="sts" style="font-size:26px" id="bankSmartCurrentBal">$3,080.60</div></div>
+              <button class="hbtn" onclick="openPlanModal()" style="font-weight:700;color:var(--brand);border-color:var(--brand);padding:7px 14px;background:#fff">
+                <span style="font-size:16px;line-height:1;margin-right:2px">+</span> Add goal or bucket
+              </button>
+            </div>
           </div>
-          <div class="allocbar"><span style="flex:4;background:var(--brand)"></span><span style="flex:3;background:#f0a500"></span><span style="flex:2;background:#0067b1"></span><span style="flex:3;background:#008a4b"></span></div>
-          <div class="legend"><span><i style="background:var(--brand)"></i>Spending</span><span><i style="background:#f0a500"></i>Bills</span><span><i style="background:#0067b1"></i>Buffer</span><span><i style="background:#008a4b"></i>Goals</span></div>
-          <div class="pots">
-            <div class="pot"><div class="pn"><span class="dot" style="background:var(--brand)"></span>Spending</div><div class="pv">$428.60</div><div class="pnote" style="color:var(--muted)">Safe to spend</div></div>
-            <div class="pot"><div class="pn"><span class="dot" style="background:#f0a500"></span>Bills</div><div class="pv">$612.00</div><div class="pnote" style="color:var(--success)">✓ 4 bills covered</div></div>
-            <div class="pot"><div class="pn"><span class="dot" style="background:#0067b1"></span>Buffer</div><div class="pv">$300.00</div><div class="pnote" style="color:var(--muted)">Auto-sized</div></div>
-            <div class="pot"><div class="pn"><span class="dot" style="background:#008a4b"></span>Rental bond</div><div class="pv">$1,740.00</div><div class="pnote" style="color:var(--success)">On track</div></div>
-          </div>
+          <div class="allocbar" id="savingsAllocBar"></div>
+          <div class="legend" id="savingsLegend"></div>
+          <div class="pots" id="savingsPots"></div>
         </div>
         <div class="grid2">
           <div class="panelbox" style="margin:0">
@@ -576,6 +620,63 @@
     </main>
   </div>
 
+  <!-- Modal: Add Goal or Bucket to Saving Plan -->
+  <div class="modal-backdrop" id="planModal" hidden onclick="if(event.target===this)closePlanModal()">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="planModalTitle">
+      <div class="modal-head">
+        <h2 id="planModalTitle"><span id="planModalIcon">🎯</span> Add Savings Goal</h2>
+        <button class="modal-close" onclick="closePlanModal()" aria-label="Close dialog">✕</button>
+      </div>
+      <form id="planForm" onsubmit="event.preventDefault();submitPlanItem();">
+        <div class="type-toggle">
+          <button type="button" class="type-btn active" id="typeGoalBtn" onclick="setPlanType('goal')">🎯 Savings Goal</button>
+          <button type="button" class="type-btn" id="typeBucketBtn" onclick="setPlanType('bucket')">🪣 Cash Bucket</button>
+        </div>
+
+        <div class="form-group">
+          <label for="planItemName">Name</label>
+          <input type="text" id="planItemName" placeholder="e.g. Holiday to Japan, Emergency Fund" required maxlength="40">
+          <div class="chip-presets">
+            <span style="font-size:11.5px;color:var(--muted);align-self:center">Suggestions:</span>
+            <button type="button" class="preset-chip" onclick="applyPreset('✈️ Holiday Trip', 'goal', 2500, 150, '#7e22ce', 'Dec 2027')">✈️ Holiday Trip</button>
+            <button type="button" class="preset-chip" onclick="applyPreset('🚗 New Car', 'goal', 6000, 400, '#0067b1', 'June 2028')">🚗 New Car</button>
+            <button type="button" class="preset-chip" onclick="applyPreset('🛡️ Emergency Buffer', 'bucket', 0, 300, '#0d9488')">🛡️ Emergency Buffer</button>
+            <button type="button" class="preset-chip" onclick="applyPreset('☕ Dining & Fun', 'bucket', 0, 100, '#f0a500')">☕ Dining &amp; Fun</button>
+            <button type="button" class="preset-chip" onclick="applyPreset('💻 Laptop & Tech', 'goal', 1800, 200, '#db2777', 'Aug 2027')">💻 Laptop</button>
+          </div>
+        </div>
+
+        <div class="form-group" id="goalTargetGroup">
+          <label for="planItemTarget">Target Goal Amount ($)</label>
+          <input type="number" id="planItemTarget" placeholder="e.g. 2500" min="1" step="any">
+        </div>
+
+        <div class="form-group">
+          <label for="planItemAmount">Starting Balance ($)</label>
+          <input type="number" id="planItemAmount" placeholder="e.g. 100 (or 0)" min="0" step="any" value="100">
+          <div style="font-size:12px;color:var(--muted);margin-top:4px">Funds immediately set aside in this bucket/goal.</div>
+        </div>
+
+        <div class="form-group" id="goalDateGroup">
+          <label for="planItemDate">Target Date / Timeline (optional)</label>
+          <input type="text" id="planItemDate" placeholder="e.g. Dec 2027 or 6 months">
+        </div>
+
+        <div class="form-group">
+          <label>Color Tag</label>
+          <div class="color-swatches" id="colorSwatches"></div>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:22px">
+          <button type="button" class="applybtn" onclick="closePlanModal()" style="margin:0">Cancel</button>
+          <button type="submit" class="signinbtn" style="padding:10px 24px;font-size:15px" id="planSubmitBtn">Add to Saving Plan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="bsToast" class="toast" hidden></div>
+
   <!-- ===== Wesley floating chat ===== -->
   <div class="wesley-fab" onclick="openWesley()"><span class="fblabel">Chat with Wesley</span><svg width="32" height="32" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>
   <div class="wesley-panel" id="wesleyPanel" hidden>
@@ -624,6 +725,229 @@
   function pick(a){return a[Math.floor(Math.random()*a.length)];}
   function money(n){return '$'+n.toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2});}
 
+  // ===== Saving Plan (Goals & Buckets) =====
+  var DEFAULT_SAVINGS_ITEMS = [
+    { id: 'spend', name: 'Spending', type: 'bucket', amount: 428.60, color: 'var(--brand)', note: 'Safe to spend', fixed: true },
+    { id: 'bills', name: 'Bills', type: 'bucket', amount: 612.00, color: '#f0a500', note: '✓ 4 bills covered', fixed: true },
+    { id: 'buffer', name: 'Buffer', type: 'bucket', amount: 300.00, color: '#0067b1', note: 'Auto-sized', fixed: true },
+    { id: 'bond', name: 'Rental bond', type: 'goal', amount: 1740.00, target: 2500.00, targetDate: 'March 2027', color: '#008a4b', note: 'On track · $1,740 of $2,500', fixed: false }
+  ];
+
+  var PRESET_COLORS = ['#008a4b', '#7e22ce', '#0067b1', '#f0a500', '#db2777', '#0d9488', '#da1710', '#4f46e5'];
+  var currentSelectedColor = PRESET_COLORS[0];
+  var currentPlanType = 'goal';
+
+  var savingsPlanItems = loadSavingsItems();
+
+  function loadSavingsItems(){
+    try {
+      var saved = localStorage.getItem('banksmart_savings_plan_items');
+      if (saved) return JSON.parse(saved);
+    } catch(e) {}
+    return JSON.parse(JSON.stringify(DEFAULT_SAVINGS_ITEMS));
+  }
+
+  function saveSavingsItems(){
+    try {
+      localStorage.setItem('banksmart_savings_plan_items', JSON.stringify(savingsPlanItems));
+    } catch(e) {}
+  }
+
+  function escapeHtml(str){
+    return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function showToast(msg){
+    var t = document.getElementById('bsToast');
+    if(!t) return;
+    t.textContent = msg;
+    t.hidden = false;
+    clearTimeout(t._timer);
+    t._timer = setTimeout(function(){ t.hidden = true; }, 3400);
+  }
+
+  function renderSavingsPlan(){
+    var allocBar = document.getElementById('savingsAllocBar');
+    var legend = document.getElementById('savingsLegend');
+    var pots = document.getElementById('savingsPots');
+    var ovGoals = document.getElementById('overviewGoalsContainer');
+    var ovLifeTotal = document.getElementById('westpacLifeTotal');
+    var ovAccountsTotal = document.getElementById('overviewAccountsTotal');
+    var ovAccountsTotalCur = document.getElementById('overviewAccountsTotalCur');
+
+    if (!allocBar || !legend || !pots) return;
+
+    // Render Allocation Bar
+    allocBar.innerHTML = savingsPlanItems.map(function(item){
+      var flex = Math.max(1, Math.round(item.amount || 1));
+      return '<span style="flex:' + flex + ';background:' + item.color + '" title="' + escapeHtml(item.name) + ': ' + money(item.amount) + '"></span>';
+    }).join('');
+
+    // Render Legend
+    legend.innerHTML = savingsPlanItems.map(function(item){
+      return '<span><i style="background:' + item.color + '"></i>' + escapeHtml(item.name) + '</span>';
+    }).join('');
+
+    // Render Pots
+    var potsHtml = savingsPlanItems.map(function(item){
+      var isGoal = item.type === 'goal';
+      var delBtn = !item.fixed ? '<button type="button" class="pot-del" onclick="deletePlanItem(\'' + item.id + '\')" title="Remove ' + escapeHtml(item.name) + '" aria-label="Remove ' + escapeHtml(item.name) + '">✕</button>' : '';
+      var tag = '<span class="pot-tag">' + (isGoal ? 'Goal' : 'Bucket') + '</span>';
+
+      var progressHtml = '';
+      if (isGoal && item.target) {
+        var pct = Math.min(100, Math.round((item.amount / item.target) * 100));
+        progressHtml = '<div class="potbar"><span style="width:' + pct + '%;background:' + item.color + '"></span></div>' +
+          '<div class="pnote" style="color:var(--success)">' + pct + '% of ' + money(item.target) + (item.targetDate ? ' · ' + escapeHtml(item.targetDate) : '') + '</div>';
+      } else {
+        progressHtml = '<div class="pnote" style="color:' + (item.id === 'bills' ? 'var(--success)' : 'var(--muted)') + '">' + escapeHtml(item.note || 'Cash bucket') + '</div>';
+      }
+
+      return '<div class="pot">' +
+        delBtn +
+        '<div class="pn"><span class="dot" style="background:' + item.color + '"></span><span>' + escapeHtml(item.name) + '</span>' + tag + '</div>' +
+        '<div class="pv">' + money(item.amount) + '</div>' +
+        progressHtml +
+      '</div>';
+    }).join('');
+
+    var addCardHtml = '<div class="pot-add-card" onclick="openPlanModal()" role="button" tabindex="0" onkeydown="if(event.key===\'Enter\'||event.key===\' \')openPlanModal()">' +
+      '<div class="plus-icon">+</div><div class="txt">Add goal or bucket</div></div>';
+
+    pots.innerHTML = potsHtml + addCardHtml;
+
+    // Render Overview Goals
+    if (ovGoals) {
+      var goals = savingsPlanItems.filter(function(i){ return i.type === 'goal'; });
+      if (goals.length === 0) {
+        ovGoals.innerHTML = '<div style="font-size:13px;color:var(--muted);margin-top:8px">No active goals yet. Add one below!</div>';
+      } else {
+        ovGoals.innerHTML = goals.map(function(g){
+          var pct = g.target ? Math.min(100, Math.round((g.amount / g.target) * 100)) : 100;
+          return '<div class="goal">' +
+            escapeHtml(g.name) + ' goal — <strong>' + money(g.amount) + '</strong> of ' + money(g.target || g.amount) +
+            (g.targetDate ? ' · on track for ' + escapeHtml(g.targetDate) : ' · on track') +
+            '<div class="goalbar"><span style="width:' + pct + '%;background:' + (g.color || 'var(--success)') + '"></span></div>' +
+          '</div>';
+        }).join('');
+      }
+
+      // Compute total in linked savings (goals total)
+      var totalLife = goals.reduce(function(sum, g){ return sum + (g.amount || 0); }, 0);
+      if (ovLifeTotal) ovLifeTotal.textContent = money(totalLife);
+      var totalAccounts = 3080.60 + totalLife;
+      if (ovAccountsTotal) ovAccountsTotal.textContent = money(totalAccounts);
+      if (ovAccountsTotalCur) ovAccountsTotalCur.textContent = money(totalAccounts);
+    }
+  }
+
+  function initColorSwatches(){
+    var container = document.getElementById('colorSwatches');
+    if (!container) return;
+    container.innerHTML = PRESET_COLORS.map(function(c){
+      return '<div class="color-swatch' + (c === currentSelectedColor ? ' active' : '') + '" style="background:' + c + '" onclick="selectPlanColor(\'' + c + '\')"></div>';
+    }).join('');
+  }
+
+  function selectPlanColor(color){
+    currentSelectedColor = color;
+    document.querySelectorAll('.color-swatch').forEach(function(el){
+      el.classList.toggle('active', el.style.background === color || el.getAttribute('style').indexOf(color) !== -1);
+    });
+  }
+
+  function setPlanType(type){
+    currentPlanType = type;
+    var btnG = document.getElementById('typeGoalBtn');
+    var btnB = document.getElementById('typeBucketBtn');
+    var title = document.getElementById('planModalTitle');
+    var targetGroup = document.getElementById('goalTargetGroup');
+    var dateGroup = document.getElementById('goalDateGroup');
+    var submitBtn = document.getElementById('planSubmitBtn');
+
+    if (btnG) btnG.classList.toggle('active', type === 'goal');
+    if (btnB) btnB.classList.toggle('active', type === 'bucket');
+
+    if (title) {
+      title.innerHTML = type === 'goal' ? '<span>🎯</span> Add Savings Goal' : '<span>🪣</span> Add Cash Bucket';
+    }
+    if (targetGroup) targetGroup.style.display = type === 'goal' ? '' : 'none';
+    if (dateGroup) dateGroup.style.display = type === 'goal' ? '' : 'none';
+    if (submitBtn) {
+      submitBtn.textContent = type === 'goal' ? 'Create Goal' : 'Create Bucket';
+    }
+  }
+
+  function openPlanModal(defaultType){
+    setPlanType(defaultType || 'goal');
+    var form = document.getElementById('planForm');
+    if (form) form.reset();
+    document.getElementById('planItemAmount').value = '100';
+    initColorSwatches();
+    selectPlanColor(currentPlanType === 'goal' ? '#7e22ce' : '#0d9488');
+    var modal = document.getElementById('planModal');
+    if (modal) modal.hidden = false;
+    setTimeout(function(){
+      var inp = document.getElementById('planItemName');
+      if (inp) inp.focus();
+    }, 50);
+  }
+
+  function closePlanModal(){
+    var modal = document.getElementById('planModal');
+    if (modal) modal.hidden = true;
+  }
+
+  function applyPreset(name, type, target, amount, color, date){
+    setPlanType(type);
+    document.getElementById('planItemName').value = name.replace(/^[^\w\s]+\s*/, '');
+    if (target && document.getElementById('planItemTarget')) document.getElementById('planItemTarget').value = target;
+    if (amount !== undefined && document.getElementById('planItemAmount')) document.getElementById('planItemAmount').value = amount;
+    if (date && document.getElementById('planItemDate')) document.getElementById('planItemDate').value = date;
+    if (color) selectPlanColor(color);
+  }
+
+  function submitPlanItem(){
+    var name = (document.getElementById('planItemName').value || '').trim();
+    if (!name) return;
+    var amount = parseFloat(document.getElementById('planItemAmount').value) || 0;
+    var target = currentPlanType === 'goal' ? (parseFloat(document.getElementById('planItemTarget').value) || (amount * 2 || 1000)) : null;
+    var date = currentPlanType === 'goal' ? (document.getElementById('planItemDate').value || '').trim() : '';
+
+    var newItem = {
+      id: 'custom_' + Date.now(),
+      name: name,
+      type: currentPlanType,
+      amount: amount,
+      target: target,
+      targetDate: date || (currentPlanType === 'goal' ? 'End of year' : ''),
+      color: currentSelectedColor || '#7e22ce',
+      note: currentPlanType === 'goal' ? 'On track' : 'Custom bucket',
+      fixed: false
+    };
+
+    addSavingsItem(newItem);
+    closePlanModal();
+    showToast('✓ Added "' + name + '" to your saving plan');
+  }
+
+  function addSavingsItem(item){
+    savingsPlanItems.push(item);
+    saveSavingsItems();
+    renderSavingsPlan();
+  }
+
+  function deletePlanItem(id){
+    var idx = savingsPlanItems.findIndex(function(i){ return i.id === id; });
+    if (idx === -1) return;
+    var name = savingsPlanItems[idx].name;
+    if (!confirm('Remove "' + name + '" from your saving plan?')) return;
+    savingsPlanItems.splice(idx, 1);
+    saveSavingsItems();
+    renderSavingsPlan();
+    showToast('Removed "' + name + '" from saving plan');
+  }
+
   function openWesley(prefill){
     document.getElementById('wesleyPanel').hidden=false; seedChat();
     var b=document.getElementById('chatBox'); if(prefill){b.value=prefill;}
@@ -632,7 +956,7 @@
   function closeWesley(){document.getElementById('wesleyPanel').hidden=true;}
   function seedChat(){
     var log=document.getElementById('chatLog'); if(!log||chatSeeded) return; chatSeeded=true;
-    wesleyBubble("Hey Alex 👋 I'm Wesley. You've got <strong>$428.60</strong> safe to spend till payday, and I've quietly sorted a few things this week. What's on your mind?", ["Can I afford something?","My round-ups","What do I qualify for?","What've you been up to?"]);
+    wesleyBubble("Hey Alex 👋 I'm Wesley. You've got <strong>$428.60</strong> safe to spend till payday, and I've quietly sorted a few things this week. What's on your mind?", ["Can I afford something?","Add a goal or bucket","My round-ups","What've you been up to?"]);
   }
   function addMe(t){var log=document.getElementById('chatLog');var d=document.createElement('div');d.className='bubble me';d.textContent=t;log.appendChild(d);log.scrollTop=log.scrollHeight;}
   function wesleyBubble(html,chips){
@@ -710,8 +1034,75 @@
     if(/open dashboard/.test(t)){ go('banksmart'); return {html:"Opened your BankSmart dashboard — the moves are listed on the right.", chips:["Thanks"]};}
     if(/safe to spend|how much.*(spend|left)|balance|spare/.test(t)){ ctx.topic='balance';
       return {html:"You've got <strong>$428.60</strong> to play with until payday on Fri 28 Nov — rent and bills are already tucked away, so that's genuinely yours.", chips:["Can I afford something?","My round-ups"]};}
+    
+    // Saving goals & buckets
+    if(/add.*(goal|bucket)|new.*(goal|bucket)|create.*(goal|bucket)|add to plan|add a saving/.test(t)){
+      return {
+        html: "I can set up a new goal or bucket for your saving plan right away! Pick one of the quick options below, or tap <strong>Custom Goal / Bucket</strong>:",
+        chips: ["+ Goal: Japan Trip ($2,500)", "+ Goal: New Car ($6,000)", "+ Bucket: Dining & Fun ($150)", "Custom Goal / Bucket"]
+      };
+    }
+    if(/\+ goal:\s*(.+)/i.test(t)){
+      var gMatch = raw.match(/\+ goal:\s*([^(]+)(?:\(\$([\d,]+)\))?/i);
+      var gName = gMatch ? gMatch[1].trim() : 'New Goal';
+      var gTarget = gMatch && gMatch[2] ? parseFloat(gMatch[2].replace(/,/g,'')) : 2000;
+      addSavingsItem({
+        id: 'goal_' + Date.now(),
+        name: gName,
+        type: 'goal',
+        amount: Math.round(gTarget * 0.1),
+        target: gTarget,
+        targetDate: 'Dec 2027',
+        color: '#7e22ce',
+        note: 'On track',
+        fixed: false
+      });
+      return {
+        html: "Created! 🎉 I've added <strong>" + escapeHtml(gName) + "</strong> (" + money(gTarget) + " target) to your saving plan. You'll see it in your BankSmart pots and under your Westpac Life linked accounts.",
+        chips: ["What are my goals?", "Open dashboard", "Thanks!"]
+      };
+    }
+    if(/\+ bucket:\s*(.+)/i.test(t)){
+      var bMatch = raw.match(/\+ bucket:\s*([^(]+)(?:\(\$([\d,]+)\))?/i);
+      var bName = bMatch ? bMatch[1].trim() : 'New Bucket';
+      var bAmt = bMatch && bMatch[2] ? parseFloat(bMatch[2].replace(/,/g,'')) : 150;
+      addSavingsItem({
+        id: 'bucket_' + Date.now(),
+        name: bName,
+        type: 'bucket',
+        amount: bAmt,
+        color: '#0d9488',
+        note: 'Cash bucket',
+        fixed: false
+      });
+      return {
+        html: "All set! 🪣 I've created your <strong>" + escapeHtml(bName) + "</strong> bucket with " + money(bAmt) + " set aside. It's now active in your BankSmart saving plan.",
+        chips: ["Open dashboard", "Add a goal or bucket", "Thanks!"]
+      };
+    }
+    if(/custom goal|custom bucket|open goal creator|open creator|goal creator/.test(t)){
+      openPlanModal();
+      return {
+        html: "I've opened the Goal & Bucket Creator for you on screen. Customize the name, target, and color, and tap <strong>Add to Saving Plan</strong> when ready.",
+        chips: ["Thanks", "What are my goals?"]
+      };
+    }
+    if(/what are my goals|my goals|view goals|show goals|list goals/.test(t)){
+      var goals = savingsPlanItems.filter(function(i){ return i.type==='goal'; });
+      var listHtml = goals.map(function(g){
+        var pct = g.target ? Math.min(100, Math.round((g.amount / g.target) * 100)) : 100;
+        return '• <strong>' + escapeHtml(g.name) + '</strong>: ' + money(g.amount) + (g.target ? ' of ' + money(g.target) + ' (' + pct + '%)' : '');
+      }).join('<br>');
+      return {
+        html: "Here are the savings goals currently in your plan:<br>" + listHtml + "<br>Would you like to add another goal or bucket?",
+        chips: ["Add a goal or bucket", "Save harder", "All good"]
+      };
+    }
+
     if(/save|saving|goal|bond/.test(t)){ ctx.topic='goal';
-      return {html:"Your bond goal's at <strong>$1,740 of $2,500</strong> — on track for March. Say the word if you want to get there quicker.", chips:["Save harder","Save easier"]};}
+      var goals = savingsPlanItems.filter(function(i){ return i.type==='goal'; });
+      var primary = goals[0] || { name: 'Rental bond', amount: 1740, target: 2500 };
+      return {html:"Your <strong>" + escapeHtml(primary.name) + "</strong> is at <strong>" + money(primary.amount) + " of " + money(primary.target || 2500) + "</strong> — on track. You can add more goals and buckets anytime!", chips:["Add a goal or bucket","What are my goals?","Save harder"]};}
     if(/forecast|ahead|future|run dry|short|next month/.test(t)){ ctx.topic='forecast';
       return {html:"Mid-December's the one to watch — three bills land the week of the 14th. I've already nudged $120 forward so you won't get caught short.", chips:["Nice","What else can you do?"]};}
     if(/^(hi|hey|hello|yo|hiya|morning|g'day)\b/.test(t)) return {html:pick(["Hey! What can I sort for you?","Hiya — what's up?","Morning! How can I help?"]), chips:["Can I afford something?","My round-ups","What do I qualify for?"]};
@@ -721,6 +1112,10 @@
     if(ctx.topic==='afford' && ctx.amount===0) return {html:"Just pop in a number and I'll tell you if it's doable.", chips:["$500","$1,200","$3,000"]};
     return {html:pick(["Hmm, didn't quite catch that — here's where I'm handy:","Not sure I follow, but I can help with a few things:"])+" affording a purchase, your round-ups, the offers you qualify for, fee cover, or what I've been up to.", chips:["Can I afford something?","My round-ups","What do I qualify for?","What've you been up to?"]};
   }
+
+  // Initialize
+  initColorSwatches();
+  renderSavingsPlan();
 </script>
 </body>
 </html>
