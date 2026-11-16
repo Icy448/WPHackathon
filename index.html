@@ -1947,8 +1947,6 @@
     user.wesley = user.wesley || {};
     var w = user.wesley;
     if (w.aiEnabled === undefined) w.aiEnabled = true;
-    if (w.roundupsOn === undefined) w.roundupsOn = true;
-    if (w.roundTo === undefined) w.roundTo = 1;
     if (!w.elig) w.elig = { dir: 'above', amt: 5 };
     if (w.intensity === undefined) w.intensity = '2×';
     if (w.feeCover === undefined) w.feeCover = true;
@@ -1963,7 +1961,6 @@
     var w = wz();
     if (path === 'elig.dir') w.elig.dir = value;
     else if (path === 'elig.amt') w.elig.amt = parseFloat(value) || 0;
-    else if (path === 'roundTo') w.roundTo = parseFloat(value) || 1;
     else w[path] = value;
     try { if (path === 'intensity') ctx.intensity = value; if (path === 'digest') ctx.digest = value; if (path === 'feeCover') ctx.feeCover = value; if (path === 'elig.dir' || path === 'elig.amt') ctx.elig = w.elig; } catch(e){}
     saveStore();
@@ -1981,14 +1978,6 @@
     var master = '<div class="ai-ctrl"><div><div class="l">Wesley &amp; all AI features</div><div class="s">The master switch. Turn this off and Wesley stops acting, moving money and making suggestions — your banking still works exactly as normal.</div></div>' +
       '<div class="ctl"><label class="toggle"><input type="checkbox" ' + (w.aiEnabled ? 'checked' : '') + ' onchange="aiSet(\'aiEnabled\', this.checked)"><span class="tk"></span></label></div></div>';
     var rest = '<div class="' + (w.aiEnabled ? '' : 'ai-dim') + '">' +
-      aiTog('Round-ups', 'Round purchases up and save the spare change.', 'roundupsOn', w.roundupsOn) +
-      '<div class="ai-ctrl"><div><div class="l">Round-up settings</div><div class="s">Choose the rounding, how hard to save, and which purchases count.</div></div>' +
-        '<div class="ctl">' +
-          '<select class="ai-sel" onchange="aiSet(\'roundTo\', this.value)"><option value="1"' + (w.roundTo == 1 ? ' selected' : '') + '>Nearest $1</option><option value="2"' + (w.roundTo == 2 ? ' selected' : '') + '>Nearest $2</option><option value="5"' + (w.roundTo == 5 ? ' selected' : '') + '>Nearest $5</option></select>' +
-          '<select class="ai-sel" onchange="aiSet(\'intensity\', this.value)"><option value="1×"' + (w.intensity === '1×' ? ' selected' : '') + '>Relaxed (1×)</option><option value="2×"' + (w.intensity === '2×' ? ' selected' : '') + '>Balanced (2×)</option><option value="5×"' + (w.intensity === '5×' ? ' selected' : '') + '>Hard (5×)</option></select>' +
-          '<select class="ai-sel" onchange="aiSet(\'elig.dir\', this.value)"><option value="above"' + (w.elig.dir === 'above' ? ' selected' : '') + '>Only above</option><option value="below"' + (w.elig.dir === 'below' ? ' selected' : '') + '>Only below</option></select>' +
-          '<span>$<input class="ai-num" type="number" value="' + w.elig.amt + '" onchange="aiSet(\'elig.amt\', this.value)"></span>' +
-        '</div></div>' +
       aiTog('Fee cover', 'Top up from your buffer before a payment bounces, so you avoid fees.', 'feeCover', w.feeCover) +
       aiTog('Smart sweeps', 'Move spare money into savings on good weeks; ease off on tight ones.', 'sweeps', w.sweeps) +
       aiTog('Hold back tempting spends', 'Briefly set money aside during your known big-spend moments, then return it.', 'shield', w.shield) +
