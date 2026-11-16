@@ -214,6 +214,9 @@
   .chat-input input:focus{outline:2px solid var(--brand);border-color:var(--brand)}
   .wp-send{background:var(--brand);color:#fff;border:none;width:44px;border-radius:999px;cursor:pointer;font-size:16px}
   .wp-send:hover{background:#b2110c}
+  .qr-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+  .qr{font-family:inherit;font-size:12.5px;border:1px solid var(--brand);background:#fff;color:var(--brand);border-radius:999px;padding:6px 12px;cursor:pointer}
+  .qr:hover{background:var(--brand);color:#fff}
 
   @media(max-width:900px){
     .util .in{gap:14px;flex-wrap:wrap}.sitenav{gap:16px}.sitenav a{font-size:16px}
@@ -614,60 +617,109 @@
   }
   document.querySelectorAll('.undo').forEach(function(u){u.addEventListener('click',function(){u.closest('.move').classList.add('undone');u.textContent='Reversed';});});
 
-  // ===== Wesley chat =====
+  // ===== Wesley chat (memory + quick replies) =====
   var chatSeeded=false;
   var MINI='<div class="mini"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>';
+  var ctx={topic:null, amount:0, item:'', awaiting:null, delay:0, recover:0, intensity:'2×', elig:{dir:'above',amt:5}, feeCover:true, digest:'weekly'};
+  function pick(a){return a[Math.floor(Math.random()*a.length)];}
+  function money(n){return '$'+n.toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2});}
+
   function openWesley(prefill){
-    document.getElementById('wesleyPanel').hidden=false;
-    seedChat();
-    if(prefill){ var b=document.getElementById('chatBox'); b.value=prefill; setTimeout(function(){b.focus();},50); }
-    else { setTimeout(function(){document.getElementById('chatBox').focus();},50); }
+    document.getElementById('wesleyPanel').hidden=false; seedChat();
+    var b=document.getElementById('chatBox'); if(prefill){b.value=prefill;}
+    setTimeout(function(){b.focus();},50);
   }
   function closeWesley(){document.getElementById('wesleyPanel').hidden=true;}
   function seedChat(){
     var log=document.getElementById('chatLog'); if(!log||chatSeeded) return; chatSeeded=true;
-    wesleyBubble("Hi Alex — I'm Wesley, your BankSmart assistant. You're <strong>$428.60</strong> safe to spend until payday, and I've made 3 moves this week — all internal and reversible. Ask me anything: affording a purchase, round-ups, offers, fees, or what I've been doing.");
+    wesleyBubble("Hey Alex 👋 I'm Wesley. You've got <strong>$428.60</strong> safe to spend till payday, and I've quietly sorted a few things this week. What's on your mind?", ["Can I afford something?","My round-ups","What do I qualify for?","What've you been up to?"]);
   }
   function addMe(t){var log=document.getElementById('chatLog');var d=document.createElement('div');d.className='bubble me';d.textContent=t;log.appendChild(d);log.scrollTop=log.scrollHeight;}
-  function wesleyBubble(html){var log=document.getElementById('chatLog');var row=document.createElement('div');row.className='wrow';row.innerHTML=MINI+'<div class="bubble wes">'+html+'</div>';log.appendChild(row);log.scrollTop=log.scrollHeight;}
-  function wesleyAsk(text){addMe(text);var log=document.getElementById('chatLog');var typing=document.createElement('div');typing.className='wrow';typing.innerHTML=MINI+'<div class="bubble wes typing">Wesley is typing…</div>';log.appendChild(typing);log.scrollTop=log.scrollHeight;var ans=answerFor(text);setTimeout(function(){typing.remove();wesleyBubble(ans);},650);}
+  function wesleyBubble(html,chips){
+    var log=document.getElementById('chatLog');var row=document.createElement('div');row.className='wrow';
+    var inner='<div class="bubble wes">'+html;
+    if(chips&&chips.length){inner+='<div class="qr-row">'+chips.map(function(c){return '<button class="qr" onclick="wesleyAsk(this.textContent)">'+c+'</button>';}).join('')+'</div>';}
+    inner+='</div>'; row.innerHTML=MINI+inner; log.appendChild(row); log.scrollTop=log.scrollHeight;
+  }
+  function wesleyAsk(text){
+    addMe(text);
+    var log=document.getElementById('chatLog');var typing=document.createElement('div');typing.className='wrow';
+    typing.innerHTML=MINI+'<div class="bubble wes typing">Wesley is typing…</div>';log.appendChild(typing);log.scrollTop=log.scrollHeight;
+    var ans=answerFor(text);
+    setTimeout(function(){typing.remove();wesleyBubble(ans.html,ans.chips);},620);
+  }
   function wesleySend(){var b=document.getElementById('chatBox');var v=(b.value||'').trim();if(!v)return;b.value='';wesleyAsk(v);}
-  function money(n){return '$'+n.toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2});}
+
+  function afford(amt){
+    var safe=428.60,buffer=300,weekly=55;
+    var after=safe-amt, used=Math.max(0,Math.min(buffer,amt-safe)), delay=Math.ceil(amt/weekly), recover=Math.ceil(amt/(weekly*2));
+    ctx.topic='afford'; ctx.amount=amt; ctx.delay=delay; ctx.recover=recover; ctx.awaiting='intensity';
+    var head = after>=0 ? pick(["Yep — "+money(amt)+"'s fine.","You're good for that.","Comfortably, yeah."])
+             : amt<=safe+buffer ? pick(["You can, but it's a bit snug.","Doable — just a touch tight."])
+             : pick(["I'd hold off on that one, honestly.","That's a stretch right now."]);
+    var noun = ctx.item?(" on the "+ctx.item):"";
+    var body = " After it"+noun+" you'd have <strong>"+money(after)+"</strong> left to spend"+(used>0?" (dipping "+money(used)+" into your buffer)":"")+", and it'd nudge your bond goal out by about <strong>"+delay+" weeks</strong>.";
+    var tail = pick([" Want me to claw that back? I can go Hard Savings, or keep things easy.", " I can recover it in ~"+recover+" weeks on Hard Savings, or stay Budget Friendly — your call."]);
+    return {html:head+body+tail, chips:["Hard Savings","Budget Friendly","Not now"]};
+  }
 
   function answerFor(t){
-    t=(t||'').toLowerCase();
+    var raw=t||''; t=raw.toLowerCase().trim();
     var amtMatch=t.replace(/,/g,'').match(/\$?\s?(\d+(?:\.\d+)?)/);
     var amt=amtMatch?parseFloat(amtMatch[1]):0;
-    var safe=428.60, buffer=300, weekly=55;
-    // affordability
-    if(/afford|can i (buy|get|spend)|should i (buy|get)|big purchase|i want to buy/.test(t)){
-      if(!amt) return "Sure — how much is it? Tell me the amount (e.g. “can I afford $1,200?”) and I'll check the impact on your safe-to-spend and your bond goal.";
-      var after=safe-amt, used=Math.max(0,Math.min(buffer,amt-safe)), delay=Math.ceil(amt/weekly), recover=Math.ceil(amt/(weekly*2));
-      var v = after>=0 ? "✓ Yes, you can afford a "+money(amt)+" purchase now." : (amt<=safe+buffer ? "⚠ It's tight — a "+money(amt)+" purchase would dip into your buffer." : "✕ Not right now — "+money(amt)+" is beyond your safe-to-spend and buffer.");
-      return v+" You'd have <strong>"+money(after)+"</strong> safe to spend"+(used>0?", using "+money(used)+" of your $300 buffer":"")+", and your bond goal shifts about <strong>"+delay+" weeks</strong>. I'd suggest <strong>Budget Friendly</strong> (ease round-ups, goal slips ~"+delay+" wks) or <strong>Hard Savings</strong> (5× round-ups, recover in ~"+recover+" wks). Want me to switch you to one? Just say “budget friendly” or “hard savings”.";
+
+    // --- memory-driven short replies ---
+    if(ctx.topic==='afford' && ctx.amount===0 && amt>0 && /^\$?\s?[\d,.]+\??$/.test(t)) return afford(amt);
+
+    if(/hard savings|save harder|save more/.test(t)){ ctx.intensity='5×';
+      if(ctx.topic==='afford' && ctx.amount>0) return {html:pick(["Nice — Hard Savings it is. ","Love it. "])+"I'll push round-ups to 5× (~$31/week), so that "+money(ctx.amount)+" is back on track in about <strong>"+ctx.recover+" weeks</strong> and your March goal still holds.", chips:["Sounds good","Actually, Budget Friendly"]};
+      return {html:"You're on <strong>Hard Savings</strong> now — 5× round-ups, roughly $31 a week. Bond goal lands about 8 weeks sooner, and I'll ease off on the tight weeks so it never hurts.", chips:["Perfect","Go easier instead"]};}
+    if(/budget friendly|save easier|save less|ease off|go easier/.test(t)){ ctx.intensity='1×';
+      if(ctx.topic==='afford' && ctx.amount>0) return {html:"All good — I'll keep it <strong>Budget Friendly</strong> (1×, ~$6.20/week) so your week stays comfy. That "+money(ctx.amount)+" just nudges the goal out ~"+ctx.delay+" weeks, which is no drama.", chips:["That works","Change my mind — Hard Savings"]};
+      return {html:"Done — <strong>Budget Friendly</strong> (1×, ~$6.20 a week). Everyday spending stays relaxed; the goal just moves a touch later.", chips:["Great","Save harder"]};}
+
+    if(/^(yes|yep|yeah|ok|okay|sure|do it|go on|please)\b/.test(t) && ctx.awaiting==='intensity') return {html:"Which way do you want to lean?", chips:["Hard Savings","Budget Friendly"]};
+    if(/\b(no thanks|not now|not yet|maybe later|leave (it|them)|later|nope|nah)\b/.test(t)){ ctx.awaiting=null; return {html:pick(["No worries — I'll leave things as they are.","All good, nothing's changed. Give me a shout when you need me."]), chips:["Can I afford something?","My offers"]};}
+    if(/sounds good|that works|perfect|great|cheers|^ta\b|awesome|all good|got it|nice work|^nice\b|love it/.test(t)) return {html:pick(["👍 Anything else?","Easy. What else can I do for you?","Done — anything else on your mind?"]), chips:["My round-ups","What do I qualify for?","What've you been up to?"]};
+
+    // --- primary intents ---
+    if(/afford|can i (buy|get|spend|afford)|should i (buy|get)|i want to buy|thinking of buying/.test(t)){
+      var it=raw.match(/(?:buy|afford|get)\s+(?:an?\s+|some\s+)?([a-z][a-z \-]{2,28})/i); ctx.item=it?it[1].trim().replace(/\s+(for|at|that).*$/,''):'';
+      if(amt>0) return afford(amt);
+      ctx.topic='afford'; ctx.amount=0; ctx.awaiting='amount';
+      return {html:pick(["Sure — how much are we talking?","Happy to check. What's it set you back?","Go on — what's the price tag?"]), chips:["$500","$1,200","$3,000"]};
     }
-    // round-ups
-    if(/hard savings|save harder|save more|round.?up.*(5|high|max)/.test(t)) return "Done — I've switched you to <strong>Hard Savings</strong> (5× round-ups). You'll set aside about <strong>$31/week</strong>, reaching your bond goal roughly 8 weeks sooner. Day-to-day will be a touch tighter.";
-    if(/budget friendly|save less|save easier|ease off|round.?up.*(1|low|min)/.test(t)) return "Done — <strong>Budget Friendly</strong> it is (1× round-ups), about <strong>$6.20/week</strong>. Keeps your everyday spending comfortable; goal moves a little later.";
-    if(/round.?up (above|over)|only (above|over)/.test(t)) return "Got it — I'll only round up purchases <strong>above $"+(amt||5)+"</strong>, so small taps won't chip in. You can change the amount any time.";
-    if(/round.?up (below|under)|only (below|under)/.test(t)) return "Got it — I'll only round up purchases <strong>below $"+(amt||5)+"</strong>, so big one-offs won't skew your saving.";
-    if(/round.?up|spare change|round up/.test(t)) return "Right now I round purchases up to the nearest $1 at 2×, on purchases above $5 — about <strong>$12.40/week</strong> toward your bond goal. I can save <em>harder</em> or <em>easier</em>, or only round up above/below a set amount. Just tell me.";
-    // offers
-    if(/offer|qualify|eligible|deal|discount/.test(t)) return "From your spending, you qualify for three right now:<br>• <strong>Travel insurance</strong> — I spotted a Japan trip (flights + hotel) with no cover.<br>• <strong>Fee-free overseas card</strong> — for that trip; could save ~$60–90.<br>• <strong>Bonus saver rate</strong> — you've grown your savings 6 months straight.<br>Nothing's applied unless you choose it.";
-    // fees / automation
-    if(/(turn off|disable|stop).*(fee)/.test(t)) return "Okay — automatic fee cover is now <strong>off</strong>. I won't move money to cover a potential fee, so keep an eye on tight days.";
-    if(/(turn on|enable).*(fee)|cover.*(fee)|fee cover|avoid.*(fee)/.test(t)) return "Automatic fee cover is <strong>on</strong> — if a charge would trigger a dishonour or overdraw fee, I'll move money internally from your Buffer first so you avoid it.";
-    if(/sweep/.test(t)) return "Smart sweeps are on — I move surplus into savings on good weeks and ease off on tight ones, always between your own accounts.";
-    // notifications
-    if(/notif|alert|digest|group/.test(t)) return "I bundle round-up and money-movement alerts into one <strong>weekly digest</strong> so you're not pinged for every move. Want it daily instead, or ungrouped? Just say so.";
-    // activity
-    if(/did you do|this week|moves|what have you|activity|history/.test(t)) return "This week I made 3 moves: 🛡️ locked $80 away Friday night (released Sat), ⤵ rescued a $45 shortfall so a charge cleared, and ↩ returned $60 to your bond goal. All reversible from your BankSmart dashboard.";
-    // safe to spend / balance
-    if(/safe to spend|how much.*(spend|left)|balance|spare/.test(t)) return "You're <strong>$428.60</strong> safe to spend until payday (Fri 28 Nov). Bills and rent are already set aside, so that number is genuinely free to spend.";
-    if(/save|saving|goal|bond/.test(t)) return "Your bond goal is <strong>$1,740 of $2,500</strong> — on track for March. I can save harder if you like; just say “save harder”.";
-    if(/forecast|ahead|future|run dry|short/.test(t)) return "Heads up for 14 Dec — three bills land that week. I've already moved $120 forward in time, setting small amounts aside now so you won't run dry.";
-    if(/\b(hi|hello|hey|yo|thanks|thank you|cheers|good)\b/.test(t)) return "Happy to help! You can ask me about what's safe to spend, affording a purchase, round-ups, offers you qualify for, fees, or what I've been doing.";
-    return "I can help with: what's safe to spend, whether you can afford a purchase, round-ups (save harder/easier, above/below a set amount), the offers you qualify for, fee cover, and the moves I make. What would you like?";
+    if(/round.?up (above|over)|only (above|over)/.test(t)){ ctx.topic='roundups'; ctx.elig={dir:'above',amt:amt||10}; return {html:"Righto — I'll only round up purchases <strong>above $"+ctx.elig.amt+"</strong>, so the little taps stay out of it.", chips:["Save harder","Save easier","All good"]};}
+    if(/round.?up (below|under)|only (below|under)/.test(t)){ ctx.topic='roundups'; ctx.elig={dir:'below',amt:amt||100}; return {html:"Done — only purchases <strong>below $"+ctx.elig.amt+"</strong> get rounded up, so big one-offs won't skew things.", chips:["Save harder","Save easier","All good"]};}
+    if(/round.?up|spare change|round up/.test(t)){ ctx.topic='roundups';
+      return {html:"Right now I'm rounding your purchases up to the nearest $1 at "+ctx.intensity+", on anything over $"+ctx.elig.amt+" — about <strong>$12.40 a week</strong> into your bond goal. Want to push harder, ease off, or change which purchases count?", chips:["Save harder","Save easier","Only above $10"]};}
+    if(/offer|qualify|eligible|deal|discount/.test(t)){ ctx.topic='offers';
+      return {html:"A few things jumped out from your spending:<br>• <strong>Travel insurance</strong> — I spotted a Japan trip with no cover yet.<br>• <strong>Fee-free overseas card</strong> — could save you ~$60–90 over there.<br>• <strong>Bonus saver rate</strong> — six months of steady saving earns it.<br>Nothing happens unless you say so.", chips:["Travel insurance","Overseas card","Maybe later"]};}
+    if(/travel insurance/.test(t)){ ctx.topic='offers'; return {html:"Smart for the Japan trip. I can pull up single-trip cover for your December dates whenever you're ready — want me to?", chips:["Yes, show me","Not yet"]};}
+    if(/overseas card/.test(t)){ ctx.topic='offers'; return {html:"Good call — a fee-free card means no foreign-transaction stings while you're away. I can kick off the switch from here.", chips:["Start it","Later"]};}
+    if(/show me|start it|yes, show|set it up/.test(t)) return {html:"On it — I'll get that moving for you. (Heads up: this is a concept demo, so nothing's actually submitted.)", chips:["Thanks","Anything else?"]};
+    if(/(turn off|disable|stop).*(fee)/.test(t)){ ctx.feeCover=false; return {html:"Okay, fee cover's <strong>off</strong>. Just so you know, I won't step in if a payment's about to trip a fee — worth watching the tight days.", chips:["Turn it back on","Got it"]};}
+    if(/(turn on|enable|back on).*(fee)|cover.*(fee)|fee cover|avoid.*(fee)|dishonou?r|overdraw/.test(t)){ ctx.feeCover=true; return {html:"You're covered — if something's about to trigger a dishonour or overdraw fee, I'll quietly shift money from your Buffer first so it doesn't bite.", chips:["Nice","Turn it off"]};}
+    if(/sweep/.test(t)) return {html:"Smart sweeps are on — I tuck surplus away on good weeks and go easy on the lean ones, all between your own accounts.", chips:["Save harder","Leave it"]};
+    if(/notif|alert|digest|group/.test(t)){ ctx.topic='notif'; return {html:"I'm bundling your round-up and money-movement alerts into one <strong>"+ctx.digest+"</strong> digest, so you're not buzzed for every little move. Want it daily, or spelled out move-by-move?", chips:["Make it daily","Keep weekly"]};}
+    if(/make it daily|^daily/.test(t)){ ctx.digest='daily'; return {html:"Done — a quick <strong>daily</strong> digest from me from now on.", chips:["Back to weekly","Thanks"]};}
+    if(/keep weekly|^weekly/.test(t)){ ctx.digest='weekly'; return {html:"Sticking with a <strong>weekly</strong> digest — one tidy summary, no spam.", chips:["Make it daily","Thanks"]};}
+    if(/did you do|this week|moves|what have you|what've you|activity|history|been up to/.test(t)){ ctx.topic='activity';
+      return {html:"Three little saves this week: 🛡️ parked $80 out of reach on Friday night and handed it back Saturday, ⤵ covered a $45 gap so your transit charge didn't bounce, and ↩ slipped $60 back into your bond goal. All undoable if you'd rather.", chips:["Undo one","Nice work"]};}
+    if(/undo/.test(t)) return {html:"Easiest spot is the BankSmart dashboard — every move's got an <strong>Undo</strong> next to it. Want me to open it?", chips:["Open dashboard","Leave them"]};
+    if(/open dashboard/.test(t)){ go('banksmart'); return {html:"Opened your BankSmart dashboard — the moves are listed on the right.", chips:["Thanks"]};}
+    if(/safe to spend|how much.*(spend|left)|balance|spare/.test(t)){ ctx.topic='balance';
+      return {html:"You've got <strong>$428.60</strong> to play with until payday on Fri 28 Nov — rent and bills are already tucked away, so that's genuinely yours.", chips:["Can I afford something?","My round-ups"]};}
+    if(/save|saving|goal|bond/.test(t)){ ctx.topic='goal';
+      return {html:"Your bond goal's at <strong>$1,740 of $2,500</strong> — on track for March. Say the word if you want to get there quicker.", chips:["Save harder","Save easier"]};}
+    if(/forecast|ahead|future|run dry|short|next month/.test(t)){ ctx.topic='forecast';
+      return {html:"Mid-December's the one to watch — three bills land the week of the 14th. I've already nudged $120 forward so you won't get caught short.", chips:["Nice","What else can you do?"]};}
+    if(/^(hi|hey|hello|yo|hiya|morning|g'day)\b/.test(t)) return {html:pick(["Hey! What can I sort for you?","Hiya — what's up?","Morning! How can I help?"]), chips:["Can I afford something?","My round-ups","What do I qualify for?"]};
+    if(/thank/.test(t)) return {html:pick(["Anytime 🙂","No worries at all.","Happy to help!"]), chips:["Can I afford something?","What've you been up to?"]};
+
+    // fallback — stay in context if mid-topic
+    if(ctx.topic==='afford' && ctx.amount===0) return {html:"Just pop in a number and I'll tell you if it's doable.", chips:["$500","$1,200","$3,000"]};
+    return {html:pick(["Hmm, didn't quite catch that — here's where I'm handy:","Not sure I follow, but I can help with a few things:"])+" affording a purchase, your round-ups, the offers you qualify for, fee cover, or what I've been up to.", chips:["Can I afford something?","My round-ups","What do I qualify for?","What've you been up to?"]};
   }
 </script>
 </body>
