@@ -1959,23 +1959,32 @@
     wesleyAsk(v);
   }
 
-  function afford(amt){
+  function weeklyAmt(){ return ctx.intensity === '5×' ? 31 : (ctx.intensity === '1×' ? 6 : 12); }
+  function afford(amt, changed){
     var safe = getSafeToSpend();
     var bufItem = user && user.savingsPlan && user.savingsPlan.find(function(i){ return i.id === 'buffer'; });
     var buffer = bufItem ? (bufItem.amount || 300) : 300;
     var weekly = 55;
-    var after = safe - amt;
-    var used = Math.max(0, Math.min(buffer, amt - safe));
+    var left = safe - amt;
     var delay = Math.ceil(amt / weekly);
     var recover = Math.ceil(amt / (weekly * 2));
-    ctx.topic = 'afford'; ctx.amount = amt; ctx.delay = delay; ctx.recover = recover; ctx.awaiting = 'intensity';
-    var head = after >= 0 ? pick(["Yep — " + money(amt) + "'s fine.", "You're good for that.", "Comfortably, yeah."])
-             : amt <= safe + buffer ? pick(["You can, but it's a bit snug.", "Doable — just a touch tight."])
-             : pick(["I'd hold off on that one, honestly.", "That's a stretch right now."]);
-    var noun = ctx.item ? (" on the " + ctx.item) : "";
-    var body = " After it" + noun + " you'd have <strong>" + money(after) + "</strong> left to spend" + (used > 0 ? (" (dipping " + money(used) + " into your buffer)") : "") + ", and it'd nudge your primary goal out by about <strong>" + delay + " weeks</strong>.";
-    var tail = pick([" Want me to claw that back? I can go Hard Savings, or keep things easy.", " I can recover it in ~" + recover + " weeks on Hard Savings, or stay Budget Friendly — your call."]);
-    return { html: head + body + tail, chips: ["Hard Savings", "Budget Friendly", "Not now"] };
+    ctx.topic = 'afford'; ctx.amount = amt; ctx.delay = delay; ctx.recover = recover; ctx.awaiting = 'choice';
+    var pre = changed ? pick(["No worries — let's use " + money(amt) + " instead. ", "Easy fix — going with " + money(amt) + " now. ", "Got it, " + money(amt) + " it is. "]) : "";
+    var noun = ctx.item ? (" for the " + ctx.item) : "";
+    var verdict, detail;
+    if (left >= 0) {
+      verdict = pick(["Yes, you can afford that. ", "That's fine. ", "Yep, no problem. "]);
+      detail = "If you paid " + money(amt) + noun + " today, you'd still have about <strong>" + money(left) + "</strong> left to spend before your next pay.";
+    } else if (amt <= safe + buffer) {
+      verdict = pick(["You can — but it'd leave you tight. ", "Doable, just a bit tight. "]);
+      detail = money(amt) + " is about " + money(amt - safe) + " more than the " + money(safe) + " you've got free right now, so I'd cover the gap from your safety stash — that would leave you with nothing spare until pay day.";
+    } else {
+      verdict = pick(["I'd hold off for now. ", "Not just yet, I reckon. "]);
+      detail = money(amt) + " is more than everything you've got free (" + money(safe) + ") plus your safety stash — you'd come up about <strong>" + money(amt - (safe + buffer)) + "</strong> short.";
+    }
+    var save = " It would also slow your main savings goal by roughly <strong>" + delay + " week" + (delay === 1 ? "" : "s") + "</strong>.";
+    var choice = " Want to stay on track? I can <strong>save a bit harder</strong> for a while (you'd make it back in about " + recover + " weeks), or <strong>keep things relaxed</strong> and just let the goal arrive a little later.";
+    return { html: pre + verdict + detail + save + choice, chips: ["Save a bit harder", "Keep it relaxed", "Pick a different amount", "Not now"] };
   }
 
   function answerFor(t){
@@ -1984,22 +1993,27 @@
     var amtMatch = t.replace(/,/g, '').match(/\$?\s?(\d+(?:\.\d+)?)/);
     var amt = amtMatch ? parseFloat(amtMatch[1]) : 0;
 
-    if (ctx.topic === 'afford' && ctx.amount === 0 && amt > 0 && /^\$?\s?[\d,.]+\??$/.test(t)) return afford(amt);
+    // pick / change the amount while we're talking about a purchase
+    if (/different amount|another amount|change the amount|pick a different|change my number/.test(t) && !amt) { ctx.awaiting = 'amount'; return { html: pick(["Sure — what number should I use?", "No problem — what's the new amount?"]), chips: ["$500", "$1,200", "$3,000"] }; }
+    if (ctx.topic === 'afford' && amt > 0 && (/^\$?\s?[\d,.]+\??$/.test(t) || /(actually|i meant|make it|change it|instead|no wait|^no[, ]|typo|rather|should be)/.test(t))) {
+      var changedAmt = ctx.amount > 0 && ctx.amount !== amt;
+      return afford(amt, changedAmt);
+    }
 
-    if (/hard savings|save harder|save more/.test(t)) {
-      ctx.intensity = '5×';
+    if (/hard savings|save.*harder|save more|\bharder\b/.test(t)) {
+      ctx.intensity = '5×'; ctx.awaiting = null;
       if (user) { user.wesley = user.wesley || {}; user.wesley.intensity = '5×'; saveStore(); }
-      if (ctx.topic === 'afford' && ctx.amount > 0) return { html: pick(["Nice — Hard Savings it is. ", "Love it. "]) + "I'll push round-ups to 5× (~$31/week), so that " + money(ctx.amount) + " is back on track in about <strong>" + ctx.recover + " weeks</strong>.", chips: ["Sounds good", "Actually, Budget Friendly"] };
-      return { html: "You're on <strong>Hard Savings</strong> now — 5× round-ups, roughly $31 a week. Goals land faster, and I'll ease off on tight weeks so it never hurts.", chips: ["Perfect", "Go easier instead"] };
+      if (ctx.topic === 'afford' && ctx.amount > 0) return { html: pick(["Good plan. ", "Nice one. "]) + "I'll put a bit more aside each week — around <strong>$31</strong> instead of $12 — so you make up that " + money(ctx.amount) + " in about <strong>" + ctx.recover + " weeks</strong>, and your goal still lands on time.", chips: ["Sounds good", "Actually, keep it relaxed", "Pick a different amount"] };
+      return { html: "Done — I'll save a bit harder for you, about <strong>$31 a week</strong> into your savings. You'll reach your goal sooner, and I'll still go easy automatically on weeks that are tight.", chips: ["Perfect", "Go easier instead"] };
     }
-    if (/budget friendly|save easier|save less|ease off|go easier/.test(t)) {
-      ctx.intensity = '1×';
+    if (/budget friendly|keep.*relaxed|\brelaxed\b|save.*easier|ease off|go easier|take it easy/.test(t)) {
+      ctx.intensity = '1×'; ctx.awaiting = null;
       if (user) { user.wesley = user.wesley || {}; user.wesley.intensity = '1×'; saveStore(); }
-      if (ctx.topic === 'afford' && ctx.amount > 0) return { html: "All good — I'll keep it <strong>Budget Friendly</strong> (1×, ~$6.20/week) so your week stays comfy. That " + money(ctx.amount) + " just nudges the goal out ~" + ctx.delay + " weeks, which is no drama.", chips: ["That works", "Change my mind — Hard Savings"] };
-      return { html: "Done — <strong>Budget Friendly</strong> (1×, ~$6.20 a week). Everyday spending stays relaxed.", chips: ["Great", "Save harder"] };
+      if (ctx.topic === 'afford' && ctx.amount > 0) return { html: "No stress — I'll keep your saving where it is (about <strong>$12 a week</strong>). Your everyday spending stays comfortable, and the goal just arrives about <strong>" + ctx.delay + " week" + (ctx.delay === 1 ? "" : "s") + "</strong> later. Easy to speed up again whenever.", chips: ["That works", "Actually, save harder", "Pick a different amount"] };
+      return { html: "Keeping things relaxed — about <strong>$12 a week</strong> into savings. Comfortable day-to-day, and the goal arrives a little later. No drama.", chips: ["Great", "Save a bit harder"] };
     }
 
-    if (/^(yes|yep|yeah|ok|okay|sure|do it|go on|please)\b/.test(t) && ctx.awaiting === 'intensity') return { html: "Which way do you want to lean?", chips: ["Hard Savings", "Budget Friendly"] };
+    if (/^(yes|yep|yeah|ok|okay|sure|do it|go on|please)\b/.test(t) && ctx.awaiting === 'choice') return { html: "Would you rather save a bit harder, or keep it relaxed?", chips: ["Save a bit harder", "Keep it relaxed"] };
     if (/\b(no thanks|not now|not yet|maybe later|leave (it|them)|later|nope|nah)\b/.test(t)) { ctx.awaiting = null; return { html: pick(["No worries — I'll leave things as they are.", "All good, nothing's changed. Give me a shout when you need me."]), chips: ["Can I afford something?", "My offers"] }; }
     if (/sounds good|that works|perfect|great|cheers|^ta\b|awesome|all good|got it|nice work|^nice\b|love it/.test(t)) return { html: pick(["👍 Anything else?", "Easy. What else can I do for you?", "Done — anything else on your mind?"]), chips: ["My round-ups", "What do I qualify for?", "What've you been up to?"] };
 
@@ -2020,9 +2034,14 @@
       if (user) { user.wesley = user.wesley || {}; user.wesley.elig = ctx.elig; saveStore(); }
       return { html: "Done — only purchases <strong>below $" + ctx.elig.amt + "</strong> get rounded up, so big one-offs won't skew things.", chips: ["Save harder", "Save easier", "All good"] };
     }
+    if (/bigger buys|only.*bigger|skip.*small/.test(t)) {
+      ctx.topic = 'roundups'; ctx.elig = { dir: 'above', amt: 20 };
+      if (user) { user.wesley = user.wesley || {}; user.wesley.elig = ctx.elig; saveStore(); }
+      return { html: "Good idea — I'll only round up your bigger buys (over $20), so the little everyday taps stay untouched.", chips: ["Save a bit harder", "Keep it relaxed", "All good"] };
+    }
     if (/round.?up|spare change|round up/.test(t)) {
       ctx.topic = 'roundups';
-      return { html: "Right now I'm rounding your purchases up to the nearest $1 at " + ctx.intensity + ", on anything " + ctx.elig.dir + " $" + ctx.elig.amt + " — about <strong>$12.40 a week</strong> into your savings. Want to push harder, ease off, or change which purchases count?", chips: ["Save harder", "Save easier", "Only above $10"] };
+      return { html: "Here's the simple version: whenever you buy something, I round the price up to the next dollar and slip the spare change into your savings. Right now that adds up to roughly <strong>$" + weeklyAmt() + " a week</strong>. I can save a bit harder, keep it relaxed, or only do it on bigger buys — whatever suits you.", chips: ["Save a bit harder", "Keep it relaxed", "Only on bigger buys"] };
     }
     if (/offer|qualify|eligible|deal|discount/.test(t)) {
       ctx.topic = 'offers';
