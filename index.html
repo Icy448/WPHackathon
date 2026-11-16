@@ -835,12 +835,16 @@
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Personal details</div><div class="v"><a onclick="return false">Edit</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Security &amp; sign-in</div><div class="v"><a onclick="return false">Manage</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">BankSmart preferences (Income splitting &amp; Round-ups)</div><div class="v"><a onclick="go('bs-settings')">Manage</a></div></div>
-          <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Notifications &amp; alert rules</div><div class="v"><a onclick="go('inbox')">Manage</a></div></div>
+          <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Notifications &amp; alert rules</div><div class="v"><a onclick="go('notif-settings')">Manage</a></div></div>
         </div>
       </section>
 
       <section class="page" data-page="inbox" hidden>
         <div id="personalInboxContainer"></div>
+      </section>
+
+      <section class="page" data-page="notif-settings" hidden>
+        <div id="personalNotifSettingsContainer"></div>
       </section>
     </main>
   </div>
@@ -943,7 +947,7 @@
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Users &amp; permissions</div><div class="v"><a onclick="return false">Manage</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Approval settings</div><div class="v"><a onclick="go('approval')">Manage</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Daily limits</div><div class="v"><a onclick="return false">Manage</a></div></div>
-          <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Notifications &amp; alert rules</div><div class="v"><a onclick="go('inbox')">Manage</a></div></div>
+          <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Notifications &amp; alert rules</div><div class="v"><a onclick="go('notif-settings')">Manage</a></div></div>
         </div>
       </section>
 
@@ -952,7 +956,7 @@
           <div class="pagehead" style="margin:0"><h1>Approvals</h1></div>
           <div style="display:flex;gap:10px;flex-wrap:wrap">
             <button type="button" class="hbtn" onclick="simulateCoSignatoryApproval()" style="color:var(--navy);border-color:var(--navy);font-weight:700">⚡ Simulate co-signatory request</button>
-            <button type="button" class="bs-settings-btn" onclick="go('inbox')">🔔 Approval alerts</button>
+            <button type="button" class="bs-settings-btn" onclick="go('notif-settings')">🔔 Approval alert settings</button>
           </div>
         </div>
         <div id="bizApprovalsContainer"></div>
@@ -960,6 +964,10 @@
 
       <section class="page" data-page="inbox" hidden>
         <div id="businessInboxContainer"></div>
+      </section>
+
+      <section class="page" data-page="notif-settings" hidden>
+        <div id="businessNotifSettingsContainer"></div>
       </section>
     </main>
   </div>
@@ -1818,7 +1826,7 @@
     m.querySelectorAll('.page').forEach(function(p){
       p.hidden = (p.getAttribute('data-page') !== page);
     });
-    var key = (page === 'account') ? 'overview' : ((page === 'approval' || page === 'inbox') ? null : (page === 'bs-settings' ? 'banksmart' : page));
+    var key = (page === 'account') ? 'overview' : ((page === 'approval' || page === 'inbox') ? null : (page === 'bs-settings' ? 'banksmart' : (page === 'notif-settings' ? 'settings' : page)));
     m.querySelectorAll('nav.tabs a').forEach(function(a){
       a.classList.toggle('active', a.getAttribute('data-nav') === key);
     });
@@ -1827,7 +1835,8 @@
     if (addTxBtn) {
       addTxBtn.hidden = (page !== 'account');
     }
-    if (page === 'inbox') renderNotificationsPage();
+    if (page === 'inbox') renderInboxFeedPage();
+    if (page === 'notif-settings') renderNotificationSettingsPage();
     if (page === 'approval') renderBusinessApprovals();
     window.scrollTo(0, 0);
   }
@@ -3699,6 +3708,19 @@
     return pBox;
   }
 
+  function getActiveNotifSettingsContainer(){
+    var activeModeEl = document.querySelector('.mode:not([hidden])');
+    var modeName = activeModeEl ? activeModeEl.getAttribute('data-mode') : 'personal';
+    var pBox = document.getElementById('personalNotifSettingsContainer');
+    var bBox = document.getElementById('businessNotifSettingsContainer');
+    if (modeName === 'business') {
+      if (pBox) pBox.innerHTML = '';
+      return bBox;
+    }
+    if (bBox) bBox.innerHTML = '';
+    return pBox;
+  }
+
   function readRuleBuilderForm(){
     var catEl = document.getElementById('nrCategory');
     var catCustomEl = document.getElementById('nrCategoryCustom');
@@ -3773,10 +3795,100 @@
   }
 
   function renderNotificationsPage(){
+    renderInboxFeedPage();
+    renderNotificationSettingsPage();
+    updateNotifBadge();
+  }
+
+  function renderInboxFeedPage(){
     if (!user) return;
     ensureUserNotifications(user);
     updateNotifBadge();
     var container = getActiveInboxContainer();
+    if (!container) return;
+
+    var n = user.notifications;
+    var unreadCount = (n.inbox || []).filter(function(m){ return m.unread; }).length;
+
+    var headerHtml = '<div class="bs-header-row" style="margin-bottom:14px">' +
+      '<div class="pagehead" style="margin:0"><h1>Notifications</h1><span class="tag" style="background:' + (unreadCount ? 'var(--soft);color:var(--brand)' : '#f1f1f1;color:var(--muted)') + '">' + unreadCount + ' unread</span></div>' +
+      '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">' +
+        '<button type="button" class="bs-settings-btn" onclick="go(\'notif-settings\')">⚙ Notification settings &amp; rules</button>' +
+        '<button type="button" class="bs-settings-btn" onclick="go(\'overview\')">← Back to accounts</button>' +
+      '</div>' +
+    '</div>';
+
+    var inboxFilterPills = [
+      { id: 'all', label: 'All (' + (n.inbox || []).length + ')' },
+      { id: 'unread', label: 'Unread (' + unreadCount + ')' },
+      { id: 'rules', label: 'Rules & Spend' },
+      { id: 'goals', label: 'Goals' }
+    ];
+    if (user.hasBusiness) {
+      inboxFilterPills.push({ id: 'approvals', label: 'Business Approvals' });
+    }
+
+    var filteredInbox = (n.inbox || []).filter(function(m){
+      if (notifInboxFilter === 'unread') return m.unread;
+      if (notifInboxFilter === 'rules') return m.category === 'rule' || m.category === 'debit' || m.category === 'credit';
+      if (notifInboxFilter === 'goals') return m.category === 'goal';
+      if (notifInboxFilter === 'approvals') return m.category === 'approval';
+      return true;
+    });
+
+    var inboxFeedHtml = '<div class="panelbox">' +
+      '<div class="inbox-filter-bar">' +
+        '<div class="inbox-filter-pills">' +
+          inboxFilterPills.map(function(fp){
+            return '<button type="button" class="inbox-filter-pill' + (notifInboxFilter === fp.id ? ' active' : '') + '" data-ifilter="' + fp.id + '">' + fp.label + '</button>';
+          }).join('') +
+        '</div>' +
+        (unreadCount > 0 ? '<button type="button" class="notif-mini-btn" id="markAllReadBtn">Mark all read</button>' : '') +
+      '</div>';
+
+    if (filteredInbox.length === 0) {
+      inboxFeedHtml += '<div style="font-size:13.5px;color:var(--muted);padding:28px;text-align:center;border:1px dashed var(--line2);border-radius:8px">No notifications in this view.</div>';
+    } else {
+      inboxFeedHtml += '<div class="inbox-feed">' + filteredInbox.map(function(m){
+        return '<div class="inbox-row' + (m.unread ? ' unread' : '') + '">' +
+          '<div class="inbox-dot' + (m.unread ? '' : ' read') + '"></div>' +
+          '<div class="inbox-body">' +
+            '<div class="inbox-title">' + escapeHtml(m.title) + ' ' + formatChannelsSentHtml(m.channelsSent) + '</div>' +
+            '<div class="inbox-desc">' + escapeHtml(m.body) + '</div>' +
+            '<div class="inbox-meta">' +
+              '<span>' + escapeHtml(m.date) + '</span>' +
+              (m.actionLabel ? '<a class="inbox-action-link" data-action-msg="' + m.id + '">' + escapeHtml(m.actionLabel) + ' ›</a>' : '') +
+              '<a style="color:var(--muted);cursor:pointer;margin-left:auto" data-toggle-msg="' + m.id + '">' + (m.unread ? 'Mark read' : 'Mark unread') + '</a>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('') + '</div>';
+    }
+    inboxFeedHtml += '</div>';
+
+    container.innerHTML = headerHtml + inboxFeedHtml;
+
+    container.querySelectorAll('[data-ifilter]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        notifInboxFilter = btn.getAttribute('data-ifilter');
+        renderInboxFeedPage();
+      });
+    });
+    var markAllBtn = document.getElementById('markAllReadBtn');
+    if (markAllBtn) markAllBtn.addEventListener('click', markAllInboxRead);
+    container.querySelectorAll('[data-toggle-msg]').forEach(function(lnk){
+      lnk.addEventListener('click', function(){ markInboxItemRead(lnk.getAttribute('data-toggle-msg'), true); });
+    });
+    container.querySelectorAll('[data-action-msg]').forEach(function(lnk){
+      lnk.addEventListener('click', function(){ openInboxAction(lnk.getAttribute('data-action-msg')); });
+    });
+  }
+
+  function renderNotificationSettingsPage(){
+    if (!user) return;
+    ensureUserNotifications(user);
+    updateNotifBadge();
+    var container = getActiveNotifSettingsContainer();
     if (!container) return;
 
     var n = user.notifications;
@@ -3785,7 +3897,6 @@
     var biz = n.businessEvents;
     var cards = getUserCardOptions(user);
     var goals = getUserGoalOptions(user);
-    var unreadCount = (n.inbox || []).filter(function(m){ return m.unread; }).length;
 
     // 1. Header & Wesley Natural-Language Rule Bar
     var agentExamples = [
@@ -3800,10 +3911,10 @@
     }
 
     var wesleyBarHtml = '<div class="bs-header-row" style="margin-bottom:10px">' +
-      '<div class="pagehead" style="margin:0"><h1>Notifications &amp; Alert Rules</h1></div>' +
-      '<div style="display:flex;gap:8px;align-items:center">' +
-        '<span class="tag" style="background:' + (unreadCount ? 'var(--soft);color:var(--brand)' : '#f1f1f1;color:var(--muted)') + '">' + unreadCount + ' unread</span>' +
-        '<button type="button" class="bs-settings-btn" onclick="go(\'overview\')">← Back to accounts</button>' +
+      '<div class="pagehead" style="margin:0"><h1>Notification Settings &amp; Alert Rules</h1></div>' +
+      '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">' +
+        '<button type="button" class="bs-settings-btn" onclick="go(\'inbox\')">🔔 View notifications</button>' +
+        '<button type="button" class="bs-settings-btn" onclick="go(\'settings\')">← Back to Settings</button>' +
       '</div>' +
     '</div>' +
     '<div class="bs-tag" style="margin-bottom:16px">Choose how we contact you (SMS or Email), manage standard debit/credit alerts, and build smart rules — manually or by asking <strong>Wesley</strong>.</div>' +
@@ -4018,59 +4129,7 @@
 
     builderHtml += rulesListHtml + '</div>';
 
-    // 5. Recent Notification Inbox Feed
-    var inboxFilterPills = [
-      { id: 'all', label: 'All (' + (n.inbox || []).length + ')' },
-      { id: 'unread', label: 'Unread (' + unreadCount + ')' },
-      { id: 'rules', label: 'Rules & Spend' },
-      { id: 'goals', label: 'Goals' }
-    ];
-    if (user.hasBusiness) {
-      inboxFilterPills.push({ id: 'approvals', label: 'Business Approvals' });
-    }
-
-    var filteredInbox = (n.inbox || []).filter(function(m){
-      if (notifInboxFilter === 'unread') return m.unread;
-      if (notifInboxFilter === 'rules') return m.category === 'rule' || m.category === 'debit' || m.category === 'credit';
-      if (notifInboxFilter === 'goals') return m.category === 'goal';
-      if (notifInboxFilter === 'approvals') return m.category === 'approval';
-      return true;
-    });
-
-    var inboxFeedHtml = '<div class="panelbox">' +
-      '<div class="inbox-filter-bar">' +
-        '<div><div class="bs-subhead" style="margin:0">Recent Alerts &amp; Inbox</div></div>' +
-        '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">' +
-          '<div class="inbox-filter-pills">' +
-            inboxFilterPills.map(function(fp){
-              return '<button type="button" class="inbox-filter-pill' + (notifInboxFilter === fp.id ? ' active' : '') + '" data-ifilter="' + fp.id + '">' + fp.label + '</button>';
-            }).join('') +
-          '</div>' +
-          (unreadCount > 0 ? '<button type="button" class="notif-mini-btn" id="markAllReadBtn">Mark all read</button>' : '') +
-        '</div>' +
-      '</div>';
-
-    if (filteredInbox.length === 0) {
-      inboxFeedHtml += '<div style="font-size:13.5px;color:var(--muted);padding:24px;text-align:center;border:1px dashed var(--line2);border-radius:8px">No notifications in this view.</div>';
-    } else {
-      inboxFeedHtml += '<div class="inbox-feed">' + filteredInbox.map(function(m){
-        return '<div class="inbox-row' + (m.unread ? ' unread' : '') + '">' +
-          '<div class="inbox-dot' + (m.unread ? '' : ' read') + '"></div>' +
-          '<div class="inbox-body">' +
-            '<div class="inbox-title">' + escapeHtml(m.title) + ' ' + formatChannelsSentHtml(m.channelsSent) + '</div>' +
-            '<div class="inbox-desc">' + escapeHtml(m.body) + '</div>' +
-            '<div class="inbox-meta">' +
-              '<span>' + escapeHtml(m.date) + '</span>' +
-              (m.actionLabel ? '<a class="inbox-action-link" data-action-msg="' + m.id + '">' + escapeHtml(m.actionLabel) + ' ›</a>' : '') +
-              '<a style="color:var(--muted);cursor:pointer;margin-left:auto" data-toggle-msg="' + m.id + '">' + (m.unread ? 'Mark read' : 'Mark unread') + '</a>' +
-            '</div>' +
-          '</div>' +
-        '</div>';
-      }).join('') + '</div>';
-    }
-    inboxFeedHtml += '</div>';
-
-    container.innerHTML = wesleyBarHtml + topGridHtml + bizHtml + builderHtml + inboxFeedHtml;
+    container.innerHTML = wesleyBarHtml + topGridHtml + bizHtml + builderHtml;
 
     // Bind events cleanly inside container
     bindNotificationsPageEvents(container);
@@ -4240,22 +4299,6 @@
     container.querySelectorAll('.nr-row-del').forEach(function(btn){
       btn.addEventListener('click', function(){ deleteNotificationRule(btn.getAttribute('data-rid')); });
     });
-
-    // Inbox filters & row actions
-    container.querySelectorAll('[data-ifilter]').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        notifInboxFilter = btn.getAttribute('data-ifilter');
-        renderNotificationsPage();
-      });
-    });
-    var markAllBtn = document.getElementById('markAllReadBtn');
-    if (markAllBtn) markAllBtn.addEventListener('click', markAllInboxRead);
-    container.querySelectorAll('[data-toggle-msg]').forEach(function(lnk){
-      lnk.addEventListener('click', function(){ markInboxItemRead(lnk.getAttribute('data-toggle-msg'), true); });
-    });
-    container.querySelectorAll('[data-action-msg]').forEach(function(lnk){
-      lnk.addEventListener('click', function(){ openInboxAction(lnk.getAttribute('data-action-msg')); });
-    });
   }
 
   function wesleyParseNotificationIntent(rawText){
@@ -4264,13 +4307,21 @@
     var raw = String(rawText || '').trim();
     var t = raw.toLowerCase();
 
-    // Navigation shortcut
-    if (/^(open|show|go to|view) (my )?(notifications|alerts|inbox|notification settings|alert settings)/.test(t)) {
+    // Navigation shortcuts
+    if (/^(open|show|go to|view) (my )?(notification settings|alert settings|notification rules|alert rules)/.test(t)) {
+      go('notif-settings');
+      return {
+        handled: true,
+        html: "I've opened your <strong>Notification Settings &amp; Alert Rules</strong> screen where you can configure SMS/Email channels and custom rules.",
+        chips: ["SMS if I spend over $100", "Email when goal is met", "Open Notifications"]
+      };
+    }
+    if (/^(open|show|go to|view) (my )?(notifications|alerts|inbox)/.test(t)) {
       go('inbox');
       return {
         handled: true,
-        html: "I've opened your <strong>Notifications &amp; Alert Rules</strong> screen where you can inspect your inbox and rules.",
-        chips: ["SMS if I spend over $100", "Email when goal is met", "My round-ups"]
+        html: "I've opened your <strong>Notifications</strong> inbox.",
+        chips: ["Open Notification Settings", "SMS if I spend over $100", "Email when goal is met"]
       };
     }
 
@@ -4468,8 +4519,8 @@
     return {
       handled: true,
       rule: created,
-      html: "Done! I created a new alert rule: <strong>" + escapeHtml(getRuleSummary(created)) + "</strong>. It's active now in your Notifications rules.",
-      chips: ["Open Notifications", "Create another rule", "All good"]
+      html: "Done! I created a new alert rule: <strong>" + escapeHtml(getRuleSummary(created)) + "</strong>. It's active now in your Notification Settings.",
+      chips: ["Open Notification Settings", "Open Notifications", "Create another rule", "All good"]
     };
   }
 
@@ -4684,7 +4735,7 @@
       var chPref = (user && user.notifications && user.notifications.channels) ? user.notifications.channels.preferred : 'both';
       return {
         html: "You currently have <strong>" + rCount + " custom alert rule" + (rCount === 1 ? "" : "s") + "</strong> (delivering via <strong>" + (chPref === 'both' ? 'SMS & Email' : chPref.toUpperCase()) + "</strong>), plus BankSmart digest set to <strong>" + ctx.digest + "</strong>. Want me to create a rule or open Notifications?",
-        chips: ["Open Notifications", "Create a rule", "Make it daily", "Keep weekly"]
+        chips: ["Open Notifications", "Open Notification Settings", "Create a rule", "Make it daily", "Keep weekly"]
       };
     }
     if (/make it daily|^daily/.test(t)) {
