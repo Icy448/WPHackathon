@@ -193,6 +193,9 @@
   .bills-foot a{color:var(--brand);font-weight:700;cursor:pointer;text-decoration:none}
   .bills-foot a:hover{text-decoration:underline}
   .pot-tag{display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;padding:2px 6px;border-radius:4px;background:#f1f1f1;color:var(--muted);margin-left:auto}
+  .pot-lock{margin-top:8px;font-family:inherit;font-size:11.5px;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:999px;padding:3px 9px;cursor:pointer}
+  .pot-lock.on{border-color:var(--navy);color:var(--navy);background:#eef4fb}
+  .pot-lock:hover{border-color:var(--navy);color:var(--navy)}
   .pot-del{position:absolute;top:10px;right:10px;background:none;border:none;color:#aaa;cursor:pointer;font-size:16px;line-height:1;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center}
   .pot-del:hover{background:#fee2e2;color:var(--brand)}
   .pot .potbar{height:6px;background:#e7e7e7;border-radius:999px;overflow:hidden;margin-top:8px}
@@ -392,6 +395,7 @@
   .bs-sec{font-size:19px;font-weight:600;margin:30px 0 4px}
   .help{font-size:11px;color:#9a9ea6;cursor:help;border:1px solid #c7c7c7;border-radius:50%;width:15px;height:15px;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle}
   .ai-off-banner{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:#fff4cf;border:1px solid #e9d08a;border-radius:10px;padding:14px 16px;margin-bottom:18px;font-size:14px;color:#6b5500}
+  .ai-off-banner[hidden]{display:none}
   .ai-off-banner button{font-family:inherit;font-size:13px;font-weight:700;border:none;background:var(--brand);color:#fff;border-radius:999px;padding:8px 16px;cursor:pointer}
   .ai-insights{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:8px}
   .ai-insight{border:1px solid var(--line2);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:6px}
@@ -413,6 +417,25 @@
   .ai-ctrl .s{font-size:13px;color:var(--muted);margin-top:4px;max-width:560px;line-height:1.5}
   .ai-ctrl .ctl{flex:0 0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
   .ai-dim{opacity:.4;pointer-events:none}
+  /* AI controls as Westpac-style account tiles */
+  .ai-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+  @media(max-width:960px){.ai-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:520px){.ai-tiles{grid-template-columns:1fr}}
+  .ai-tile{background:#fff;border:1px solid #dcd9d4;display:flex;flex-direction:column;min-height:228px;transition:box-shadow .15s}
+  .ai-tile:hover{box-shadow:0 2px 10px rgba(0,0,0,.08)}
+  .ai-tile .top{position:relative;padding:16px 16px 12px;flex:1}
+  .ai-tile h4{margin:0;padding-right:36px;font-size:17px;font-weight:400;line-height:1.25;color:#621a4b}
+  .ai-tile p{margin:8px 0 0;font-size:12.5px;line-height:1.45;color:var(--muted)}
+  .ai-tile .ic{position:absolute;top:14px;right:14px;width:28px;height:28px;border:1px solid #c9c6c1;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:14px;background:#fff}
+  .ai-tile .wm{position:absolute;right:14px;bottom:10px;font-weight:900;font-size:22px;letter-spacing:-2px;color:#e3e0db;font-style:italic}
+  .ai-tile .band{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:58px;padding:12px 16px;background:#621a4b;color:#fff}
+  .ai-tile .band .st{font-size:17px;font-weight:700}
+  .ai-tile .band .st small{display:block;font-size:11px;font-weight:400;opacity:.8}
+  .ai-tile.off .band{background:#e9e7e3;color:#555}
+  .ai-tile.master .band{background:var(--brand)}
+  .ai-tile.master.off .band{background:#e9e7e3}
+  .ai-tile .band .ai-sel{background:#fff;color:#222;border:0;border-radius:4px;padding:6px 8px;font-family:inherit;font-size:12.5px;max-width:100%}
+  .ai-tile.dim{opacity:.45;pointer-events:none}
   .toggle{position:relative;width:46px;height:26px;display:inline-block;flex:0 0 auto}
   .toggle input{opacity:0;width:0;height:0}
   .tk{position:absolute;inset:0;background:#c7c7c7;border-radius:999px;transition:.2s;cursor:pointer}
@@ -423,6 +446,124 @@
   .ai-num{font-family:inherit;font-size:13px;padding:7px 10px;border:1px solid #bcbcbc;border-radius:6px;width:76px}
   @media(max-width:900px){.ai-insights,.ai-tools{grid-template-columns:1fr 1fr}}
   @media(max-width:600px){.ai-insights,.ai-tools{grid-template-columns:1fr}}
+
+  /* ===== Bill cover, Subscription check, What-if ===== */
+  .bc-alert{border:1px solid #f0c060;background:#fff8e6;border-radius:10px;padding:16px 18px;margin:0 0 18px}
+  .ask-wesley + .billCoverSlot .bc-alert{margin-top:16px}
+  .bc-alert.done{border-color:#bfe3cf;background:var(--success-bg)}
+  .bc-alert .bc-top{display:flex;gap:12px;align-items:flex-start}
+  .bc-alert .bc-ic{font-size:22px;line-height:1}
+  .bc-alert h4{font-size:15px;margin-bottom:3px;color:var(--navy)}
+  .bc-alert p{font-size:13.5px;line-height:1.5;color:#333}
+  .bc-alert .bc-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .bc-alert .bc-link{font-family:inherit;font-size:12.5px;font-weight:700;border:1px solid var(--brand);background:#fff;color:var(--brand);border-radius:999px;padding:6px 13px;cursor:pointer}
+  .bc-alert .bc-link.ghost{border-color:#c7c7c7;color:#555}
+  .bc-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .bc-opt{border:1px solid var(--line2);background:#fff;border-radius:8px;padding:12px;text-align:left;cursor:pointer;font-family:inherit;display:flex;flex-direction:column;gap:4px}
+  .bc-opt:hover{border-color:var(--brand)}
+  .bc-opt b{font-size:13.5px;color:var(--navy)}
+  .bc-opt span{font-size:12.5px;color:var(--muted);line-height:1.4}
+  .bc-opt em{font-style:normal;font-size:12.5px;font-weight:700;color:var(--success)}
+  .sub-row{display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+  .sub-row:last-child{border-bottom:none;padding-bottom:0}
+  .sub-row:first-child{padding-top:0}
+  .sub-row .sn{font-weight:700;font-size:14px}
+  .sub-row .sm{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .sub-row .ss{font-size:12.5px;font-weight:700;margin-top:4px}
+  .sub-row .ss.save{color:var(--success)} .sub-row .ss.watch{color:var(--info)} .sub-row .ss.none{color:var(--muted)}
+  .sub-row button{font-family:inherit;font-size:12.5px;font-weight:700;border:1px solid var(--brand);background:#fff;color:var(--brand);border-radius:999px;padding:6px 13px;cursor:pointer;white-space:nowrap}
+  .sub-row button:hover{background:var(--brand);color:#fff}
+  .sub-row button.undo-sub{border-color:#c7c7c7;color:#555}
+  .sub-row button.undo-sub:hover{background:#f1f1f1;color:#111}
+  .subs-total{margin-top:12px;font-size:13px;background:var(--success-bg);color:var(--success);font-weight:700;padding:8px 12px;border-radius:8px}
+  .watchbar{height:5px;background:var(--line);border-radius:3px;margin-top:6px;max-width:220px;overflow:hidden}
+  .watchbar span{display:block;height:100%;background:var(--info)}
+  .wi-result{border-radius:10px;padding:14px 16px;font-size:13.5px;line-height:1.55;background:#f4f5f7;border:1px solid #e0e0e0}
+  .wi-result.ok{background:var(--success-bg);border-color:#bfe3cf}
+  .wi-result.tight{background:#fff8e6;border-color:#f0c060}
+  .wi-result.no{background:#eef4fb;border-color:#c9dcf0}
+  .wi-alts{margin-top:12px;padding-top:10px;border-top:1px dashed #c9d3df}
+  .wi-alts h5{margin:0 0 6px;font-size:13px;color:var(--navy)}
+  .wi-alt{background:#fff;border:1px solid #e0e6ee;border-radius:8px;padding:10px 12px;margin-top:8px;font-size:13px}
+  .wi-alt strong.t{display:block;color:var(--navy);margin-bottom:2px}
+  .wi-alt .fine{font-size:11.5px;color:var(--muted);margin-top:4px}
+  .wi-alt button{margin-top:6px;font-family:inherit;font-size:12px;font-weight:700;border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:5px 11px;cursor:pointer}
+  .wi-alt button:hover{background:var(--navy);color:#fff}
+  .wi-result .wv{font-size:16px;font-weight:800;margin-bottom:4px;color:var(--navy)}
+  .wi-result ul{margin:8px 0 0 18px}
+  .fp-box{max-width:min(1080px,94vw);padding:28px 34px}
+  .fp-box .modal-head h2{font-size:24px}
+  .fp-box .wi-result{font-size:15.5px;line-height:1.6;padding:16px 20px}
+  .fp-box .wi-result .wv{font-size:20px}
+  .fp-box .wi-alt{font-size:15px}
+  .fp-box .wi-alts h5{font-size:15px}
+  .fp-box .wi-alt .fine{font-size:13px}
+  .fp-box .wi-alt button{font-size:13.5px;padding:6px 13px}
+  .fp-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:start}
+  .fp-type-opts{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+  @media(max-width:980px){.fp-type-opts{grid-template-columns:1fr 1fr!important}.fp-grid{grid-template-columns:1fr;gap:0}}
+  .fp-progress{height:5px;background:#eee;border-radius:3px;margin:-4px 0 16px;overflow:hidden}
+  .fp-progress span{display:block;height:100%;width:4%;background:linear-gradient(90deg,var(--brand),#ff7468);transition:width .3s}
+  .fp-intro{font-size:16px;line-height:1.55;color:#333;margin-bottom:14px}
+  .fp-step{font-size:13px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+  .fp-q{font-size:24px;margin:8px 0 8px;color:var(--navy);line-height:1.3}
+  .fp-help{font-size:15px;color:var(--muted);line-height:1.5;margin-bottom:12px}
+  .fp-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:8px}
+  .fp-opt{font-family:inherit;text-align:left;background:#fff;border:1.5px solid var(--line2);border-radius:12px;padding:18px;cursor:pointer;display:flex;flex-direction:column;gap:6px;transition:border-color .15s,box-shadow .15s,transform .15s}
+  .fp-opt:hover{border-color:var(--brand);box-shadow:0 4px 14px rgba(218,23,16,.12);transform:translateY(-1px)}
+  .fp-opt.on{border-color:var(--brand);background:#fff6f5}
+  .fp-opt .fi{font-size:30px}
+  .fp-opt b{font-size:17px;color:#222}
+  .fp-opt .fs{font-size:14px;color:var(--muted);line-height:1.4}
+  .fp-field{display:flex;align-items:center;border:1.5px solid var(--line2);border-radius:10px;padding:0 12px;background:#fff}
+  .fp-field:focus-within{border-color:var(--navy)}
+  .fp-field .pre,.fp-field .suf{color:var(--muted);font-weight:700;font-size:18px}
+  .fp-field input{flex:1;border:0;outline:0;font-family:inherit;font-size:21px;padding:14px 8px;background:transparent;min-width:0}
+  .fp-field input.err{color:var(--brand)}
+  .fp-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .fp-chips button{font-family:inherit;font-size:14.5px;font-weight:700;border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:8px 15px;cursor:pointer}
+  .fp-chips button:hover{background:var(--navy);color:#fff}
+  .fp-nav{display:flex;justify-content:flex-end;gap:10px;margin-top:20px;flex-wrap:wrap}
+  .fp-nav .applybtn{margin:0;padding:12px 20px;font-size:16px}
+  .fp-nav .signinbtn{padding:12px 26px;font-size:16px}
+  .fp-review{text-align:center;padding:16px 0}
+  .fp-spin{font-size:54px;display:inline-block;animation:fpSpin 1.2s ease-in-out infinite}
+  .fp-review ul{list-style:none;padding:0;margin:14px auto 0;max-width:340px;text-align:left}
+  .fp-review li{font-size:16px;color:var(--success);padding:3px 0;opacity:0;animation:fpIn .3s forwards}
+  @keyframes fpSpin{0%,100%{transform:rotate(-10deg) scale(1)}50%{transform:rotate(10deg) scale(1.12)}}
+  @keyframes fpIn{to{opacity:1}}
+  .fp-sec{font-size:17px;font-weight:800;color:var(--navy);margin:22px 0 10px}
+  .fp-table{width:100%;border-collapse:collapse;font-size:15px}
+  .fp-table th{text-align:right;font-size:13px;color:var(--muted);font-weight:700;padding:6px 8px;border-bottom:1px solid var(--line)}
+  .fp-table th:first-child,.fp-table td:first-child{text-align:left}
+  .fp-table td{padding:9px 8px;border-bottom:1px solid #f2f2f2;text-align:right;white-space:nowrap}
+  .fp-table td:first-child{white-space:normal}
+  .fp-table tr.in td{color:var(--success);font-weight:700}
+  .fp-table tr.tot td{font-weight:800;border-top:2px solid var(--line2);border-bottom:0;font-size:16.5px}
+  .fp-table i{font-style:normal;font-size:11px;margin-left:3px}
+  .fp-table i.up{color:var(--success)}
+  .fp-table i.dn{color:var(--brand)}
+  .fp-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .fp-card{border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .fp-card .k{font-size:13px;color:var(--muted);font-weight:700}
+  .fp-card .v{font-size:23px;font-weight:800;color:var(--navy);margin:2px 0}
+  .fp-card .v.good{color:var(--success)}
+  .fp-card .v.bad{color:var(--brand)}
+  .fp-card .s{font-size:13px;color:var(--muted);line-height:1.35}
+  .fp-stress{margin-top:10px;background:#f3f1ff;border:1px solid #ddd6fe;border-radius:10px;padding:12px 16px;font-size:15px;line-height:1.55}
+  .fp-list{margin:0 0 0 20px;padding:0;font-size:15px;line-height:1.6}
+  .fp-two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .fp-ideas{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:10px}
+  .fp-idea{display:flex;gap:10px;align-items:center;justify-content:space-between;background:#fffaeb;border:1px solid #f6dc8f;border-radius:10px;padding:12px 16px;font-size:15px;line-height:1.55}
+  .fp-idea button{flex:0 0 auto;font-family:inherit;font-size:14px;font-weight:700;border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:7px 14px;cursor:pointer}
+  .fp-idea button:hover{background:var(--navy);color:#fff}
+  .fp-fine{font-size:13px;color:var(--muted);margin-top:16px;line-height:1.45}
+  @media(max-width:560px){.fp-opts,.fp-two,.fp-cards,.fp-type-opts{grid-template-columns:1fr!important}.fp-box{padding:20px 18px}.fp-q{font-size:20px}}
+  .wi-tweaks{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .wi-tweaks button{font-family:inherit;font-size:12.5px;font-weight:700;border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:6px 12px;cursor:pointer}
+  .wi-tweaks button:hover{background:var(--navy);color:#fff}
+  .signinbtn:disabled{opacity:.5;cursor:not-allowed}
+  @media(max-width:700px){.bc-opts{grid-template-columns:1fr}}
 
   /* ====== Notifications & Alert Rules ====== */
   .notif-wesley-bar{border:1px dashed var(--brand);border-radius:10px;padding:16px;background:#fffaf9;margin-bottom:20px}
@@ -477,6 +618,60 @@
   .inbox-action-link{font-size:12.5px;font-weight:700;color:var(--brand);cursor:pointer}
   .notif-contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
   @media(max-width:900px){.notif-two-col,.notif-contact-grid{grid-template-columns:1fr}}
+
+  /* ===== Wesley learns: moments + learning panel ===== */
+  .moment-stack{position:fixed;top:86px;right:22px;width:min(410px,calc(100vw - 32px));display:flex;flex-direction:column;gap:12px;z-index:850}
+  .moment{background:#fff;border:1px solid var(--line2);border-radius:18px;box-shadow:0 14px 40px rgba(0,0,0,.18);padding:16px 18px;animation:moIn .35s cubic-bezier(.2,.9,.3,1.2);font-size:14.5px;line-height:1.5}
+  .moment.fraud{border-top:4px solid var(--brand)}
+  .moment.travel{border-top:4px solid #0067b1}
+  @keyframes moIn{from{opacity:0;transform:translateY(-10px) scale(.98)}to{opacity:1;transform:none}}
+  .mo-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:6px}
+  .mo-head>div{flex:1;display:flex;flex-direction:column}
+  .mo-head b{font-size:16px;line-height:1.3}
+  .mo-head span{font-size:13px;color:var(--muted)}
+  .mo-ic{width:42px;height:42px;flex:0 0 42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:21px;background:#eef4fb}
+  .mo-ic.warn{background:var(--soft)} .mo-ic.ok{background:var(--success-bg);color:var(--success);font-weight:800}
+  .mo-x{background:none;border:0;font-size:16px;color:#888;cursor:pointer;padding:4px;line-height:1}
+  .moment p{margin:6px 0}
+  .mo-reasons{margin:4px 0 0 18px;padding:0;font-size:14px;line-height:1.55}
+  .mo-meta{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .mo-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .mo-actions.sm{margin-top:8px}
+  .mo-b{font-family:inherit;font-size:13.5px;font-weight:700;border:1.5px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:8px 14px;cursor:pointer}
+  .mo-b:hover{background:var(--navy);color:#fff}
+  .mo-b.pri{background:var(--brand);border-color:var(--brand);color:#fff}
+  .mo-b.pri:hover{background:#b3120c;border-color:#b3120c}
+  .mo-b.danger{border-color:var(--brand);color:var(--brand)}
+  .mo-b.danger:hover{background:var(--brand);color:#fff}
+  .mo-tip{display:flex;gap:10px;background:#f7f8fa;border-radius:12px;padding:10px 12px;margin-top:8px;font-size:13.5px;line-height:1.5}
+  .mo-tip .ti{font-size:18px;line-height:1.3}
+  .mo-link{font-weight:700;color:var(--brand);white-space:nowrap}
+  .mo-done{font-size:13px;font-weight:700;color:var(--success)}
+  .mo-fine{font-size:11.5px;color:var(--muted);margin-top:10px}
+  .lp-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+  .lp-stats>div{border:1px solid var(--line);border-radius:12px;padding:12px 14px;position:relative;overflow:hidden}
+  .lp-stats b{display:block;font-size:22px;font-weight:800;color:var(--navy)}
+  .lp-stats span{font-size:12.5px;color:var(--muted);font-weight:600}
+  .lp-stats i{position:absolute;left:0;bottom:0;height:4px;width:var(--w);background:var(--success)}
+  .lp-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  #learnPanel h4{font-size:15px;margin:0 0 8px;color:var(--navy)}
+  .lp-habits,.lp-facts{list-style:none;margin:0;padding:0;font-size:14px;line-height:1.5}
+  .lp-habits li{display:grid;grid-template-columns:24px 1fr;gap:8px;align-items:start;padding:7px 0;border-bottom:1px solid #f2f2f2}
+  .lp-habits em{font-style:normal;font-size:12px;font-weight:700;background:#f1f1f1;border-radius:999px;padding:2px 9px;margin:2px 2px 2px 4px;display:inline-block}
+  .lp-facts li{padding:5px 0;border-bottom:1px solid #f2f2f2}
+  .lp-empty{font-size:13.5px;color:var(--muted);background:#f7f8fa;border-radius:10px;padding:10px 12px}
+  .lp-ideas{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+  .lp-idea{display:flex;gap:10px;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .lp-idea>span{font-size:22px}
+  .lp-idea b{font-size:14px}
+  .lp-idea p{font-size:13px;color:var(--muted);margin:2px 0 6px;line-height:1.45}
+  .lp-idea a,.lp-idea button{font-family:inherit;font-size:13px;font-weight:700;color:var(--brand);background:none;border:0;padding:0;cursor:pointer}
+  .lp-fine{font-size:11.5px;color:var(--muted);margin-top:8px}
+  .lp-demo{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:18px;padding-top:14px;border-top:1px dashed var(--line2);font-size:13px;color:var(--muted);font-weight:700}
+  .lp-demo button{font-family:inherit;font-size:13px;font-weight:700;border:1px solid var(--brand);background:#fff;color:var(--brand);border-radius:999px;padding:7px 13px;cursor:pointer}
+  .lp-demo button:hover{background:var(--brand);color:#fff}
+  .lp-demo button.ghost{border-color:var(--line2);color:var(--muted)}
+  @media(max-width:760px){.lp-grid,.lp-stats{grid-template-columns:1fr}.moment-stack{top:auto;bottom:96px;right:16px}}
 </style>
 </head>
 <body>
@@ -582,6 +777,7 @@
         <div class="pagehead"><h1>Your accounts</h1><a class="editview" onclick="return false">Edit view ▾</a><div class="viewicons"><span>▦</span><span>☰</span></div></div>
         
         <!-- Dynamic Personal Accounts Section -->
+        <div class="billCoverSlot" data-variant="compact"></div>
         <div id="ovPersonalAccountsSection"></div>
         <div id="ovPersonalCardsSection"></div>
         <div id="ovPersonalTermSection"></div>
@@ -598,6 +794,7 @@
       <!-- Personal Account / Transaction Page -->
       <section class="page" data-page="account" hidden>
         <div class="pagehead"><h1 id="acctPageTitle">Westpac Choice</h1></div>
+        <div class="billCoverSlot" data-variant="compact"></div>
         <div id="acctSummaryContainer"></div>
         <div class="section-gap"></div>
         <div id="acctTxContainer"></div>
@@ -633,7 +830,7 @@
 
         <!-- AI off banner -->
         <div id="aiOffBanner" class="ai-off-banner" hidden>
-          <span>⏸️ <strong>Wesley is paused.</strong> Your AI tools are switched off. You can turn them back on any time in AI controls below.</span>
+          <span>⏸️ <strong>Wesley is paused.</strong> Your AI tools are switched off. You can turn them back on any time in Settings &amp; Rules.</span>
           <button onclick="aiSet('aiEnabled', true)">Turn Wesley back on</button>
         </div>
 
@@ -643,6 +840,9 @@
           <div class="txt"><b>Talk to Wesley</b>Ask things like "can I afford $1,200?", "save a bit harder", "what am I eligible for?", or "what did you spot this month?"</div>
           <button onclick="openWesley()">Chat with Wesley</button>
         </div>
+
+        <!-- Bill cover alert (shows after Wesley tops up bills from savings) -->
+        <div class="billCoverSlot" data-variant="full"></div>
 
         <!-- 1. Snapshot -->
         <h2 class="bs-sec">Your money right now</h2>
@@ -664,6 +864,11 @@
           <div class="legend" id="savingsLegend"></div>
           <div class="pots" id="savingsPots"></div>
         </div>
+
+        <!-- Subscription check -->
+        <h2 class="bs-sec">Subscription check</h2>
+        <div class="muted" style="font-size:13px;margin:-6px 0 14px">Wesley watches each subscription for 6 months, then tells you if paying yearly would be cheaper.</div>
+        <div class="panelbox" id="subsPanel"></div>
 
         <!-- 2. Wesley's insights from the user's data -->
         <h2 class="bs-sec">What Wesley noticed in your accounts</h2>
@@ -696,21 +901,21 @@
         <div class="muted" style="font-size:13px;margin:-6px 0 14px">Tap any tool and Wesley will take it from there.</div>
         <div class="ai-tools">
           <div class="ai-tool"><div class="ic">🧮</div><h4>Can I afford it?</h4><p>Check any purchase and see the effect on your spending and savings.</p><button onclick="openWesley('Can I afford a $1,200 purchase?')">Try it</button></div>
+          <div class="ai-tool"><div class="ic">🔮</div><h4>What if…?</h4><p>Buying a car, going part-time or saving for something big? Wesley checks what it means for your whole account.</p><button onclick="openWhatIf()">Plan it</button></div>
           <div class="ai-tool"><div class="ic">🪙</div><h4>Round-ups</h4><p>Round purchases up and save the spare change. Set which buys count.</p><button onclick="openWesley('Tell me about my round-ups')">Manage</button></div>
           <div class="ai-tool"><div class="ic">⟳</div><h4>Smart sweeps</h4><p>Move spare money into savings on good weeks, ease off on tight ones.</p><button onclick="openWesley('Tell me about smart sweeps')">Manage</button></div>
-          <div class="ai-tool"><div class="ic">🛡️</div><h4>Fee cover</h4><p>Top up from your buffer before a payment bounces, so you dodge fees.</p><button onclick="openWesley('Cover my fees automatically')">Manage</button></div>
+          <div class="ai-tool"><div class="ic">🛡️</div><h4>Bill cover</h4><p>Spent more than planned? Wesley tops up your bills from savings, then helps you refill.</p><button onclick="openWesley('How does bill cover work?')">Manage</button></div>
           <div class="ai-tool"><div class="ic">🎁</div><h4>Offers for you</h4><p>Deals you actually qualify for, spotted from your own spending.</p><button onclick="openWesley('What offers do I qualify for?')">See offers</button></div>
           <div class="ai-tool"><div class="ic">🎯</div><h4>Goals &amp; buckets</h4><p>Create savings goals and spending buckets Wesley fills for you.</p><button onclick="openPlanModal()">Create</button></div>
-          <div class="ai-tool"><div class="ic">📈</div><h4>Look-ahead</h4><p>See upcoming low points and let Wesley prepare for them early.</p><button onclick="openWesley('What does my forecast look like?')">View</button></div>
-          <div class="ai-tool"><div class="ic">🧾</div><h4>Statement insights</h4><p>Wesley reads your statements to flag subscriptions and odd charges.</p><button onclick="openWesley('What did you notice in my statements?')">Review</button></div>
+          <div class="ai-tool"><div class="ic">🔁</div><h4>Subscription check</h4><p>After 6 months, Wesley checks if paying yearly beats paying monthly.</p><button onclick="openWesley('Should any subscriptions go annual?')">Check</button></div>
         </div>
 
-        <!-- 5. AI controls & privacy -->
-        <h2 class="bs-sec">AI controls &amp; privacy</h2>
-        <div class="muted" style="font-size:13px;margin:-6px 0 14px">Fine-tune or switch off anything. Your choices are saved to your profile.</div>
-        <div class="panelbox" id="aiControls"></div>
+        <!-- 5. What Wesley's learning -->
+        <h2 class="bs-sec">🧠 What Wesley's learning about you</h2>
+        <div class="muted" style="font-size:13px;margin:-6px 0 14px">The more you bank, the better Wesley knows your habits, so he can spot unusual activity faster and notice moments that matter. Only ever your own data.</div>
+        <div class="panelbox" id="learnPanel"></div>
 
-        <div class="bs-note">🔒 Wesley only ever reads your own accounts and moves money between them — never to anyone else, and never using another customer's data.</div>
+        <div class="bs-note">⚙️ Want to switch a feature on or off? <a href="#" onclick="go('bs-settings');setTimeout(function(){var e=document.getElementById('aiControls');e&&e.scrollIntoView({block:'start'})},60);return false">Manage AI controls &amp; privacy in Settings &amp; Rules</a>.</div>
       </section>
 
       <!-- BankSmart Settings -->
@@ -720,6 +925,13 @@
           <button class="bs-settings-btn" onclick="go('banksmart')">← Back to BankSmart</button>
         </div>
         <div class="bs-tag">Configure how BankSmart automates your money movements, categorises incoming funds, and helps you save effortlessly.</div>
+
+        <!-- Section 0: AI controls & privacy (moved from BankSmart main page) -->
+        <h2 class="bs-sec" style="margin-top:6px">AI controls &amp; privacy</h2>
+        <div class="muted" style="font-size:13px;margin:-6px 0 14px">Fine-tune or switch off anything. Your choices are saved to your profile.</div>
+        <div class="ai-tiles" id="aiControls"></div>
+
+        <div class="bs-note" style="margin-bottom:24px">🔒 Wesley only ever reads your own accounts and moves money between them — never to anyone else, and never using another customer's data.</div>
 
         <!-- Section 1: Income Splitting -->
         <div class="panelbox">
@@ -835,16 +1047,12 @@
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Personal details</div><div class="v"><a onclick="return false">Edit</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Security &amp; sign-in</div><div class="v"><a onclick="return false">Manage</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">BankSmart preferences (Income splitting &amp; Round-ups)</div><div class="v"><a onclick="go('bs-settings')">Manage</a></div></div>
-          <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Notifications &amp; alert rules</div><div class="v"><a onclick="go('notif-settings')">Manage</a></div></div>
+          <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Notifications &amp; alert rules</div><div class="v"><a onclick="go('inbox')">Manage</a></div></div>
         </div>
       </section>
 
       <section class="page" data-page="inbox" hidden>
         <div id="personalInboxContainer"></div>
-      </section>
-
-      <section class="page" data-page="notif-settings" hidden>
-        <div id="personalNotifSettingsContainer"></div>
       </section>
     </main>
   </div>
@@ -947,7 +1155,7 @@
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Users &amp; permissions</div><div class="v"><a onclick="return false">Manage</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Approval settings</div><div class="v"><a onclick="go('approval')">Manage</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Daily limits</div><div class="v"><a onclick="return false">Manage</a></div></div>
-          <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Notifications &amp; alert rules</div><div class="v"><a onclick="go('notif-settings')">Manage</a></div></div>
+          <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Notifications &amp; alert rules</div><div class="v"><a onclick="go('inbox')">Manage</a></div></div>
         </div>
       </section>
 
@@ -956,7 +1164,7 @@
           <div class="pagehead" style="margin:0"><h1>Approvals</h1></div>
           <div style="display:flex;gap:10px;flex-wrap:wrap">
             <button type="button" class="hbtn" onclick="simulateCoSignatoryApproval()" style="color:var(--navy);border-color:var(--navy);font-weight:700">⚡ Simulate co-signatory request</button>
-            <button type="button" class="bs-settings-btn" onclick="go('notif-settings')">🔔 Approval alert settings</button>
+            <button type="button" class="bs-settings-btn" onclick="go('inbox')">🔔 Approval alerts</button>
           </div>
         </div>
         <div id="bizApprovalsContainer"></div>
@@ -964,10 +1172,6 @@
 
       <section class="page" data-page="inbox" hidden>
         <div id="businessInboxContainer"></div>
-      </section>
-
-      <section class="page" data-page="notif-settings" hidden>
-        <div id="businessNotifSettingsContainer"></div>
       </section>
     </main>
   </div>
@@ -1024,6 +1228,18 @@
           <button type="submit" class="signinbtn" style="padding:10px 24px;font-size:15px" id="planSubmitBtn">Add to Saving Plan</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- Modal: What if…? future-proofing planner -->
+  <div class="modal-backdrop" id="whatIfModal" hidden onclick="if(event.target===this)closeWhatIf()">
+    <div class="modal-box fp-box" role="dialog" aria-modal="true" aria-labelledby="whatIfTitle">
+      <div class="modal-head">
+        <h2 id="whatIfTitle"><span>🔮</span> What if…?</h2>
+        <button class="modal-close" onclick="closeWhatIf()" aria-label="Close dialog">✕</button>
+      </div>
+      <div class="fp-progress"><span id="fpBar"></span></div>
+      <div id="fpBody"></div>
     </div>
   </div>
 
@@ -1104,6 +1320,7 @@
 
   <!-- ===== Wesley floating chat ===== -->
   <div class="wesley-fab" onclick="openWesley()"><span class="fblabel">Chat with Wesley</span><svg width="32" height="32" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>
+  <div class="moment-stack" id="momentStack" aria-label="Wesley notifications"></div>
   <div class="wesley-panel" id="wesleyPanel" hidden>
     <div class="wp-head">
       <div class="wp-id"><div class="wesley-av" style="width:38px;height:38px"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>
@@ -1198,7 +1415,7 @@
       accounts: [
         { id: 'choice', mode: 'personal', kind: 'everyday', name: 'Westpac Choice', number: 'BSB 032-000 · 1234 5678 · Everyday', opening: 703.79 },
         { id: 'life', mode: 'personal', kind: 'savings', name: 'Westpac Life', number: 'BSB 032-000 · 8765 4321 · where your savings & goals live', opening: 0, linkedTo: 'choice' },
-        { id: 'card', mode: 'personal', kind: 'credit', name: 'Low Rate Card', number: 'Card ending 4417 · Limit $5,000', limit: 5000, opening: 688.00 },
+        { id: 'card', mode: 'personal', kind: 'credit', name: 'Low Rate Card', number: 'Card ending 4417 · Limit $5,000', limit: 5000, opening: 688.00, perks: { insurance: false, rewards: null } },
         { id: 'biz1', mode: 'business', kind: 'everyday', name: 'Westpac Business One', number: '00000000000', opening: 7363.33 }
       ],
       transactions: [
@@ -1220,6 +1437,16 @@
         { id: 'ab2', name: 'AGL Energy (electricity)', source: 'Recurring BPAY', freq: 'Quarterly', due: '2026-12-14', amount: 246.00, setAside: 246.00 },
         { id: 'ab3', name: 'Optus (mobile + internet)', source: 'Direct debit', freq: 'Monthly', due: '2026-12-15', amount: 139.00, setAside: 139.00 },
         { id: 'ab4', name: 'Youi contents insurance', source: 'Direct debit', freq: 'Annual', due: '2026-12-17', amount: 208.01, setAside: 208.01 }
+      ],
+      weeklySpare: 120,
+      habitSeed: { learned: 186, months: 14, home: 'Bondi, Sydney', hours: [7, 22], grocer: 'Woolworths Bondi Junction', avgShop: 82, maxUsual: 600, typical: { 'Groceries': 85, 'Entertainment & eating out': 45, 'Shopping': 120, 'Transport & fuel': 40, 'Subscriptions': 20, 'Important bills': 180, 'Travel': 0, 'Other': 60 }, known: ['woolworths', 'netflix', 'single o', 'ampol', 'optus', 'agl', 'youi', 'jb hi-fi', 'bondi trattoria', 'origin', 'acme', 'disney', 'microsoft', 'amazon'] },
+      memberships: { qantas: false, velocity: false },
+      finProfile: { income: 5370, incomeLabel: 'Salary (Acme Pty Ltd)', home: 1950, homeLabel: 'Rent', bills: 260, living: 2340, debt: 100, saving: 200 },
+      subscriptions: [
+        { id: 'sub_netflix', name: 'Netflix Standard', monthly: 18.99, months: 8, annual: null },
+        { id: 'sub_disney', name: 'Disney+ Premium', monthly: 18.99, months: 9, annual: 189.99 },
+        { id: 'sub_m365', name: 'Microsoft 365 Personal', monthly: 15.99, months: 7, annual: 159.00 },
+        { id: 'sub_prime', name: 'Amazon Prime', monthly: 9.99, months: 3, annual: 79.00 }
       ],
       wesley: { intensity: '2×', elig: { dir: 'above', amt: 5 }, feeCover: true, digest: 'weekly' },
       bsSettings: {
@@ -1251,7 +1478,7 @@
       accounts: [
         { id: 'choice', mode: 'personal', kind: 'everyday', name: 'Westpac Choice', number: 'BSB 032-000 · 2948 1192 · Everyday', opening: 1450.00 },
         { id: 'life', mode: 'personal', kind: 'savings', name: 'Westpac Life', number: 'BSB 032-000 · 2948 9931 · Family savings & goals', opening: 0, linkedTo: 'choice' },
-        { id: 'card', mode: 'personal', kind: 'credit', name: 'Altitude Black Card', number: 'Card ending 8190 · Limit $15,000', limit: 15000, opening: 1240.50 }
+        { id: 'card', mode: 'personal', kind: 'credit', name: 'Altitude Black Card', number: 'Card ending 8190 · Limit $15,000', limit: 15000, opening: 1240.50, perks: { insurance: true, rewards: 'Altitude Rewards' } }
       ],
       transactions: [
         { id: 'pt1', acct: 'choice', date: '2026-11-12', desc: 'Harris Farm Markets', amount: -94.30 },
@@ -1274,6 +1501,15 @@
         { id: 'pb3', name: 'Telstra', source: 'Direct debit', freq: 'Monthly', due: '2026-12-07', amount: 89.00, setAside: 89.00 },
         { id: 'pb4', name: 'Sydney Water', source: 'Recurring BPAY', freq: 'Quarterly', due: '2026-12-11', amount: 168.40, setAside: 168.40 },
         { id: 'pb5', name: 'Bupa health insurance', source: 'Direct debit', freq: 'Monthly', due: '2026-12-14', amount: 246.00, setAside: 123.00 }
+      ],
+      weeklySpare: 140,
+      habitSeed: { learned: 412, months: 31, home: 'Parramatta, Sydney', hours: [6, 21], grocer: 'Coles Parramatta', avgShop: 210, maxUsual: 900, typical: { 'Groceries': 210, 'Entertainment & eating out': 70, 'Shopping': 150, 'Transport & fuel': 85, 'Subscriptions': 18, 'Important bills': 320, 'Travel': 650, 'Other': 90 }, known: ['coles', 'woolworths', 'goodstart', 'agl', 'sydney water', 'medibank', 'disney', 'microsoft', 'amazon', 'kmart', 'qantas', 'netflix'] },
+      memberships: { qantas: true, velocity: false },
+      finProfile: { income: 10400, incomeLabel: 'Household take-home pay', home: 3400, homeLabel: 'Mortgage', bills: 1100, living: 4100, debt: 200, saving: 1000 },
+      subscriptions: [
+        { id: 'sub_m365', name: 'Microsoft 365 Family', monthly: 18.00, months: 14, annual: 179.00 },
+        { id: 'sub_disney', name: 'Disney+ Premium', monthly: 18.99, months: 11, annual: 189.99 },
+        { id: 'sub_prime', name: 'Amazon Prime', monthly: 9.99, months: 5, annual: 79.00 }
       ],
       wesley: { intensity: '2×', elig: { dir: 'above', amt: 10 }, feeCover: true, digest: 'weekly' },
       bsSettings: {
@@ -1305,7 +1541,7 @@
       accounts: [
         { id: 'choice', mode: 'personal', kind: 'everyday', name: 'Westpac Choice', number: 'BSB 032-000 · 5512 8840 · Personal', opening: 820.00 },
         { id: 'life', mode: 'personal', kind: 'savings', name: 'Westpac Life', number: 'BSB 032-000 · 5512 8859 · Personal savings', opening: 0, linkedTo: 'choice' },
-        { id: 'card', mode: 'personal', kind: 'credit', name: 'Business Platinum Card', number: 'Card ending 1932 · Limit $20,000', limit: 20000, opening: 3150.00 },
+        { id: 'card', mode: 'personal', kind: 'credit', name: 'Business Platinum Card', number: 'Card ending 1932 · Limit $20,000', limit: 20000, opening: 3150.00, perks: { insurance: 'check', rewards: null } },
         { id: 'biz1', mode: 'business', kind: 'everyday', name: 'Westpac Business One', number: 'BSB 032-001 · 9923 1144', opening: 5800.00 }
       ],
       transactions: [
@@ -1327,6 +1563,15 @@
         { id: 'sb2', name: 'Vodafone', source: 'Direct debit', freq: 'Monthly', due: '2026-12-03', amount: 55.00, setAside: 55.00 },
         { id: 'sb3', name: 'Origin Energy', source: 'Recurring BPAY', freq: 'Monthly', due: '2026-12-09', amount: 142.30, setAside: 142.30 },
         { id: 'sb4', name: 'NRMA car insurance', source: 'Direct debit', freq: 'Monthly', due: '2026-12-15', amount: 212.75, setAside: 212.75 }
+      ],
+      weeklySpare: 150,
+      habitSeed: { learned: 268, months: 22, home: 'Surry Hills, Sydney', hours: [5, 23], grocer: 'Harris Farm Surry Hills', avgShop: 95, maxUsual: 1200, typical: { 'Groceries': 95, 'Entertainment & eating out': 60, 'Shopping': 140, 'Transport & fuel': 70, 'Subscriptions': 25, 'Important bills': 260, 'Travel': 300, 'Other': 120 }, known: ['harris farm', 'canva', 'spotify', 'strava', 'bunnings', 'officeworks', 'rollers', 'ampol', 'telstra', 'virgin'] },
+      memberships: { qantas: false, velocity: true },
+      finProfile: { income: 7000, incomeLabel: 'Director draws (Rollers Pty Ltd)', home: 2600, homeLabel: 'Rent', bills: 600, living: 2500, debt: 400, saving: 250 },
+      subscriptions: [
+        { id: 'sub_canva', name: 'Canva Pro', monthly: 17.99, months: 10, annual: 164.99 },
+        { id: 'sub_spotify', name: 'Spotify Premium', monthly: 13.99, months: 26, annual: null },
+        { id: 'sub_strava', name: 'Strava', monthly: 11.99, months: 4, annual: 79.99 }
       ],
       wesley: { intensity: '5×', elig: { dir: 'above', amt: 5 }, feeCover: true, digest: 'daily' },
       bsSettings: {
@@ -1382,6 +1627,15 @@
         { id: 'mb3', name: 'Cronulla Bowls Club', source: 'Existing transaction', freq: 'Monthly', due: '2026-12-14', amount: 95.00, setAside: 95.00 },
         { id: 'mb4', name: 'Medibank health insurance', source: 'Direct debit', freq: 'Monthly', due: '2026-12-16', amount: 159.80, setAside: 159.80 }
       ],
+      weeklySpare: 95,
+      habitSeed: { learned: 523, months: 48, home: 'Toowoomba, QLD', hours: [7, 20], grocer: 'IGA Toowoomba', avgShop: 64, maxUsual: 500, typical: { 'Groceries': 64, 'Entertainment & eating out': 30, 'Shopping': 80, 'Transport & fuel': 55, 'Subscriptions': 25, 'Important bills': 210, 'Travel': 400, 'Other': 50 }, known: ['iga', 'chemist', 'ergon', 'council', 'binge', 'ancestry', 'amazon', 'services australia', 'big w'] },
+      memberships: { qantas: false, velocity: false },
+      finProfile: { income: 3600, incomeLabel: 'Age Pension + super', home: 0, homeLabel: 'Home (owned)', bills: 450, living: 2200, debt: 0, saving: 540 },
+      subscriptions: [
+        { id: 'sub_prime', name: 'Amazon Prime', monthly: 9.99, months: 8, annual: 79.00 },
+        { id: 'sub_binge', name: 'Binge Standard', monthly: 18.00, months: 6, annual: null },
+        { id: 'sub_ancestry', name: 'Ancestry Family History', monthly: 34.99, months: 2, annual: 299.00 }
+      ],
       wesley: { intensity: '1×', elig: { dir: 'above', amt: 5 }, feeCover: true, digest: 'weekly' },
       bsSettings: {
         split: { spend: 25, bills: 30, rates: 15, buffer: 10, grandkids: 10, caravan: 10 },
@@ -1434,6 +1688,15 @@
         };
       }
     }
+    // New features: subscription check, what-if planner (backfill older saved data)
+    var seedU = DEMO_USERS[u.id] || {};
+    if (!Array.isArray(u.subscriptions)) u.subscriptions = clone(seedU.subscriptions || []);
+    if (typeof u.weeklySpare !== 'number') u.weeklySpare = seedU.weeklySpare || 80;
+    if (!u.finProfile && seedU.finProfile) u.finProfile = clone(seedU.finProfile);
+    if (!u.habitSeed && seedU.habitSeed) u.habitSeed = clone(seedU.habitSeed);
+    if (!u.memberships) u.memberships = clone(seedU.memberships || { qantas: false, velocity: false });
+    if (!u.learn) u.learn = { facts: [], checks: [], moments: [], known: [], travelNotice: null, extra: 0 };
+    (u.accounts || []).forEach(function(a){ if (a.kind === 'credit' && !a.perks) { var sa = (seedU.accounts || []).find(function(x){ return x.id === a.id; }); if (sa && sa.perks) a.perks = clone(sa.perks); } });
     if (!u.bsSettings.split) u.bsSettings.split = {};
     if (!u.bsSettings.roundUp) {
       u.bsSettings.roundUp = { enabled: true, step: 1, dest: '', rules: [] };
@@ -1722,6 +1985,7 @@
   }
 
   function logout(){
+    var ms = document.getElementById('momentStack'); if (ms) ms.innerHTML = '';
     sessionStorage.removeItem(SESSION_KEY);
     user = null;
     appEl.hidden = true;
@@ -1826,7 +2090,7 @@
     m.querySelectorAll('.page').forEach(function(p){
       p.hidden = (p.getAttribute('data-page') !== page);
     });
-    var key = (page === 'account') ? 'overview' : ((page === 'approval' || page === 'inbox') ? null : (page === 'bs-settings' ? 'banksmart' : (page === 'notif-settings' ? 'settings' : page)));
+    var key = (page === 'account') ? 'overview' : ((page === 'approval' || page === 'inbox') ? null : (page === 'bs-settings' ? 'banksmart' : page));
     m.querySelectorAll('nav.tabs a').forEach(function(a){
       a.classList.toggle('active', a.getAttribute('data-nav') === key);
     });
@@ -1835,8 +2099,7 @@
     if (addTxBtn) {
       addTxBtn.hidden = (page !== 'account');
     }
-    if (page === 'inbox') renderInboxFeedPage();
-    if (page === 'notif-settings') renderNotificationSettingsPage();
+    if (page === 'inbox') renderNotificationsPage();
     if (page === 'approval') renderBusinessApprovals();
     window.scrollTo(0, 0);
   }
@@ -2145,6 +2408,9 @@
     if (!w.elig) w.elig = { dir: 'above', amt: 5 };
     if (w.intensity === undefined) w.intensity = '2×';
     if (w.feeCover === undefined) w.feeCover = true;
+    if (w.billCover === undefined) w.billCover = true;
+    if (w.fraudChecks === undefined) w.fraudChecks = true;
+    if (w.spendMoments === undefined) w.spendMoments = true;
     if (w.sweeps === undefined) w.sweeps = true;
     if (w.shield === undefined) w.shield = true;
     if (w.forecast === undefined) w.forecast = true;
@@ -2162,30 +2428,33 @@
     renderAiControls();
     renderWesleyInsights();
   }
-  function aiTog(label, sub, key, on){
-    return '<div class="ai-ctrl"><div><div class="l">' + label + '</div><div class="s">' + sub + '</div></div>' +
-      '<div class="ctl"><label class="toggle"><input type="checkbox" ' + (on ? 'checked' : '') + ' onchange="aiSet(\'' + key + '\', this.checked)"><span class="tk"></span></label></div></div>';
+  function aiTile(label, sub, key, on, icon, opts){
+    opts = opts || {};
+    return '<div class="ai-tile' + (on ? '' : ' off') + (opts.master ? ' master' : '') + (opts.dim ? ' dim' : '') + '">' +
+      '<div class="top"><div class="ic" aria-hidden="true">' + icon + '</div><h4>' + label + '</h4><p>' + sub + '</p><div class="wm" aria-hidden="true">W</div></div>' +
+      '<div class="band"><div class="st">' + (on ? 'On' : 'Off') + (opts.note ? '<small>' + opts.note + '</small>' : '') + '</div>' +
+      '<label class="toggle" title="Turn ' + label + (on ? ' off' : ' on') + '"><input type="checkbox" aria-label="' + label + '" ' + (on ? 'checked' : '') + ' onchange="aiSet(\'' + key + '\', this.checked)"><span class="tk"></span></label></div></div>';
   }
   function renderAiControls(){
     var box = document.getElementById('aiControls'); if (!box || !user) return;
-    var w = wz();
+    var w = wz(), dim = !w.aiEnabled;
     var banner = document.getElementById('aiOffBanner'); if (banner) banner.hidden = !!w.aiEnabled;
-    var master = '<div class="ai-ctrl"><div><div class="l">Wesley &amp; all AI features</div><div class="s">The master switch. Turn this off and Wesley stops acting, moving money and making suggestions — your banking still works exactly as normal.</div></div>' +
-      '<div class="ctl"><label class="toggle"><input type="checkbox" ' + (w.aiEnabled ? 'checked' : '') + ' onchange="aiSet(\'aiEnabled\', this.checked)"><span class="tk"></span></label></div></div>';
-    var rest = '<div class="' + (w.aiEnabled ? '' : 'ai-dim') + '">' +
-      aiTog('Fee cover', 'Top up from your buffer before a payment bounces, so you avoid fees.', 'feeCover', w.feeCover) +
-      aiTog('Smart sweeps', 'Move spare money into savings on good weeks; ease off on tight ones.', 'sweeps', w.sweeps) +
-      aiTog('Hold back tempting spends', 'Briefly set money aside during your known big-spend moments, then return it.', 'shield', w.shield) +
-      aiTog('Look-ahead pre-funding', 'Set money aside early when a low point is coming up.', 'forecast', w.forecast) +
-      '<div class="ai-ctrl"><div><div class="l">How Wesley notifies you</div><div class="s">Bundle money-movement alerts into a digest instead of a ping for every move.</div></div>' +
-        '<div class="ctl"><select class="ai-sel" onchange="aiSet(\'digest\', this.value)"><option value="daily"' + (w.digest === 'daily' ? ' selected' : '') + '>Daily digest</option><option value="weekly"' + (w.digest === 'weekly' ? ' selected' : '') + '>Weekly digest</option><option value="off"' + (w.digest === 'off' ? ' selected' : '') + '>Tell me every move</option></select></div></div>' +
-      '</div>';
-    box.innerHTML = master + rest;
+    box.innerHTML =
+      aiTile('Wesley &amp; all AI features', 'The master switch. Turn this off and Wesley stops acting, moving money and making suggestions. Your banking still works exactly as normal.', 'aiEnabled', w.aiEnabled, '✦', { master: true, note: w.aiEnabled ? 'Wesley is working for you' : 'Wesley is paused' }) +
+      aiTile('Fee cover', 'Top up from your buffer before a payment bounces, so you avoid fees.', 'feeCover', w.feeCover, '🛡️', { dim: dim }) +
+      aiTile('Bill cover', 'If a purchase eats into money set aside for bills, top it up from savings automatically, then help you refill.', 'billCover', w.billCover !== false, '🧾', { dim: dim }) +
+      aiTile('Smart sweeps', 'Move spare money into savings on good weeks; ease off on tight ones.', 'sweeps', w.sweeps, '⟳', { dim: dim }) +
+      aiTile('Hold back tempting spends', 'Briefly set money aside during your known big-spend moments, then return it.', 'shield', w.shield, '⏸', { dim: dim }) +
+      aiTile('Unusual activity checks', 'Wesley learns your habits and asks "was this you?" when a spend doesn\'t look like you.', 'fraudChecks', w.fraudChecks !== false, '🔐', { dim: dim }) +
+      aiTile('Spending moments', 'Spot moments like booking flights, then ask a quick question or two and share helpful tips.', 'spendMoments', w.spendMoments !== false, '✈️', { dim: dim }) +
+      aiTile('Look-ahead pre-funding', 'Set money aside early when a low point is coming up.', 'forecast', w.forecast, '📈', { dim: dim }) +
+      '<div class="ai-tile' + (dim ? ' dim' : '') + '"><div class="top"><div class="ic" aria-hidden="true">🔔</div><h4>How Wesley notifies you</h4><p>Bundle money-movement alerts into a digest instead of a ping for every move.</p><div class="wm" aria-hidden="true">W</div></div>' +
+        '<div class="band"><select class="ai-sel" style="width:100%;padding:8px" aria-label="How Wesley notifies you" onchange="aiSet(\'digest\', this.value)"><option value="daily"' + (w.digest === 'daily' ? ' selected' : '') + '>Daily digest</option><option value="weekly"' + (w.digest === 'weekly' ? ' selected' : '') + '>Weekly digest</option><option value="off"' + (w.digest === 'off' ? ' selected' : '') + '>Tell me every move</option></select></div></div>';
   }
   function renderWesleyInsights(){
     var box = document.getElementById('wesleyInsights'); if (!box || !user) return;
     var w = wz();
-    if (!w.aiEnabled) { box.innerHTML = '<div class="ai-insight" style="grid-column:1/-1"><div class="ic">⏸️</div><h4>Insights are paused</h4><p>Turn Wesley on in AI controls below to see what he spots in your accounts.</p></div>'; return; }
+    if (!w.aiEnabled) { box.innerHTML = '<div class="ai-insight" style="grid-column:1/-1"><div class="ic">⏸️</div><h4>Insights are paused</h4><p>Turn Wesley on in Settings &amp; Rules to see what he spots in your accounts.</p></div>'; return; }
     var txs = (user.transactions || []);
     var debits = txs.filter(function(t){ return (t.amount || 0) < 0; });
     var spent = debits.reduce(function(a, t){ return a + Math.abs(t.amount || 0); }, 0);
@@ -2193,6 +2462,13 @@
     var sub = debits.find(function(t){ return /sub|netflix|spotify|software|membership|prime|disney/i.test(t.desc || ''); });
     var travel = txs.find(function(t){ return /flight|airline|hotel|qantas|jetstar|booking|airbnb|travel/i.test(t.desc || ''); });
     var cards = [];
+    var bc = user.billCover;
+    if (bc && !bc.dismissed && !bc.plan) cards.push('<div class="ai-insight"><div class="ic">🛡️</div><h4>I covered your bills</h4><p>I moved <strong>' + money(bc.covered) + '</strong> from ' + escapeHtml(bc.from) + ' after a bigger spend. Pick how you\'d like to refill it.</p><button onclick="openWesley(\'How should I refill my savings?\')">Refill options</button></div>');
+    var toSwitch = subsToSwitch();
+    if (toSwitch.length) {
+      var subTotal = toSwitch.reduce(function(a, s){ return a + subSaving(s); }, 0);
+      cards.push('<div class="ai-insight"><div class="ic">🔁</div><h4>Pay yearly, save ' + money(subTotal) + '</h4><p>You\'ve paid ' + (toSwitch.length === 1 ? escapeHtml(toSwitch[0].name) : toSwitch.length + ' subscriptions') + ' monthly for 6+ months. Paying yearly would cost less.</p><button onclick="openWesley(\'Should any subscriptions go annual?\')">See savings</button></div>');
+    }
     cards.push('<div class="ai-insight"><div class="ic">💸</div><h4>Your spending</h4><p>You\'ve spent <strong>' + money(spent) + '</strong> across ' + debits.length + ' purchase' + (debits.length === 1 ? '' : 's') + ' on this account.</p><button onclick="openWesley(\'Where is my money going?\')">Break it down</button></div>');
     if (biggest) cards.push('<div class="ai-insight"><div class="ic">🔎</div><h4>Biggest purchase</h4><p>Your largest was <strong>' + money(Math.abs(biggest.amount)) + '</strong> at ' + escapeHtml(biggest.desc || 'a merchant') + '.</p><button onclick="openWesley(\'Can I afford another ' + Math.round(Math.abs(biggest.amount)) + ' dollars?\')">Could I do that again?</button></div>');
     if (travel) cards.push('<div class="ai-insight"><div class="ic">✈️</div><h4>Planning a trip?</h4><p>I noticed travel spending — you may qualify for travel insurance and a fee-free overseas card.</p><button onclick="openWesley(\'What offers do I qualify for?\')">See offers</button></div>');
@@ -2214,6 +2490,10 @@
     renderAiControls();
     renderAccountPage(currentAcctId);
     renderBSSettings();
+    renderSubscriptions();
+    renderBillCover();
+    renderLearning();
+    renderMoments();
     renderBusinessApprovals();
     renderNotificationsPage();
     updateNotifBadge();
@@ -2230,7 +2510,10 @@
       { label: '⛽ Fuel', desc: 'Ampol Express Petrol', amount: 75.00 },
       { label: '⚡ Electricity', desc: 'Origin Energy Power', amount: 180.00 },
       { label: '🍽️ Dining', desc: 'Bondi Trattoria', amount: 68.00 },
-      { label: '💻 Tech / Subs', desc: 'Software Subscription', amount: 29.99 }
+      { label: '💻 Tech / Subs', desc: 'Software Subscription', amount: 29.99 },
+      { label: '🎧 Big buy', desc: 'JB Hi-Fi — Noise-cancelling headphones', amount: 549.00 },
+      { label: '✈️ Flights', desc: 'Qantas — flights Sydney to Bali', amount: 1240.00 },
+      { label: '🌐 Overseas online', desc: 'TECHMART ONLINE (USD)', amount: 899.00 }
     ],
     credit: [
       { label: '💼 Salary', desc: 'Salary Payment — Acme Pty Ltd', amount: 2480.00 },
@@ -2361,6 +2644,12 @@
       var color = newBal < 0 ? 'var(--brand)' : 'var(--navy)';
       previewEl.innerHTML = 'Current balance: <strong>' + money(cur) + '</strong> → After ' + currentTxType + ': <strong style="color:' + color + '">' +
         money(newBal) + '</strong>';
+      var sts = getSafeToSpend();
+      if (currentTxType === 'debit' && acct.kind === 'everyday' && acct.mode === 'personal' && amt > sts) {
+        var w = wz(), bcp = billCoverPlan(amt - sts);
+        previewEl.innerHTML += '<div style="margin-top:8px;padding:8px 10px;border-radius:6px;background:#fff8e6;border:1px solid #f0c060">⚠️ This is <strong>' + money(amt - sts) + '</strong> more than your Safe to spend (' + money(sts) + '), so it would eat into money set aside for bills.' +
+          ((w.aiEnabled && w.billCover !== false) ? (bcp.moves.length ? ' <strong>Bill cover</strong> will top your bills back up from ' + escapeHtml(bcp.from) + '.' + (bcp.left > 0 ? ' It can\'t cover the last ' + money(bcp.left) + '.' : '') : ' There\'s nothing unprotected to cover it from.') : ' Bill cover is off.') + '</div>';
+      }
     }
   }
 
@@ -2400,10 +2689,17 @@
     // If everyday personal account, adjust Safe to spend in savingPlan
     if (acct.kind === 'everyday' && acct.mode === 'personal') {
       var spendBucket = user.savingsPlan.find(function(i){ return i.id === 'spend'; });
+      var billCoverResult = null;
       if (spendBucket) {
+        var overBy = Math.round((-signedAmt - spendBucket.amount) * 100) / 100;
+        var wzz = wz(), held = signedAmt < 0 && overBy > 0 && wzz.aiEnabled && wzz.fraudChecks !== false && unusualCheck(newTx).flag;
+        if (held) newTx._holdCover = overBy;
+        else if (signedAmt < 0 && overBy > 0) billCoverResult = runBillCover(overBy, desc, dateVal);
         spendBucket.amount = Math.max(0, Math.round((spendBucket.amount + signedAmt) * 100) / 100);
       }
     }
+    if (acct.mode === 'personal') trackSubscriptionFromTx(desc, signedAmt);
+    if (acct.mode === 'personal' && signedAmt < 0) setTimeout(function(){ learnFromTx(newTx, acct); }, 700);
 
     var triggeredCount = evaluateTxNotificationRules(newTx, acct);
     saveStore();
@@ -2418,7 +2714,9 @@
     renderAll();
     go('account');
     closeTxModal();
-    var toastMsg = '✓ Added ' + (signedAmt < 0 ? 'debit' : 'credit') + ' of ' + money(Math.abs(signedAmt)) + ' to ' + acct.name;
+    var toastMsg = (typeof billCoverResult !== 'undefined' && billCoverResult)
+      ? '🛡️ Bill cover: moved ' + money(billCoverResult.covered) + ' from ' + billCoverResult.from + ' so your bills stay covered'
+      : '✓ Added ' + (signedAmt < 0 ? 'debit' : 'credit') + ' of ' + money(Math.abs(signedAmt)) + ' to ' + acct.name;
     if (triggeredCount > 0) {
       toastMsg += ' · 🔔 ' + triggeredCount + ' notification' + (triggeredCount === 1 ? '' : 's') + ' sent';
     }
@@ -2527,6 +2825,7 @@
         '<div class="pn"><span class="dot" style="background:' + item.color + '"></span><span>' + escapeHtml(item.name) + '</span>' + tag + '</div>' +
         '<div class="pv">' + money(item.amount) + '</div>' +
         progressHtml +
+        (isGoal ? '<button type="button" class="pot-lock' + (item.protected ? ' on' : '') + '" onclick="toggleGoalProtect(\'' + item.id + '\')" title="Protected goals are never used for bill cover">' + (item.protected ? '🔒 Protected from bill cover' : '🔓 Protect from bill cover') + '</button>' : '') +
         billsHtml +
       '</div>';
     }).join('');
@@ -3041,6 +3340,854 @@
       });
     }
   }
+
+  // ==========================================
+  // NEW FEATURES: SUBSCRIPTION CHECK · BILL COVER · WHAT IF
+  // ==========================================
+  var SUB_WATCH_MONTHS = 6;
+  var ROUNDUP_TIERS = [1, 5, 10, 50, 100];
+  var ROUNDUP_WEEKLY = { 0: 0, 1: 12, 2: 18, 5: 31, 10: 48, 50: 85, 100: 120 };
+
+  function round2(n){ return Math.round(n * 100) / 100; }
+  function roundUpWeekly(step){ return ROUNDUP_WEEKLY[step] !== undefined ? ROUNDUP_WEEKLY[step] : 12; }
+  function nextRoundUpTier(step){
+    for (var i = 0; i < ROUNDUP_TIERS.length; i++) { if (ROUNDUP_TIERS[i] > step) return ROUNDUP_TIERS[i]; }
+    return step;
+  }
+
+  // ---------- Subscription check ----------
+  function subSaving(sub){ return sub.annual ? round2(sub.monthly * 12 - sub.annual) : 0; }
+  function subStatus(sub){
+    if (sub.plan === 'annual') return 'switched';
+    if ((sub.months || 0) < SUB_WATCH_MONTHS) return 'watching';
+    if (!sub.annual) return 'no-annual';
+    return subSaving(sub) > 0 ? 'save' : 'monthly-better';
+  }
+  function subsToSwitch(){
+    return (user && user.subscriptions || []).filter(function(s){ return subStatus(s) === 'save'; });
+  }
+  function findSubByText(t){
+    t = (t || '').toLowerCase();
+    return (user && user.subscriptions || []).find(function(s){
+      var first = s.name.toLowerCase().split(/\s+/)[0].replace(/[^a-z0-9+]/g, '');
+      return t.indexOf(first) !== -1 || t.indexOf(s.name.toLowerCase()) !== -1;
+    });
+  }
+  function switchToAnnual(id, silent){
+    var sub = (user.subscriptions || []).find(function(s){ return s.id === id; });
+    if (!sub || subStatus(sub) !== 'save') return null;
+    sub.plan = 'annual';
+    sub.switchedOn = new Date().toISOString().slice(0, 10);
+    saveStore();
+    renderSubscriptions(); renderWesleyInsights();
+    if (!silent) showToast('✓ ' + sub.name + ' switched to annual — saving ' + money(subSaving(sub)) + ' a year');
+    return sub;
+  }
+  function undoAnnual(id){
+    var sub = (user.subscriptions || []).find(function(s){ return s.id === id; });
+    if (!sub) return;
+    delete sub.plan; delete sub.switchedOn;
+    saveStore(); renderSubscriptions(); renderWesleyInsights();
+    showToast('↩ ' + sub.name + ' is back on monthly billing');
+  }
+  function renderSubscriptions(){
+    var box = document.getElementById('subsPanel'); if (!box || !user) return;
+    var subs = user.subscriptions || [];
+    if (!subs.length) { box.innerHTML = '<div class="muted" style="font-size:13px">No subscriptions spotted yet. Wesley starts watching as soon as one turns up in your transactions.</div>'; return; }
+    var saved = 0;
+    var rows = subs.map(function(s){
+      var st = subStatus(s), action = '', line = '';
+      var meta = money(s.monthly) + '/month · paid for ' + s.months + ' month' + (s.months === 1 ? '' : 's');
+      if (st === 'switched') {
+        saved += subSaving(s);
+        line = '<div class="ss save">✓ On annual billing (' + money(s.annual) + '/year) — saving ' + money(subSaving(s)) + ' a year</div>';
+        action = '<button class="undo-sub" onclick="undoAnnual(\'' + s.id + '\')">Undo</button>';
+      } else if (st === 'watching') {
+        var left = SUB_WATCH_MONTHS - s.months;
+        line = '<div class="ss watch">👀 Watching — I\'ll check annual pricing in ' + left + ' month' + (left === 1 ? '' : 's') + '</div>' +
+               '<div class="watchbar"><span style="width:' + Math.round(s.months / SUB_WATCH_MONTHS * 100) + '%"></span></div>';
+      } else if (st === 'save') {
+        line = '<div class="ss save">💡 Annual is ' + money(s.annual) + '/year vs ' + money(round2(s.monthly * 12)) + ' paying monthly — save ' + money(subSaving(s)) + '</div>';
+        action = '<button onclick="switchToAnnual(\'' + s.id + '\')">Switch to annual</button>';
+      } else if (st === 'no-annual') {
+        line = '<div class="ss none">No annual plan offered — monthly is your only option. I\'ll keep an eye on it.</div>';
+      } else {
+        line = '<div class="ss none">Monthly works out cheaper here — no change needed.</div>';
+      }
+      return '<div class="sub-row"><div><div class="sn">' + escapeHtml(s.name) + '</div><div class="sm">' + meta + '</div>' + line + '</div><div>' + action + '</div></div>';
+    }).join('');
+    var pending = subsToSwitch();
+    var pendingSave = pending.reduce(function(a, s){ return a + subSaving(s); }, 0);
+    var foot = '';
+    if (pending.length > 1) foot += '<div style="margin-top:12px"><button class="hbtn" style="color:var(--brand);border-color:var(--brand);font-weight:700" onclick="switchAllAnnual()">Switch all ' + pending.length + ' to annual · save ' + money(pendingSave) + '/year</button></div>';
+    if (saved > 0) foot += '<div class="subs-total">You\'re saving ' + money(saved) + ' a year by paying annually.</div>';
+    box.innerHTML = rows + foot + '<div class="muted" style="font-size:11.5px;margin-top:10px">Demo prices. Wesley flags the saving; you confirm the switch with the provider.</div>';
+  }
+  function switchAllAnnual(){
+    var list = subsToSwitch(), total = 0;
+    list.forEach(function(s){ total += subSaving(s); switchToAnnual(s.id, true); });
+    if (list.length) showToast('✓ Switched ' + list.length + ' subscriptions to annual — saving ' + money(total) + ' a year');
+    return { count: list.length, total: total };
+  }
+  // Track subscriptions automatically when a matching debit is added
+  var SUB_PATTERN = /subscription|netflix|spotify|disney|prime|stan\b|binge|kayo|microsoft 365|office 365|adobe|canva|strava|youtube|apple|icloud|audible|ancestry|patreon/i;
+  function trackSubscriptionFromTx(desc, amount){
+    if (!user || amount >= 0 || !SUB_PATTERN.test(desc || '')) return;
+    var existing = findSubByText(desc);
+    if (existing) { existing.months = (existing.months || 0) + 1; return; }
+    var monthly = round2(Math.abs(amount));
+    user.subscriptions = user.subscriptions || [];
+    user.subscriptions.push({ id: 'sub_' + Date.now(), name: desc.replace(/\s+—.*$/, ''), monthly: monthly, months: 1, annual: round2(monthly * 10), estimated: true });
+    setTimeout(function(){ showToast('🔁 New subscription spotted — Wesley will check annual pricing after 6 months'); }, 3500);
+  }
+
+  // ---------- Bill cover ----------
+  // ---- Which savings to use for bill cover ----
+  // 1. Never touch goals the user has protected.
+  // 2. Prefer goals with the most time left (furthest target date), so they can catch up easily.
+  //    Ties go to the goal that's furthest ahead (highest % of target).
+  // 3. Take up to half of that goal, then the Buffer, then up to half of the next goals,
+  //    so no single goal takes the whole hit. Only then the rest of those goals.
+  // 5. Goals due within 3 months are a last resort.
+  var BC_NEAR_MONTHS = 3, BC_FIRST_SHARE = 0.5;
+  var MONTH_IDX = { jan:0, feb:1, mar:2, apr:3, may:4, jun:5, jul:6, aug:7, sep:8, oct:9, nov:10, dec:11 };
+  function goalDueDate(g){
+    var t = String(g.targetDate || '').toLowerCase().trim(), now = new Date();
+    if (!t) return null;
+    var y = (t.match(/\b(20\d\d)\b/) || [])[1];
+    var m = t.match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*/);
+    if (/end of (the )?year/.test(t)) return new Date(now.getFullYear(), 11, 1);
+    if (/^mid\b/.test(t) && y) return new Date(Number(y), 5, 1);
+    if (/^(early|start)\b/.test(t) && y) return new Date(Number(y), 1, 1);
+    if (/^late\b/.test(t) && y) return new Date(Number(y), 9, 1);
+    var mm = t.match(/(\d+)\s*months?/); if (mm) return new Date(now.getFullYear(), now.getMonth() + Number(mm[1]), 1);
+    if (m && y) return new Date(Number(y), MONTH_IDX[m[1]], 1);
+    if (m) { var d = new Date(now.getFullYear(), MONTH_IDX[m[1]], 1); if (d < now) d.setFullYear(d.getFullYear() + 1); return d; }
+    if (y) return new Date(Number(y), 11, 1);
+    return null;
+  }
+  function goalMonthsLeft(g){
+    var d = goalDueDate(g); if (!d) return 999; // no date: treat as the most flexible
+    return Math.max(0, Math.ceil((d - new Date()) / (30.44 * 864e5)));
+  }
+  function billCoverPlan(shortfall){
+    var plan = (user && user.savingsPlan) || [];
+    var goals = plan.filter(function(p){ return p.type === 'goal' && p.amount > 0; }).map(function(g){
+      return { g: g, months: goalMonthsLeft(g), pct: g.target ? g.amount / g.target : 0 };
+    });
+    var rank = function(a, b){ return (b.months - a.months) || (b.pct - a.pct); };
+    var flexible = goals.filter(function(x){ return !x.g.protected && x.months > BC_NEAR_MONTHS; }).sort(rank);
+    var nearDue = goals.filter(function(x){ return !x.g.protected && x.months <= BC_NEAR_MONTHS; }).sort(rank);
+    var protectedGoals = goals.filter(function(x){ return x.g.protected; });
+    var left = round2(shortfall), taken = {}, order = [];
+    function take(id, name, avail, info){
+      var t = round2(Math.min(avail, left)); if (t <= 0) return;
+      if (!taken[id]) { taken[id] = { id: id, name: name, amt: 0, months: info ? info.months : null }; order.push(id); }
+      taken[id].amt = round2(taken[id].amt + t); left = round2(left - t);
+    }
+    var buf = plan.find(function(p){ return p.id === 'buffer'; });
+    if (flexible[0]) take(flexible[0].g.id, flexible[0].g.name, round2(flexible[0].g.amount * BC_FIRST_SHARE), flexible[0]);
+    if (left > 0 && buf && buf.amount > 0) take('buffer', 'Buffer', buf.amount);
+    flexible.slice(1).forEach(function(x){ if (left > 0) take(x.g.id, x.g.name, round2(x.g.amount * BC_FIRST_SHARE), x); });
+    flexible.forEach(function(x){ if (left > 0) take(x.g.id, x.g.name, round2(x.g.amount - (taken[x.g.id] ? taken[x.g.id].amt : 0)), x); });
+    nearDue.forEach(function(x){ if (left > 0) take(x.g.id, x.g.name, round2(x.g.amount * BC_FIRST_SHARE), x); });
+    var moves = order.map(function(id){ return taken[id]; });
+    var goalMoves = moves.filter(function(m){ return m.id !== 'buffer'; });
+    // Plain-English reason
+    var why = '';
+    var monthsTxt = function(n){ return n >= 999 ? 'it doesn\'t have a set date' : (flexible.length > 1 ? 'it\'s due furthest away (' : 'it\'s not due for ') + n + ' month' + (n === 1 ? '' : 's') + (flexible.length > 1 ? ')' : ''); };
+    var isNear = function(m){ return nearDue.some(function(x){ return x.g.id === m.id; }); };
+    if (goalMoves.length && isNear(goalMoves[0])) why = 'Your other savings were protected or already used, so I took a little from ' + goalMoves.map(function(m){ return m.name; }).join(' and ') + ' even though ' + (goalMoves.length === 1 ? 'it\'s' : 'they\'re') + ' due soon. Refilling ' + (goalMoves.length === 1 ? 'it' : 'them') + ' is the priority.';
+    else if (goalMoves.length === 1) why = 'I used ' + goalMoves[0].name + ' because ' + monthsTxt(goalMoves[0].months) + ', so it has ' + (flexible.length > 1 ? 'the most time' : 'time') + ' to catch up.';
+    else if (goalMoves.length > 1) why = 'I spread it across ' + goalMoves.map(function(m){ return m.name; }).join(' and ') + ' so no single goal takes the whole hit, starting with ' + goalMoves[0].name + ' because ' + monthsTxt(goalMoves[0].months) + '.';
+    else if (moves.length) why = 'I used your Buffer, which is there for exactly this.';
+    if (moves.some(function(m){ return m.id === 'buffer'; }) && goalMoves.length) why += ' Your Buffer helped too.';
+    var skipped = protectedGoals.map(function(x){ return x.g.name + ' (protected)'; })
+      .concat(nearDue.filter(function(x){ return !taken[x.g.id]; }).map(function(x){ return x.g.name + ' (due soon)'; }));
+    if (skipped.length) why += ' I didn\'t touch ' + (skipped.length > 1 ? skipped.slice(0, -1).join(', ') + ' or ' + skipped[skipped.length - 1] : skipped[0]) + '.';
+    var names = moves.map(function(m){ return m.name; });
+    return { moves: moves, left: left, from: names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : (names[0] || ''), why: why };
+  }
+  function toggleGoalProtect(id){
+    var g = (user.savingsPlan || []).find(function(p){ return p.id === id; }); if (!g) return;
+    g.protected = !g.protected;
+    saveStore(); renderAll();
+    showToast(g.protected ? '🔒 ' + g.name + ' is protected. Bill cover won\'t touch it' : '🔓 ' + g.name + ' can be used for bill cover if needed');
+  }
+  // Called when a personal everyday debit is bigger than Safe to spend
+  function runBillCover(shortfall, merchant, dateVal){
+    var w = wz();
+    if (!w.aiEnabled || w.billCover === false || shortfall <= 0) return null;
+    var bp = billCoverPlan(shortfall);
+    var moves = bp.moves, left = bp.left;
+    moves.forEach(function(m){
+      var item = (user.savingsPlan || []).find(function(p){ return p.id === m.id; });
+      if (item) item.amount = round2(item.amount - m.amt);
+    });
+    var covered = round2(shortfall - left);
+    if (covered <= 0) return null;
+    moves.forEach(function(m){
+      if (m.id !== 'buffer') {
+        user.transactions.push({ id: 'tx_bc_' + Date.now() + '_' + m.id, acct: 'choice', date: dateVal, desc: 'BankSmart bill cover — from ' + m.name, amount: m.amt, custom: true, auto: true });
+      }
+    });
+    var goalMoves = moves.filter(function(m){ return m.id !== 'buffer'; });
+    var refill = goalMoves.length ? goalMoves : moves;
+    user.billCover = { date: dateVal, merchant: merchant, shortfall: shortfall, covered: covered, uncovered: left, moves: moves, from: bp.from, why: bp.why, refillTo: refill[0].id, refillName: refill.map(function(m){ return m.name; }).join(' and '), plan: null, dismissed: false };
+    return user.billCover;
+  }
+  function refillOptions(){
+    var bc = user.billCover; if (!bc) return [];
+    var amt = bc.covered;
+    var step = (user.bsSettings && user.bsSettings.roundUp && user.bsSettings.roundUp.step) || 1;
+    var nextStep = nextRoundUpTier(step);
+    var extraRU = Math.max(5, roundUpWeekly(nextStep) - roundUpWeekly(step));
+    var lump = Math.max(10, Math.ceil(amt / 4 / 5) * 5);
+    var halfLump = Math.max(5, Math.ceil(lump / 2 / 5) * 5);
+    return [
+      { key: 'roundups', title: 'Increase round-ups', desc: 'Round up to the nearest $' + nextStep + ' instead of $' + step + ' — about +' + money(extraRU) + ' a week, no change to your budget.', weeks: Math.ceil(amt / extraRU), step: nextStep, weekly: extraRU, lump: 0 },
+      { key: 'lump', title: 'Bigger lump sum', desc: 'Move ' + money(lump) + ' from Safe to spend each week until it\'s back.', weeks: Math.ceil(amt / lump), step: step, weekly: lump, lump: lump },
+      { key: 'both', title: 'Balance both', desc: 'Round up to $' + nextStep + ' and move ' + money(halfLump) + ' a week.', weeks: Math.ceil(amt / (extraRU + halfLump)), step: nextStep, weekly: extraRU + halfLump, lump: halfLump }
+    ];
+  }
+  function chooseRefill(key){
+    var bc = user && user.billCover; if (!bc) return null;
+    var opt = refillOptions().find(function(o){ return o.key === key; }); if (!opt) return null;
+    bc.prevStep = (bc.prevStep !== undefined) ? bc.prevStep : user.bsSettings.roundUp.step;
+    user.bsSettings.roundUp.step = (key === 'lump') ? bc.prevStep : opt.step;
+    bc.plan = { key: key, title: opt.title, weeks: opt.weeks, weekly: opt.weekly, lump: opt.lump, step: user.bsSettings.roundUp.step };
+    saveStore(); renderAll();
+    showToast('✓ ' + opt.title + ' — ' + bc.refillName + ' refilled in about ' + opt.weeks + ' weeks');
+    return bc.plan;
+  }
+  function changeRefill(){ if (user && user.billCover) { user.billCover.plan = null; saveStore(); renderAll(); } }
+  function dismissBillCover(){ if (user && user.billCover) { user.billCover.dismissed = true; saveStore(); renderAll(); } }
+  function renderBillCover(){
+    var slots = document.querySelectorAll('.billCoverSlot');
+    var bc = user && user.billCover;
+    slots.forEach(function(slot){
+      if (!bc || bc.dismissed) { slot.innerHTML = ''; return; }
+      var full = slot.getAttribute('data-variant') === 'full';
+      var head = '🛡️';
+      var title, body, extra = '';
+      if (!bc.plan) {
+        title = 'Bill cover: your bills are still covered';
+        body = 'Your ' + escapeHtml(bc.merchant) + ' purchase was ' + money(bc.shortfall) + ' more than your Safe to spend, so I moved <strong>' + money(bc.covered) + '</strong> from <strong>' + escapeHtml(bc.from) + '</strong> to keep your upcoming bills covered.' + (bc.why ? ' ' + escapeHtml(bc.why) : '') +
+          (bc.uncovered > 0 ? ' I couldn\'t cover the last ' + money(bc.uncovered) + ' — check your upcoming bills.' : '') + ' How would you like to refill your savings?';
+        if (full) {
+          extra = '<div class="bc-opts">' + refillOptions().map(function(o){
+            return '<button class="bc-opt" onclick="chooseRefill(\'' + o.key + '\')"><b>' + o.title + '</b><span>' + o.desc + '</span><em>Back in ~' + o.weeks + ' week' + (o.weeks === 1 ? '' : 's') + '</em></button>';
+          }).join('') + '</div>';
+        } else {
+          extra = '<div class="bc-actions"><button class="bc-link" onclick="go(\'banksmart\')">Choose how to refill</button></div>';
+        }
+      } else {
+        title = 'Refilling ' + escapeHtml(bc.refillName) + ': ' + escapeHtml(bc.plan.title.toLowerCase());
+        body = 'I\'ll put back the ' + money(bc.covered) + ' I used for bill cover — about ' + money(bc.plan.weekly) + ' a week, so it\'s back in roughly <strong>' + bc.plan.weeks + ' week' + (bc.plan.weeks === 1 ? '' : 's') + '</strong>.' +
+          (bc.plan.key !== 'lump' ? ' Round-ups are now set to the nearest $' + bc.plan.step + '.' : '');
+        extra = '<div class="bc-actions">' + (full ? '<button class="bc-link ghost" onclick="changeRefill()">Change plan</button>' : '') + '<button class="bc-link ghost" onclick="dismissBillCover()">Dismiss</button></div>';
+      }
+      slot.innerHTML = '<div class="bc-alert' + (bc.plan ? ' done' : '') + '"><div class="bc-top"><div class="bc-ic">' + head + '</div><div style="flex:1"><h4>' + title + '</h4><p>' + body + '</p></div></div>' + extra + '</div>';
+    });
+  }
+
+  // ---------- Wesley learns: habits, unusual activity checks and spending moments ----------
+  var LEARN_LINKS = {
+    travelInsurance: 'https://www.westpac.com.au/personal-banking/insurance/travel-insurance/',
+    cardCover: 'https://www.westpac.com.au/credit-cards/manage/travelling-overseas-insurance/insurance-cover',
+    compareCards: 'https://www.westpac.com.au/personal-banking/credit-cards/compare-credit-cards/',
+    rewardsCards: 'https://www.westpac.com.au/personal-banking/credit-cards/reward/',
+    personalLoans: 'https://www.westpac.com.au/personal-loans'
+  };
+  var BIG_BRANDS = /qantas|jetstar|virgin|rex airlines|booking\.com|airbnb|expedia|webjet|flight centre|hilton|marriott|accor|wotif/;
+  var RISKY = /\(usd\)|\(eur\)|\(gbp\)|overseas|international|intl|crypto|bitcoin|gift ?card|western union|wire transfer/;
+  function lrn(){ user.learn = user.learn || { facts: [], checks: [], moments: [], known: [], travelNotice: null, extra: 0 }; return user.learn; }
+  function learnFact(txt){ var L = lrn(); if (!L.facts.some(function(f){ return f.txt === txt; })) L.facts.unshift({ txt: txt, at: new Date().toISOString().slice(0, 10) }); L.extra++; }
+  function merchantName(desc){ return String(desc || '').split(/\s+[—-]\s+/)[0].replace(/\s+\(.*\)$/, '').trim() || 'this merchant'; }
+  function travelNoticeOn(){ var t = lrn().travelNotice; return !!(t && t.until >= new Date().toISOString().slice(0, 10)); }
+
+  // What Wesley knows: the seeded history plus everything since
+  function habitProfile(){
+    var seed = user.habitSeed || { learned: 40, months: 3, home: 'Australia', hours: [7, 22], grocer: '', avgShop: 80, maxUsual: 500, typical: {}, known: [] };
+    var L = lrn(), txs = (user.transactions || []).filter(function(t){ var a = findAcct(t.acct); return a && a.mode === 'personal' && t.amount < 0 && !t.auto; });
+    var known = seed.known.concat(L.known), cats = {};
+    txs.forEach(function(t){ var c = t.category || inferTxCategory(t.desc); cats[c] = (cats[c] || 0) + 1; });
+    var learned = seed.learned + txs.length + (L.extra || 0);
+    var regular = known.slice(0, 8).map(function(k){ return k.split(' ').map(function(wd){ return wd.length <= 3 && wd !== 'of' ? wd.toUpperCase() : wd.replace(/\b\w/g, function(c){ return c.toUpperCase(); }); }).join(' ').replace(/^JB Hi-fi$/i, 'JB Hi-Fi'); });
+    return { seed: seed, learned: learned, months: seed.months, known: known, regular: regular, confidence: Math.min(97, Math.round(48 + Math.log(learned) * 8)), typical: seed.typical || {}, maxUsual: Math.round(Math.max(seed.maxUsual || 500, L.maxBump || 0) / 50) * 50 };
+  }
+
+  // Score a new spend against the habit profile
+  function unusualCheck(tx){
+    var hp = habitProfile(), d = String(tx.desc || '').toLowerCase(), amt = -tx.amount, cat = tx.category || inferTxCategory(tx.desc), reasons = [];
+    var trusted = lrn().trusted || {}, tk = Object.keys(trusted).find(function(k){ return d.indexOf(k) !== -1; });
+    if (tk && amt <= trusted[tk] * 2) return { flag: false, reasons: [], learned: hp.learned, trusted: true };
+    var typical = hp.typical[cat] || 60;
+    var brand = BIG_BRANDS.test(d), known = hp.known.some(function(k){ return d.indexOf(k) !== -1; });
+    if (amt > Math.max(typical * 4, 150) && amt > hp.maxUsual * 0.8 && !(brand && cat === 'Travel')) reasons.push('it\'s about ' + Math.round(amt / Math.max(typical, 1)) + '× your usual ' + (cat === 'Other' ? '' : cat.toLowerCase() + ' ') + 'spend');
+    if (!known && !brand) reasons.push('it\'s a merchant you haven\'t used before');
+    if (RISKY.test(d) && !travelNoticeOn()) reasons.push('it looks like an overseas or higher-risk payment');
+    var hr = parseInt(String(tx.time || '12:00').split(':')[0], 10), hrs = hp.seed.hours || [7, 22];
+    if (!isNaN(hr) && (hr < hrs[0] || hr > hrs[1])) reasons.push('it happened at ' + tx.time + ', outside your usual hours (' + hrs[0] + 'am to ' + (hrs[1] > 12 ? hrs[1] - 12 + 'pm' : hrs[1] + 'am') + ')');
+    var flag = reasons.length >= 2 || /crypto|bitcoin|gift ?card|western union/.test(d);
+    return { flag: flag, reasons: reasons, learned: hp.learned };
+  }
+
+  function travelKind(desc){
+    var d = String(desc || '').toLowerCase();
+    if (/qantas|jetstar/.test(d)) return { kind: 'flights', brand: /jetstar/.test(d) ? 'Jetstar' : 'Qantas', program: 'qantas', programName: 'Qantas Frequent Flyer' };
+    if (/virgin/.test(d)) return { kind: 'flights', brand: 'Virgin Australia', program: 'velocity', programName: 'Velocity Frequent Flyer' };
+    if (/airline|airways|flight|rex|air new zealand|singapore air|emirates|airasia/.test(d)) return { kind: 'flights', brand: merchantName(desc), program: null };
+    if (/booking\.com|airbnb|expedia|hotel|wotif|hilton|marriott|accor/.test(d)) return { kind: 'stay', brand: merchantName(desc), program: null };
+    return null;
+  }
+
+  // Called after a personal spend is added
+  function learnFromTx(tx, acct){
+    if (!user || !acct || acct.mode !== 'personal' || tx.amount >= 0) return;
+    var w = wz(); if (!w.aiEnabled) return;
+    var L = lrn();
+    if (w.fraudChecks !== false) {
+      var chk = unusualCheck(tx);
+      if (chk.flag) {
+        var m = { id: 'm_' + Date.now(), type: 'fraud', txId: tx.id, holdCover: tx._holdCover || 0, date: tx.date, desc: tx.desc, amount: -tx.amount, time: tx.time, acct: acct.name, reasons: chk.reasons, learned: chk.learned, step: 'ask' };
+        L.checks.unshift({ id: m.id, desc: tx.desc, amount: -tx.amount, reasons: chk.reasons, outcome: 'waiting' });
+        L.moments.unshift(m); saveStore(); renderMoments(); renderLearning(); return;
+      }
+    }
+    var tk = travelKind(tx.desc);
+    if (tk && w.spendMoments !== false) {
+      var isWork = (L.workBrands || []).indexOf(tk.brand) !== -1;
+      L.moments.unshift({ id: 'm_' + Date.now(), type: 'travel', txId: tx.id, desc: tx.desc, amount: -tx.amount, acctId: acct.id, acct: acct.name, info: tk, step: isWork ? 'worknote' : 'ask', ans: isWork ? { why: 'work' } : {} });
+      if (isWork) L.extra++;
+      saveStore(); renderMoments(); renderLearning(); return;
+    }
+    var d = String(tx.desc || '').toLowerCase();
+    if (!habitProfile().known.some(function(k){ return d.indexOf(k) !== -1; })) L.known.push(merchantName(tx.desc).toLowerCase());
+    L.extra++; saveStore(); renderLearning();
+  }
+
+  function tripGoal(){ return (user.savingsPlan || []).find(function(g){ return g.type === 'goal' && /holiday|trip|travel|bali|japan|europe|caravan|✈️/i.test(g.name); }); }
+  function userCard(){ return (user.accounts || []).find(function(a){ return a.mode === 'personal' && a.kind === 'credit'; }); }
+
+  function momentHtml(m){
+    var close = '<button type="button" class="mo-x" aria-label="Dismiss" onclick="momentDismiss(\'' + m.id + '\')">✕</button>';
+    var btn = function(label, act, cls){ return '<button type="button" class="' + (cls || 'mo-b') + '" onclick="momentAct(\'' + m.id + '\',\'' + act + '\')">' + label + '</button>'; };
+    var link = function(label, url){ return '<a class="mo-link" href="' + url + '" target="_blank" rel="noopener">' + label + ' ↗</a>'; };
+    if (m.type === 'fraud') {
+      if (m.step === 'ask') return '<div class="mo-head"><span class="mo-ic warn">🔐</span><div><b>Was this you?</b><span>' + money(m.amount) + ' at ' + escapeHtml(merchantName(m.desc)) + (m.time ? ' · ' + m.time : '') + '</span></div>' + close + '</div>' +
+        (m.holdCover ? '<div class="mo-meta" style="margin:0 0 6px">🛡️ Bill cover is on hold until you confirm, so your savings aren\'t touched.</div>' : '') + '<p>This doesn\'t look like your usual spending:</p><ul class="mo-reasons">' + m.reasons.map(function(r){ return '<li>' + escapeHtml(r.charAt(0).toUpperCase() + r.slice(1)) + '</li>'; }).join('') + '</ul><div class="mo-meta">Checked against ' + m.learned + ' of your past transactions in under a second.</div>' +
+        '<div class="mo-actions">' + btn('Yes, it was me', 'me', 'mo-b pri') + btn('No, it wasn\'t me', 'notme', 'mo-b danger') + '</div>';
+      if (m.step === 'me') return '<div class="mo-head"><span class="mo-ic ok">✓</span><div><b>Thanks, all good</b><span>Wesley learned something new</span></div>' + close + '</div><p>I\'ll remember that ' + escapeHtml(merchantName(m.desc)) + ' is you, so payments like this won\'t be flagged next time.</p><div class="mo-actions">' + btn('Done', 'close', 'mo-b pri') + '</div>';
+      return '<div class="mo-head"><span class="mo-ic warn">🛑</span><div><b>Let\'s keep you safe</b><span>Card ending ' + escapeHtml(String((userCard() || {}).number || '').replace(/.*ending (\d+).*/, '$1') || '••••') + '</span></div>' + close + '</div><p>In the live app, Wesley would lock the card straight away and connect you with the Westpac fraud team to get your money back. <em>Demo only: nothing has been blocked.</em></p><div class="mo-actions">' + btn('Okay', 'close', 'mo-b pri') + '</div>';
+    }
+    // travel
+    var info = m.info, what = info.kind === 'flights' ? 'flights with ' + escapeHtml(info.brand) : 'accommodation with ' + escapeHtml(info.brand);
+    var g = tripGoal();
+    if (m.step === 'ask') return '<div class="mo-head"><span class="mo-ic trip">' + (info.kind === 'flights' ? '✈️' : '🏨') + '</span><div><b>Noticed you paid for ' + what + '</b><span>' + money(m.amount) + ' · ' + escapeHtml(m.acct) + '</span></div>' + close + '</div>' +
+      '<p>Sounds exciting! Is this for a holiday? A couple of quick answers help Wesley look out for you.</p><div class="mo-actions">' + btn('Yes, a holiday', 'holiday', 'mo-b pri') + btn('It\'s for work', 'work') + btn('Not travel', 'nottravel') + '</div>';
+    if (m.step === 'saver') return '<div class="mo-head"><span class="mo-ic trip">🎯</span><div><b>' + (g ? 'Part of your saver?' : 'Want a trip saver?') + '</b><span>Question 2 of 3</span></div>' + close + '</div>' +
+      (g ? '<p>Is this part of your <strong>' + escapeHtml(g.name) + '</strong> saver (' + money(g.amount) + ' of ' + money(g.target) + ')?</p><div class="mo-actions">' + btn('Yes, count it', 'saver_yes', 'mo-b pri') + btn('No, a different trip', 'saver_no') + '</div>'
+         : '<p>Want a saver for the rest of the trip, like accommodation and spending money? Wesley can fill it bit by bit.</p><div class="mo-actions">' + btn('Set up a trip saver', 'saver_new', 'mo-b pri') + btn('Not now', 'saver_no') + '</div>');
+    if (m.step === 'where') return '<div class="mo-head"><span class="mo-ic trip">🌏</span><div><b>Where are you heading?</b><span>Question 3 of 3</span></div>' + close + '</div><div class="mo-actions">' + btn('Overseas', 'overseas', 'mo-b pri') + btn('Within Australia', 'domestic') + '</div>';
+    if (m.step === 'work') return '<div class="mo-head"><span class="mo-ic ok">💼</span><div><b>Got it, work travel</b><span>Wesley learned something new</span></div>' + close + '</div><p>I\'ll remember ' + escapeHtml(info.brand) + ' bookings are usually for work, so I won\'t ask about holidays next time.</p>' + rewardsTip(m) + '<div class="mo-actions">' + btn('Done', 'close', 'mo-b pri') + '</div>';
+    if (m.step === 'worknote') return '<div class="mo-head"><span class="mo-ic ok">💼</span><div><b>Another ' + escapeHtml(info.brand) + ' booking</b><span>' + money(m.amount) + ' · noted as work travel</span></div>' + close + '</div><p>You told me these are usually for work, so I\'ve filed it that way. Tap below if this one\'s a holiday instead.</p>' + rewardsTip(m) + '<div class="mo-actions">' + btn('Done', 'close', 'mo-b pri') + btn('This one\'s a holiday', 'holiday') + '</div>';
+    if (m.step === 'nottravel') return '<div class="mo-head"><span class="mo-ic ok">✓</span><div><b>Thanks for letting me know</b><span>Wesley learned something new</span></div>' + close + '</div><p>I\'ve noted it, so I\'ll be smarter about payments like this next time.</p><div class="mo-actions">' + btn('Done', 'close', 'mo-b pri') + '</div>';
+    // tips
+    var overseas = m.ans.where === 'overseas';
+    var tips = [insuranceTip(m, overseas, link), rewardsTip(m)];
+    if (overseas) tips.push('<div class="mo-tip"><span class="ti">💱</span><div><b>Spending overseas?</b> Tell Wesley your travel dates so purchases abroad aren\'t flagged as unusual. Some cards also charge international transaction fees, so it can pay to compare. ' + link('Compare cards', LEARN_LINKS.compareCards) + '<div class="mo-actions sm">' + (travelNoticeOn() ? '<span class="mo-done">✓ Travel dates noted</span>' : btn('Add my travel dates', 'notice')) + '</div></div></div>');
+    return '<div class="mo-head"><span class="mo-ic trip">🧳</span><div><b>A few things for your trip</b><span>Have an amazing time!</span></div>' + close + '</div>' + tips.join('') +
+      '<div class="mo-fine">General information only, not a recommendation. Eligibility, terms and conditions apply.</div><div class="mo-actions">' + btn('Done', 'close', 'mo-b pri') + '</div>';
+  }
+  function insuranceTip(m, overseas, link){
+    var card = userCard(), perks = card && card.perks;
+    if (perks && perks.insurance === true) {
+      var paid = m.acctId === card.id;
+      return '<div class="mo-tip"><span class="ti">🛡️</span><div><b>Good news: your ' + escapeHtml(card.name) + ' includes travel insurance.</b> It comes with complimentary ' + (overseas ? 'international medical' : 'domestic') + ' travel insurance when you meet the conditions, like paying for part of your trip on the card' + (overseas ? ', and international cover needs activating before you go' : '') + '. ' + (paid ? 'You paid with this card 👍' : 'You paid with ' + escapeHtml(m.acct) + ', so check you still meet the conditions.') + ' ' + link(overseas ? 'Check and activate cover' : 'Check what\'s covered', LEARN_LINKS.cardCover) + '</div></div>';
+    }
+    if (perks && perks.insurance === 'check') return '<div class="mo-tip"><span class="ti">🛡️</span><div><b>Don\'t forget travel insurance.</b> Some cards include complimentary cover, so check your ' + escapeHtml(card.name) + '\'s terms before you go. If it doesn\'t, Westpac Travel Insurance is provided by Allianz Global Assistance. ' + link('Check card cover', LEARN_LINKS.cardCover) + ' ' + link('Travel insurance', LEARN_LINKS.travelInsurance) + '</div></div>';
+    return '<div class="mo-tip"><span class="ti">🛡️</span><div><b>Don\'t forget travel insurance.</b> It can help if plans change, bags go missing or you need a doctor ' + (overseas ? 'overseas' : 'on the way') + '. Westpac Travel Insurance is provided by Allianz Global Assistance. ' + link('Get a quote', LEARN_LINKS.travelInsurance) + '</div></div>';
+  }
+  function rewardsTip(m){
+    var info = m.info, card = userCard(), perks = card && card.perks;
+    var link = function(label, url){ return '<a class="mo-link" href="' + url + '" target="_blank" rel="noopener">' + label + ' ↗</a>'; };
+    var cardLine = perks && perks.rewards ? ' Your ' + escapeHtml(card.name) + ' earns ' + escapeHtml(perks.rewards) + ' points on travel too.' : '';
+    if (info.program) {
+      if (user.memberships && user.memberships[info.program]) return '<div class="mo-tip"><span class="ti">⭐</span><div><b>Your ' + info.programName + ' is linked.</b> Make sure your member number is on the booking so the points land.' + cardLine + '</div></div>';
+      return '<div class="mo-tip"><span class="ti">⭐</span><div><b>Don\'t forget your ' + info.programName + ' points.</b> Add your member number to the booking so you earn points on these flights.' + cardLine + '<div class="mo-actions sm"><button type="button" class="mo-b" onclick="momentAct(\'' + m.id + '\',\'member\')">I\'m a member, link it</button></div></div></div>';
+    }
+    if (!(perks && perks.rewards)) return '<div class="mo-tip"><span class="ti">⭐</span><div><b>Travel a fair bit?</b> Some cards earn frequent flyer points on everyday spending. ' + link('See rewards cards', LEARN_LINKS.rewardsCards) + '</div></div>';
+    return '<div class="mo-tip"><span class="ti">⭐</span><div>' + cardLine.trim() + '</div></div>';
+  }
+
+  function momentAct(id, act){
+    var L = lrn(), m = L.moments.find(function(x){ return x.id === id; }); if (!m) return;
+    var chk = L.checks.find(function(c){ return c.id === id; });
+    if (act === 'close') { m.done = true; }
+    else if (m.type === 'fraud') {
+      if (act === 'me') { m.step = 'me'; if (chk) chk.outcome = 'You confirmed it'; L.known.push(merchantName(m.desc).toLowerCase()); L.trusted = L.trusted || {}; L.trusted[merchantName(m.desc).toLowerCase()] = m.amount; if (m.holdCover) { var bcr = runBillCover(m.holdCover, m.desc, m.date || new Date().toISOString().slice(0, 10)); m.holdCover = 0; if (bcr) setTimeout(function(){ showToast('🛡️ Bill cover: moved ' + money(bcr.covered) + ' from ' + bcr.from + ' so your bills stay covered'); }, 400); } L.maxBump = Math.max(L.maxBump || 0, m.amount * 1.1); learnFact('You shop at ' + merchantName(m.desc) + ' (confirmed ' + money(m.amount) + ')'); }
+      if (act === 'notme') { m.step = 'notme'; m.holdCover = 0; if (chk) chk.outcome = 'You reported it (demo)'; }
+    } else {
+      var info = m.info, g = tripGoal();
+      if (act === 'holiday') { m.ans.why = 'holiday'; m.step = 'saver'; learnFact(info.brand + ' ' + (info.kind === 'flights' ? 'flights' : 'bookings') + ' are usually for holidays'); }
+      else if (act === 'work') { m.ans.why = 'work'; m.step = 'work'; L.workBrands = (L.workBrands || []).concat(info.brand); learnFact(info.brand + ' bookings are usually for work'); }
+      else if (act === 'nottravel') { m.step = 'nottravel'; learnFact(merchantName(m.desc) + ' isn\'t travel spending'); }
+      else if (act === 'saver_yes' && g) { g.note = (info.kind === 'flights' ? 'Flights booked ✓' : 'Stay booked ✓'); m.step = 'where'; learnFact(merchantName(m.desc) + ' payment is part of ' + g.name); }
+      else if (act === 'saver_new') { var amt = Math.max(1000, Math.round(m.amount * 1.5 / 100) * 100); user.savingsPlan.push({ id: 'goal_' + Date.now(), name: '✈️ Trip spending', type: 'goal', amount: 0, target: amt, targetDate: monthLabel(defaultYm(4)), color: '#7e22ce', note: 'Flights booked ✓', fixed: false }); ensureUserBSSettings(user); showToast('🎯 Added a ✈️ Trip spending saver for ' + money(amt)); m.step = 'where'; }
+      else if (act === 'saver_no') m.step = 'where';
+      else if (act === 'overseas' || act === 'domestic') { m.ans.where = act; m.step = 'tips'; learnFact('Heading ' + (act === 'overseas' ? 'overseas' : 'on a trip within Australia') + ' soon'); }
+      else if (act === 'member') { user.memberships[info.program] = true; learnFact('You\'re a ' + info.programName + ' member'); showToast('⭐ ' + info.programName + ' linked. Wesley will remind you to add it to bookings'); }
+      else if (act === 'notice') { var until = new Date(Date.now() + 60 * 864e5).toISOString().slice(0, 10); L.travelNotice = { until: until }; learnFact('Travelling overseas until about ' + until.split('-').reverse().join('/')); showToast('🌏 Travel dates noted. Overseas spending won\'t be flagged as unusual'); }
+    }
+    saveStore(); renderAll(); renderMoments(); renderLearning();
+  }
+  function momentDismiss(id){ var m = lrn().moments.find(function(x){ return x.id === id; }); if (m) { m.done = true; var c = lrn().checks.find(function(x){ return x.id === id && x.outcome === 'waiting'; }); if (c) c.outcome = 'Dismissed'; } saveStore(); renderMoments(); renderLearning(); }
+  function renderMoments(){
+    var box = document.getElementById('momentStack'); if (!box) return;
+    if (!user || !user.learn) { box.innerHTML = ''; return; }
+    var open = user.learn.moments.filter(function(m){ return !m.done; }).slice(0, 2);
+    box.innerHTML = open.map(function(m){ return '<section class="moment ' + m.type + '" role="status" aria-live="polite">' + momentHtml(m) + '</section>'; }).join('');
+  }
+
+  // The "What Wesley's learning" panel on BankSmart
+  function renderLearning(){
+    var box = document.getElementById('learnPanel'); if (!box || !user) return;
+    var w = wz();
+    if (!w.aiEnabled) { box.innerHTML = '<div class="muted" style="font-size:14px">Wesley is paused, so he isn\'t learning right now.</div>'; return; }
+    var hp = habitProfile(), L = lrn(), s = hp.seed;
+    var hrs = s.hours || [7, 22], fmtH = function(h){ return h === 0 ? '12am' : (h < 12 ? h + 'am' : (h === 12 ? '12pm' : (h - 12) + 'pm')); };
+    var stats = '<div class="lp-stats"><div><b>' + hp.learned + '</b><span>transactions learned</span></div><div><b>' + hp.months + ' months</b><span>of history</span></div><div><b>' + hp.confidence + '%</b><span>confidence</span><i style="--w:' + hp.confidence + '%"></i></div></div>';
+    var habits = '<ul class="lp-habits">' +
+      (s.grocer ? '<li><span>🛒</span><div>Usual supermarket <b>' + escapeHtml(s.grocer) + '</b>, about ' + money(s.avgShop) + ' a shop</div></li>' : '') +
+      '<li><span>🕒</span><div>Usually spends between <b>' + fmtH(hrs[0]) + ' and ' + fmtH(hrs[1]) + '</b></div></li>' +
+      '<li><span>📍</span><div>Usually spends around <b>' + escapeHtml(s.home) + '</b></div></li>' +
+      '<li><span>📏</span><div>Purchases over about <b>' + m0(hp.maxUsual) + '</b> are unusual for you</div></li>' +
+      '<li><span>🔁</span><div>Regulars: ' + hp.regular.map(function(r){ return '<em>' + escapeHtml(r) + '</em>'; }).join('') + '</div></li></ul>';
+    var facts = L.facts.length ? '<ul class="lp-facts">' + L.facts.slice(0, 6).map(function(f){ return '<li>✓ ' + escapeHtml(f.txt) + '</li>'; }).join('') + '</ul>' : '<div class="lp-empty">Nothing yet. When Wesley asks a quick question and you answer, it shows up here.</div>';
+    var checks = L.checks.length ? '<ul class="lp-facts">' + L.checks.slice(0, 4).map(function(c){ return '<li>🔐 ' + money(c.amount) + ' at ' + escapeHtml(merchantName(c.desc)) + ' · <b>' + escapeHtml(c.outcome === 'waiting' ? 'Waiting for you' : c.outcome) + '</b></li>'; }).join('') + '</ul>' : '<div class="lp-empty">No unusual activity spotted. Wesley checks every spend against your habits.</div>';
+    // Ideas based on how you spend
+    var txs = (user.transactions || []).filter(function(t){ var a = findAcct(t.acct); return a && a.mode === 'personal' && t.amount < 0; });
+    var travel = txs.filter(function(t){ return travelKind(t.desc); }).length || (hp.typical['Travel'] > 0 ? 1 : 0);
+    var big = txs.filter(function(t){ return -t.amount >= 1000 && !travelKind(t.desc); }).length;
+    var card = userCard(), ideas = [];
+    if (travel) ideas.push({ ic: '🧳', t: 'You travel', d: card && card.perks && card.perks.insurance === true ? 'Your ' + card.name + ' includes complimentary travel insurance when you meet the conditions.' : 'Travel insurance can help when plans change.', a: card && card.perks && card.perks.insurance === true ? ['Check card cover', LEARN_LINKS.cardCover] : ['Travel insurance', LEARN_LINKS.travelInsurance] });
+    if (travel && !(card && card.perks && card.perks.rewards)) ideas.push({ ic: '⭐', t: 'Earn points on travel', d: 'Some cards earn Qantas or Velocity points on everyday spending.', a: ['Rewards cards', LEARN_LINKS.rewardsCards] });
+    if (big) ideas.push({ ic: '🔮', t: 'Bigger purchases lately', d: 'Planning another? See what it would mean for your whole account first.', run: 'openWhatIf({type:\'big\'})' });
+    if ((user.subscriptions || []).length >= 3) ideas.push({ ic: '🔁', t: (user.subscriptions || []).length + ' subscriptions', d: 'Paying yearly can be cheaper on some of them.', run: 'openWesley(\'Should any subscriptions go annual?\')' });
+    var ideaHtml = ideas.length ? '<div class="lp-ideas">' + ideas.map(function(i){ return '<div class="lp-idea"><span>' + i.ic + '</span><div><b>' + escapeHtml(i.t) + '</b><p>' + escapeHtml(i.d) + '</p>' + (i.a ? '<a href="' + i.a[1] + '" target="_blank" rel="noopener">' + i.a[0] + ' ↗</a>' : '<button type="button" onclick="' + i.run + '">Take a look</button>') + '</div></div>'; }).join('') + '</div><div class="lp-fine">General information only, not a recommendation. Eligibility, terms and conditions apply.</div>' : '<div class="lp-empty">As Wesley learns more, ideas based on your spending show up here.</div>';
+    box.innerHTML = stats +
+      '<div class="lp-grid"><div><h4>What Wesley knows about your habits</h4>' + habits + '</div><div><h4>Things you\'ve told Wesley</h4>' + facts + '<h4 style="margin-top:16px">Unusual activity checks</h4>' + checks + '</div></div>' +
+      '<h4 style="margin-top:18px">Ideas based on how you spend</h4>' + ideaHtml +
+      '<div class="lp-demo"><span>Try it:</span><button type="button" onclick="learnDemo(\'flights\')">✈️ Book flights</button><button type="button" onclick="learnDemo(\'unusual\')">🔐 An unusual purchase</button><button type="button" class="ghost" onclick="learnReset()">Reset what Wesley learned</button></div>';
+  }
+  function learnDemo(kind){
+    var acct = (user.accounts || []).find(function(a){ return a.mode === 'personal' && a.kind === 'everyday'; }); if (!acct) return;
+    var tx = kind === 'flights' ? { desc: 'Qantas — flights Sydney to Bali', amount: '1240', time: '19:42' } : { desc: 'TECHMART ONLINE (USD)', amount: '899', time: '03:12' };
+    var page = (document.querySelector('.page:not([hidden])') || {}).getAttribute ? document.querySelector('.page:not([hidden])').getAttribute('data-page') : 'banksmart';
+    openTxModal(); setTxType('debit');
+    var sel = document.getElementById('txAccountSelect'); if (sel) sel.value = acct.id;
+    document.getElementById('txDesc').value = tx.desc; document.getElementById('txAmount').value = tx.amount;
+    var tm = document.getElementById('txTime'); if (tm) tm.value = tx.time;
+    var cat = document.getElementById('txCategory'); if (cat) cat.value = 'auto';
+    submitTransaction();
+    if (page) go(page);
+  }
+  function learnReset(){ user.learn = { facts: [], checks: [], moments: [], known: [], travelNotice: null, extra: 0 }; saveStore(); renderMoments(); renderLearning(); showToast('Wesley\'s learning has been reset for this profile'); }
+  function learnSummaryHtml(){
+    var hp = habitProfile(), L = lrn(), s = hp.seed;
+    return "Here's what I've learned from <strong>" + hp.learned + " of your transactions</strong> over " + hp.months + " months: you usually shop at " + escapeHtml(s.grocer || 'the supermarket') + ", spend between " + s.hours[0] + "am and " + (s.hours[1] - 12) + "pm around " + escapeHtml(s.home) + ", and anything over about " + money(hp.maxUsual) + " is unusual for you." + (L.facts.length ? " You've also told me: " + L.facts.slice(0, 3).map(function(f){ return escapeHtml(f.txt); }).join('; ') + "." : "") + " I use this to spot unusual activity faster, and to notice moments like booking a trip. It's only ever your own data, and you can reset it in BankSmart.";
+  }
+
+  // ---------- What if…? Future-proofing planner ----------
+  // Guided questions about a life or money change, then a whole-account check:
+  // income, home, bills, everyday living, debt, savings goals, safety net and a surprise-cost stress test.
+  var MONTHS = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+  function monthLabel(ym){
+    var p = (ym || '').split('-'); if (p.length < 2) return '';
+    return new Date(Number(p[0]), Number(p[1]) - 1, 1).toLocaleDateString('en-AU', { month: 'long', year: 'numeric' });
+  }
+  function defaultYm(monthsAhead){
+    var d = new Date(); d = new Date(d.getFullYear(), d.getMonth() + monthsAhead, 1);
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+  }
+  function monthsUntilYm(ym){
+    var p = (ym || '').split('-'); if (p.length < 2) return 0;
+    var now = new Date();
+    return Math.max(0, (Number(p[0]) - now.getFullYear()) * 12 + (Number(p[1]) - 1 - now.getMonth()));
+  }
+  function m0(n){ n = Math.round(Number(n) || 0); return (n < 0 ? '-$' : '$') + Math.abs(n).toLocaleString('en-AU'); }
+  function loanRepay(principal, ratePct, years){
+    if (principal <= 0) return 0;
+    var r = (ratePct || 0) / 1200, n = Math.max(1, years * 12);
+    return r ? principal * r / (1 - Math.pow(1 + r, -n)) : principal / n;
+  }
+  function loanCapacity(monthly, ratePct, years){
+    if (monthly <= 0) return 0;
+    var r = (ratePct || 0) / 1200, n = Math.max(1, years * 12);
+    return r ? monthly * (1 - Math.pow(1 + r, -n)) / r : monthly * n;
+  }
+
+  // A plain monthly picture of the signed-in customer
+  function fpProfile(){
+    var p = (user && user.finProfile) || {};
+    var spare = ((user && user.weeklySpare) || 80) * 52 / 12;
+    var plan = (user && user.savingsPlan) || [];
+    var goals = plan.filter(function(g){ return g.type === 'goal'; });
+    var buf = plan.find(function(g){ return g.id === 'buffer'; });
+    var goalsTotal = goals.reduce(function(a, g){ return a + (g.amount || 0); }, 0);
+    var owing = 0, term = 0, everyday = 0;
+    (user && user.accounts || []).forEach(function(a){
+      if (a.mode !== 'personal') return;
+      if (a.kind === 'credit') owing += balanceOf(a).owing || 0;
+      else if (a.kind === 'term') term += a.opening || 0;
+      else if (a.kind === 'everyday') everyday += balanceOf(a) || 0;
+    });
+    var income = p.income || 5000;
+    var pr = {
+      income: income, incomeLabel: p.incomeLabel || 'Take-home pay',
+      home: p.home || 0, homeLabel: p.homeLabel || 'Rent or mortgage',
+      bills: p.bills || 0, living: p.living || 0, debt: p.debt || 0, saving: p.saving || 0,
+      goals: goals, goalsTotal: goalsTotal, buffer: buf ? buf.amount : 0,
+      savings: goalsTotal + (buf ? buf.amount : 0), term: term, owing: owing, everyday: everyday
+    };
+    if (!p.income) pr.living = Math.max(0, income - pr.home - pr.bills - pr.debt - pr.saving - spare);
+    pr.left = pr.income - pr.home - pr.bills - pr.living - pr.debt - pr.saving;
+    pr.essentials = pr.home + pr.bills + pr.living + pr.debt;
+    return pr;
+  }
+
+  var FP_COMMON = [
+    { key: 'goals', type: 'choice', q: 'Would you keep saving into your current goals?',
+      show: function(){ return fpProfile().goals.length > 0; },
+      help: function(){ var p = fpProfile(); return 'Right now you put about ' + m0(p.saving) + ' a month into ' + p.goals.map(function(g){ return escapeHtml(g.name); }).join(', ') + '.'; },
+      opts: function(){ return [{ v: 'keep', ic: '🎯', l: 'Yes, keep them going' }, { v: 'pause', ic: '⏸️', l: 'Happy to pause them if needed', s: 'Only if the numbers need it' }]; }, def: 'keep' },
+    { key: 'safety', type: 'choice', q: 'How big a safety net would you like to keep?',
+      help: function(){ return 'This is money for surprises, like a car repair or a few weeks between jobs. Essentials are your home, bills, everyday living and repayments.'; },
+      opts: function(){ var e = fpAnalyseEssentials(); return [
+        { v: 1, ic: '🪺', l: '1 month of essentials', s: 'About ' + m0(e) },
+        { v: 3, ic: '🛟', l: '3 months of essentials', s: 'About ' + m0(e * 3) + ' · a common rule of thumb' },
+        { v: 6, ic: '🏰', l: '6 months of essentials', s: 'About ' + m0(e * 6) + ' · extra peace of mind' }]; }, def: 3 },
+    { key: 'extra', type: 'choice', q: 'Anything else changing in the next 12 months?',
+      opts: function(){ return [{ v: 'none', ic: '👌', l: 'Nothing else I know of' }, { v: 'raise', ic: '📈', l: 'Expecting a pay rise', s: 'We\'ll allow for about 3%' }, { v: 'bill', ic: '🧾', l: 'A big one-off cost coming up' }]; }, def: 'none' },
+    { key: 'extraAmt', type: 'money', q: 'Roughly how much is that one-off cost?', show: function(a){ return a.extra === 'bill'; },
+      chips: function(){ return [500, 1000, 2500, 5000]; }, def: 1000 }
+  ];
+  function fpAnalyseEssentials(){
+    var a = fp.a, p = fpProfile(), extra = 0;
+    if (fp.type === 'big' && a.pay !== 'savings') extra += loanRepay(a.price - (a.pay === 'mix' ? a.deposit || 0 : 0), a.rate, a.term);
+    if (fp.type === 'big') extra += a.running || 0;
+    if (fp.type === 'cost') extra += a.monthly || 0;
+    return p.essentials + extra;
+  }
+
+  var FP_TYPES = {
+    big: { ic: '🚗', t: 'Buy something big', d: 'A car, motorbike, furniture or a renovation', steps: [
+      { key: 'what', type: 'text', q: 'What are you thinking of buying?', chips: function(){ return ['Car', 'Motorbike', 'Furniture', 'Home renovation']; }, def: 'Car' },
+      { key: 'price', type: 'money', q: function(a){ return 'Roughly how much will the ' + escapeHtml(String(a.what || 'purchase').toLowerCase()) + ' cost?'; },
+        chips: function(a){ return /car/i.test(a.what) ? [15000, 25000, 35000, 50000] : [2000, 5000, 10000, 20000]; }, def: function(a){ return /car/i.test(a.what) ? 25000 : 5000; } },
+      { key: 'when', type: 'month', q: 'When would you like to buy it?', def: function(){ return defaultYm(3); } },
+      { key: 'pay', type: 'choice', q: 'How would you pay for it?', help: function(){ return 'You have about ' + m0(fpProfile().savings) + ' in savings, goals and your Buffer today.'; },
+        opts: function(){ return [{ v: 'savings', ic: '🐷', l: 'Pay with my savings' }, { v: 'loan', ic: '🏦', l: 'Take out a loan for all of it' }, { v: 'mix', ic: '⚖️', l: 'A deposit from savings, plus a loan' }]; }, def: 'mix' },
+      { key: 'deposit', type: 'money', q: 'How much would you put down from savings?', show: function(a){ return a.pay === 'mix'; },
+        help: function(){ return 'You have about ' + m0(fpProfile().savings) + ' saved today.'; },
+        chips: function(a){ return [0.1, 0.2, 0.3].map(function(f){ return Math.round(a.price * f / 100) * 100; }); }, def: function(a){ return Math.round(a.price * 0.2 / 100) * 100; } },
+      { key: 'term', type: 'choice', q: 'Over how many years would you repay the loan?', show: function(a){ return a.pay !== 'savings'; },
+        opts: function(){ return [3, 4, 5, 7].map(function(y){ return { v: y, ic: y <= 3 ? '⚡' : (y >= 7 ? '🐢' : '🗓️'), l: y + ' years', s: y <= 3 ? 'Higher repayments, less interest' : (y >= 7 ? 'Lower repayments, more interest' : '') }; }); }, def: 5 },
+      { key: 'rate', type: 'number', q: 'What interest rate are you looking at?', suffix: '% p.a.', show: function(a){ return a.pay !== 'savings'; },
+        help: function(){ return 'Not sure? Leave the example rate. If you have a quote, pop it in.'; }, chips: function(){ return [7.99, 9.99, 12.99]; }, def: 9.99 },
+      { key: 'running', type: 'money', q: 'Any ongoing costs once you have it, per month?', help: function(a){ return /car|motor|bike/i.test(a.what) ? 'For a car: rego, insurance, fuel and servicing usually add up to $250 to $500 a month.' : 'Things like insurance, upkeep or subscriptions. Leave it at $0 if none.'; },
+        chips: function(a){ return /car|motor|bike/i.test(a.what) ? [0, 250, 350, 500] : [0, 50, 100, 200]; }, def: function(a){ return /car/i.test(a.what) ? 350 : (/motor|bike/i.test(a.what) ? 200 : 0); } }
+    ] },
+    income: { ic: '💼', t: 'Change my income', d: 'Go part-time, start a new job or take time off', steps: [
+      { key: 'change', type: 'choice', q: 'What\'s changing?', opts: function(){ return [
+        { v: 'parttime', ic: '🌤️', l: 'Going part-time' }, { v: 'newjob', ic: '🧳', l: 'Starting a new job' }, { v: 'break', ic: '🍼', l: 'Taking time off', s: 'Career break, study or parental leave' }]; }, def: 'parttime' },
+      { key: 'when', type: 'month', q: 'When would this start?', def: function(){ return defaultYm(12); } },
+      { key: 'newIncome', type: 'money', q: function(a){ return a.change === 'break' ? 'What would you take home each month during the break?' : 'What would your take-home pay be each month?'; },
+        help: function(){ var p = fpProfile(); return 'Today you take home about ' + m0(p.income) + ' a month (' + escapeHtml(p.incomeLabel) + '). Use the shortcuts if you\'re not sure.'; },
+        chips: function(a){ var i = fpProfile().income, f = a.change === 'parttime' ? [[0.8, '4 days'], [0.6, '3 days'], [0.5, '2.5 days']] : (a.change === 'break' ? [[0, 'Nothing'], [0.3, 'Some paid leave'], [0.5, 'Half pay']] : [[1.1, '10% more'], [1, 'About the same'], [0.9, '10% less']]);
+          return f.map(function(x){ return { v: Math.round(i * x[0] / 10) * 10, l: x[1] }; }); },
+        def: function(a){ var i = fpProfile().income; return Math.round(i * (a.change === 'parttime' ? 0.6 : (a.change === 'break' ? 0 : 1)) / 10) * 10; } },
+      { key: 'length', type: 'choice', q: 'How long would the break be?', show: function(a){ return a.change === 'break'; },
+        opts: function(){ return [3, 6, 12].map(function(m){ return { v: m, ic: m === 3 ? '🌱' : (m === 6 ? '🌿' : '🌳'), l: m + ' months' }; }); }, def: 6 }
+    ] },
+    save: { ic: '🎯', t: 'Have a set amount by a date', d: 'A holiday, wedding, home deposit or emergency fund', steps: [
+      { key: 'what', type: 'text', q: 'What would the money be for?', chips: function(){ return ['Holiday', 'Wedding', 'Home deposit', 'Emergency fund', 'New baby']; }, def: 'Holiday' },
+      { key: 'amount', type: 'money', q: 'How much would you need?', chips: function(){ return [3000, 10000, 25000, 50000]; }, def: 5000 },
+      { key: 'when', type: 'month', q: 'By when?', def: function(){ return defaultYm(12); } },
+      { key: 'existing', type: 'money', q: 'How much of your current savings would you put towards it?', help: function(){ return 'You have about ' + m0(fpProfile().savings) + ' saved today. $0 is fine.'; }, chips: function(){ var s = fpProfile().savings; return [0, Math.round(s * 0.25 / 50) * 50, Math.round(s * 0.5 / 50) * 50]; }, def: 0 }
+    ] },
+    cost: { ic: '🏠', t: 'Take on a new regular cost', d: 'Moving house, childcare, a pet or higher rent', steps: [
+      { key: 'what', type: 'text', q: 'What\'s the new cost?', chips: function(){ return ['Moving out', 'Higher rent', 'Childcare', 'A new pet', 'Private school']; }, def: 'Childcare' },
+      { key: 'monthly', type: 'money', q: 'How much extra would it cost each month?', chips: function(){ return [150, 300, 600, 1000, 1600]; }, def: 600 },
+      { key: 'when', type: 'month', q: 'When would it start?', def: function(){ return defaultYm(3); } },
+      { key: 'upfront', type: 'money', q: 'Any upfront cost to get started?', help: function(){ return 'For example a rental bond, enrolment fees or setup costs. $0 is fine.'; }, chips: function(){ return [0, 500, 1500, 3000]; }, def: 0 }
+    ] }
+  };
+
+  var fp = { type: null, i: 0, a: {} };
+  function fpSteps(){
+    if (!fp.type) return [];
+    return FP_TYPES[fp.type].steps.concat(FP_COMMON).filter(function(s){ return !s.show || s.show(fp.a); });
+  }
+  function fpVal(f){ return typeof f === 'function' ? f(fp.a) : f; }
+
+  function openWhatIf(opts){
+    opts = opts || {};
+    fp = { type: opts.type && FP_TYPES[opts.type] ? opts.type : null, i: 0, a: {} };
+    document.getElementById('whatIfModal').hidden = false;
+    fpRender();
+  }
+  function closeWhatIf(){ document.getElementById('whatIfModal').hidden = true; }
+
+  function fpRender(){
+    var body = document.getElementById('fpBody'), bar = document.getElementById('fpBar');
+    if (!fp.type) {
+      bar.style.width = '4%';
+      body.innerHTML = '<div class="fp-intro">Thinking about a change? Pick what\'s on your mind. Wesley will ask a few quick questions, then look at your whole account (income, bills, spending, savings and goals) and tell you what it would mean for you.</div>' +
+        '<div class="fp-opts fp-type-opts">' + Object.keys(FP_TYPES).map(function(k){ var t = FP_TYPES[k];
+          return '<button type="button" class="fp-opt" onclick="fpPickType(\'' + k + '\')"><span class="fi">' + t.ic + '</span><b>' + t.t + '</b><span class="fs">' + t.d + '</span></button>'; }).join('') + '</div>';
+      return;
+    }
+    var steps = fpSteps();
+    if (fp.i >= steps.length) { fpReview(); return; }
+    var s = steps[fp.i];
+    if (fp.a[s.key] === undefined) fp.a[s.key] = fpVal(s.def);
+    bar.style.width = Math.round((fp.i + 1) / (steps.length + 1) * 100) + '%';
+    var v = fp.a[s.key], input = '';
+    if (s.type === 'choice') {
+      input = '<div class="fp-opts">' + s.opts(fp.a).map(function(o){
+        return '<button type="button" class="fp-opt' + (String(o.v) === String(v) ? ' on' : '') + '" onclick="fpChoose(\'' + s.key + '\',\'' + o.v + '\')"><span class="fi">' + (o.ic || '') + '</span><b>' + o.l + '</b>' + (o.s ? '<span class="fs">' + o.s + '</span>' : '') + '</button>';
+      }).join('') + '</div>';
+    } else {
+      var t = s.type === 'month' ? 'month' : (s.type === 'text' ? 'text' : 'number');
+      input = '<div class="fp-field">' + (s.type === 'money' ? '<span class="pre">$</span>' : '') +
+        '<input id="fpInput" type="' + t + '"' + (t === 'month' ? ' min="' + defaultYm(0) + '"' : '') + (t === 'number' ? ' min="0" step="any" inputmode="decimal"' : ' maxlength="40"') +
+        ' value="' + escapeHtml(String(v === undefined ? '' : v)) + '" onkeydown="if(event.key===\'Enter\'){event.preventDefault();fpNext();}">' +
+        (s.suffix ? '<span class="suf">' + s.suffix + '</span>' : '') + '</div>';
+      var chips = s.type === 'month' ? [3, 6, 12, 24].map(function(m){ return { v: defaultYm(m), l: 'In ' + m + ' months' }; }) : (s.chips ? s.chips(fp.a) : []);
+      if (chips.length) input += '<div class="fp-chips">' + chips.map(function(c){
+        var cv = typeof c === 'object' ? c.v : c, cl = typeof c === 'object' ? (s.type === 'money' ? m0(c.v) + ' · ' + c.l : c.l) : (s.type === 'money' ? m0(c) : (s.type === 'number' ? c + '%' : c));
+        return '<button type="button" onclick="fpSetInput(\'' + escapeHtml(String(cv)) + '\')">' + cl + '</button>'; }).join('') + '</div>';
+    }
+    body.innerHTML = '<div class="fp-step">Question ' + (fp.i + 1) + ' of ' + steps.length + ' · ' + FP_TYPES[fp.type].ic + ' ' + FP_TYPES[fp.type].t + '</div>' +
+      '<h3 class="fp-q">' + fpVal(s.q) + '</h3>' + (s.help ? '<div class="fp-help">' + s.help(fp.a) + '</div>' : '') + input +
+      '<div class="fp-nav"><button type="button" class="applybtn" onclick="fpBack()">Back</button>' +
+      (s.type === 'choice' ? '' : '<button type="button" class="signinbtn" onclick="fpNext()">Next</button>') + '</div>';
+    var inp = document.getElementById('fpInput'); if (inp) setTimeout(function(){ inp.focus(); }, 30);
+  }
+  function fpPickType(k){ fp.type = k; fp.i = 0; fpRender(); }
+  function fpChoose(key, v){ fp.a[key] = isNaN(Number(v)) ? v : Number(v); fp.i++; fpRender(); }
+  function fpSetInput(v){ var inp = document.getElementById('fpInput'); if (inp) { inp.value = v; inp.focus(); } }
+  function fpNext(){
+    var s = fpSteps()[fp.i], inp = document.getElementById('fpInput');
+    if (s && inp) {
+      var raw = (inp.value || '').trim();
+      if (s.type === 'money' || s.type === 'number') { var n = parseFloat(raw.replace(/[$,]/g, '')); if (isNaN(n) || n < 0) { inp.classList.add('err'); return; } fp.a[s.key] = n; }
+      else if (s.type === 'month') { if (!/^\d{4}-\d{2}$/.test(raw)) { inp.classList.add('err'); return; } fp.a[s.key] = raw; }
+      else { if (!raw) { inp.classList.add('err'); return; } fp.a[s.key] = raw; }
+    }
+    fp.i++; fpRender();
+  }
+  function fpBack(){ if (fp.i === 0) { fp.type = null; } else fp.i--; fpRender(); }
+
+  // ---- The whole-account assessment ----
+  function fpAnalyse(type, a){
+    var p = fpProfile(), r = { type: type, a: a, p: p };
+    var monthsTo = monthsUntilYm(a.when);
+    var inc2 = p.income, home2 = p.home, bills2 = p.bills, living2 = p.living, debt2 = p.debt, saving2 = p.saving, newCost = 0, newLabel = '', upfront = 0, temp = 0, label = '';
+    if (type === 'big') {
+      var borrow = a.pay === 'savings' ? 0 : Math.max(0, a.price - (a.pay === 'mix' ? (a.deposit || 0) : 0));
+      upfront = a.pay === 'savings' ? a.price : (a.pay === 'mix' ? (a.deposit || 0) : 0);
+      r.borrow = borrow; r.repay = loanRepay(borrow, a.rate, a.term); r.interest = r.repay * a.term * 12 - borrow;
+      debt2 += r.repay; newCost = a.running || 0; newLabel = 'Running costs';
+      label = 'buying a ' + m0(a.price) + ' ' + String(a.what).toLowerCase() + ' in ' + monthLabel(a.when) + (borrow ? ' with a ' + m0(borrow) + ' loan over ' + a.term + ' years' : ' with your savings');
+    } else if (type === 'income') {
+      inc2 = a.newIncome; if (a.change === 'break') temp = a.length || 6;
+      label = (a.change === 'parttime' ? 'going part-time' : (a.change === 'break' ? 'taking ' + temp + ' months off' : 'starting a new job')) + ' from ' + monthLabel(a.when) + ' on ' + m0(a.newIncome) + ' a month';
+    } else if (type === 'save') {
+      var need = Math.max(0, a.amount - (a.existing || 0)), mths = Math.max(1, monthsTo);
+      upfront = a.existing || 0; newCost = need / mths; newLabel = 'Saving for ' + String(a.what).toLowerCase(); temp = mths; r.saveMonthly = newCost;
+      label = 'having ' + m0(a.amount) + ' for ' + String(a.what).toLowerCase() + ' by ' + monthLabel(a.when);
+    } else if (type === 'cost') {
+      newCost = a.monthly; newLabel = a.what; upfront = a.upfront || 0;
+      label = 'taking on ' + String(a.what).toLowerCase() + ' at ' + m0(a.monthly) + ' a month from ' + monthLabel(a.when);
+    }
+    if (a.extra === 'raise') inc2 = inc2 * 1.03;
+    if (a.extra === 'bill') upfront += a.extraAmt || 0;
+    var left2 = inc2 - home2 - bills2 - living2 - debt2 - saving2 - newCost;
+    r.goalsPaused = false;
+    if (left2 < 0 && a.goals === 'pause' && saving2 > 0) { left2 += saving2; saving2 = 0; r.goalsPaused = true; }
+    r.label = label; r.monthsTo = monthsTo; r.temp = temp; r.upfront = upfront; r.newCost = newCost; r.newLabel = newLabel;
+    r.today = { inc: p.income, home: p.home, bills: p.bills, living: p.living, debt: p.debt, saving: p.saving, newc: 0, left: p.left };
+    r.after = { inc: inc2, home: home2, bills: bills2, living: living2, debt: debt2, saving: saving2, newc: newCost, left: left2 };
+    r.essentials = home2 + bills2 + living2 + debt2 + (type === 'save' ? 0 : newCost);
+    r.safetyTarget = (a.safety || 3) * r.essentials;
+    r.prepPlanned = a.prepSave && monthsTo > 0 && p.left > 0 ? p.left * monthsTo : 0;
+    r.savingsAfter = p.savings + r.prepPlanned - upfront;
+    r.shortfall = left2 < 0 ? (temp ? -left2 * temp : Infinity) : 0;
+    r.savingsEnd = left2 < 0 && temp ? r.savingsAfter + left2 * temp : r.savingsAfter;
+    r.runway = left2 < 0 && !temp ? Math.max(0, r.savingsAfter / -left2) : null;
+    r.cover = r.essentials > 0 ? Math.max(0, r.savingsEnd) / r.essentials : 0;
+    r.cushion = Math.min(250, Math.max(100, inc2 * 0.03));
+    r.prep = Math.max(0, p.left) * monthsTo;
+    // Verdict
+    r.verdict = 'tight';
+    if (r.savingsAfter < 0 || (left2 < 0 && !temp) || (temp && r.savingsEnd < 0)) r.verdict = 'no';
+    // The change shouldn't eat into a safety net that's already below target, or push it below target
+    r.netBelowToday = p.savings < r.safetyTarget;
+    r.safetyOk = r.savingsEnd >= r.safetyTarget || r.savingsEnd >= p.savings - 1;
+    if (r.verdict !== 'no' && left2 >= r.cushion && r.safetyOk) r.verdict = 'ok';
+    // Would putting today's spare money aside until then fix it?
+    r.prepFixes = !a.prepSave && r.verdict !== 'ok' && monthsTo > 0 && left2 >= 0 && r.savingsAfter >= 0 && (r.savingsEnd + r.prep) >= r.safetyTarget;
+    // Surprise cost stress test (overspend built in)
+    r.shock = Math.max(1000, Math.round(inc2 * 0.2 / 100) * 100);
+    r.afterShock = r.savingsEnd - r.shock;
+    try { var bc = billCoverPlan(Math.min(r.shock, Math.max(0, p.savings))); r.shockFrom = bc.from; } catch (e) { r.shockFrom = ''; }
+    // Ideas
+    r.ideas = fpIdeas(r);
+    return r;
+  }
+
+  function fpIdeas(r){
+    var a = r.a, p = r.p, ideas = [];
+    var fix = function(key, val, txt){ ideas.push({ key: key, val: val, txt: txt }); };
+    var need = Math.max(0, r.safetyTarget - r.savingsEnd);
+    if (r.type === 'big' && r.borrow) {
+      var alt = a.term < 7 ? 7 : 5, altRepay = loanRepay(r.borrow, a.rate, alt), altInt = altRepay * alt * 12 - r.borrow;
+      if (r.after.left < r.cushion && alt > a.term) fix('term', alt, 'Spread it over <strong>' + alt + ' years</strong>: about ' + m0(altRepay) + ' a month instead of ' + m0(r.repay) + ', though you\'d pay around ' + m0(altInt) + ' in interest in total.');
+      var room = p.left - (a.running || 0) - r.cushion;
+      var cap = Math.floor(loanCapacity(room, a.rate, a.term) / 500) * 500 + (a.pay === 'mix' ? Math.min(a.deposit || 0, Math.max(0, p.savings)) : 0);
+      if (r.verdict !== 'ok' && cap >= a.price * 0.3 && cap < a.price) fix('price', cap, 'A ' + escapeHtml(String(a.what).toLowerCase()) + ' around <strong>' + m0(cap) + '</strong> keeps your repayments comfortable on the same loan.');
+      else if (r.verdict !== 'ok' && (a.running || 0) > 0 && room < 0) ideas.push({ txt: 'Running costs of ' + m0(a.running) + ' a month use a big share of your spare ' + m0(p.left) + '. A cheaper-to-run option (smaller, used or more fuel efficient) could make the biggest difference.' });
+    }
+    if (r.savingsAfter < 0 && p.left > 0) {
+      var short = r.upfront - p.savings, wm = Math.ceil(short / p.left);
+      ideas.push({ set: { when: defaultYm(Math.max(wm, r.monthsTo)), prepSave: true }, txt: 'Save the extra <strong>' + m0(short) + '</strong> first. Putting aside your spare ' + m0(p.left) + ' a month gets you there by about <strong>' + monthLabel(defaultYm(wm)) + '</strong>.' });
+    }
+    if (r.savingsAfter < 0 && p.term > 0) ideas.push({ txt: 'You also have <strong>' + m0(p.term) + '</strong> in a term deposit. Once it matures it could cover the upfront cost, so timing it then could work well.' });
+    if (r.type === 'big' && !r.borrow && r.savingsAfter >= 0 && r.savingsAfter < r.safetyTarget) {
+      var gap = r.safetyTarget - r.savingsAfter, mths = p.left > 0 ? Math.ceil(gap / p.left) : 0;
+      if (mths) ideas.push({ set: { when: defaultYm(Math.max(mths, r.monthsTo)), prepSave: true }, txt: 'Wait until <strong>' + monthLabel(defaultYm(mths)) + '</strong> and keep saving your spare ' + m0(p.left) + ' a month, so you still have a full safety net after buying.' });
+      fix('pay', 'mix', 'Use a <strong>smaller deposit plus a loan</strong> so you don\'t empty your savings.');
+    }
+    if (r.type === 'income') {
+      if (need > 0 && r.monthsTo > 0) { var per = need / r.monthsTo; ideas.push({ txt: 'Build up <strong>' + m0(need) + '</strong> more before ' + monthLabel(a.when) + '. That\'s about ' + m0(per) + ' a month from now' + (per <= p.left ? ', which fits in what you have spare today 👍' : ', which is more than you have spare today, so a later start date may help.') }); }
+      if (r.after.left < 0) ideas.push({ txt: 'Find about <strong>' + m0(-r.after.left + r.cushion) + ' a month</strong> to keep things balanced, for example by trimming everyday spending (' + m0(p.living) + ' a month today) or switching subscriptions to annual.' });
+      if (a.change === 'parttime' && r.verdict !== 'ok') fix('newIncome', Math.round(p.income * 0.8 / 10) * 10, 'Try <strong>4 days</strong> a week (about ' + m0(p.income * 0.8) + ' a month) as a first step.');
+      if (r.verdict !== 'ok' && r.monthsTo < 24) fix('when', defaultYm(r.monthsTo + 6), 'Start <strong>6 months later</strong> (' + monthLabel(defaultYm(r.monthsTo + 6)) + ') to give your safety net time to grow.');
+    }
+    if (r.type === 'save' && r.verdict !== 'ok') {
+      var comfy = Math.max(0, p.left - r.cushion);
+      if (comfy > 0) { var m = Math.ceil(Math.max(0, a.amount - (a.existing || 0)) / comfy); fix('when', defaultYm(Math.max(m, 1)), 'Aim for <strong>' + monthLabel(defaultYm(m)) + '</strong> instead. That\'s about ' + m0(comfy) + ' a month, which fits comfortably.'); }
+      if (comfy > 0 && r.monthsTo > 0) { var amt = Math.floor((comfy * r.monthsTo + (a.existing || 0)) / 100) * 100; if (amt > 0 && amt < a.amount) fix('amount', amt, 'Or keep the date and aim for <strong>' + m0(amt) + '</strong>.'); }
+    }
+    if (r.type === 'cost' && r.verdict !== 'ok') {
+      if (r.after.left < 0) ideas.push({ txt: 'You\'d need to free up about <strong>' + m0(-r.after.left + r.cushion) + ' a month</strong>. Everyday spending (' + m0(p.living) + ' a month) is usually the easiest place to start.' });
+      if (need > 0 && r.monthsTo > 0 && need / r.monthsTo <= p.left) ideas.push({ txt: 'Put aside about <strong>' + m0(need / r.monthsTo) + ' a month</strong> until ' + monthLabel(a.when) + ' so your safety net is ready when it starts.' });
+      if (r.upfront > 0 && r.monthsTo > 0 && r.upfront / r.monthsTo <= p.left) ideas.push({ txt: 'Set aside <strong>' + m0(r.upfront / r.monthsTo) + ' a month</strong> from now for the ' + m0(r.upfront) + ' upfront cost, so it doesn\'t come out of your savings.' });
+    }
+    if (r.prepFixes) ideas.unshift({ set: { prepSave: true }, txt: '✨ <strong>You have ' + r.monthsTo + ' months to get ready.</strong> If you set aside your spare ' + m0(p.left) + ' a month until then, you\'d have about ' + m0(r.prep) + ' extra, enough to keep a full safety net.' });
+    if (!r.goalsPaused && a.goals === 'keep' && r.after.left < 0 && p.saving > 0) ideas.push({ txt: 'Pausing your goal saving (' + m0(p.saving) + ' a month) for a while would help balance things.', key: 'goals', val: 'pause' });
+    return ideas;
+  }
+
+  function fpReview(){
+    var body = document.getElementById('fpBody'); document.getElementById('fpBar').style.width = '100%';
+    var checks = ['Income coming in', 'Home and bills', 'Everyday spending', 'Card and repayments', 'Savings and goals', 'Safety net', 'Surprise-cost stress test'];
+    body.innerHTML = '<div class="fp-review"><div class="fp-spin">🔮</div><h3 class="fp-q">Wesley is looking at your whole account…</h3><ul>' + checks.map(function(c, i){ return '<li style="animation-delay:' + (i * 150) + 'ms">✓ ' + c + '</li>'; }).join('') + '</ul></div>';
+    setTimeout(function(){ if (!document.getElementById('whatIfModal').hidden) fpShowResult(); }, 1300);
+  }
+
+  function fpShowResult(){
+    var r = fpAnalyse(fp.type, fp.a); fp.r = r;
+    var p = r.p, a = r.a, t = r.today, af = r.after;
+    var head = r.verdict === 'ok' ? '✅ This works for you' : (r.verdict === 'tight' ? '🟡 Doable, with a few changes' : '🌱 Not quite yet, but there\'s a path');
+    var summary = 'Here\'s what ' + escapeHtml(r.label) + ' would look like for you' + (r.prepPlanned ? ', if you put aside your spare ' + m0(p.left) + ' a month until then (about ' + m0(r.prepPlanned) + ')' : '') + '. ';
+    if (r.verdict === 'ok') summary += 'You\'d still have about <strong>' + m0(af.left) + ' a month</strong> left over and a healthy safety net. Nice planning!';
+    else if (r.verdict === 'tight') summary += af.left >= 0 ? 'It balances, with about ' + m0(af.left) + ' a month left over' + (r.safetyOk ? ', which doesn\'t leave much room for surprises.' : ', but your safety net would be thinner than you\'d like.') + ' A small tweak or two would make it feel much easier.' : 'For ' + r.temp + ' months you\'d spend about ' + m0(-af.left) + ' more than comes in, which your savings can cover. Your safety net would be thinner afterwards, so a little preparation goes a long way.';
+    else if (r.savingsAfter < 0) summary += 'It would need about ' + m0(r.upfront) + ' upfront, which is more than you have saved today (' + m0(p.savings) + ')' + (af.left < 0 ? ', and your regular costs would be about ' + m0(-af.left) + ' a month more than comes in' : '') + '. That\'s completely normal for a bigger step, and the ideas below show a few ways to get there.';
+    else if (af.left < 0 && !r.temp) summary += 'Your regular costs would be about <strong>' + m0(-af.left) + ' a month more</strong> than comes in. Your savings would cover that for about ' + Math.floor(r.runway) + ' months, so it\'s worth adjusting the plan first. Here are some ways to get there.';
+    else summary += 'Over ' + r.temp + ' months the gap would be about ' + m0(-af.left * r.temp) + ', more than your savings can cover. The ideas below can help close it.';
+    var row = function(lbl, x, y, cls){ return '<tr' + (cls ? ' class="' + cls + '"' : '') + '><td>' + lbl + '</td><td>' + m0(x) + '</td><td>' + m0(y) + (Math.round(x) !== Math.round(y) ? ' <i class="' + (y > x === (cls === 'in' || cls === 'tot') ? 'up' : 'dn') + '">' + (y > x ? '▲' : '▼') + '</i>' : '') + '</td></tr>'; };
+    var table = '<table class="fp-table"><thead><tr><th>Each month</th><th>Today</th><th>With this change</th></tr></thead><tbody>' +
+      row('💰 ' + escapeHtml(p.incomeLabel), t.inc, af.inc, 'in') +
+      (p.home ? row('🏠 ' + escapeHtml(p.homeLabel), t.home, af.home) : '') + row('🧾 Bills', t.bills, af.bills) + row('🛒 Everyday living', t.living, af.living) +
+      row('💳 Repayments' + (r.borrow ? ' (incl. new loan)' : ''), t.debt, af.debt) + (r.newCost ? row('➕ ' + escapeHtml(r.newLabel), 0, af.newc) : '') +
+      row('🎯 Saving into goals' + (r.goalsPaused ? ' (paused)' : ''), t.saving, af.saving) +
+      row('Left over', t.left, af.left, 'tot') + '</tbody></table>';
+    var safety = '<div class="fp-cards">' +
+      '<div class="fp-card"><div class="k">Savings today</div><div class="v">' + m0(p.savings) + '</div><div class="s">Goals ' + m0(p.goalsTotal) + ' · Buffer ' + m0(p.buffer) + (p.term ? ' · plus ' + m0(p.term) + ' in a term deposit' : '') + '</div></div>' +
+      '<div class="fp-card"><div class="k">' + (r.temp && af.left < 0 ? 'Savings after ' + r.temp + ' months' : 'Savings after the change') + '</div><div class="v' + (r.savingsEnd < 0 ? ' bad' : '') + '">' + m0(r.savingsEnd) + '</div><div class="s">' + (r.upfront ? m0(r.upfront) + ' used upfront' : 'Nothing needed upfront') + '</div></div>' +
+      '<div class="fp-card"><div class="k">Safety net</div><div class="v' + (r.cover >= (a.safety || 3) ? ' good' : '') + '">' + (r.cover >= 12 ? '12+' : r.cover.toFixed(1)) + ' months</div><div class="s">of essentials covered · you wanted ' + (a.safety || 3) + '</div></div></div>';
+    var stress = '<div class="fp-stress"><b>🧪 Stress test: a surprise ' + m0(r.shock) + ' cost</b><br>' + (r.afterShock >= r.essentials
+      ? 'You\'d be okay. After paying it you\'d still have about ' + m0(r.afterShock) + ' saved, around ' + (r.afterShock / r.essentials).toFixed(1) + ' months of essentials.'
+      : (r.afterShock >= 0 ? 'You could cover it, but it would leave only about ' + m0(r.afterShock) + ' saved, less than a month of essentials.' : 'It would be more than your savings could cover at that point, by about ' + m0(-r.afterShock) + '.')) +
+      ' If a surprise ever does push you over, 🛡️ <strong>Bill cover</strong> tops your bills back up' + (r.shockFrom ? ' (today it would use ' + escapeHtml(r.shockFrom) + ')' : '') + ' so nothing bounces, then helps you refill.</div></div></div>';
+    var goals = p.goals.length ? '<div class="fp-sec">🎯 Your goals</div><ul class="fp-list">' + p.goals.map(function(g){
+      var st = r.goalsPaused ? '⏸️ Paused while things settle' : (af.left < 0 ? '🐢 Would slow down' : '✓ Stays on track');
+      if (r.upfront > p.buffer && !r.goalsPaused && r.upfront > 0) st += ' · some of the upfront money would come from here';
+      return '<li><b>' + escapeHtml(g.name) + '</b> (' + m0(g.amount) + ' of ' + m0(g.target) + '): ' + st + '</li>'; }).join('') + '</ul>' : '';
+    var can = [], cant = [];
+    if (af.left >= 0) can.push('Cover your home, bills, everyday living and repayments each month'); else cant.push('Cover all your regular costs from income alone' + (r.temp ? ' during those ' + r.temp + ' months' : ''));
+    if (r.savingsAfter >= 0) can.push(r.upfront ? 'Pay the ' + m0(r.upfront) + ' upfront from savings' : 'Get started without dipping into savings'); else cant.push('Pay the ' + m0(r.upfront) + ' upfront from today\'s savings');
+    if (r.savingsEnd >= r.safetyTarget) can.push('Keep the ' + (a.safety || 3) + '-month safety net you asked for');
+    else if (r.safetyOk) can.push('Keep your savings where they are today, without dipping into them');
+    else cant.push('Keep your safety net where it is without some preparation');
+    if (!r.goalsPaused && af.left >= 0 && af.saving > 0) can.push('Keep saving into your goals');
+    if (r.borrow) can.push('Repay the loan at about ' + m0(r.repay) + ' a month (around ' + m0(r.interest) + ' interest over ' + a.term + ' years at ' + a.rate + '% p.a.)');
+    var lists = '<div class="fp-two"><div><div class="fp-sec">👍 What can happen</div><ul class="fp-list">' + (can.length ? can.map(function(x){ return '<li>' + x + '</li>'; }).join('') : '<li>Not much yet without changes, and that\'s okay</li>') + '</ul></div>' +
+      (cant.length ? '<div><div class="fp-sec">🧩 What would need to change</div><ul class="fp-list">' + cant.map(function(x){ return '<li>' + x + '</li>'; }).join('') + '</ul></div>' : '') + '</div>';
+    var ideas = r.ideas.length ? '<div class="fp-sec">💡 Ideas to make it work</div><div class="fp-ideas">' + r.ideas.map(function(x, i){
+      return '<div class="fp-idea"><div>' + x.txt + '</div>' + ((x.key || x.set) ? '<button type="button" onclick="fpTryIdea(' + i + ')">Try this</button>' : '') + '</div>'; }).join('') + '</div>' : '';
+    var options = (r.borrow || r.verdict === 'no') ? '<div class="wi-alts"><h5>' + (r.borrow ? 'Looking into a loan?' : 'Other ways to fund it') + '</h5><div class="wi-alt">Borrowing comes with interest and repayments, so it\'s worth comparing with saving a little longer. If you\'d like to look into it, here\'s where to start.' +
+      '<br><button type="button" onclick="var l=this.nextElementSibling;l.hidden=!l.hidden;this.textContent=l.hidden?\'See options\':\'Hide options\'">See options</button><div hidden style="margin-top:8px">' + wiOptionsList() + '<div class="fine">' + WI_FINE + '</div></div></div></div>' : '';
+    document.getElementById('fpBody').innerHTML =
+      '<div class="wi-result ' + (r.verdict === 'ok' ? 'ok' : r.verdict === 'tight' ? 'tight' : 'no') + '"><div class="wv">' + head + '</div>' + summary + '</div>' +
+      '<div class="fp-grid"><div><div class="fp-sec">📊 Your month, side by side</div>' + table + '</div><div>' +
+      '<div class="fp-sec">🛟 Savings and safety net</div>' + safety +
+      (r.netBelowToday ? '<div class="fp-help" style="margin:8px 0 0">💡 Your safety net is a little under your ' + (a.safety || 3) + '-month goal today (' + m0(r.safetyTarget) + '), so building it up is worth doing whatever you decide. Your spare ' + m0(p.left) + ' a month is a great place to start.</div>' : '') + stress + goals + lists + ideas + options +
+      '<div class="fp-fine">Based on your Westpac accounts and the answers you gave. Example figures only. This is general information to help you think it through, not financial advice. Wesley can\'t tell you whether you\'d be approved for credit.</div>' +
+      '<div class="fp-nav"><button type="button" class="applybtn" onclick="fp.i=0;fpRender()">Change my answers</button><button type="button" class="applybtn" onclick="openWhatIf()">Try another what if</button><button type="button" class="signinbtn" onclick="fpMakePlan()">Make it a plan</button></div>';
+    document.getElementById('fpBody').scrollTop = 0;
+    var box = document.querySelector('#whatIfModal .modal-box'); if (box) box.scrollTop = 0;
+  }
+  function fpTryIdea(i){ var x = fp.r && fp.r.ideas[i]; if (!x || !(x.key || x.set)) return; if (x.set) Object.keys(x.set).forEach(function(k){ fp.a[k] = x.set[k]; }); else fp.a[x.key] = x.val; fpReview(); }
+
+  function fpMakePlan(){
+    var r = fp.r; if (!r || !user) return;
+    var a = r.a, name, target, ym = a.when, note;
+    if (r.type === 'big') { name = (/car/i.test(a.what) ? '🚗 ' : '🛍️ ') + a.what + ' fund'; target = a.pay === 'savings' ? a.price + Math.max(0, r.safetyTarget - (r.p.savings - a.price)) : Math.max(a.deposit || 0, 1000); }
+    else if (r.type === 'income') { name = '🛟 Safety net for ' + (a.change === 'parttime' ? 'part-time' : (a.change === 'break' ? 'time off' : 'a new job')); target = Math.max(r.safetyTarget, 1000); }
+    else if (r.type === 'save') { name = '🎯 ' + a.what; target = a.amount; }
+    else { name = '🛟 Buffer for ' + String(a.what).toLowerCase(); target = Math.max(a.monthly * 3 + (a.upfront || 0), 500); }
+    target = Math.round(target / 50) * 50;
+    var mths = Math.max(1, r.monthsTo || 12);
+    user.savingsPlan.push({ id: 'goal_' + Date.now(), name: name, type: 'goal', amount: 0, target: target, targetDate: monthLabel(ym), color: '#7e22ce', note: 'Saving ' + m0(target / mths) + '/month', fixed: false });
+    ensureUserBSSettings(user); saveStore(); renderAll();
+    showToast('🎯 Added "' + name + '": ' + m0(target) + ' by ' + monthLabel(ym));
+    closeWhatIf(); go('banksmart');
+    return name;
+  }
+  // What kind of what-if is someone asking Wesley about?
+  function fpTypeFromText(t){
+    if (/part.?time|new job|change (my )?(job|income|hours)|career break|parental|maternity|paternity|time off|quit|study|reduce (my )?hours|retire/.test(t)) return 'income';
+    if (/car|ute|motorbike|bike|loan|buy a|furniture|renovat|boat|caravan/.test(t)) return 'big';
+    if (/childcare|rent (goes|going) up|higher rent|move out|moving out|move house|pet|dog|cat|school fees|new (regular )?cost|gym/.test(t)) return 'cost';
+    if (/save|saving|deposit|wedding|holiday|trip|travel|emergency fund|baby|have \$|need \$/.test(t)) return 'save';
+    return null;
+  }
+
+  // Other ways to fund it — links out to product pages, no eligibility claims
+  var WI_OPTIONS = [
+    { icon: '💳', name: 'Credit cards', blurb: 'Low rate, low fee and rewards cards, with features and costs side by side', url: 'https://www.westpac.com.au/credit-cards' },
+    { icon: '🏦', name: 'Personal loans', blurb: 'Fixed repayments and a set end date, for bigger plans', url: 'https://www.westpac.com.au/personal-loans' },
+    { icon: '🐷', name: 'Savings accounts', blurb: 'Ways to grow your trip fund faster with bonus interest', url: 'https://www.westpac.com.au/bank-accounts/savings-accounts/' }
+  ];
+  function wiOptionsList(){
+    return WI_OPTIONS.map(function(o){ return '<a href="' + o.url + '" target="_blank" rel="noopener" style="display:block;padding:7px 0;border-top:1px solid #eef1f5;color:var(--navy);text-decoration:none"><strong>' + o.icon + ' ' + o.name + ' ↗</strong><br><span style="font-size:12px;color:var(--muted)">' + o.blurb + '</span></a>'; }).join('');
+  }
+  var WI_FINE = 'General information only, not a recommendation. Seeing these options doesn\'t mean you\'d be approved, and there\'s no pressure to apply.';
 
   // ==========================================
   // NOTIFICATIONS SCREEN, RULE ENGINE & BUSINESS APPROVALS
@@ -3708,19 +4855,6 @@
     return pBox;
   }
 
-  function getActiveNotifSettingsContainer(){
-    var activeModeEl = document.querySelector('.mode:not([hidden])');
-    var modeName = activeModeEl ? activeModeEl.getAttribute('data-mode') : 'personal';
-    var pBox = document.getElementById('personalNotifSettingsContainer');
-    var bBox = document.getElementById('businessNotifSettingsContainer');
-    if (modeName === 'business') {
-      if (pBox) pBox.innerHTML = '';
-      return bBox;
-    }
-    if (bBox) bBox.innerHTML = '';
-    return pBox;
-  }
-
   function readRuleBuilderForm(){
     var catEl = document.getElementById('nrCategory');
     var catCustomEl = document.getElementById('nrCategoryCustom');
@@ -3795,100 +4929,10 @@
   }
 
   function renderNotificationsPage(){
-    renderInboxFeedPage();
-    renderNotificationSettingsPage();
-    updateNotifBadge();
-  }
-
-  function renderInboxFeedPage(){
     if (!user) return;
     ensureUserNotifications(user);
     updateNotifBadge();
     var container = getActiveInboxContainer();
-    if (!container) return;
-
-    var n = user.notifications;
-    var unreadCount = (n.inbox || []).filter(function(m){ return m.unread; }).length;
-
-    var headerHtml = '<div class="bs-header-row" style="margin-bottom:14px">' +
-      '<div class="pagehead" style="margin:0"><h1>Notifications</h1><span class="tag" style="background:' + (unreadCount ? 'var(--soft);color:var(--brand)' : '#f1f1f1;color:var(--muted)') + '">' + unreadCount + ' unread</span></div>' +
-      '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">' +
-        '<button type="button" class="bs-settings-btn" onclick="go(\'notif-settings\')">⚙ Notification settings &amp; rules</button>' +
-        '<button type="button" class="bs-settings-btn" onclick="go(\'overview\')">← Back to accounts</button>' +
-      '</div>' +
-    '</div>';
-
-    var inboxFilterPills = [
-      { id: 'all', label: 'All (' + (n.inbox || []).length + ')' },
-      { id: 'unread', label: 'Unread (' + unreadCount + ')' },
-      { id: 'rules', label: 'Rules & Spend' },
-      { id: 'goals', label: 'Goals' }
-    ];
-    if (user.hasBusiness) {
-      inboxFilterPills.push({ id: 'approvals', label: 'Business Approvals' });
-    }
-
-    var filteredInbox = (n.inbox || []).filter(function(m){
-      if (notifInboxFilter === 'unread') return m.unread;
-      if (notifInboxFilter === 'rules') return m.category === 'rule' || m.category === 'debit' || m.category === 'credit';
-      if (notifInboxFilter === 'goals') return m.category === 'goal';
-      if (notifInboxFilter === 'approvals') return m.category === 'approval';
-      return true;
-    });
-
-    var inboxFeedHtml = '<div class="panelbox">' +
-      '<div class="inbox-filter-bar">' +
-        '<div class="inbox-filter-pills">' +
-          inboxFilterPills.map(function(fp){
-            return '<button type="button" class="inbox-filter-pill' + (notifInboxFilter === fp.id ? ' active' : '') + '" data-ifilter="' + fp.id + '">' + fp.label + '</button>';
-          }).join('') +
-        '</div>' +
-        (unreadCount > 0 ? '<button type="button" class="notif-mini-btn" id="markAllReadBtn">Mark all read</button>' : '') +
-      '</div>';
-
-    if (filteredInbox.length === 0) {
-      inboxFeedHtml += '<div style="font-size:13.5px;color:var(--muted);padding:28px;text-align:center;border:1px dashed var(--line2);border-radius:8px">No notifications in this view.</div>';
-    } else {
-      inboxFeedHtml += '<div class="inbox-feed">' + filteredInbox.map(function(m){
-        return '<div class="inbox-row' + (m.unread ? ' unread' : '') + '">' +
-          '<div class="inbox-dot' + (m.unread ? '' : ' read') + '"></div>' +
-          '<div class="inbox-body">' +
-            '<div class="inbox-title">' + escapeHtml(m.title) + ' ' + formatChannelsSentHtml(m.channelsSent) + '</div>' +
-            '<div class="inbox-desc">' + escapeHtml(m.body) + '</div>' +
-            '<div class="inbox-meta">' +
-              '<span>' + escapeHtml(m.date) + '</span>' +
-              (m.actionLabel ? '<a class="inbox-action-link" data-action-msg="' + m.id + '">' + escapeHtml(m.actionLabel) + ' ›</a>' : '') +
-              '<a style="color:var(--muted);cursor:pointer;margin-left:auto" data-toggle-msg="' + m.id + '">' + (m.unread ? 'Mark read' : 'Mark unread') + '</a>' +
-            '</div>' +
-          '</div>' +
-        '</div>';
-      }).join('') + '</div>';
-    }
-    inboxFeedHtml += '</div>';
-
-    container.innerHTML = headerHtml + inboxFeedHtml;
-
-    container.querySelectorAll('[data-ifilter]').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        notifInboxFilter = btn.getAttribute('data-ifilter');
-        renderInboxFeedPage();
-      });
-    });
-    var markAllBtn = document.getElementById('markAllReadBtn');
-    if (markAllBtn) markAllBtn.addEventListener('click', markAllInboxRead);
-    container.querySelectorAll('[data-toggle-msg]').forEach(function(lnk){
-      lnk.addEventListener('click', function(){ markInboxItemRead(lnk.getAttribute('data-toggle-msg'), true); });
-    });
-    container.querySelectorAll('[data-action-msg]').forEach(function(lnk){
-      lnk.addEventListener('click', function(){ openInboxAction(lnk.getAttribute('data-action-msg')); });
-    });
-  }
-
-  function renderNotificationSettingsPage(){
-    if (!user) return;
-    ensureUserNotifications(user);
-    updateNotifBadge();
-    var container = getActiveNotifSettingsContainer();
     if (!container) return;
 
     var n = user.notifications;
@@ -3897,6 +4941,7 @@
     var biz = n.businessEvents;
     var cards = getUserCardOptions(user);
     var goals = getUserGoalOptions(user);
+    var unreadCount = (n.inbox || []).filter(function(m){ return m.unread; }).length;
 
     // 1. Header & Wesley Natural-Language Rule Bar
     var agentExamples = [
@@ -3911,10 +4956,10 @@
     }
 
     var wesleyBarHtml = '<div class="bs-header-row" style="margin-bottom:10px">' +
-      '<div class="pagehead" style="margin:0"><h1>Notification Settings &amp; Alert Rules</h1></div>' +
-      '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">' +
-        '<button type="button" class="bs-settings-btn" onclick="go(\'inbox\')">🔔 View notifications</button>' +
-        '<button type="button" class="bs-settings-btn" onclick="go(\'settings\')">← Back to Settings</button>' +
+      '<div class="pagehead" style="margin:0"><h1>Notifications &amp; Alert Rules</h1></div>' +
+      '<div style="display:flex;gap:8px;align-items:center">' +
+        '<span class="tag" style="background:' + (unreadCount ? 'var(--soft);color:var(--brand)' : '#f1f1f1;color:var(--muted)') + '">' + unreadCount + ' unread</span>' +
+        '<button type="button" class="bs-settings-btn" onclick="go(\'overview\')">← Back to accounts</button>' +
       '</div>' +
     '</div>' +
     '<div class="bs-tag" style="margin-bottom:16px">Choose how we contact you (SMS or Email), manage standard debit/credit alerts, and build smart rules — manually or by asking <strong>Wesley</strong>.</div>' +
@@ -4129,7 +5174,59 @@
 
     builderHtml += rulesListHtml + '</div>';
 
-    container.innerHTML = wesleyBarHtml + topGridHtml + bizHtml + builderHtml;
+    // 5. Recent Notification Inbox Feed
+    var inboxFilterPills = [
+      { id: 'all', label: 'All (' + (n.inbox || []).length + ')' },
+      { id: 'unread', label: 'Unread (' + unreadCount + ')' },
+      { id: 'rules', label: 'Rules & Spend' },
+      { id: 'goals', label: 'Goals' }
+    ];
+    if (user.hasBusiness) {
+      inboxFilterPills.push({ id: 'approvals', label: 'Business Approvals' });
+    }
+
+    var filteredInbox = (n.inbox || []).filter(function(m){
+      if (notifInboxFilter === 'unread') return m.unread;
+      if (notifInboxFilter === 'rules') return m.category === 'rule' || m.category === 'debit' || m.category === 'credit';
+      if (notifInboxFilter === 'goals') return m.category === 'goal';
+      if (notifInboxFilter === 'approvals') return m.category === 'approval';
+      return true;
+    });
+
+    var inboxFeedHtml = '<div class="panelbox">' +
+      '<div class="inbox-filter-bar">' +
+        '<div><div class="bs-subhead" style="margin:0">Recent Alerts &amp; Inbox</div></div>' +
+        '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">' +
+          '<div class="inbox-filter-pills">' +
+            inboxFilterPills.map(function(fp){
+              return '<button type="button" class="inbox-filter-pill' + (notifInboxFilter === fp.id ? ' active' : '') + '" data-ifilter="' + fp.id + '">' + fp.label + '</button>';
+            }).join('') +
+          '</div>' +
+          (unreadCount > 0 ? '<button type="button" class="notif-mini-btn" id="markAllReadBtn">Mark all read</button>' : '') +
+        '</div>' +
+      '</div>';
+
+    if (filteredInbox.length === 0) {
+      inboxFeedHtml += '<div style="font-size:13.5px;color:var(--muted);padding:24px;text-align:center;border:1px dashed var(--line2);border-radius:8px">No notifications in this view.</div>';
+    } else {
+      inboxFeedHtml += '<div class="inbox-feed">' + filteredInbox.map(function(m){
+        return '<div class="inbox-row' + (m.unread ? ' unread' : '') + '">' +
+          '<div class="inbox-dot' + (m.unread ? '' : ' read') + '"></div>' +
+          '<div class="inbox-body">' +
+            '<div class="inbox-title">' + escapeHtml(m.title) + ' ' + formatChannelsSentHtml(m.channelsSent) + '</div>' +
+            '<div class="inbox-desc">' + escapeHtml(m.body) + '</div>' +
+            '<div class="inbox-meta">' +
+              '<span>' + escapeHtml(m.date) + '</span>' +
+              (m.actionLabel ? '<a class="inbox-action-link" data-action-msg="' + m.id + '">' + escapeHtml(m.actionLabel) + ' ›</a>' : '') +
+              '<a style="color:var(--muted);cursor:pointer;margin-left:auto" data-toggle-msg="' + m.id + '">' + (m.unread ? 'Mark read' : 'Mark unread') + '</a>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('') + '</div>';
+    }
+    inboxFeedHtml += '</div>';
+
+    container.innerHTML = wesleyBarHtml + topGridHtml + bizHtml + builderHtml + inboxFeedHtml;
 
     // Bind events cleanly inside container
     bindNotificationsPageEvents(container);
@@ -4299,6 +5396,22 @@
     container.querySelectorAll('.nr-row-del').forEach(function(btn){
       btn.addEventListener('click', function(){ deleteNotificationRule(btn.getAttribute('data-rid')); });
     });
+
+    // Inbox filters & row actions
+    container.querySelectorAll('[data-ifilter]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        notifInboxFilter = btn.getAttribute('data-ifilter');
+        renderNotificationsPage();
+      });
+    });
+    var markAllBtn = document.getElementById('markAllReadBtn');
+    if (markAllBtn) markAllBtn.addEventListener('click', markAllInboxRead);
+    container.querySelectorAll('[data-toggle-msg]').forEach(function(lnk){
+      lnk.addEventListener('click', function(){ markInboxItemRead(lnk.getAttribute('data-toggle-msg'), true); });
+    });
+    container.querySelectorAll('[data-action-msg]').forEach(function(lnk){
+      lnk.addEventListener('click', function(){ openInboxAction(lnk.getAttribute('data-action-msg')); });
+    });
   }
 
   function wesleyParseNotificationIntent(rawText){
@@ -4307,21 +5420,13 @@
     var raw = String(rawText || '').trim();
     var t = raw.toLowerCase();
 
-    // Navigation shortcuts
-    if (/^(open|show|go to|view) (my )?(notification settings|alert settings|notification rules|alert rules)/.test(t)) {
-      go('notif-settings');
-      return {
-        handled: true,
-        html: "I've opened your <strong>Notification Settings &amp; Alert Rules</strong> screen where you can configure SMS/Email channels and custom rules.",
-        chips: ["SMS if I spend over $100", "Email when goal is met", "Open Notifications"]
-      };
-    }
-    if (/^(open|show|go to|view) (my )?(notifications|alerts|inbox)/.test(t)) {
+    // Navigation shortcut
+    if (/^(open|show|go to|view) (my )?(notifications|alerts|inbox|notification settings|alert settings)/.test(t)) {
       go('inbox');
       return {
         handled: true,
-        html: "I've opened your <strong>Notifications</strong> inbox.",
-        chips: ["Open Notification Settings", "SMS if I spend over $100", "Email when goal is met"]
+        html: "I've opened your <strong>Notifications &amp; Alert Rules</strong> screen where you can inspect your inbox and rules.",
+        chips: ["SMS if I spend over $100", "Email when goal is met", "My round-ups"]
       };
     }
 
@@ -4519,8 +5624,8 @@
     return {
       handled: true,
       rule: created,
-      html: "Done! I created a new alert rule: <strong>" + escapeHtml(getRuleSummary(created)) + "</strong>. It's active now in your Notification Settings.",
-      chips: ["Open Notification Settings", "Open Notifications", "Create another rule", "All good"]
+      html: "Done! I created a new alert rule: <strong>" + escapeHtml(getRuleSummary(created)) + "</strong>. It's active now in your Notifications rules.",
+      chips: ["Open Notifications", "Create another rule", "All good"]
     };
   }
 
@@ -4565,7 +5670,8 @@
     var safeAmt = getSafeToSpend();
     var name = (user ? user.firstName : 'Alex');
     var paydayStr = (user && user.id === 'peggy') ? 'next pension payment' : 'payday';
-    wesleyBubble("Hey " + name + " 👋 I'm Wesley. You've got <strong>" + money(safeAmt) + "</strong> safe to spend till " + paydayStr + ", and I've quietly sorted a few things this week. What's on your mind?", ["Can I afford something?","Add a goal or bucket","Notifications & alerts","My round-ups","BankSmart settings"]);
+    wesleyBubble("Hey " + name + " 👋 I'm Wesley. You've got <strong>" + money(safeAmt) + "</strong> safe to spend till " + paydayStr + ", and I've quietly sorted a few things this week. What's on your mind?", ["Can I afford something?","What if I buy a car?","Should any subscriptions go annual?","Notifications & alerts","My round-ups"]);
+    if (user && user.billCover && !user.billCover.dismissed && !user.billCover.plan) wesleyBubble("Heads up 🛡️ — I used <strong>" + money(user.billCover.covered) + "</strong> from " + escapeHtml(user.billCover.from) + " to keep your bills covered. Want to pick how we refill it?", ["How should I refill my savings?"]);
   }
 
   function addMe(t){
@@ -4649,6 +5755,62 @@
     t = raw.toLowerCase().trim();
     var amtMatch = t.replace(/,/g, '').match(/\$?\s?(\d+(?:\.\d+)?)/);
     var amt = amtMatch ? parseFloat(amtMatch[1]) : 0;
+
+    // ===== NEW: Bill cover refill choices =====
+    var notifIntent = /notif|alert|remind|warn|ping|sms me|text me|email me|let me know|tell me when|\brule\b/.test(t);
+    var bcPending = user && user.billCover && !user.billCover.dismissed && !user.billCover.plan;
+    if (bcPending && /increase round.?ups|more round.?ups|bigger lump|lump sum|balance both|bit of both|^both\b/.test(t)) {
+      var key = /balance both|bit of both|^both\b/.test(t) ? 'both' : (/lump/.test(t) ? 'lump' : 'roundups');
+      var plan = chooseRefill(key);
+      ctx.topic = 'billcover';
+      return { html: "Done — <strong>" + plan.title.toLowerCase() + "</strong>. I'll put back about " + money(plan.weekly) + " a week, so " + escapeHtml(user.billCover.refillName) + " is back where it was in roughly <strong>" + plan.weeks + " weeks</strong>." + (key !== 'lump' ? " Round-ups now go to the nearest $" + plan.step + "." : ""), chips: ["Open dashboard", "Thanks"] };
+    }
+    var bcW = user && user.billCover;
+    if (bcW && bcW.why && !bcW.dismissed && /why (that|this|those|did you|use|from)|which (goal|account|savings|one)|from where|where did (it|the money) come from/.test(t)) return { html: escapeHtml(bcW.why) + " You can protect any goal from bill cover using the 🔒 button on its card in BankSmart.", chips: ["How should I refill my savings?", "Thanks"] };
+    if (!notifIntent && /bill cover|refill|replenish|top(ped)? ?up my bills|cover(ed)? my bills|not enough (for|to cover) (my )?bills/.test(t)) {
+      ctx.topic = 'billcover';
+      var bc = user && user.billCover;
+      if (bc && !bc.dismissed && !bc.plan) {
+        var opts = refillOptions();
+        return { html: "Your " + escapeHtml(bc.merchant) + " purchase went " + money(bc.shortfall) + " past your Safe to spend, so I moved <strong>" + money(bc.covered) + "</strong> from " + escapeHtml(bc.from) + " to keep your bills covered." + (bc.why ? " " + escapeHtml(bc.why) : "") + " Three ways to put it back:<br>" +
+          opts.map(function(o){ return "• <strong>" + o.title + "</strong> — " + o.desc + " (~" + o.weeks + " weeks)"; }).join("<br>"), chips: opts.map(function(o){ return o.title; }) };
+      }
+      if (bc && bc.plan && !bc.dismissed) return { html: "You're refilling " + escapeHtml(bc.refillName) + " with <strong>" + bc.plan.title.toLowerCase() + "</strong> — about " + money(bc.plan.weekly) + " a week, back in roughly " + bc.plan.weeks + " weeks.", chips: ["Open dashboard", "Thanks"] };
+      var on = wz().billCover !== false;
+      return { html: "Bill cover is <strong>" + (on ? "on" : "off") + "</strong>. If a purchase is bigger than your Safe to spend, it would eat into money set aside for bills. When that happens I automatically top your bills back up from savings, tell you straight away, and then give you three ways to refill: increase round-ups, a bigger lump sum, or a bit of both.", chips: ["Can I afford something?", "Open dashboard"] };
+    }
+
+    // ===== NEW: Subscription check =====
+    if (!notifIntent && /subscri|annual|yearly|pay (for )?the year/.test(t)) {
+      ctx.topic = 'subs';
+      if (/switch (them )?all|all (of them|to annual)|switch everything/.test(t)) {
+        var res = switchAllAnnual();
+        if (!res.count) return { html: "Nothing to switch right now — you're already on the best plan for everything I've watched for 6+ months.", chips: ["Open dashboard", "Thanks"] };
+        return { html: "Done ✓ — switched <strong>" + res.count + "</strong> subscriptions to annual billing. That saves you about <strong>" + money(res.total) + " a year</strong>.", chips: ["Open dashboard", "Thanks"] };
+      }
+      if (/switch/.test(t)) {
+        var target = findSubByText(t);
+        if (target && subStatus(target) === 'save') { switchToAnnual(target.id); return { html: "Done ✓ — <strong>" + escapeHtml(target.name) + "</strong> is now on annual billing (" + money(target.annual) + "/year). That's <strong>" + money(subSaving(target)) + "</strong> back in your pocket each year.", chips: ["Should any subscriptions go annual?", "Thanks"] }; }
+        if (target) return { html: escapeHtml(target.name) + " isn't ready to switch: " + (subStatus(target) === 'watching' ? "I've only seen " + target.months + " months of payments, and I wait for 6." : subStatus(target) === 'switched' ? "it's already on annual." : "there's no cheaper annual plan.") , chips: ["Should any subscriptions go annual?"] };
+      }
+      var subs = (user && user.subscriptions) || [];
+      var save = subsToSwitch(), watching = subs.filter(function(s){ return subStatus(s) === 'watching'; });
+      if (!save.length) return { html: "I'm watching " + subs.length + " subscription" + (subs.length === 1 ? "" : "s") + ". Nothing would be cheaper on annual right now" + (watching.length ? ", and I'll check " + watching.map(function(s){ return escapeHtml(s.name); }).join(", ") + " once it hits 6 months." : "."), chips: ["Open dashboard", "Thanks"] };
+      var total = save.reduce(function(a, s){ return a + subSaving(s); }, 0);
+      return { html: "You've paid these monthly for 6+ months — switching to annual would save <strong>" + money(total) + " a year</strong>:<br>" +
+        save.map(function(s){ return "• <strong>" + escapeHtml(s.name) + "</strong>: " + money(round2(s.monthly * 12)) + " a year monthly vs " + money(s.annual) + " annual — save " + money(subSaving(s)); }).join("<br>") +
+        (watching.length ? "<br>Still watching: " + watching.map(function(s){ return escapeHtml(s.name) + " (" + s.months + "/6 months)"; }).join(", ") + "." : ""),
+        chips: (save.length > 1 ? ["Switch all to annual"] : []).concat(save.slice(0, 3).map(function(s){ return "Switch " + s.name.split(' ')[0] + " to annual"; })) };
+    }
+
+    if (/what (have )?you learn|what do you know about me|my habits|how do you spot fraud|unusual activity/.test(t)) return { html: learnSummaryHtml(), chips: ["Open dashboard", "Thanks"] };
+    // ===== What if…? future-proofing planner =====
+    if (ctx.topic === 'whatif' && /start the planner|open the planner|let'?s do it|^(yes|yep|sure|ok|okay)\b/.test(t)) { ctx.topic = null; openWhatIf({ type: ctx.fpType }); return { html: "Opened 🔮 Answer a few quick questions and I'll show you what it means for your whole account.", chips: ["Thanks"] }; }
+    if (!notifIntent && /what if|future.?proof|go(ing)? part.?time|buy(ing)? a car|car loan|change (my )?(job|income)|new job|career break|parental leave|save for|saving for|childcare|move out|moving out/.test(t) && !/afford (a |an |this |that )?\$?\d/.test(t)) {
+      ctx.topic = 'whatif'; ctx.fpType = fpTypeFromText(t);
+      var fpt = ctx.fpType ? FP_TYPES[ctx.fpType] : null;
+      return { html: "Good one to think through properly " + (fpt ? fpt.ic : "🔮") + " I'll ask a few quick questions, then look at your whole account (income, bills, spending, savings and goals) and show you what it would mean, including a stress test for surprise costs.", chips: ["Start the planner", "Not now"] };
+    }
 
     // pick / change the amount while we're talking about a purchase
     if (/different amount|another amount|change the amount|pick a different|change my number/.test(t) && !amt) { ctx.awaiting = 'amount'; return { html: pick(["Sure — what number should I use?", "No problem — what's the new amount?"]), chips: ["$500", "$1,200", "$3,000"] }; }
@@ -4735,7 +5897,7 @@
       var chPref = (user && user.notifications && user.notifications.channels) ? user.notifications.channels.preferred : 'both';
       return {
         html: "You currently have <strong>" + rCount + " custom alert rule" + (rCount === 1 ? "" : "s") + "</strong> (delivering via <strong>" + (chPref === 'both' ? 'SMS & Email' : chPref.toUpperCase()) + "</strong>), plus BankSmart digest set to <strong>" + ctx.digest + "</strong>. Want me to create a rule or open Notifications?",
-        chips: ["Open Notifications", "Open Notification Settings", "Create a rule", "Make it daily", "Keep weekly"]
+        chips: ["Open Notifications", "Create a rule", "Make it daily", "Keep weekly"]
       };
     }
     if (/make it daily|^daily/.test(t)) {

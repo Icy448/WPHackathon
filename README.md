@@ -11,6 +11,32 @@ A self-contained single-page mock of a Westpac-style online banking site featuri
 
 ---
 
+## New BankSmart features
+
+**🛡️ Bill cover:** if a personal purchase is bigger than *Safe to spend*, it would eat into money set aside for bills. Wesley automatically moves the difference from savings, choosing carefully: protected goals are never touched, the goal due furthest away goes first (up to half of it), then the Buffer, then other goals. Goals due within 3 months are a last resort. The alert explains which savings were used and why, and each goal card has a 🔒 **Protect from bill cover** button and shows an alert on Overview, the account page and BankSmart. You then pick how to refill: **increase round-ups**, a **bigger lump sum**, or **balance both**. The Add transaction preview warns you before you submit. There's a toggle in AI controls. *Demo: as Priya, add a large purchase to see it spread across goals, or protect a goal first to see it skipped.*
+
+**🔁 Subscription check:** Wesley watches each subscription for 6 months, then compares monthly against annual pricing. You get **Switch to annual** (or switch all), a running "you're saving $X a year" total, and Undo. New subscription-like debits are tracked automatically. Prices are demo values.
+
+**🔮 What if…? future-proofing planner:** not just trips any more. Pick a change: **buy something big** (car, furniture, renovation; cash, loan or deposit + loan), **change my income** (part-time, new job, time off), **have a set amount by a date**, or **take on a new regular cost** (childcare, higher rent, a pet). Wesley asks a short series of questions, including whether to keep saving into your goals, how big a safety net you want and anything else coming up. Then it looks at the whole account: income, home, bills, everyday living, repayments, goals, savings, Buffer and term deposits. The result shows a calm verdict (✅ works for you, 🟡 doable with a few changes, 🌱 not quite yet but there's a path), a month-by-month today vs with-the-change table, savings and safety-net months, a 🧪 **surprise-cost stress test** that ties in Bill cover, what can and can't happen, how each goal is affected, and ideas with **Try this** buttons that re-run the check. Loans get example repayments and total interest, and a careful **See options** link-out. **Make it a plan** turns it into a savings goal. In chat, try *"What if I go part-time next year?"* or *"What if I buy a car?"*. Each demo customer has a monthly money profile (`finProfile`) the planner uses. General information only, not financial advice.
+
+**AI controls & privacy** are now Westpac-style tiles with an On/Off band, at the top of BankSmart **Settings & Rules**.
+
+**🧠 Wesley learns (habits, unusual activity and spending moments):**
+- *Habit profile:* each customer has a learned history (transactions, usual supermarket, typical spend per category, usual hours, home area, regular merchants). It grows with every spend and every answer. See **What Wesley's learning about you** on BankSmart, or ask Wesley *"what have you learned about me?"*.
+- *Unusual activity checks:* new spends are checked against the profile. Spends that are out of character (e.g. 15× your usual, a new overseas merchant at 3am) get a **"Was this you?"** card that lists the reasons. **Yes** teaches Wesley (that merchant is trusted next time), and Bill cover waits until you confirm. **No** explains what the live app would do (demo only).
+- *Spending moments:* when flights or accommodation are detected (Qantas, Jetstar, Virgin, Booking.com, Airbnb and so on), a friendly card asks whether it's a holiday, work or not travel. For a holiday it asks whether it's part of a trip saver (or offers to create one) and whether you're going overseas. Then it shares helpful tips:
+  - travel insurance, highlighting complimentary cover on cards that include it (e.g. Altitude Black), with eligibility and activation notes
+  - adding your Qantas Frequent Flyer or Velocity number, with a "link it" option
+  - telling Wesley your travel dates so overseas spends aren't flagged
+  - comparing cards for international fees
+  It remembers answers (e.g. "Qantas is usually work") so it stops asking.
+- *Ideas based on how you spend:* travel → insurance or rewards cards, bigger purchases → What if…, many subscriptions → Subscription check. All links go to real westpac.com.au pages with "general information, not a recommendation" wording.
+- *Demo:* **Try it** buttons on the panel, or the new **✈️ Flights** and **🌐 Overseas online** presets in Add transaction. **Reset what Wesley learned** clears it. Both features have toggles in Settings & Rules.
+
+Also fixed: the "Wesley is paused" banner was always showing, even when Wesley was on.
+
+---
+
 ## Pre-populated Demo Profiles
 
 On the login screen, click the **👤 Demo accounts ▾** button in the bottom-left corner to quickly switch between demo users, or type any of their 8-digit Customer IDs directly into the login form:
