@@ -17,6 +17,7 @@
   a{color:var(--brand);text-decoration:none}
   a:hover{text-decoration:underline}
   .screen[hidden]{display:none}
+  .page[hidden]{display:none}
 
   .logo{display:inline-flex;align-items:center;gap:10px}
   .logo .sq{width:34px;height:34px;border-radius:6px;background:#fff;color:var(--brand);
@@ -24,22 +25,23 @@
   .logo .wm{font-size:22px;font-weight:700;color:#fff}
 
   .btn{font-family:inherit;font-size:15px;font-weight:700;border-radius:999px;border:2px solid var(--brand);
-    padding:12px 22px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;justify-content:center}
+    padding:12px 22px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
   .btn-primary{background:var(--brand);color:#fff}
   .btn-primary:hover{background:var(--brand-strong);border-color:var(--brand-strong)}
   .btn-ghost{background:#fff;color:var(--brand)}
   .btn-ghost:hover{background:var(--brand-soft)}
   .btn-block{width:100%}
+  .btn-sm{font-size:13px;padding:8px 16px}
   label.fld{display:block;margin-bottom:16px}
   label.fld .lab{font-size:13px;font-weight:700;display:block;margin-bottom:6px}
-  input[type=text],input[type=password]{width:100%;font-family:inherit;font-size:16px;padding:12px 14px;border:1px solid #bcc0c8;border-radius:8px}
-  input:focus{outline:2px solid var(--brand);border-color:var(--brand)}
+  input[type=text],input[type=password],input[type=number],select,textarea{width:100%;font-family:inherit;font-size:16px;padding:12px 14px;border:1px solid #bcc0c8;border-radius:8px;background:#fff}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--brand);border-color:var(--brand)}
 
   /* ================= LOGIN ================= */
   .login-top{background:var(--brand)}
   .login-top .bar{max-width:var(--maxw);margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
   .login-top .secure{font-size:13px;color:#fff;display:flex;align-items:center;gap:7px;opacity:.95}
-  .login-wrap{min-height:calc(100vh - 66px);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:48px 20px}
+  .login-wrap{min-height:calc(100vh - 66px);display:flex;flex-direction:column;align-items:center;padding:48px 20px}
   .login-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:32px;width:100%;max-width:420px;box-shadow:0 10px 30px rgba(20,24,33,.08)}
   .login-card h2{font-size:24px;margin-bottom:4px}
   .login-card .sub{font-size:14px;color:var(--muted);margin-bottom:24px}
@@ -50,25 +52,26 @@
   .trust{margin-top:22px;color:var(--muted);font-size:13px;max-width:420px;text-align:center;display:flex;gap:9px;justify-content:center}
 
   /* ================= APP SHELL ================= */
-  header.app{background:var(--brand);position:sticky;top:0;z-index:10}
+  header.app{background:var(--brand);position:sticky;top:0;z-index:20}
   header.app .top{max-width:var(--maxw);margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
   header.app .icons{display:flex;align-items:center;gap:22px}
-  header.app .icons a{color:#fff;display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;opacity:.92}
+  header.app .icons a{color:#fff;display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;opacity:.92;cursor:pointer}
   header.app .icons a:hover{opacity:1;text-decoration:none}
   header.app .icons .ic{font-size:17px}
 
   .shell{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:var(--sidebar) 1fr;min-height:calc(100vh - 62px)}
   aside.nav{background:#fff;border-right:1px solid var(--line);padding:18px 0}
-  aside.nav a{display:flex;align-items:center;gap:13px;padding:12px 24px;color:var(--ink);font-size:15px;font-weight:600;border-left:3px solid transparent}
+  aside.nav a{display:flex;align-items:center;gap:13px;padding:12px 24px;color:var(--ink);font-size:15px;font-weight:600;border-left:3px solid transparent;cursor:pointer}
   aside.nav a:hover{background:var(--bg);text-decoration:none}
   aside.nav a.active{border-left-color:var(--brand);color:var(--brand);background:var(--brand-soft)}
   aside.nav a .ic{font-size:18px;width:22px;text-align:center}
   aside.nav .grp{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#9a9ea6;padding:16px 24px 6px;font-weight:700}
 
   main.content{padding:28px 32px 48px;min-width:0}
-  .greet{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:22px}
+  .greet{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:12px}
   .greet h1{font-size:26px}
   .greet .muted{color:var(--muted);font-size:13px}
+  .page-intro{color:var(--muted);font-size:14px;margin-bottom:18px}
 
   .sec-h{display:flex;align-items:center;justify-content:space-between;margin:26px 0 12px}
   .sec-h h2{font-size:16px}
@@ -88,7 +91,6 @@
   .tile .t-bal .cur{font-size:13px;color:var(--muted);margin-top:2px}
   .tile .chev{color:#b7bbc3;font-size:20px;font-weight:700}
 
-  /* account detail / transactions */
   .acctbar{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin-bottom:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px}
   .acctbar .an{font-size:18px;font-weight:700}
   .acctbar .anum{font-size:13px;color:var(--muted);margin-top:2px}
@@ -98,8 +100,7 @@
   .acctbar .bals .v.small{font-size:16px;font-weight:700;color:var(--muted)}
 
   .txs{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
-  .txs .th{display:grid;grid-template-columns:110px 1fr 130px 130px;gap:8px;padding:12px 20px;background:#f7f8fa;
-    font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+  .txs .th{display:grid;grid-template-columns:110px 1fr 130px 130px;gap:8px;padding:12px 20px;background:#f7f8fa;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
   .txs .th .r{text-align:right}
   .tx{display:grid;grid-template-columns:110px 1fr 130px 130px;gap:8px;padding:14px 20px;border-top:1px solid var(--line);font-size:14px;align-items:center}
   .tx .date{color:var(--muted);font-size:13px}
@@ -109,6 +110,25 @@
   .tx .bal{text-align:right;color:var(--muted)}
   .pending{padding:10px 20px;background:#fffaf0;border-top:1px solid var(--line);font-size:12px;font-weight:700;color:#8a6d00;text-transform:uppercase;letter-spacing:.04em}
 
+  /* generic cards / lists */
+  .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius)}
+  .card .cb{padding:22px}
+  .card h3{font-size:16px;padding:18px 20px 0}
+  .list .row{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-top:1px solid var(--line);font-size:14px}
+  .list .row:first-child{border-top:none}
+  .list .row .l{font-weight:600}
+  .list .row .s{font-size:13px;color:var(--muted);margin-top:2px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .form-card{max-width:560px}
+  .toast{background:var(--success-bg,#e6f4ec);color:var(--success);border:1px solid #bfe3cd;border-radius:8px;padding:12px 14px;font-size:14px;font-weight:600;margin-top:16px;display:none}
+
+  /* card visual */
+  .ccard{background:linear-gradient(135deg,#1b1f27,#3a3f49);color:#fff;border-radius:14px;padding:22px;max-width:420px}
+  .ccard .brandline{display:flex;justify-content:space-between;align-items:center}
+  .ccard .num{font-size:20px;letter-spacing:.14em;margin:26px 0 14px;font-family:monospace}
+  .ccard .r{display:flex;justify-content:space-between;font-size:12px;opacity:.85}
+  .ccard .r b{display:block;font-size:14px;opacity:1;letter-spacing:.04em}
+
   footer.app{background:#2b2f38;color:#c9ccd3}
   footer.app .in{max-width:var(--maxw);margin:0 auto;padding:28px 24px;display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between}
   footer.app a{color:#c9ccd3;font-size:13px}
@@ -117,11 +137,13 @@
 
   @media(max-width:980px){
     .shell{grid-template-columns:1fr}
-    aside.nav{display:none}
-    .txs .th{grid-template-columns:90px 1fr 100px;}
-    .txs .th .balcol{display:none}
-    .tx{grid-template-columns:90px 1fr 100px}
-    .tx .bal{display:none}
+    aside.nav{display:flex;overflow-x:auto;border-right:none;border-bottom:1px solid var(--line);padding:6px}
+    aside.nav .grp{display:none}
+    aside.nav a{border-left:none;border-bottom:3px solid transparent;white-space:nowrap;padding:10px 14px}
+    aside.nav a.active{border-left:none;border-bottom-color:var(--brand)}
+    .grid2{grid-template-columns:1fr}
+    .txs .th{grid-template-columns:90px 1fr 100px}.txs .th .balcol{display:none}
+    .tx{grid-template-columns:90px 1fr 100px}.tx .bal{display:none}
   }
 </style>
 </head>
@@ -145,7 +167,7 @@
         <input type="password" name="pwd" placeholder="Enter your password" autocomplete="current-password"></label>
       <div class="row-between">
         <label class="check"><input type="checkbox"> Remember Customer ID</label>
-        <a href="#" onclick="return false">Forgotten?</a>
+        <a onclick="return false">Forgotten?</a>
       </div>
       <button type="submit" class="btn btn-primary btn-block">Sign in</button>
       <div class="divider">New to Westpac?</div>
@@ -159,122 +181,211 @@
 <div id="app" class="screen" hidden>
   <header class="app">
     <div class="top">
-      <span class="logo"><span class="sq">W</span><span class="wm">Westpac</span></span>
+      <span class="logo" style="cursor:pointer" onclick="go('home')"><span class="sq">W</span><span class="wm">Westpac</span></span>
       <div class="icons">
-        <a href="#" onclick="return false"><span class="ic">✉️</span>Inbox</a>
-        <a href="#" onclick="return false"><span class="ic">⚙️</span>Settings</a>
-        <a href="#" onclick="logout();return false"><span class="ic">⎋</span>Sign out</a>
+        <a onclick="go('inbox')"><span class="ic">✉️</span>Inbox</a>
+        <a onclick="go('settings')"><span class="ic">⚙️</span>Settings</a>
+        <a onclick="logout()"><span class="ic">⎋</span>Sign out</a>
       </div>
     </div>
   </header>
 
   <div class="shell">
     <aside class="nav">
-      <a href="#" class="active"><span class="ic">⌂</span>Home</a>
-      <a href="#" onclick="return false"><span class="ic">⇄</span>Pay or transfer</a>
-      <a href="#" onclick="return false"><span class="ic">👥</span>Payees &amp; billers</a>
-      <a href="#" onclick="return false"><span class="ic">▭</span>Cards</a>
+      <a data-nav="home" class="active" onclick="go('home')"><span class="ic">⌂</span>Home</a>
+      <a data-nav="pay" onclick="go('pay')"><span class="ic">⇄</span>Pay or transfer</a>
+      <a data-nav="payees" onclick="go('payees')"><span class="ic">👥</span>Payees &amp; billers</a>
+      <a data-nav="cards" onclick="go('cards')"><span class="ic">▭</span>Cards</a>
       <div class="grp">Manage</div>
-      <a href="#" onclick="return false"><span class="ic">🧾</span>Statements</a>
-      <a href="#" onclick="return false"><span class="ic">🛟</span>Service centre</a>
-      <a href="#" onclick="return false"><span class="ic">⚙︎</span>Settings</a>
+      <a data-nav="statements" onclick="go('statements')"><span class="ic">🧾</span>Statements</a>
+      <a data-nav="service" onclick="go('service')"><span class="ic">🛟</span>Service centre</a>
+      <a data-nav="settings" onclick="go('settings')"><span class="ic">⚙︎</span>Settings</a>
     </aside>
 
     <main class="content">
-      <div class="greet">
-        <h1>Hi Alex</h1>
-        <span class="muted">Last signed in: today, 9:41 AM</span>
-      </div>
 
-      <div class="sec-h">
-        <h2>Bank accounts</h2>
-        <span class="total">Total available <b>$4,820.60</b></span>
-      </div>
+      <!-- ===== HOME ===== -->
+      <section class="page" data-page="home">
+        <div class="greet"><h1>Hi Alex</h1><span class="muted">Last signed in: today, 9:41 AM</span></div>
 
-      <div class="tile sel">
-        <div class="t-main">
-          <div class="t-name">Westpac Choice</div>
-          <div class="t-num">BSB 032-000 · Acc 1234 5678</div>
+        <div class="sec-h"><h2>Bank accounts</h2><span class="total">Total available <b>$4,820.60</b></span></div>
+        <div class="tile sel" onclick="go('account')">
+          <div class="t-main"><div class="t-name">Westpac Choice</div><div class="t-num">BSB 032-000 · Acc 1234 5678</div></div>
+          <div class="t-bal"><div class="k">Available</div><div class="avail">$3,080.60</div><div class="cur">Current $3,080.60</div></div>
+          <div class="chev">›</div>
         </div>
-        <div class="t-bal">
-          <div class="k">Available</div>
-          <div class="avail">$3,080.60</div>
-          <div class="cur">Current $3,080.60</div>
+        <div class="tile" onclick="go('account')">
+          <div class="t-main"><div class="t-name">Westpac Life</div><div class="t-num">BSB 032-000 · Acc 8765 4321</div></div>
+          <div class="t-bal"><div class="k">Available</div><div class="avail">$1,740.00</div><div class="cur">Current $1,740.00</div></div>
+          <div class="chev">›</div>
         </div>
-        <div class="chev">›</div>
-      </div>
 
-      <div class="tile">
-        <div class="t-main">
-          <div class="t-name">Westpac Life</div>
-          <div class="t-num">BSB 032-000 · Acc 8765 4321</div>
+        <div class="sec-h"><h2>Credit cards</h2></div>
+        <div class="tile" onclick="go('cards')">
+          <div class="t-main"><div class="t-name">Low Rate Card</div><div class="t-num">Card ending 4417</div></div>
+          <div class="t-bal"><div class="k">Available credit</div><div class="avail">$4,312.00</div><div class="cur">Owing $688.00</div></div>
+          <div class="chev">›</div>
         </div>
-        <div class="t-bal">
-          <div class="k">Available</div>
-          <div class="avail">$1,740.00</div>
-          <div class="cur">Current $1,740.00</div>
+      </section>
+
+      <!-- ===== ACCOUNT DETAIL / TRANSACTIONS ===== -->
+      <section class="page" data-page="account" hidden>
+        <div class="greet"><h1>Westpac Choice</h1><span class="muted">BSB 032-000 · Acc 1234 5678</span></div>
+        <div class="acctbar">
+          <div><div class="an">Westpac Choice</div><div class="anum">BSB 032-000 · Account 1234 5678</div></div>
+          <div class="bals">
+            <div><div class="k">Available balance</div><div class="v">$3,080.60</div></div>
+            <div><div class="k">Current balance</div><div class="v small">$3,080.60</div></div>
+          </div>
         </div>
-        <div class="chev">›</div>
-      </div>
-
-      <div class="sec-h"><h2>Credit cards</h2></div>
-      <div class="tile">
-        <div class="t-main">
-          <div class="t-name">Low Rate Card</div>
-          <div class="t-num">Card ending 4417</div>
+        <div style="display:flex;gap:10px;margin-bottom:16px">
+          <button class="btn btn-primary btn-sm" onclick="go('pay')">Pay or transfer</button>
+          <button class="btn btn-ghost btn-sm" onclick="go('statements')">Statements</button>
         </div>
-        <div class="t-bal">
-          <div class="k">Available credit</div>
-          <div class="avail">$4,312.00</div>
-          <div class="cur">Owing $688.00</div>
+        <div class="txs">
+          <div class="th"><span>Date</span><span>Description</span><span class="r">Amount</span><span class="r balcol">Balance</span></div>
+          <div class="pending">Pending</div>
+          <div class="tx"><span class="date">16 Nov</span><span class="desc">Caltex Woolworths Bondi</span><span class="amt">−$68.40</span><span class="bal balcol">—</span></div>
+          <div class="tx"><span class="date">15 Nov</span><span class="desc">Woolworths 1234 Bondi Junction</span><span class="amt">−$84.20</span><span class="bal balcol">$3,080.60</span></div>
+          <div class="tx"><span class="date">15 Nov</span><span class="desc">Transport for NSW Opal</span><span class="amt">−$7.50</span><span class="bal balcol">$3,164.80</span></div>
+          <div class="tx"><span class="date">14 Nov</span><span class="desc">Transfer to Westpac Life</span><span class="amt">−$200.00</span><span class="bal balcol">$3,172.30</span></div>
+          <div class="tx"><span class="date">14 Nov</span><span class="desc">Salary — Acme Pty Ltd</span><span class="amt credit">+$2,480.00</span><span class="bal balcol">$3,372.30</span></div>
+          <div class="tx"><span class="date">13 Nov</span><span class="desc">Netflix.com</span><span class="amt">−$18.99</span><span class="bal balcol">$892.30</span></div>
+          <div class="tx"><span class="date">12 Nov</span><span class="desc">Origin Energy BPAY</span><span class="amt">−$142.30</span><span class="bal balcol">$911.29</span></div>
+          <div class="tx"><span class="date">11 Nov</span><span class="desc">Coles Express</span><span class="amt">−$55.10</span><span class="bal balcol">$1,053.59</span></div>
+          <div class="tx"><span class="date">10 Nov</span><span class="desc">Osko payment — J. Nguyen</span><span class="amt credit">+$40.00</span><span class="bal balcol">$1,108.69</span></div>
+          <div class="tx"><span class="date">09 Nov</span><span class="desc">Bunnings Warehouse</span><span class="amt">−$112.85</span><span class="bal balcol">$1,068.69</span></div>
         </div>
-        <div class="chev">›</div>
-      </div>
+      </section>
 
-      <!-- Account detail: transactions -->
-      <div class="sec-h" style="margin-top:34px">
-        <h2>Westpac Choice — Transactions</h2>
-        <span class="total">BSB 032-000 · Acc 1234 5678</span>
-      </div>
+      <!-- ===== PAY OR TRANSFER ===== -->
+      <section class="page" data-page="pay" hidden>
+        <div class="greet"><h1>Pay or transfer</h1></div>
+        <div class="page-intro">Move money between your accounts or pay someone.</div>
+        <div class="card form-card"><div class="cb">
+          <form onsubmit="payDone(event)">
+            <label class="fld"><span class="lab">From</span>
+              <select><option>Westpac Choice — $3,080.60</option><option>Westpac Life — $1,740.00</option></select></label>
+            <label class="fld"><span class="lab">To</span>
+              <select><option>Westpac Life (own account)</option><option>J. Nguyen — Osko</option><option>Origin Energy — BPAY biller</option><option>Add new payee…</option></select></label>
+            <label class="fld"><span class="lab">Amount</span>
+              <input type="number" placeholder="0.00" step="0.01"></label>
+            <label class="fld"><span class="lab">Description (optional)</span>
+              <input type="text" placeholder="e.g. Rent, Dinner"></label>
+            <button type="submit" class="btn btn-primary">Pay now</button>
+            <div class="toast" id="payToast">✓ Payment scheduled. (Prototype — no real money moved.)</div>
+          </form>
+        </div></div>
+      </section>
 
-      <div class="acctbar">
-        <div>
-          <div class="an">Westpac Choice</div>
-          <div class="anum">BSB 032-000 · Account 1234 5678</div>
+      <!-- ===== PAYEES ===== -->
+      <section class="page" data-page="payees" hidden>
+        <div class="greet"><h1>Payees &amp; billers</h1></div>
+        <div class="page-intro">People and billers you've saved.</div>
+        <div class="sec-h"><h2>Saved payees</h2></div>
+        <div class="card list">
+          <div class="row"><div><div class="l">J. Nguyen</div><div class="s">Osko · PayID 0412 345 678</div></div><button class="btn btn-ghost btn-sm" onclick="go('pay')">Pay</button></div>
+          <div class="row"><div><div class="l">M. Patel</div><div class="s">BSB 062-000 · Acc 1122 3344</div></div><button class="btn btn-ghost btn-sm" onclick="go('pay')">Pay</button></div>
+          <div class="row"><div><div class="l">Share house rent</div><div class="s">BSB 032-002 · Acc 5566 7788</div></div><button class="btn btn-ghost btn-sm" onclick="go('pay')">Pay</button></div>
         </div>
-        <div class="bals">
-          <div><div class="k">Available balance</div><div class="v">$3,080.60</div></div>
-          <div><div class="k">Current balance</div><div class="v small">$3,080.60</div></div>
+        <div class="sec-h"><h2>Billers (BPAY)</h2></div>
+        <div class="card list">
+          <div class="row"><div><div class="l">Origin Energy</div><div class="s">Biller code 1234 · Ref 5678 9012</div></div><button class="btn btn-ghost btn-sm" onclick="go('pay')">Pay</button></div>
+          <div class="row"><div><div class="l">Telstra</div><div class="s">Biller code 4321 · Ref 1098 7654</div></div><button class="btn btn-ghost btn-sm" onclick="go('pay')">Pay</button></div>
         </div>
-      </div>
+      </section>
 
-      <div class="txs">
-        <div class="th"><span>Date</span><span>Description</span><span class="r">Amount</span><span class="r balcol">Balance</span></div>
+      <!-- ===== CARDS ===== -->
+      <section class="page" data-page="cards" hidden>
+        <div class="greet"><h1>Cards</h1></div>
+        <div class="page-intro">Manage your Westpac cards.</div>
+        <div class="ccard">
+          <div class="brandline"><span class="logo"><span class="sq">W</span><span class="wm">Westpac</span></span><span>VISA</span></div>
+          <div class="num">•••• •••• •••• 4417</div>
+          <div class="r"><span>CARD HOLDER<b>ALEX MORGAN</b></span><span>EXPIRES<b>09/28</b></span></div>
+        </div>
+        <div class="grid2" style="margin-top:18px">
+          <div class="card"><div class="cb">
+            <div class="list" style="margin:-22px -22px 0">
+              <div class="row"><div><div class="l">Available credit</div></div><div>$4,312.00</div></div>
+              <div class="row"><div><div class="l">Balance owing</div></div><div>$688.00</div></div>
+              <div class="row"><div><div class="l">Credit limit</div></div><div>$5,000.00</div></div>
+              <div class="row"><div><div class="l">Minimum due (28 Nov)</div></div><div>$25.00</div></div>
+            </div>
+          </div></div>
+          <div class="card"><div class="cb">
+            <div class="list" style="margin:-22px -22px 0">
+              <div class="row"><div><div class="l">Freeze card</div><div class="s">Temporarily block all transactions</div></div><button class="btn btn-ghost btn-sm" onclick="this.textContent=this.textContent=='Frozen'?'Freeze':'Frozen'">Freeze</button></div>
+              <div class="row"><div><div class="l">Report lost or stolen</div></div><button class="btn btn-ghost btn-sm" onclick="go('service')">Report</button></div>
+              <div class="row"><div><div class="l">Pay card</div><div class="s">From an eligible account</div></div><button class="btn btn-primary btn-sm" onclick="go('pay')">Pay</button></div>
+            </div>
+          </div></div>
+        </div>
+      </section>
 
-        <div class="pending">Pending</div>
-        <div class="tx"><span class="date">16 Nov</span><span class="desc">Caltex Woolworths Bondi</span><span class="amt">−$68.40</span><span class="bal balcol">—</span></div>
+      <!-- ===== STATEMENTS ===== -->
+      <section class="page" data-page="statements" hidden>
+        <div class="greet"><h1>Statements &amp; documents</h1></div>
+        <div class="page-intro">Download statements for your accounts.</div>
+        <div class="sec-h"><h2>Westpac Choice</h2></div>
+        <div class="card list">
+          <div class="row"><div><div class="l">October 2026</div><div class="s">Issued 1 Nov 2026 · PDF</div></div><a onclick="return false">Download</a></div>
+          <div class="row"><div><div class="l">September 2026</div><div class="s">Issued 1 Oct 2026 · PDF</div></div><a onclick="return false">Download</a></div>
+          <div class="row"><div><div class="l">August 2026</div><div class="s">Issued 1 Sep 2026 · PDF</div></div><a onclick="return false">Download</a></div>
+        </div>
+      </section>
 
-        <div class="tx"><span class="date">15 Nov</span><span class="desc">Woolworths 1234 Bondi Junction</span><span class="amt">−$84.20</span><span class="bal balcol">$3,080.60</span></div>
-        <div class="tx"><span class="date">15 Nov</span><span class="desc">Transport for NSW Opal</span><span class="amt">−$7.50</span><span class="bal balcol">$3,164.80</span></div>
-        <div class="tx"><span class="date">14 Nov</span><span class="desc">Transfer to Westpac Life</span><span class="amt">−$200.00</span><span class="bal balcol">$3,172.30</span></div>
-        <div class="tx"><span class="date">14 Nov</span><span class="desc">Salary — Acme Pty Ltd</span><span class="amt credit">+$2,480.00</span><span class="bal balcol">$3,372.30</span></div>
-        <div class="tx"><span class="date">13 Nov</span><span class="desc">Netflix.com</span><span class="amt">−$18.99</span><span class="bal balcol">$892.30</span></div>
-        <div class="tx"><span class="date">12 Nov</span><span class="desc">Origin Energy BPAY</span><span class="amt">−$142.30</span><span class="bal balcol">$911.29</span></div>
-        <div class="tx"><span class="date">11 Nov</span><span class="desc">Coles Express</span><span class="amt">−$55.10</span><span class="bal balcol">$1,053.59</span></div>
-        <div class="tx"><span class="date">10 Nov</span><span class="desc">Osko payment — J. Nguyen</span><span class="amt credit">+$40.00</span><span class="bal balcol">$1,108.69</span></div>
-        <div class="tx"><span class="date">09 Nov</span><span class="desc">Bunnings Warehouse</span><span class="amt">−$112.85</span><span class="bal balcol">$1,068.69</span></div>
-      </div>
+      <!-- ===== SERVICE CENTRE ===== -->
+      <section class="page" data-page="service" hidden>
+        <div class="greet"><h1>Service centre</h1></div>
+        <div class="page-intro">Get help or manage your banking.</div>
+        <div class="grid2">
+          <div class="card"><h3>Contact us</h3><div class="cb" style="padding-top:12px">
+            <div class="list" style="margin:0 -22px"><div class="row"><div><div class="l">Call 132 032</div><div class="s">24/7 for general enquiries</div></div></div>
+            <div class="row"><div><div class="l">Message us</div><div class="s">Secure in-app messaging</div></div><a onclick="go('inbox')">Open</a></div>
+            <div class="row"><div><div class="l">Find a branch or ATM</div></div><a onclick="return false">Search</a></div></div>
+          </div></div>
+          <div class="card"><h3>Help topics</h3><div class="cb" style="padding-top:12px">
+            <div class="list" style="margin:0 -22px"><div class="row"><div class="l">Report fraud or a scam</div><a onclick="return false">Go</a></div>
+            <div class="row"><div class="l">Dispute a transaction</div><a onclick="return false">Go</a></div>
+            <div class="row"><div class="l">Travel notifications</div><a onclick="return false">Go</a></div></div>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- ===== INBOX ===== -->
+      <section class="page" data-page="inbox" hidden>
+        <div class="greet"><h1>Inbox</h1></div>
+        <div class="page-intro">Secure messages from Westpac.</div>
+        <div class="card list">
+          <div class="row"><div><div class="l">Your October statement is ready</div><div class="s">1 Nov 2026</div></div><a onclick="go('statements')">View</a></div>
+          <div class="row"><div><div class="l">Scam alert: beware of fake texts</div><div class="s">24 Oct 2026</div></div><a onclick="return false">Read</a></div>
+          <div class="row"><div><div class="l">Your card payment was received</div><div class="s">18 Oct 2026</div></div><a onclick="return false">Read</a></div>
+        </div>
+      </section>
+
+      <!-- ===== SETTINGS ===== -->
+      <section class="page" data-page="settings" hidden>
+        <div class="greet"><h1>Settings</h1></div>
+        <div class="page-intro">Manage your profile and preferences.</div>
+        <div class="card list">
+          <div class="row"><div><div class="l">Personal details</div><div class="s">Alex Morgan · alex@example.com</div></div><a onclick="return false">Edit</a></div>
+          <div class="row"><div><div class="l">Security &amp; password</div></div><a onclick="return false">Manage</a></div>
+          <div class="row"><div><div class="l">Notifications</div></div><a onclick="return false">Manage</a></div>
+          <div class="row"><div><div class="l">Linked devices</div></div><a onclick="return false">Manage</a></div>
+          <div class="row"><div><div class="l">Sign out</div></div><a onclick="logout()">Sign out</a></div>
+        </div>
+      </section>
+
     </main>
   </div>
 
   <footer class="app">
     <div class="in">
       <div class="links">
-        <a href="#" onclick="return false">Privacy</a>
-        <a href="#" onclick="return false">Security</a>
-        <a href="#" onclick="return false">Terms &amp; conditions</a>
-        <a href="#" onclick="return false">Accessibility</a>
-        <a href="#" onclick="return false">Contact us</a>
+        <a onclick="return false">Privacy</a><a onclick="return false">Security</a>
+        <a onclick="return false">Terms &amp; conditions</a><a onclick="return false">Accessibility</a>
+        <a onclick="go('service')">Contact us</a>
       </div>
       <div class="cp">© 2026 Westpac Banking Corporation ABN 33 007 457 141. Concept prototype for demonstration only — not affiliated with or endorsed by Westpac.</div>
     </div>
@@ -284,8 +395,19 @@
 <script>
   var form=document.getElementById('loginForm');
   form.addEventListener('submit',function(e){e.preventDefault();enter();});
-  function enter(){document.getElementById('login').hidden=true;document.getElementById('app').hidden=false;window.scrollTo(0,0);}
+  function enter(){document.getElementById('login').hidden=true;document.getElementById('app').hidden=false;go('home');}
   function logout(){document.getElementById('app').hidden=true;document.getElementById('login').hidden=false;window.scrollTo(0,0);}
+
+  function go(page){
+    document.querySelectorAll('.page').forEach(function(p){ p.hidden = (p.getAttribute('data-page')!==page); });
+    // active nav: map 'account' back to home highlight
+    var navKey = (page==='account') ? 'home' : page;
+    document.querySelectorAll('aside.nav a').forEach(function(a){
+      a.classList.toggle('active', a.getAttribute('data-nav')===navKey);
+    });
+    window.scrollTo(0,0);
+  }
+  function payDone(e){ e.preventDefault(); document.getElementById('payToast').style.display='block'; }
 </script>
 </body>
 </html>
