@@ -9,7 +9,6 @@
     --brand:#da1710; --brand2:#d5202a; --ink:#222; --navy:#2d2a54; --muted:#5b5b5b;
     --line:#e0e0e0; --line2:#d9d9d9; --head:#f4f4f4; --grey:#f1f1f1; --bg:#fff;
     --success:#008a4b; --success-bg:#e6f4ec; --info:#0067b1; --info-bg:#e8f1fb; --soft:#fdeceb;
-    --warn:#b8610a; --warn-bg:#fcefe0;
     --font:Arial,"Helvetica Neue",Helvetica,sans-serif; --maxw:1120px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -19,7 +18,6 @@
   .screen[hidden]{display:none}
   .page[hidden]{display:none}
   .mode[hidden]{display:none}
-  .bsub[hidden]{display:none}
   .wmark{display:inline-block;line-height:0}
   .chev{color:var(--brand);font-weight:700;margin-right:8px}
   .spk{vertical-align:middle}
@@ -90,7 +88,7 @@
   nav.tabs a.active{color:#000;border-bottom-color:var(--brand)}
   .banksmart-tab{display:inline-flex;align-items:center;gap:6px}
 
-  main.wbc{max-width:960px;margin:0 auto;padding:28px 20px 60px}
+  main.wbc{max-width:960px;margin:0 auto;padding:28px 20px 80px}
   .pagehead{display:flex;align-items:center;gap:18px;margin-bottom:22px}
   .pagehead h1{font-size:33px;font-weight:500}
   .pagehead .editview{font-size:14px;color:var(--brand)}
@@ -116,7 +114,6 @@
   .mrow .svc{text-align:center;font-size:15px}
   .section-gap{height:30px}
 
-  /* nested main + savings */
   .acct-main{border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:12px;border-top:3px solid var(--brand)}
   .main-row{display:grid;grid-template-columns:1fr 150px 150px 52px;align-items:center;padding:18px 16px}
   .main-row .nm{font-size:16px;font-weight:700}
@@ -146,22 +143,20 @@
   .disclaimer{margin-top:10px;font-size:11px;color:#b0b0b0}
   .placeholder{border:1px solid var(--line2);padding:40px;text-align:center;color:var(--muted);font-size:15px}
 
-  /* BankSmart */
+  /* BankSmart dashboard */
   .bs-hero{display:flex;align-items:center;gap:14px;margin-bottom:6px}
   .bs-hero h1{font-size:33px;font-weight:500}
-  .bs-tag{color:var(--muted);font-size:15px;margin-bottom:18px;max-width:680px}
-  .bsub-nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 24px;border-bottom:1px solid var(--line);padding-bottom:16px}
-  .bsub-nav a{font-size:14px;font-weight:600;color:#333;border:1px solid var(--line2);border-radius:999px;padding:8px 16px;cursor:pointer}
-  .bsub-nav a:hover{text-decoration:none;background:#fafafa}
-  .bsub-nav a.active{background:var(--brand);border-color:var(--brand);color:#fff}
+  .bs-tag{color:var(--muted);font-size:15px;margin-bottom:22px;max-width:680px}
   .bs-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
   .bs-card{border:1px solid var(--line2);border-radius:8px;padding:20px;display:flex;gap:14px}
   .bs-card .ic{flex:0 0 auto;width:42px;height:42px;border-radius:10px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:20px}
   .bs-card h3{font-size:16px;margin-bottom:4px}
   .bs-card p{font-size:13.5px;color:var(--muted);line-height:1.5}
   .bs-note{margin-top:18px;font-size:12.5px;color:var(--muted);display:flex;gap:8px;align-items:center}
-  .bs-h3{font-size:18px;margin-bottom:4px}
-  .bs-p{font-size:14px;color:var(--muted);margin-bottom:16px;max-width:680px}
+  .ask-wesley{margin-top:18px;border:1px dashed var(--brand);border-radius:10px;padding:16px;display:flex;align-items:center;gap:14px;background:#fffaf9}
+  .ask-wesley .txt{flex:1;font-size:14px}
+  .ask-wesley .txt b{display:block;font-size:15px;margin-bottom:2px}
+  .ask-wesley button{font-family:inherit;font-size:14px;font-weight:700;background:var(--brand);color:#fff;border:none;border-radius:999px;padding:10px 20px;cursor:pointer}
 
   .sts-label{font-size:13px;color:var(--muted);font-weight:700}
   .sts{font-size:40px;font-weight:800;letter-spacing:-.02em;margin-top:2px}
@@ -194,83 +189,31 @@
   .move.undone{opacity:.5}
   .move.undone .undo{border-color:#c3c6cd;color:var(--muted);pointer-events:none}
 
-  /* settings rows + toggles */
-  .setrow{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
-  .setrow:last-child{border-bottom:none}
-  .setrow .l{font-size:14.5px;font-weight:700}
-  .setrow .s{font-size:13px;color:var(--muted);margin-top:4px;max-width:560px;line-height:1.5}
-  .setctl{flex:0 0 auto;display:flex;align-items:center;gap:10px}
-  .toggle{position:relative;width:46px;height:26px;display:inline-block;flex:0 0 auto}
-  .toggle input{opacity:0;width:0;height:0}
-  .tk{position:absolute;inset:0;background:#c7c7c7;border-radius:999px;transition:.2s;cursor:pointer}
-  .tk::before{content:"";position:absolute;width:20px;height:20px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
-  .toggle input:checked + .tk{background:var(--success)}
-  .toggle input:checked + .tk::before{transform:translateX(20px)}
-  select,.numin{font-family:inherit;font-size:14px;padding:8px 10px;border:1px solid #bcbcbc;border-radius:4px;background:#fff}
-  .radiorow{display:flex;gap:16px;align-items:center;flex-wrap:wrap;font-size:14px}
-  .radiorow label{display:flex;align-items:center;gap:6px}
-  .estimate{margin-top:16px;background:var(--soft);border-radius:8px;padding:14px;font-size:14px}
-  .estimate b{font-size:17px}
-
-  /* what-if */
-  .whatif-input{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
-  .fieldw{flex:1;min-width:150px}
-  .fieldw label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}
-  .fieldw input{width:100%;padding:11px 12px;border:1px solid #bcbcbc;border-radius:4px;font-size:15px}
-  .redbtn{background:var(--brand);color:#fff;border:none;border-radius:4px;padding:12px 26px;font-size:15px;font-weight:700;cursor:pointer}
-  .redbtn:hover{background:#b2110c}
-  .wi-verdict{font-size:19px;font-weight:800;margin:18px 0 4px}
-  .wi-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:14px 0 20px}
-  .wi-metric{border:1px solid var(--line2);border-radius:8px;padding:14px}
-  .wi-metric .k{font-size:12px;color:var(--muted)}
-  .wi-metric .v{font-size:20px;font-weight:800;margin-top:4px}
-  .wi-options{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .wi-opt{border:1px solid var(--line2);border-radius:8px;padding:16px}
-  .wi-opt h4{font-size:15px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
-  .wi-opt p{font-size:13px;color:var(--muted);line-height:1.5}
-  .wi-opt .apply{margin-top:12px;border:1px solid var(--brand);background:#fff;color:var(--brand);border-radius:999px;padding:7px 16px;font-size:13px;font-weight:700;cursor:pointer}
-  .wi-opt .apply:hover{background:var(--brand);color:#fff}
-
-  /* offers */
-  .offer{display:flex;gap:14px;border:1px solid var(--line2);border-radius:8px;padding:18px;margin-bottom:12px}
-  .offer .oic{flex:0 0 auto;width:46px;height:46px;border-radius:10px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:22px}
-  .offer h4{font-size:15.5px}
-  .offer .why{font-size:12.5px;color:var(--info);margin-top:4px;font-weight:600}
-  .offer p{font-size:13.5px;color:var(--muted);margin-top:6px;line-height:1.5}
-  .offer .cta{margin-top:12px;border:1px solid var(--brand);background:var(--brand);color:#fff;border-radius:999px;padding:7px 16px;font-size:13px;font-weight:700;cursor:pointer}
-
-  .digest{background:#fafbfc;border:1px solid var(--line);border-radius:8px;padding:14px;margin-top:14px;font-size:13.5px}
-  .digest .dh{font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
-  /* Wesley */
-  .wesley{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line2);border-radius:12px;padding:18px;margin-bottom:22px;background:#fffaf9}
-  .wesley-av{flex:0 0 auto;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#da1710,#ff7468);display:flex;align-items:center;justify-content:center}
-  .wesley-body{flex:1}
-  .wesley-name{font-weight:800;font-size:15px;display:flex;align-items:center;gap:8px}
-  .wesley-tag{font-size:11px;font-weight:700;color:var(--brand);background:var(--soft);padding:2px 8px;border-radius:999px}
-  .wesley-msg{font-size:14px;color:#333;margin-top:4px;line-height:1.5}
-  .wesley-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-  .wesley-chips button{font-family:inherit;font-size:13px;border:1px solid var(--line2);background:#fff;border-radius:999px;padding:7px 14px;cursor:pointer}
-  .wesley-chips button:hover{background:var(--soft);border-color:var(--brand);color:var(--brand)}
-  /* Wesley chat */
-  .wesley-chat{border:1px solid var(--line2);border-radius:12px;margin-bottom:22px;overflow:hidden;display:flex;flex-direction:column}
-  .wesley-head{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);background:#fffaf9}
-  .wesley-status{font-size:12px;color:var(--success);margin-top:2px}
-  .chat-log{padding:16px;display:flex;flex-direction:column;gap:12px;max-height:360px;overflow-y:auto;background:#fff}
-  .wrow{display:flex;gap:10px;align-items:flex-end;align-self:flex-start;max-width:85%}
+  /* ====== Wesley floating chat ====== */
+  .wesley-av{border-radius:50%;background:linear-gradient(135deg,#da1710,#ff7468);display:flex;align-items:center;justify-content:center}
+  .wesley-fab{position:fixed;bottom:24px;right:24px;width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,#da1710,#ff7468);box-shadow:0 8px 24px rgba(0,0,0,.28);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:200;transition:transform .15s}
+  .wesley-fab:hover{transform:scale(1.06)}
+  .wesley-fab .fblabel{position:absolute;bottom:72px;right:0;background:#222;color:#fff;font-size:12px;padding:6px 10px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:.15s}
+  .wesley-fab:hover .fblabel{opacity:1}
+  .wesley-panel{position:fixed;bottom:98px;right:24px;width:370px;max-width:calc(100vw - 32px);height:540px;max-height:calc(100vh - 150px);background:#fff;border:1px solid var(--line2);border-radius:16px;box-shadow:0 18px 54px rgba(0,0,0,.28);display:flex;flex-direction:column;overflow:hidden;z-index:200}
+  .wesley-panel[hidden]{display:none}
+  .wp-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:#fffaf9;border-bottom:1px solid var(--line)}
+  .wp-id{display:flex;align-items:center;gap:10px}
+  .wesley-name{font-weight:800;font-size:15px}
+  .wesley-status{font-size:12px;color:var(--success);margin-top:1px}
+  .wp-close{background:none;border:none;font-size:18px;color:#777;cursor:pointer;line-height:1}
+  .chat-log{flex:1;padding:16px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;background:#fff}
+  .wrow{display:flex;gap:9px;align-items:flex-end;align-self:flex-start;max-width:88%}
   .wrow .mini{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#da1710,#ff7468);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
   .bubble{padding:11px 14px;border-radius:14px;font-size:14px;line-height:1.5}
   .bubble.wes{background:#f4f5f7;color:#222;border-bottom-left-radius:4px}
-  .bubble.me{background:var(--brand);color:#fff;border-bottom-right-radius:4px;align-self:flex-end;max-width:85%}
-  .bubble .act{margin-top:10px}
-  .bubble .act button{font-family:inherit;font-size:13px;font-weight:700;border:1px solid var(--brand);background:#fff;color:var(--brand);border-radius:999px;padding:6px 14px;cursor:pointer}
-  .bubble .act button:hover{background:var(--brand);color:#fff}
+  .bubble.me{background:var(--brand);color:#fff;border-bottom-right-radius:4px;align-self:flex-end;max-width:88%}
   .bubble.typing{color:var(--muted);font-style:italic}
-  .chat-suggest{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;border-top:1px solid var(--line);background:#fafbfc}
-  .chat-suggest button{font-family:inherit;font-size:13px;border:1px solid var(--line2);background:#fff;border-radius:999px;padding:7px 14px;cursor:pointer}
-  .chat-suggest button:hover{background:var(--soft);border-color:var(--brand);color:var(--brand)}
-  .chat-input{display:flex;gap:10px;padding:12px 16px;border-top:1px solid var(--line)}
+  .chat-input{display:flex;gap:10px;padding:12px 14px;border-top:1px solid var(--line)}
   .chat-input input{flex:1;font-family:inherit;font-size:14px;padding:11px 14px;border:1px solid #bcbcbc;border-radius:999px}
   .chat-input input:focus{outline:2px solid var(--brand);border-color:var(--brand)}
+  .wp-send{background:var(--brand);color:#fff;border:none;width:44px;border-radius:999px;cursor:pointer;font-size:16px}
+  .wp-send:hover{background:#b2110c}
 
   @media(max-width:900px){
     .util .in{gap:14px;flex-wrap:wrap}.sitenav{gap:16px}.sitenav a{font-size:16px}
@@ -279,7 +222,8 @@
     nav.tabs .in{gap:16px;overflow-x:auto}nav.tabs a{white-space:nowrap;font-size:15px}
     .pagehead h1{font-size:26px}
     .acctcols,.arow,.totrow,.main-row{grid-template-columns:1fr 100px 100px 44px}
-    .promos,.bs-grid,.grid2,.wi-metrics,.wi-options,.pots{grid-template-columns:1fr}
+    .promos,.bs-grid,.grid2,.pots{grid-template-columns:1fr}
+    .wesley-panel{right:12px;left:12px;width:auto}
   }
 </style>
 </head>
@@ -374,7 +318,6 @@
     <main class="wbc">
       <section class="page" data-page="overview">
         <div class="pagehead"><h1>Your accounts</h1><a class="editview" onclick="return false">Edit view ▾</a><div class="viewicons"><span>▦</span><span>☰</span></div></div>
-
         <div class="tbl"><div class="thead acctcols"><span>Account</span><span class="r">Available</span><span class="r">Current balance</span><span></span></div></div>
         <div class="acct-main">
           <div class="main-row">
@@ -402,7 +345,7 @@
 
         <div class="promos">
           <div class="promo"><h4>BankSmart <svg class="spk" width="18" height="18" viewBox="0 0 24 24" fill="url(#sgrad)"><use href="#spark"/></svg></h4><div class="meta">Powered by Wesley · your AI assistant</div><div class="mid">Wesley has you at <strong>$428.60</strong> safe to spend. 3 moves this week.</div><button class="applybtn" onclick="go('banksmart')">Open BankSmart</button></div>
-          <div class="promo"><h4 style="display:block">Thinking of a purchase?</h4><div class="mid">Use What-If to see if you can afford it — and how it affects your savings.</div><button class="applybtn" onclick="go('banksmart');bsgo('whatif')">Try What-If</button></div>
+          <div class="promo"><h4 style="display:block">Thinking of a purchase?</h4><div class="mid">Just ask Wesley "can I afford $1,200?" — he'll check the impact on your savings.</div><button class="applybtn" onclick="openWesley('Can I afford a $1,200 purchase?')">Ask Wesley</button></div>
           <div class="promo add" onclick="return false"><div class="plus">+</div><div>Add accounts</div></div>
         </div>
         <div class="lastsign">Last sign in 09:41am, 16 Nov 2026 AEST</div>
@@ -444,182 +387,51 @@
         <div style="margin-top:16px;display:flex;gap:10px"><button class="applybtn" style="margin:0" onclick="return false">Freeze card</button><button class="applybtn" style="margin:0" onclick="go('payments')">Pay card</button></div>
       </section>
 
-      <!-- ===== BANKSMART (all features nested here) ===== -->
+      <!-- BankSmart dashboard (features handled by Wesley chat) -->
       <section class="page" data-page="banksmart" hidden>
         <div class="bs-hero"><svg width="36" height="36" viewBox="0 0 24 24" fill="url(#sgrad)" aria-hidden="true"><use href="#spark"/></svg><h1>BankSmart</h1></div>
-        <div class="bs-tag">Powered by <strong>Wesley</strong> — your AI money assistant. Wesley keeps money in the right place across your own accounts, so bills are covered, savings fill themselves, and you always know what's safe to spend.</div>
+        <div class="bs-tag">Powered by <strong>Wesley</strong>, your AI money assistant. This is your snapshot — to do anything (check if you can afford something, change round-ups, see offers, manage automation), just chat with Wesley in the corner.</div>
 
-        <div class="wesley-chat">
-          <div class="wesley-head">
-            <div class="wesley-av"><svg width="30" height="30" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><use href="#spark"/></svg></div>
-            <div><div class="wesley-name">Wesley <span class="wesley-tag">AI assistant</span></div><div class="wesley-status">● Online · BankSmart</div></div>
-          </div>
-          <div class="chat-log" id="chatLog"></div>
-          <div class="chat-suggest">
-            <button onclick="wesleyAsk('Can I afford a $1,200 purchase?')">Can I afford a purchase?</button>
-            <button onclick="wesleyAsk('Adjust my round-ups')">Adjust my round-ups</button>
-            <button onclick="wesleyAsk('What offers do I qualify for?')">What do I qualify for?</button>
-            <button onclick="wesleyAsk('What did you do this week?')">What did you do this week?</button>
-          </div>
-          <div class="chat-input">
-            <input id="chatBox" placeholder="Ask Wesley about your money…" onkeydown="if(event.key==='Enter'){wesleySend();}">
-            <button class="redbtn" onclick="wesleySend()">Send</button>
-          </div>
+        <div class="ask-wesley">
+          <div class="wesley-av" style="width:44px;height:44px"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>
+          <div class="txt"><b>Talk to Wesley</b>Ask "can I afford $1,200?", "save harder", "what offers do I qualify for?", or "what did you do this week?"</div>
+          <button onclick="openWesley()">Chat with Wesley</button>
         </div>
 
-        <div class="bsub-nav">
-          <a data-bsub="dash" class="active" onclick="bsgo('dash')">Dashboard</a>
-          <a data-bsub="whatif" onclick="bsgo('whatif')">What-If</a>
-          <a data-bsub="roundups" onclick="bsgo('roundups')">Round-ups</a>
-          <a data-bsub="offers" onclick="bsgo('offers')">Offers for you</a>
-          <a data-bsub="auto" onclick="bsgo('auto')">Automation</a>
-        </div>
-
-        <!-- DASHBOARD -->
-        <div class="bsub" data-bsub="dash">
-          <div class="panelbox">
-            <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px">
-              <div><div class="sts-label">Safe to spend</div><div class="sts">$428<small>.60</small></div><div class="pill">✓ Bills &amp; rent already set aside · until payday Fri 28 Nov</div></div>
-              <div style="text-align:right"><div class="sts-label">Current balance</div><div class="sts" style="font-size:26px">$3,080.60</div></div>
-            </div>
-            <div class="allocbar"><span style="flex:4;background:var(--brand)"></span><span style="flex:3;background:#f0a500"></span><span style="flex:2;background:#0067b1"></span><span style="flex:3;background:#008a4b"></span></div>
-            <div class="legend"><span><i style="background:var(--brand)"></i>Spending</span><span><i style="background:#f0a500"></i>Bills</span><span><i style="background:#0067b1"></i>Buffer</span><span><i style="background:#008a4b"></i>Goals</span></div>
-            <div class="pots">
-              <div class="pot"><div class="pn"><span class="dot" style="background:var(--brand)"></span>Spending</div><div class="pv">$428.60</div><div class="pnote" style="color:var(--muted)">Safe to spend</div></div>
-              <div class="pot"><div class="pn"><span class="dot" style="background:#f0a500"></span>Bills</div><div class="pv">$612.00</div><div class="pnote" style="color:var(--success)">✓ 4 bills covered</div></div>
-              <div class="pot"><div class="pn"><span class="dot" style="background:#0067b1"></span>Buffer</div><div class="pv">$300.00</div><div class="pnote" style="color:var(--muted)">Auto-sized</div></div>
-              <div class="pot"><div class="pn"><span class="dot" style="background:#008a4b"></span>Rental bond</div><div class="pv">$1,740.00</div><div class="pnote" style="color:var(--success)">On track</div></div>
-            </div>
+        <div class="panelbox">
+          <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px">
+            <div><div class="sts-label">Safe to spend</div><div class="sts">$428<small>.60</small></div><div class="pill">✓ Bills &amp; rent already set aside · until payday Fri 28 Nov</div></div>
+            <div style="text-align:right"><div class="sts-label">Current balance</div><div class="sts" style="font-size:26px">$3,080.60</div></div>
           </div>
-          <div class="grid2">
-            <div class="panelbox" style="margin:0">
-              <h3 style="font-size:16px;margin-bottom:2px">Looking ahead</h3>
-              <div style="font-size:12.5px;color:var(--muted)">We spot a dip before it happens — and smooth it.</div>
-              <svg class="chart" viewBox="0 0 560 210" preserveAspectRatio="none" role="img" aria-label="Balance forecast smoothed above zero">
-                <line x1="0" y1="160" x2="560" y2="160" stroke="#e4e6eb" stroke-width="1"/><text x="4" y="176" font-size="12" fill="#9a9ea6" font-family="sans-serif">$0</text>
-                <path d="M0,55 L95,76 L190,104 L285,186 L380,142 L475,104 L560,84" fill="none" stroke="#c4121a" stroke-width="2.5" stroke-dasharray="6 5" opacity=".85"/>
-                <path d="M0,55 L95,80 L190,110 L285,132 L380,122 L475,92 L560,76" fill="none" stroke="var(--brand)" stroke-width="3.5"/>
-                <circle cx="285" cy="186" r="5.5" fill="#c4121a"/><text x="250" y="206" font-size="12" fill="#c4121a" font-family="sans-serif">14 Dec — 3 bills</text>
-              </svg>
-              <div class="fcap"><span class="ic">⟳</span><span><strong>I moved $120 forward in time.</strong> Three bills land the week of 14 Dec — I set aside small amounts weeks early so you won't run dry. — Wesley</span></div>
-            </div>
-            <div class="panelbox feed" style="margin:0">
-              <h3 style="font-size:16px;margin-bottom:8px">What Wesley did for you</h3>
-              <div class="move"><div class="mbadge" style="background:var(--soft);color:var(--brand)">🛡️</div><div style="flex:1"><div class="mt">Temptation shield</div><div class="md">I locked $80 away during your Friday big-spend window and released it Sat 9 AM.</div><div class="mf"><span class="mtime">Fri 8:02 PM</span><button class="undo">Undo</button></div></div></div>
-              <div class="move"><div class="mbadge" style="background:var(--info-bg);color:var(--info)">⤵</div><div style="flex:1"><div class="mt">Rescue sweep</div><div class="md">I topped up Spending with $45 from your Buffer so your transit charge cleared — no fee.</div><div class="mf"><span class="mtime">Wed 7:14 AM</span><button class="undo">Undo</button></div></div></div>
-              <div class="move"><div class="mbadge" style="background:var(--success-bg);color:var(--success)">↩</div><div style="flex:1"><div class="mt">Self-repaying savings</div><div class="md">I returned $60 to your bond goal from this week's surplus.</div><div class="mf"><span class="mtime">Mon 6:00 AM</span><button class="undo">Undo</button></div></div></div>
-            </div>
-          </div>
-          <div class="bs-note">🔒 BankSmart only moves money between your own accounts — never to third parties.</div>
-        </div>
-
-        <!-- WHAT-IF -->
-        <div class="bsub" data-bsub="whatif" hidden>
-          <div class="bs-h3">Can I afford it?</div>
-          <div class="bs-p">See how a purchase would affect your safe-to-spend and your savings goal — then pick how to adjust.</div>
-          <div class="panelbox">
-            <div class="whatif-input">
-              <div class="fieldw"><label>Purchase amount ($)</label><input type="number" id="wiAmount" placeholder="e.g. 1200" oninput="whatIf()"></div>
-              <div class="fieldw"><label>What for? (optional)</label><input type="text" id="wiFor" placeholder="e.g. Trip to Japan"></div>
-              <button class="redbtn" onclick="whatIf()">Check</button>
-            </div>
-            <div id="wiResult"></div>
+          <div class="allocbar"><span style="flex:4;background:var(--brand)"></span><span style="flex:3;background:#f0a500"></span><span style="flex:2;background:#0067b1"></span><span style="flex:3;background:#008a4b"></span></div>
+          <div class="legend"><span><i style="background:var(--brand)"></i>Spending</span><span><i style="background:#f0a500"></i>Bills</span><span><i style="background:#0067b1"></i>Buffer</span><span><i style="background:#008a4b"></i>Goals</span></div>
+          <div class="pots">
+            <div class="pot"><div class="pn"><span class="dot" style="background:var(--brand)"></span>Spending</div><div class="pv">$428.60</div><div class="pnote" style="color:var(--muted)">Safe to spend</div></div>
+            <div class="pot"><div class="pn"><span class="dot" style="background:#f0a500"></span>Bills</div><div class="pv">$612.00</div><div class="pnote" style="color:var(--success)">✓ 4 bills covered</div></div>
+            <div class="pot"><div class="pn"><span class="dot" style="background:#0067b1"></span>Buffer</div><div class="pv">$300.00</div><div class="pnote" style="color:var(--muted)">Auto-sized</div></div>
+            <div class="pot"><div class="pn"><span class="dot" style="background:#008a4b"></span>Rental bond</div><div class="pv">$1,740.00</div><div class="pnote" style="color:var(--success)">On track</div></div>
           </div>
         </div>
-
-        <!-- ROUND-UPS -->
-        <div class="bsub" data-bsub="roundups" hidden>
-          <div class="bs-h3">Round-up settings</div>
-          <div class="bs-p">Tell Wesley which purchases qualify and how hard to save — Wesley rounds up your purchases and moves the spare change to your goal.</div>
-          <div class="panelbox">
-            <div class="setrow">
-              <div><div class="l">Round-ups</div><div class="s">Turn spare-change saving on or off.</div></div>
-              <div class="setctl"><label class="toggle"><input type="checkbox" checked><span class="tk"></span></label></div>
-            </div>
-            <div class="setrow">
-              <div><div class="l">Eligibility — which purchases qualify</div><div class="s">Only round up purchases above or below a set amount, so big one-offs (or tiny taps) don't skew your saving.</div>
-                <div class="radiorow" style="margin-top:10px">
-                  <label><input type="radio" name="elig" checked onchange="updateRoundup()"> Above</label>
-                  <label><input type="radio" name="elig" onchange="updateRoundup()"> Below</label>
-                  <span>$ <input class="numin" id="ruThresh" type="number" value="5" style="width:80px" oninput="updateRoundup()"></span>
-                </div>
-              </div>
-            </div>
-            <div class="setrow">
-              <div><div class="l">Round up to the nearest</div><div class="s">How far each purchase rounds up.</div></div>
-              <div class="setctl"><select id="ruNearest" onchange="updateRoundup()"><option value="1">$1</option><option value="2">$2</option><option value="5">$5</option></select></div>
-            </div>
-            <div class="setrow">
-              <div><div class="l">Savings intensity</div><div class="s">Multiply each round-up. Higher reaches your goal faster.</div></div>
-              <div class="setctl"><select id="ruMult" onchange="updateRoundup()"><option value="1">1× (Budget friendly)</option><option value="2" selected>2×</option><option value="5">5× (Hard savings)</option></select></div>
-            </div>
-            <div class="setrow">
-              <div><div class="l">Send round-ups to</div><div class="s">Which goal fills up.</div></div>
-              <div class="setctl"><select><option>Rental bond (Westpac Life)</option><option>Holiday fund</option><option>Rainy-day buffer</option></select></div>
-            </div>
-            <div class="estimate">Wesley will set aside: <b id="ruEstimate">≈ $12.40 / week</b> → your bond goal reaches target <span id="ruWhen">~3 weeks sooner</span>.</div>
+        <div class="grid2">
+          <div class="panelbox" style="margin:0">
+            <h3 style="font-size:16px;margin-bottom:2px">Looking ahead</h3>
+            <div style="font-size:12.5px;color:var(--muted)">Wesley spots a dip before it happens — and smooths it.</div>
+            <svg class="chart" viewBox="0 0 560 210" preserveAspectRatio="none" role="img" aria-label="Balance forecast smoothed above zero">
+              <line x1="0" y1="160" x2="560" y2="160" stroke="#e4e6eb" stroke-width="1"/><text x="4" y="176" font-size="12" fill="#9a9ea6" font-family="sans-serif">$0</text>
+              <path d="M0,55 L95,76 L190,104 L285,186 L380,142 L475,104 L560,84" fill="none" stroke="#c4121a" stroke-width="2.5" stroke-dasharray="6 5" opacity=".85"/>
+              <path d="M0,55 L95,80 L190,110 L285,132 L380,122 L475,92 L560,76" fill="none" stroke="var(--brand)" stroke-width="3.5"/>
+              <circle cx="285" cy="186" r="5.5" fill="#c4121a"/><text x="250" y="206" font-size="12" fill="#c4121a" font-family="sans-serif">14 Dec — 3 bills</text>
+            </svg>
+            <div class="fcap"><span class="ic">⟳</span><span><strong>I moved $120 forward in time.</strong> Three bills land the week of 14 Dec — I set aside small amounts weeks early so you won't run dry. — Wesley</span></div>
+          </div>
+          <div class="panelbox feed" style="margin:0">
+            <h3 style="font-size:16px;margin-bottom:8px">What Wesley did for you</h3>
+            <div class="move"><div class="mbadge" style="background:var(--soft);color:var(--brand)">🛡️</div><div style="flex:1"><div class="mt">Temptation shield</div><div class="md">I locked $80 away during your Friday big-spend window and released it Sat 9 AM.</div><div class="mf"><span class="mtime">Fri 8:02 PM</span><button class="undo">Undo</button></div></div></div>
+            <div class="move"><div class="mbadge" style="background:var(--info-bg);color:var(--info)">⤵</div><div style="flex:1"><div class="mt">Rescue sweep</div><div class="md">I topped up Spending with $45 from your Buffer so your transit charge cleared — no fee.</div><div class="mf"><span class="mtime">Wed 7:14 AM</span><button class="undo">Undo</button></div></div></div>
+            <div class="move"><div class="mbadge" style="background:var(--success-bg);color:var(--success)">↩</div><div style="flex:1"><div class="mt">Self-repaying savings</div><div class="md">I returned $60 to your bond goal from this week's surplus.</div><div class="mf"><span class="mtime">Mon 6:00 AM</span><button class="undo">Undo</button></div></div></div>
           </div>
         </div>
-
-        <!-- OFFERS -->
-        <div class="bsub" data-bsub="offers" hidden>
-          <div class="bs-h3">Offers Wesley found for you</div>
-          <div class="bs-p">Wesley reads your spending to surface offers that actually fit — shown only when you qualify. Nothing is applied unless you choose it.</div>
-          <div class="offer">
-            <div class="oic">✈️</div>
-            <div style="flex:1">
-              <h4>Travel insurance</h4>
-              <div class="why">Wesley spotted: flights + hotel booked to Japan (Dec), and no active travel cover found.</div>
-              <p>Single-trip cover for your December dates. BankSmart spotted the trip from your recent spending.</p>
-              <button class="cta" onclick="return false">See cover</button>
-            </div>
-          </div>
-          <div class="offer">
-            <div class="oic">💳</div>
-            <div style="flex:1">
-              <h4>Fee-free overseas card</h4>
-              <div class="why">Why you're eligible: upcoming overseas trip detected; your current card charges foreign-transaction fees.</div>
-              <p>Avoid overseas purchase fees while you travel. Could save you an estimated $60–$90 on this trip.</p>
-              <button class="cta" onclick="return false">Learn more</button>
-            </div>
-          </div>
-          <div class="offer">
-            <div class="oic">📈</div>
-            <div style="flex:1">
-              <h4>Bonus saver rate</h4>
-              <div class="why">Why you're eligible: you've grown your Westpac Life balance every month for 6 months.</div>
-              <p>A higher bonus interest rate on your savings for keeping up regular deposits.</p>
-              <button class="cta" onclick="return false">Check rate</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- AUTOMATION -->
-        <div class="bsub" data-bsub="auto" hidden>
-          <div class="bs-h3">Automation</div>
-          <div class="bs-p">Let Wesley handle the small stuff automatically — always internal to your own accounts, always reversible.</div>
-          <div class="panelbox">
-            <div class="setrow">
-              <div><div class="l">Let Wesley cover fees automatically</div><div class="s">If a transaction would trigger a dishonour or overdraw fee, Wesley moves money internally from your Buffer to cover it first — so you avoid the fee.</div></div>
-              <div class="setctl"><label class="toggle"><input type="checkbox" checked><span class="tk"></span></label></div>
-            </div>
-            <div class="setrow">
-              <div><div class="l">Wesley's smart sweeps</div><div class="s">Wesley moves surplus into savings on good weeks and eases off on tight ones, between your own accounts.</div></div>
-              <div class="setctl"><label class="toggle"><input type="checkbox" checked><span class="tk"></span></label></div>
-            </div>
-            <div class="setrow">
-              <div><div class="l">How Wesley notifies you</div><div class="s">Let Wesley bundle round-up and money-movement alerts into one digest instead of pinging you for every move.</div></div>
-              <div class="setctl">
-                <select id="notifFreq" onchange="notifChange()"><option value="daily">Daily</option><option value="weekly" selected>Weekly</option></select>
-                <label class="toggle"><input type="checkbox" id="notifGroup" checked onchange="notifChange()"><span class="tk"></span></label>
-              </div>
-            </div>
-            <div id="digestBox" class="digest">
-              <div class="dh">🔔 Weekly digest · 3 moves this week</div>
-              <div class="muted" style="font-size:13px;line-height:1.6">+$12.40 round-ups → Rental bond · $45 rescue sweep → Spending · $60 goal top-up → Rental bond. Tap any to review or undo.</div>
-            </div>
-          </div>
-        </div>
+        <div class="bs-note">🔒 Wesley only moves money between your own accounts — never to third parties.</div>
       </section>
 
       <section class="page" data-page="settings" hidden>
@@ -628,7 +440,7 @@
           <div class="thead" style="grid-template-columns:1fr 160px"><span>Setting</span><span class="r">Action</span></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Personal details</div><div class="v"><a onclick="return false">Edit</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Security &amp; sign-in</div><div class="v"><a onclick="return false">Manage</a></div></div>
-          <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">BankSmart round-ups &amp; automation</div><div class="v"><a onclick="go('banksmart');bsgo('roundups')">Manage</a></div></div>
+          <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">BankSmart round-ups &amp; automation</div><div class="v"><a onclick="openWesley('Adjust my round-ups')">Ask Wesley</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Notifications</div><div class="v"><a onclick="go('inbox')">Manage</a></div></div>
         </div>
       </section>
@@ -716,21 +528,19 @@
 
       <section class="page" data-page="banksmart" hidden>
         <div class="bs-hero"><svg width="36" height="36" viewBox="0 0 24 24" fill="url(#sgrad)" aria-hidden="true"><use href="#spark"/></svg><h1>BankSmart</h1></div>
-        <div class="bs-tag">Powered by <strong>Wesley</strong> — your AI assistant for business banking. Wesley watches your cash flow and keeps money in the right place across your own accounts, automatically.</div>
-        <div class="wesley">
-          <div class="wesley-av"><svg width="30" height="30" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><use href="#spark"/></svg></div>
-          <div class="wesley-body">
-            <div class="wesley-name">Wesley <span class="wesley-tag">AI assistant</span></div>
-            <div class="wesley-msg">I'm watching your cash flow. Heads up: three bills and payroll land the week of 14 Dec — I've started pre-funding so you won't be caught short.</div>
-          </div>
+        <div class="bs-tag">Powered by <strong>Wesley</strong>, your AI assistant for business banking. Here's your snapshot — to act on anything, just chat with Wesley in the corner.</div>
+        <div class="ask-wesley">
+          <div class="wesley-av" style="width:44px;height:44px"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>
+          <div class="txt"><b>Talk to Wesley</b>Ask "what's my cash-flow forecast?", "pre-fund my bills", or "any unusual payments?"</div>
+          <button onclick="openWesley()">Chat with Wesley</button>
         </div>
         <div class="bs-grid">
-          <div class="bs-card"><div class="ic">📈</div><div><h3>Cash-flow forecast</h3><p>Projects your balance weeks ahead and flags a shortfall before it happens — like the week supplier bills and payroll collide.</p></div></div>
-          <div class="bs-card"><div class="ic">⟳</div><div><h3>Smart sweeps</h3><p>Moves surplus between your own accounts to pre-fund bills and earn on idle cash. Internal only — money never leaves your business.</p></div></div>
-          <div class="bs-card"><div class="ic">🧾</div><div><h3>Payment insights</h3><p>Spots duplicate invoices, supplier price creep, and unusual outgoing payments across all your accounts.</p></div></div>
-          <div class="bs-card"><div class="ic">🛡️</div><div><h3>Fraud &amp; anomaly alerts</h3><p>Learns your normal payment patterns and raises the one alert that matters — before an approval goes through.</p></div></div>
+          <div class="bs-card"><div class="ic">📈</div><div><h3>Cash-flow forecast</h3><p>Wesley projects your balance weeks ahead and flags a shortfall before it happens — like the week supplier bills and payroll collide.</p></div></div>
+          <div class="bs-card"><div class="ic">⟳</div><div><h3>Smart sweeps</h3><p>Wesley moves surplus between your own accounts to pre-fund bills and earn on idle cash. Internal only — money never leaves your business.</p></div></div>
+          <div class="bs-card"><div class="ic">🧾</div><div><h3>Payment insights</h3><p>Wesley spots duplicate invoices, supplier price creep, and unusual outgoing payments across all your accounts.</p></div></div>
+          <div class="bs-card"><div class="ic">🛡️</div><div><h3>Fraud &amp; anomaly alerts</h3><p>Wesley learns your normal payment patterns and raises the one alert that matters — before an approval goes through.</p></div></div>
         </div>
-        <div class="bs-note">🔒 BankSmart only moves money between your own business accounts — never to third parties.</div>
+        <div class="bs-note">🔒 Wesley only moves money between your own business accounts — never to third parties.</div>
       </section>
 
       <section class="page" data-page="settings" hidden>
@@ -762,13 +572,28 @@
       </section>
     </main>
   </div>
+
+  <!-- ===== Wesley floating chat ===== -->
+  <div class="wesley-fab" onclick="openWesley()"><span class="fblabel">Chat with Wesley</span><svg width="32" height="32" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>
+  <div class="wesley-panel" id="wesleyPanel" hidden>
+    <div class="wp-head">
+      <div class="wp-id"><div class="wesley-av" style="width:38px;height:38px"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>
+        <div><div class="wesley-name">Wesley</div><div class="wesley-status">● Online · your AI money assistant</div></div></div>
+      <button class="wp-close" onclick="closeWesley()">✕</button>
+    </div>
+    <div class="chat-log" id="chatLog"></div>
+    <div class="chat-input">
+      <input id="chatBox" placeholder="Ask Wesley…" onkeydown="if(event.key==='Enter'){wesleySend();}">
+      <button class="wp-send" onclick="wesleySend()">➤</button>
+    </div>
+  </div>
 </div>
 
 <script>
   var loginEl=document.getElementById('login'), appEl=document.getElementById('app');
   document.getElementById('loginForm').addEventListener('submit',function(e){e.preventDefault();enter();});
   function enter(){loginEl.hidden=true;appEl.hidden=false;setMode('personal');}
-  function logout(){appEl.hidden=true;loginEl.hidden=false;window.scrollTo(0,0);}
+  function logout(){appEl.hidden=true;loginEl.hidden=false;closeWesley();window.scrollTo(0,0);}
   function togglePw(){var p=document.getElementById('pw');p.type=(p.type==='password')?'text':'password';}
   function toggleMenu(e){e.stopPropagation();var m=document.getElementById('modeMenu');m.hidden=!m.hidden;}
   document.addEventListener('click',function(){var m=document.getElementById('modeMenu');if(m)m.hidden=true;});
@@ -786,86 +611,63 @@
     var key=(page==='account')?'overview':((page==='approval'||page==='inbox')?null:page);
     m.querySelectorAll('nav.tabs a').forEach(function(a){a.classList.toggle('active',a.getAttribute('data-nav')===key);});
     window.scrollTo(0,0);
-    if(page==='banksmart') seedChat();
-  }
-  function bsgo(sub){
-    var sec=document.querySelector('.mode:not([hidden]) [data-page="banksmart"]'); if(!sec) return;
-    sec.querySelectorAll('.bsub').forEach(function(b){b.hidden=(b.getAttribute('data-bsub')!==sub);});
-    sec.querySelectorAll('.bsub-nav a').forEach(function(a){a.classList.toggle('active',a.getAttribute('data-bsub')===sub);});
   }
   document.querySelectorAll('.undo').forEach(function(u){u.addEventListener('click',function(){u.closest('.move').classList.add('undone');u.textContent='Reversed';});});
 
-  // Wesley chat
+  // ===== Wesley chat =====
   var chatSeeded=false;
   var MINI='<div class="mini"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>';
+  function openWesley(prefill){
+    document.getElementById('wesleyPanel').hidden=false;
+    seedChat();
+    if(prefill){ var b=document.getElementById('chatBox'); b.value=prefill; setTimeout(function(){b.focus();},50); }
+    else { setTimeout(function(){document.getElementById('chatBox').focus();},50); }
+  }
+  function closeWesley(){document.getElementById('wesleyPanel').hidden=true;}
   function seedChat(){
     var log=document.getElementById('chatLog'); if(!log||chatSeeded) return; chatSeeded=true;
-    wesleyBubble("Hi Alex — I'm Wesley, your BankSmart assistant. You're <strong>$428.60</strong> safe to spend until payday, and I've made 3 moves this week — all internal and reversible. Ask me anything, or tap a suggestion below.");
+    wesleyBubble("Hi Alex — I'm Wesley, your BankSmart assistant. You're <strong>$428.60</strong> safe to spend until payday, and I've made 3 moves this week — all internal and reversible. Ask me anything: affording a purchase, round-ups, offers, fees, or what I've been doing.");
   }
   function addMe(t){var log=document.getElementById('chatLog');var d=document.createElement('div');d.className='bubble me';d.textContent=t;log.appendChild(d);log.scrollTop=log.scrollHeight;}
   function wesleyBubble(html){var log=document.getElementById('chatLog');var row=document.createElement('div');row.className='wrow';row.innerHTML=MINI+'<div class="bubble wes">'+html+'</div>';log.appendChild(row);log.scrollTop=log.scrollHeight;}
   function wesleyAsk(text){addMe(text);var log=document.getElementById('chatLog');var typing=document.createElement('div');typing.className='wrow';typing.innerHTML=MINI+'<div class="bubble wes typing">Wesley is typing…</div>';log.appendChild(typing);log.scrollTop=log.scrollHeight;var ans=answerFor(text);setTimeout(function(){typing.remove();wesleyBubble(ans);},650);}
   function wesleySend(){var b=document.getElementById('chatBox');var v=(b.value||'').trim();if(!v)return;b.value='';wesleyAsk(v);}
-  function answerFor(t){
-    t=t.toLowerCase();
-    function act(label,sub){return '<div class="act"><button onclick="bsgo(\''+sub+'\')">'+label+'</button></div>';}
-    if(/afford|buy|purchase|can i get|spend on/.test(t)) return "Let's check it properly. Pop the amount into What-If and I'll show the impact on your safe-to-spend and your bond goal — with a Budget Friendly and a Hard Savings option."+act('Open What-If','whatif');
-    if(/round.?up|round up|spare change/.test(t)) return "You choose which purchases qualify (above or below a set amount) and how hard to save. Want to adjust it?"+act('Open round-ups','roundups');
-    if(/offer|qualify|eligible|deal/.test(t)) return "From your spending, you qualify for travel insurance (I spotted a Japan trip), a fee-free overseas card, and a bonus saver rate. Nothing's applied unless you choose it."+act('See offers','offers');
-    if(/fee|overdraw|dishonou?r|bounce/.test(t)) return "I can cover potential fees automatically — moving money internally from your Buffer before a charge bounces. It's on right now; you can manage it in Automation."+act('Open Automation','auto');
-    if(/did you do|this week|moves|what have you|activity/.test(t)) return "This week I made 3 moves: 🛡️ locked $80 away Friday night (released Sat), ⤵ rescued a $45 shortfall so a charge cleared, and ↩ returned $60 to your bond goal. All reversible."+act('View on Dashboard','dash');
-    if(/safe to spend|balance|how much|left to spend/.test(t)) return "You're <strong>$428.60</strong> safe to spend until payday (Fri 28 Nov). Your bills and rent are already set aside, so that figure is genuinely yours.";
-    if(/save|saving|goal|bond/.test(t)) return "Your bond goal is $1,740 of $2,500 — on track for March. I can save a bit harder if you'd like."+act('Adjust saving','roundups');
-    if(/notif|alert|digest/.test(t)) return "I can bundle round-up and money-movement alerts into one daily or weekly digest, so you're not pinged for every move. Manage it in Automation."+act('Open Automation','auto');
-    if(/\b(hi|hello|hey|thanks|thank you|cheers)\b/.test(t)) return "Happy to help! Ask me about what's safe to spend, affording a purchase, round-ups, offers, or the moves I make.";
-    return "I can help with what's safe to spend, affording a purchase, round-ups, the offers you qualify for, fees, and the moves I make. Tap a suggestion, or ask in your own words.";
-  }
-
-  // What-If
   function money(n){return '$'+n.toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2});}
-  function whatIf(){
-    var el=document.getElementById('wiResult');
-    var amt=parseFloat(document.getElementById('wiAmount').value)||0;
-    if(amt<=0){el.innerHTML='';return;}
+
+  function answerFor(t){
+    t=(t||'').toLowerCase();
+    var amtMatch=t.replace(/,/g,'').match(/\$?\s?(\d+(?:\.\d+)?)/);
+    var amt=amtMatch?parseFloat(amtMatch[1]):0;
     var safe=428.60, buffer=300, weekly=55;
-    var after=safe-amt;
-    var verdict,color;
-    if(after>=0){verdict='✓ Yes — you can afford this now';color='#008a4b';}
-    else if(amt<=safe+buffer){verdict='⚠ Tight — you\'d dip into your buffer';color='#b8610a';}
-    else {verdict='✕ Not right now — this exceeds your safe-to-spend and buffer';color='#c4121a';}
-    var bufferUsed=Math.max(0,Math.min(buffer,amt-safe));
-    var delay=Math.ceil(amt/weekly);
-    var recover=Math.ceil(amt/(weekly*2));
-    el.innerHTML =
-      '<div style="font-size:12px;color:var(--muted);font-weight:700;margin-top:16px;letter-spacing:.04em">WESLEY\'S VERDICT</div>'+
-      '<div class="wi-verdict" style="color:'+color+';margin-top:2px">'+verdict+'</div>'+
-      '<div class="wi-metrics">'+
-        '<div class="wi-metric"><div class="k">Safe to spend after</div><div class="v" style="color:'+(after<0?'#c4121a':'#222')+'">'+money(after)+'</div></div>'+
-        '<div class="wi-metric"><div class="k">Buffer used</div><div class="v">'+money(bufferUsed)+'</div></div>'+
-        '<div class="wi-metric"><div class="k">Bond goal impact</div><div class="v">+'+delay+' wks</div></div>'+
-      '</div>'+
-      '<div class="bs-p" style="margin:0 0 10px">Wesley recommends:</div>'+
-      '<div class="wi-options">'+
-        '<div class="wi-opt"><h4>🪶 Budget Friendly</h4><p>Ease round-ups to 1× for a few weeks so day-to-day stays comfortable. Your bond goal shifts about <strong>'+delay+' weeks</strong> later.</p><button class="apply" onclick="bsgo(\'roundups\')">Use Budget Friendly</button></div>'+
-        '<div class="wi-opt"><h4>💪 Hard Savings</h4><p>Raise round-ups to 5× and sweep surplus to recover the cost in about <strong>'+recover+' weeks</strong> — goal date held, spending a little tighter.</p><button class="apply" onclick="bsgo(\'roundups\')">Use Hard Savings</button></div>'+
-      '</div>';
-  }
-
-  // Round-ups estimate
-  function updateRoundup(){
-    var mult=parseFloat((document.getElementById('ruMult')||{}).value||2);
-    var nearest=parseFloat((document.getElementById('ruNearest')||{}).value||1);
-    var base=6.2*nearest; // fake base change/week scaled by rounding target
-    var est=base*mult;
-    var e=document.getElementById('ruEstimate'); if(e) e.textContent='≈ '+money(est)+' / week';
-    var w=document.getElementById('ruWhen'); if(w) w.textContent = mult>=5?'~8 weeks sooner':(mult>=2?'~3 weeks sooner':'on current schedule');
-  }
-
-  // Notifications grouping
-  function notifChange(){
-    var on=(document.getElementById('notifGroup')||{}).checked;
-    var box=document.getElementById('digestBox');
-    if(box) box.style.display = on ? '' : 'none';
+    // affordability
+    if(/afford|can i (buy|get|spend)|should i (buy|get)|big purchase|i want to buy/.test(t)){
+      if(!amt) return "Sure — how much is it? Tell me the amount (e.g. “can I afford $1,200?”) and I'll check the impact on your safe-to-spend and your bond goal.";
+      var after=safe-amt, used=Math.max(0,Math.min(buffer,amt-safe)), delay=Math.ceil(amt/weekly), recover=Math.ceil(amt/(weekly*2));
+      var v = after>=0 ? "✓ Yes, you can afford a "+money(amt)+" purchase now." : (amt<=safe+buffer ? "⚠ It's tight — a "+money(amt)+" purchase would dip into your buffer." : "✕ Not right now — "+money(amt)+" is beyond your safe-to-spend and buffer.");
+      return v+" You'd have <strong>"+money(after)+"</strong> safe to spend"+(used>0?", using "+money(used)+" of your $300 buffer":"")+", and your bond goal shifts about <strong>"+delay+" weeks</strong>. I'd suggest <strong>Budget Friendly</strong> (ease round-ups, goal slips ~"+delay+" wks) or <strong>Hard Savings</strong> (5× round-ups, recover in ~"+recover+" wks). Want me to switch you to one? Just say “budget friendly” or “hard savings”.";
+    }
+    // round-ups
+    if(/hard savings|save harder|save more|round.?up.*(5|high|max)/.test(t)) return "Done — I've switched you to <strong>Hard Savings</strong> (5× round-ups). You'll set aside about <strong>$31/week</strong>, reaching your bond goal roughly 8 weeks sooner. Day-to-day will be a touch tighter.";
+    if(/budget friendly|save less|save easier|ease off|round.?up.*(1|low|min)/.test(t)) return "Done — <strong>Budget Friendly</strong> it is (1× round-ups), about <strong>$6.20/week</strong>. Keeps your everyday spending comfortable; goal moves a little later.";
+    if(/round.?up (above|over)|only (above|over)/.test(t)) return "Got it — I'll only round up purchases <strong>above $"+(amt||5)+"</strong>, so small taps won't chip in. You can change the amount any time.";
+    if(/round.?up (below|under)|only (below|under)/.test(t)) return "Got it — I'll only round up purchases <strong>below $"+(amt||5)+"</strong>, so big one-offs won't skew your saving.";
+    if(/round.?up|spare change|round up/.test(t)) return "Right now I round purchases up to the nearest $1 at 2×, on purchases above $5 — about <strong>$12.40/week</strong> toward your bond goal. I can save <em>harder</em> or <em>easier</em>, or only round up above/below a set amount. Just tell me.";
+    // offers
+    if(/offer|qualify|eligible|deal|discount/.test(t)) return "From your spending, you qualify for three right now:<br>• <strong>Travel insurance</strong> — I spotted a Japan trip (flights + hotel) with no cover.<br>• <strong>Fee-free overseas card</strong> — for that trip; could save ~$60–90.<br>• <strong>Bonus saver rate</strong> — you've grown your savings 6 months straight.<br>Nothing's applied unless you choose it.";
+    // fees / automation
+    if(/(turn off|disable|stop).*(fee)/.test(t)) return "Okay — automatic fee cover is now <strong>off</strong>. I won't move money to cover a potential fee, so keep an eye on tight days.";
+    if(/(turn on|enable).*(fee)|cover.*(fee)|fee cover|avoid.*(fee)/.test(t)) return "Automatic fee cover is <strong>on</strong> — if a charge would trigger a dishonour or overdraw fee, I'll move money internally from your Buffer first so you avoid it.";
+    if(/sweep/.test(t)) return "Smart sweeps are on — I move surplus into savings on good weeks and ease off on tight ones, always between your own accounts.";
+    // notifications
+    if(/notif|alert|digest|group/.test(t)) return "I bundle round-up and money-movement alerts into one <strong>weekly digest</strong> so you're not pinged for every move. Want it daily instead, or ungrouped? Just say so.";
+    // activity
+    if(/did you do|this week|moves|what have you|activity|history/.test(t)) return "This week I made 3 moves: 🛡️ locked $80 away Friday night (released Sat), ⤵ rescued a $45 shortfall so a charge cleared, and ↩ returned $60 to your bond goal. All reversible from your BankSmart dashboard.";
+    // safe to spend / balance
+    if(/safe to spend|how much.*(spend|left)|balance|spare/.test(t)) return "You're <strong>$428.60</strong> safe to spend until payday (Fri 28 Nov). Bills and rent are already set aside, so that number is genuinely free to spend.";
+    if(/save|saving|goal|bond/.test(t)) return "Your bond goal is <strong>$1,740 of $2,500</strong> — on track for March. I can save harder if you like; just say “save harder”.";
+    if(/forecast|ahead|future|run dry|short/.test(t)) return "Heads up for 14 Dec — three bills land that week. I've already moved $120 forward in time, setting small amounts aside now so you won't run dry.";
+    if(/\b(hi|hello|hey|yo|thanks|thank you|cheers|good)\b/.test(t)) return "Happy to help! You can ask me about what's safe to spend, affording a purchase, round-ups, offers you qualify for, fees, or what I've been doing.";
+    return "I can help with: what's safe to spend, whether you can afford a purchase, round-ups (save harder/easier, above/below a set amount), the offers you qualify for, fee cover, and the moves I make. What would you like?";
   }
 </script>
 </body>
