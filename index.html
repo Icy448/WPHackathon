@@ -18,7 +18,9 @@
   .screen[hidden]{display:none}
   .page[hidden]{display:none}
   .mode[hidden]{display:none}
-  .wmark{display:inline-block;line-height:0}
+  .wmark{display:inline-block;line-height:0;cursor:pointer;user-select:none;-webkit-user-select:none;transition:transform .12s cubic-bezier(0.175, 0.885, 0.32, 1.275)}
+  .wmark:hover{opacity:.9}
+  .wmark:active,.wmark.wah-bounce{transform:scale(1.15) rotate(-3deg)}
   .chev{color:var(--brand);font-weight:700;margin-right:8px}
   .spk{vertical-align:middle}
   .muted{color:var(--muted)}
@@ -441,7 +443,7 @@
     <a onclick="return false">Locate us</a><a class="strong" onclick="return false">Register for Westpac Online Banking</a>
   </div></div>
   <div class="sitehead"><div class="in">
-    <span class="wmark"><svg width="56" height="40" viewBox="0 0 100 64" aria-label="Westpac"><polyline points="10,6 30,58 50,24 70,58 90,6" fill="none" stroke="#da1710" stroke-width="16" stroke-linejoin="miter"/></svg></span>
+    <span class="wmark" role="button" tabindex="0" title="Westpac" aria-label="Westpac" onclick="playWah(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><svg width="56" height="40" viewBox="0 0 100 64" aria-label="Westpac"><polyline points="10,6 30,58 50,24 70,58 90,6" fill="none" stroke="#da1710" stroke-width="16" stroke-linejoin="miter"/></svg></span>
     <span class="divider"></span>
     <div class="sitenav"><a onclick="return false">Home</a><a onclick="return false">Personal</a><a class="active" onclick="return false">Business</a><a onclick="return false">Corporate</a><a onclick="return false">About us</a></div>
   </div></div>
@@ -475,7 +477,7 @@
     <div><a onclick="return false"><span class="chev">›</span>Security Guarantee</a><a onclick="return false"><span class="chev">›</span>Westpac Protect™ SMS Code</a><a onclick="return false"><span class="chev">›</span>SecurID® Token</a></div>
   </div>
   <div class="sitefoot"><div class="in">
-    <span class="wmark"><svg width="40" height="28" viewBox="0 0 100 64" aria-label="Westpac"><polyline points="10,6 30,58 50,24 70,58 90,6" fill="none" stroke="#da1710" stroke-width="16" stroke-linejoin="miter"/></svg></span>
+    <span class="wmark" role="button" tabindex="0" title="Westpac" aria-label="Westpac" onclick="playWah(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><svg width="40" height="28" viewBox="0 0 100 64" aria-label="Westpac"><polyline points="10,6 30,58 50,24 70,58 90,6" fill="none" stroke="#da1710" stroke-width="16" stroke-linejoin="miter"/></svg></span>
     <div class="fine">Conditions, fees and charges apply. These may change or we may introduce new ones in the future. Full details are available on request. Lending criteria apply to approval of credit products.<br><br><strong>Concept prototype for demonstration only — not affiliated with or endorsed by Westpac.</strong></div>
   </div></div>
 
@@ -494,7 +496,7 @@
 <div id="app" class="screen" hidden>
   <header class="wbc">
     <div class="in">
-      <span class="wmark" style="cursor:pointer" onclick="go('overview')"><svg width="52" height="38" viewBox="0 0 100 64" aria-label="Westpac"><polyline points="10,6 30,58 50,24 70,58 90,6" fill="none" stroke="#da1710" stroke-width="16" stroke-linejoin="miter"/></svg></span>
+      <span class="wmark" role="button" tabindex="0" title="Westpac" aria-label="Westpac" onclick="playWah(this); go('overview')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><svg width="52" height="38" viewBox="0 0 100 64" aria-label="Westpac"><polyline points="10,6 30,58 50,24 70,58 90,6" fill="none" stroke="#da1710" stroke-width="16" stroke-linejoin="miter"/></svg></span>
       <div class="entity">
         <div class="dropdown" onclick="toggleMenu(event)">
           <span id="modeLabel">Personal banking</span><span>▾</span>
@@ -1032,6 +1034,67 @@
 </div>
 
 <script>
+  // ==========================================
+  // WAH SOUND EFFECT FOR "W" BUTTON
+  // ==========================================
+  var wahAudio = null;
+  try {
+    wahAudio = new Audio('wah.mp3');
+    wahAudio.preload = 'auto';
+  } catch (e) {
+    console.warn('Audio preloading failed:', e);
+  }
+
+  function playWah(el) {
+    try {
+      if (!wahAudio) {
+        wahAudio = new Audio('wah.mp3');
+      }
+      var sound = wahAudio.cloneNode(true);
+      var p = sound.play();
+      if (p !== undefined) {
+        p.catch(function() {
+          wahAudio.currentTime = 0;
+          wahAudio.play().catch(function(err) {
+            console.warn('Could not play wah.mp3:', err);
+          });
+        });
+      }
+    } catch (e) {
+      try {
+        if (wahAudio) {
+          wahAudio.currentTime = 0;
+          wahAudio.play().catch(function(){});
+        }
+      } catch (err) {
+        console.warn('Audio play failed:', err);
+      }
+    }
+
+    // Visual bounce feedback
+    var target = el || (typeof event !== 'undefined' && event && event.target && event.target.closest && event.target.closest('.wmark'));
+    if (!target) {
+      target = document.querySelector('.screen:not([hidden]) .wmark') || document.querySelector('.wmark');
+    }
+    if (target) {
+      target.classList.remove('wah-bounce');
+      void target.offsetWidth; // trigger reflow to re-fire animation on rapid clicks
+      target.classList.add('wah-bounce');
+      setTimeout(function() {
+        target.classList.remove('wah-bounce');
+      }, 200);
+    }
+  }
+  window.playWah = playWah;
+
+  // Global fallback listener in case any .wmark is clicked without an inline handler
+  document.addEventListener('click', function(e) {
+    var target = e.target && e.target.closest && e.target.closest('.wmark');
+    if (target && !target.hasAttribute('onclick')) {
+      playWah(target);
+    }
+  });
+
   // ==========================================
   // DATA MODELS & PRE-POPULATED DEMO USERS
   // ==========================================
