@@ -104,6 +104,7 @@
   .arow .num{font-size:13px;color:var(--muted);margin-top:3px}
   .arow .v{text-align:right;font-size:15px}
   .expand{justify-self:end;width:34px;height:34px;border:1px solid #c7c7c7;border-radius:4px;background:#fff;color:#555;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px}
+  .expand:hover{background:#f1f1f1;color:#111}
   .totrow{display:grid;grid-template-columns:1fr 150px 150px 52px;align-items:center;padding:16px;border-bottom:1px solid var(--line)}
   .totrow .lbl{text-align:right;padding-right:20px;font-size:14px;color:#333}
   .totrow .v{text-align:right;font-size:20px;font-weight:700}
@@ -167,11 +168,104 @@
   .allocbar span{height:100%}
   .legend{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:13px;color:var(--muted)}
   .legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:7px;vertical-align:middle}
-  .pots{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
-  .pot{border:1px solid var(--line2);border-radius:8px;padding:16px}
+  .pots{display:grid;grid-template-columns:repeat(auto-fill, minmax(210px, 1fr));gap:14px;margin-top:22px}
+  .pot{border:1px solid var(--line2);border-radius:8px;padding:16px;background:#fff;position:relative;display:flex;flex-direction:column}
   .pot .pn{font-size:13px;color:var(--muted);font-weight:700;display:flex;align-items:center;gap:7px}
   .pot .pv{font-size:22px;font-weight:800;margin-top:8px}
   .pot .pnote{font-size:12px;font-weight:700;margin-top:8px}
+  .pot-tag{display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;padding:2px 6px;border-radius:4px;background:#f1f1f1;color:var(--muted);margin-left:auto}
+  .pot-del{position:absolute;top:10px;right:10px;background:none;border:none;color:#aaa;cursor:pointer;font-size:16px;line-height:1;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .pot-del:hover{background:#fee2e2;color:var(--brand)}
+  .pot .potbar{height:6px;background:#e7e7e7;border-radius:999px;overflow:hidden;margin-top:8px}
+  .pot .potbar span{display:block;height:100%;border-radius:999px}
+  .pot-add-card{border:2px dashed #d0d0d0;border-radius:8px;padding:16px;background:#fafafa;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;min-height:120px;color:var(--brand);transition:border-color .15s, background .15s}
+  .pot-add-card:hover{border-color:var(--brand);background:var(--soft)}
+  .pot-add-card .plus-icon{font-size:26px;font-weight:700;line-height:1;margin-bottom:6px}
+  .pot-add-card .txt{font-size:13px;font-weight:700}
+
+  /* Modals */
+  .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:900;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(2px)}
+  .modal-backdrop[hidden]{display:none}
+  .modal-box{background:#fff;border-radius:12px;box-shadow:0 12px 36px rgba(0,0,0,0.22);max-width:480px;width:100%;max-height:92vh;overflow-y:auto;padding:24px}
+  .modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;border-bottom:1px solid var(--line);padding-bottom:12px}
+  .modal-head h2{font-size:20px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:8px}
+  .modal-close{background:none;border:none;font-size:22px;color:#777;cursor:pointer;padding:4px 8px;border-radius:4px;line-height:1}
+  .modal-close:hover{background:#f1f1f1;color:#111}
+  .form-group{margin-bottom:15px}
+  .form-group label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:#2d2d2d}
+  .form-group input, .form-group select{width:100%;padding:10px 12px;border:1px solid #767676;border-radius:4px;font-size:14.5px;font-family:inherit;background:#fff}
+  .form-group input:focus, .form-group select:focus{outline:2px solid #1a6fd4;border-color:#1a6fd4}
+  .color-swatches{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:6px}
+  .color-swatch{width:28px;height:28px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:transform .15s}
+  .color-swatch.active{border-color:#222;transform:scale(1.15)}
+  .type-toggle{display:flex;border:1px solid #c7c7c7;border-radius:6px;overflow:hidden;margin-bottom:18px}
+  .type-btn{flex:1;padding:10px;text-align:center;font-size:14px;font-weight:700;background:#f9f9f9;border:none;cursor:pointer;color:var(--ink);transition:.15s}
+  .type-btn.active{background:var(--brand2);color:#fff}
+  .chip-presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .preset-chip{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;border:1px solid var(--line2);background:#f7f7f7;cursor:pointer;color:#333;font-family:inherit}
+  .preset-chip:hover{background:var(--soft);border-color:var(--brand);color:var(--brand)}
+  .preset-chip.active{background:var(--brand2);border-color:var(--brand2);color:#fff}
+  
+  /* Toast Notification */
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#2d2a54;color:#fff;padding:12px 24px;border-radius:999px;font-size:14px;font-weight:600;box-shadow:0 6px 24px rgba(0,0,0,0.25);display:flex;align-items:center;gap:10px;z-index:999;transition:opacity .3s, transform .3s}
+  .toast[hidden]{display:none}
+
+  /* Floating Corner Buttons & Popups */
+  .demo-corner{
+    position:fixed;
+    bottom:20px;
+    left:20px;
+    z-index:250;
+    background:#ffffff;
+    border:1.5px dashed #b5b5b5;
+    color:#333;
+    padding:8px 14px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 4px 14px rgba(0,0,0,0.12);
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-family:inherit;
+    transition:all .15s ease;
+  }
+  .demo-corner[hidden]{display:none !important}
+  .demo-corner:hover{
+    border-color:var(--brand);
+    color:var(--brand);
+    background:#fffaf9;
+    box-shadow:0 6px 20px rgba(218,23,16,0.18);
+    transform:translateY(-1px);
+  }
+  .demo-pop{
+    position:fixed;
+    bottom:62px;
+    left:20px;
+    width:340px;
+    max-width:calc(100vw - 40px);
+    background:#fff;
+    border:1px solid var(--line2);
+    border-radius:12px;
+    box-shadow:0 12px 36px rgba(0,0,0,0.2);
+    z-index:260;
+    overflow:hidden;
+  }
+  .demo-pop[hidden]{display:none}
+  .demo-pop-head{padding:10px 16px 8px;font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;border-bottom:1px solid var(--line);background:#fafafa}
+  .demo-row{display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;text-decoration:none;color:inherit;transition:background .12s;border-bottom:1px solid #f2f2f2}
+  .demo-row:last-child{border-bottom:none}
+  .demo-row:hover{background:var(--soft);color:var(--brand)}
+  .demo-avatar{width:36px;height:36px;border-radius:50%;background:#e5e7eb;color:#333;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .demo-row:hover .demo-avatar{background:var(--brand);color:#fff}
+  .demo-info{flex:1;min-width:0}
+  .demo-info .name{font-size:14px;font-weight:700;color:#222;display:flex;align-items:center;gap:6px}
+  .demo-info .role{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+  .demo-info .cid{font-size:11px;color:#777;font-family:monospace}
+  .demo-reset-btn{width:100%;text-align:center;padding:11px 16px;font-size:12.5px;color:var(--muted);background:#f9f9f9;border:none;border-top:1px solid var(--line);cursor:pointer;font-weight:700;font-family:inherit}
+  .demo-reset-btn:hover{color:var(--brand);background:#fff}
+
   .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
   .grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;align-items:start}
   .chart{width:100%;height:210px;display:block;padding:8px 10px 0}
@@ -256,8 +350,8 @@
     <h1>Sign in to Westpac Online Banking</h1>
     <form class="signcard" id="loginForm">
       <div class="col">
-        <div class="field"><label>Customer ID</label><input type="text" autocomplete="username"></div>
-        <div class="field"><label>Password</label><div class="pwwrap"><input type="password" id="pw" autocomplete="current-password"><span class="eye" onclick="togglePw()">👁</span></div></div>
+        <div class="field"><label for="custId">Customer ID</label><input type="text" id="custId" autocomplete="username" placeholder="e.g. 21157077"></div>
+        <div class="field"><label for="pw">Password</label><div class="pwwrap"><input type="password" id="pw" autocomplete="current-password"><span class="eye" onclick="togglePw()">👁</span></div></div>
         <label class="remember"><input type="checkbox"> Remember customer ID</label>
         <button type="submit" class="signinbtn">Sign in</button>
         <a class="forgot" onclick="return false">Forgot password or customer ID?</a>
@@ -285,6 +379,16 @@
     <span class="wmark"><svg width="40" height="28" viewBox="0 0 100 64" aria-label="Westpac"><polyline points="10,6 30,58 50,24 70,58 90,6" fill="none" stroke="#da1710" stroke-width="16" stroke-linejoin="miter"/></svg></span>
     <div class="fine">Conditions, fees and charges apply. These may change or we may introduce new ones in the future. Full details are available on request. Lending criteria apply to approval of credit products.<br><br><strong>Concept prototype for demonstration only — not affiliated with or endorsed by Westpac.</strong></div>
   </div></div>
+
+  <!-- Corner Demo Accounts Quick-Login Button & Popup Menu -->
+  <button type="button" class="demo-corner" id="demoLoginBtn" onclick="toggleDemoMenu(event)" aria-haspopup="true">
+    <span style="font-size:15px">👤</span> Demo accounts ▾
+  </button>
+  <div class="demo-pop" id="demoMenu" hidden>
+    <div class="demo-pop-head">Select a demo profile to sign in</div>
+    <div id="demoUserList"></div>
+    <button type="button" class="demo-reset-btn" onclick="resetDemoData()">↺ Reset all demo data</button>
+  </div>
 </div>
 
 <!-- ===================== APP ===================== -->
@@ -296,8 +400,8 @@
         <div class="dropdown" onclick="toggleMenu(event)">
           <span id="modeLabel">Personal banking</span><span>▾</span>
           <div class="menu" id="modeMenu" hidden>
-            <a onclick="setMode('personal')">Personal banking</a>
-            <a onclick="setMode('business')">COMPANY PTY LTD - Business banking</a>
+            <a onclick="setMode(\'personal\')">Personal banking</a>
+            <a onclick="setMode(\'business\')">COMPANY PTY LTD - Business banking</a>
           </div>
         </div>
       </div>
@@ -321,54 +425,31 @@
     <main class="wbc">
       <section class="page" data-page="overview">
         <div class="pagehead"><h1>Your accounts</h1><a class="editview" onclick="return false">Edit view ▾</a><div class="viewicons"><span>▦</span><span>☰</span></div></div>
-        <div class="tbl"><div class="thead acctcols"><span>Account</span><span class="r">Available</span><span class="r">Current balance</span><span></span></div></div>
-        <div class="acct-main">
-          <div class="main-row">
-            <div><div class="nm">Westpac Choice</div><div class="num">BSB 032-000 · 1234 5678 · Everyday</div></div>
-            <div class="v">$3,080.60</div><div class="v">$3,080.60</div>
-            <button class="expand" onclick="go('account')">▾</button>
-          </div>
-          <div class="linked">
-            <div class="sub-row">
-              <div><div class="nm">Westpac Life <span class="tag">Linked savings</span></div><div class="num">BSB 032-000 · 8765 4321 · where your savings &amp; goals live</div></div>
-              <div class="v">$1,740.00</div>
-            </div>
-            <div class="goal">Rental bond goal — <strong>$1,740</strong> of $2,500 · on track for March
-              <div class="goalbar"><span style="width:70%"></span></div>
-            </div>
-          </div>
-        </div>
-        <div class="totrow" style="border:1px solid var(--line);border-top:none;border-radius:0 0 8px 8px;margin-top:-12px;margin-bottom:12px"><div class="lbl">Accounts total</div><div class="v">$4,820.60</div><div class="v">$4,820.60</div><div></div></div>
-
-        <div class="section-gap"></div>
-        <div class="tbl">
-          <div class="thead acctcols"><span>Credit cards</span><span class="r">Available</span><span class="r">Owing</span><span></span></div>
-          <div class="arow" style="border-bottom:1px solid var(--line)"><div><div class="nm">Low Rate Card</div><div class="num">Card ending 4417</div></div><div class="v">$4,312.00</div><div class="v">$688.00</div><button class="expand" onclick="go('cards')">▾</button></div>
-        </div>
+        
+        <!-- Dynamic Personal Accounts Section -->
+        <div id="ovPersonalAccountsSection"></div>
+        <div id="ovPersonalCardsSection"></div>
+        <div id="ovPersonalTermSection"></div>
 
         <div class="promos">
-          <div class="promo"><h4>BankSmart <svg class="spk" width="18" height="18" viewBox="0 0 24 24" fill="url(#sgrad)"><use href="#spark"/></svg></h4><div class="meta">Powered by Wesley · your AI assistant</div><div class="mid">Wesley has you at <strong>$428.60</strong> safe to spend. 3 moves this week.</div><button class="applybtn" onclick="go('banksmart')">Open BankSmart</button></div>
+          <div class="promo"><h4>BankSmart <svg class="spk" width="18" height="18" viewBox="0 0 24 24" fill="url(#sgrad)"><use href="#spark"/></svg></h4><div class="meta">Powered by Wesley · your AI assistant</div><div class="mid">Wesley has you at <strong id="overviewPromoSts">$428.60</strong> safe to spend. 3 moves this week.</div><button class="applybtn" onclick="go('banksmart')">Open BankSmart</button></div>
           <div class="promo"><h4 style="display:block">Thinking of a purchase?</h4><div class="mid">Just ask Wesley "can I afford $1,200?" — he'll check the impact on your savings.</div><button class="applybtn" onclick="openWesley('Can I afford a $1,200 purchase?')">Ask Wesley</button></div>
           <div class="promo add" onclick="return false"><div class="plus">+</div><div>Add accounts</div></div>
         </div>
-        <div class="lastsign">Last sign in 09:41am, 16 Nov 2026 AEST</div>
+        <div class="lastsign" id="overviewLastSign">Last sign in 09:41am, 16 Nov 2026 AEST</div>
         <div class="disclaimer">Concept prototype for demonstration only — not affiliated with or endorsed by Westpac.</div>
       </section>
 
+      <!-- Personal Account / Transaction Page -->
       <section class="page" data-page="account" hidden>
-        <div class="pagehead"><h1>Westpac Choice</h1></div>
-        <div class="tbl">
-          <div class="thead acctcols"><span>Account</span><span class="r">Available</span><span class="r">Current balance</span><span></span></div>
-          <div class="arow" style="border-bottom:1px solid var(--line)"><div><div class="nm">Westpac Choice</div><div class="num">BSB 032-000 · 1234 5678</div></div><div class="v">$3,080.60</div><div class="v">$3,080.60</div><span></span></div>
-        </div>
+        <div class="pagehead"><h1 id="acctPageTitle">Westpac Choice</h1></div>
+        <div id="acctSummaryContainer"></div>
         <div class="section-gap"></div>
-        <div class="tbl">
-          <div class="thead" style="grid-template-columns:120px 1fr 130px 140px"><span>Date</span><span>Description</span><span class="r">Amount</span><span class="r">Balance</span></div>
-          <div class="arow" style="grid-template-columns:120px 1fr 130px 140px;border-bottom:1px solid var(--line);padding:14px 16px"><div class="num" style="margin:0">15 Nov</div><div style="font-weight:600">Woolworths Bondi Junction</div><div class="v">−$84.20</div><div class="v">$3,080.60</div></div>
-          <div class="arow" style="grid-template-columns:120px 1fr 130px 140px;border-bottom:1px solid var(--line);padding:14px 16px"><div class="num" style="margin:0">14 Nov</div><div style="font-weight:600">Salary — Acme Pty Ltd</div><div class="v" style="color:#008a4b">+$2,480.00</div><div class="v">$3,164.80</div></div>
-          <div class="arow" style="grid-template-columns:120px 1fr 130px 140px;border-bottom:1px solid var(--line);padding:14px 16px"><div class="num" style="margin:0">13 Nov</div><div style="font-weight:600">Netflix.com</div><div class="v">−$18.99</div><div class="v">$684.80</div></div>
+        <div id="acctTxContainer"></div>
+        <div style="margin-top:20px;display:flex;align-items:center;justify-content:space-between">
+          <a style="cursor:pointer" onclick="go('overview')">‹ Back to accounts</a>
+          <button class="hbtn" onclick="openTxModal()" style="color:var(--brand);border-color:var(--brand);font-weight:700">＋ Add transaction</button>
         </div>
-        <div style="margin-top:20px"><a onclick="go('overview')">‹ Back to accounts</a></div>
       </section>
 
       <section class="page" data-page="payments" hidden>
@@ -383,14 +464,11 @@
 
       <section class="page" data-page="cards" hidden>
         <div class="pagehead"><h1>Cards</h1></div>
-        <div class="tbl">
-          <div class="thead" style="grid-template-columns:1fr 150px 150px"><span>Card</span><span class="r">Available</span><span class="r">Owing</span></div>
-          <div class="arow" style="grid-template-columns:1fr 150px 150px;border-bottom:1px solid var(--line)"><div><div class="nm">Low Rate Card</div><div class="num">Card ending 4417 · Limit $5,000</div></div><div class="v">$4,312.00</div><div class="v">$688.00</div></div>
-        </div>
+        <div id="cardsListContainer"></div>
         <div style="margin-top:16px;display:flex;gap:10px"><button class="applybtn" style="margin:0" onclick="return false">Freeze card</button><button class="applybtn" style="margin:0" onclick="go('payments')">Pay card</button></div>
       </section>
 
-      <!-- BankSmart dashboard (features handled by Wesley chat) -->
+      <!-- BankSmart dashboard -->
       <section class="page" data-page="banksmart" hidden>
         <div class="bs-hero"><svg width="36" height="36" viewBox="0 0 24 24" fill="url(#sgrad)" aria-hidden="true"><use href="#spark"/></svg><h1>BankSmart</h1></div>
         <div class="bs-tag">Powered by <strong>Wesley</strong>, your AI money assistant. This is your snapshot — to do anything (check if you can afford something, change round-ups, see offers, manage automation), just chat with Wesley in the corner.</div>
@@ -402,18 +480,22 @@
         </div>
 
         <div class="panelbox">
-          <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px">
-            <div><div class="sts-label">Safe to spend</div><div class="sts">$428<small>.60</small></div><div class="pill">✓ Bills &amp; rent already set aside · until payday Fri 28 Nov</div></div>
-            <div style="text-align:right"><div class="sts-label">Current balance</div><div class="sts" style="font-size:26px">$3,080.60</div></div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px">
+            <div>
+              <div class="sts-label">Safe to spend</div>
+              <div class="sts" id="bsSafeToSpend">$428<small>.60</small></div>
+              <div class="pill">✓ Bills &amp; rent already set aside · until payday Fri 28 Nov</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px">
+              <div style="text-align:right"><div class="sts-label">Current balance</div><div class="sts" style="font-size:26px" id="bankSmartCurrentBal">$3,080.60</div></div>
+              <button class="hbtn" onclick="openPlanModal()" style="font-weight:700;color:var(--brand);border-color:var(--brand);padding:7px 14px;background:#fff">
+                <span style="font-size:16px;line-height:1;margin-right:2px">+</span> Add goal or bucket
+              </button>
+            </div>
           </div>
-          <div class="allocbar"><span style="flex:4;background:var(--brand)"></span><span style="flex:3;background:#f0a500"></span><span style="flex:2;background:#0067b1"></span><span style="flex:3;background:#008a4b"></span></div>
-          <div class="legend"><span><i style="background:var(--brand)"></i>Spending</span><span><i style="background:#f0a500"></i>Bills</span><span><i style="background:#0067b1"></i>Buffer</span><span><i style="background:#008a4b"></i>Goals</span></div>
-          <div class="pots">
-            <div class="pot"><div class="pn"><span class="dot" style="background:var(--brand)"></span>Spending</div><div class="pv">$428.60</div><div class="pnote" style="color:var(--muted)">Safe to spend</div></div>
-            <div class="pot"><div class="pn"><span class="dot" style="background:#f0a500"></span>Bills</div><div class="pv">$612.00</div><div class="pnote" style="color:var(--success)">✓ 4 bills covered</div></div>
-            <div class="pot"><div class="pn"><span class="dot" style="background:#0067b1"></span>Buffer</div><div class="pv">$300.00</div><div class="pnote" style="color:var(--muted)">Auto-sized</div></div>
-            <div class="pot"><div class="pn"><span class="dot" style="background:#008a4b"></span>Rental bond</div><div class="pv">$1,740.00</div><div class="pnote" style="color:var(--success)">On track</div></div>
-          </div>
+          <div class="allocbar" id="savingsAllocBar"></div>
+          <div class="legend" id="savingsLegend"></div>
+          <div class="pots" id="savingsPots"></div>
         </div>
         <div class="grid2">
           <div class="panelbox" style="margin:0">
@@ -464,15 +546,14 @@
     <main class="wbc">
       <section class="page" data-page="overview">
         <div class="pagehead"><h1>Your accounts</h1><a class="editview" onclick="return false">Edit view ▾</a><div class="viewicons"><span>▦</span><span>☰</span></div></div>
-        <div class="tbl">
-          <div class="thead acctcols"><span>Account</span><span class="r">Available</span><span class="r">Current balance</span><span></span></div>
-          <div class="arow"><div><div class="nm">Westpac Business One</div><div class="num">00000000000</div></div><div class="v">$6,228.93</div><div class="v">$6,228.93</div><button class="expand" onclick="go('account')">▾</button></div>
-          <div class="totrow"><div class="lbl">Accounts total</div><div class="v">$6,228.93</div><div class="v">$6,228.93</div><div></div></div>
-        </div>
+        
+        <!-- Dynamic Business Accounts Section -->
+        <div id="ovBusinessAccountsSection"></div>
+        
         <div class="section-gap"></div>
         <div class="tbl">
           <div class="thead merchcols"><span>Merchant member number</span><span style="text-align:center">Merchant services (MIDS)</span><span></span></div>
-          <div class="mrow"><div><div class="nm">Rollers Pty Ltd</div><div class="num">00000000000</div></div><div class="svc">6 Services</div><button class="expand" onclick="return false">▾</button></div>
+          <div class="mrow"><div><div class="nm" id="ovMerchName">Rollers Pty Ltd</div><div class="num">00000000000</div></div><div class="svc">6 Services</div><button class="expand" onclick="return false">▾</button></div>
         </div>
         <div class="promos">
           <div class="promo"><h4>The share market <span style="color:#555">⚙</span></h4><div class="meta">Westpac Share Trading</div><div class="foot"><em>International Markets Roundup...</em><br><a onclick="return false">more</a><br>Source: Morningstar</div></div>
@@ -483,20 +564,16 @@
         <div class="disclaimer">Concept prototype for demonstration only — not affiliated with or endorsed by Westpac.</div>
       </section>
 
+      <!-- Business Account / Transaction Page -->
       <section class="page" data-page="account" hidden>
-        <div class="pagehead"><h1>Westpac Business One</h1></div>
-        <div class="tbl">
-          <div class="thead acctcols"><span>Account</span><span class="r">Available</span><span class="r">Current balance</span><span></span></div>
-          <div class="arow" style="border-bottom:1px solid var(--line)"><div><div class="nm">Westpac Business One</div><div class="num">00000000000</div></div><div class="v">$6,228.93</div><div class="v">$6,228.93</div><span></span></div>
-        </div>
+        <div class="pagehead"><h1 id="bizAcctPageTitle">Westpac Business One</h1></div>
+        <div id="bizAcctSummaryContainer"></div>
         <div class="section-gap"></div>
-        <div class="tbl">
-          <div class="thead" style="grid-template-columns:120px 1fr 140px 150px"><span>Date</span><span>Description</span><span class="r">Amount</span><span class="r">Balance</span></div>
-          <div class="arow" style="grid-template-columns:120px 1fr 140px 150px;border-bottom:1px solid var(--line);padding:14px 16px"><div class="num" style="margin:0">15 Nov 2026</div><div style="font-weight:600">EFTPOS Settlement — Rollers Pty Ltd</div><div class="v" style="color:#008a4b">+$1,284.00</div><div class="v">$6,228.93</div></div>
-          <div class="arow" style="grid-template-columns:120px 1fr 140px 150px;border-bottom:1px solid var(--line);padding:14px 16px"><div class="num" style="margin:0">14 Nov 2026</div><div style="font-weight:600">BPAY — ATO Integrated Client Acct</div><div class="v">−$2,100.00</div><div class="v">$4,944.93</div></div>
-          <div class="arow" style="grid-template-columns:120px 1fr 140px 150px;border-bottom:1px solid var(--line);padding:14px 16px"><div class="num" style="margin:0">13 Nov 2026</div><div style="font-weight:600">Officeworks Business</div><div class="v">−$318.40</div><div class="v">$7,044.93</div></div>
+        <div id="bizAcctTxContainer"></div>
+        <div style="margin-top:20px;display:flex;align-items:center;justify-content:space-between">
+          <a style="cursor:pointer" onclick="go('overview')">‹ Back to accounts</a>
+          <button class="hbtn" onclick="openTxModal()" style="color:var(--brand);border-color:var(--brand);font-weight:700">＋ Add transaction</button>
         </div>
-        <div style="margin-top:20px"><a onclick="go('overview')">‹ Back to accounts</a></div>
       </section>
 
       <section class="page" data-page="payments" hidden>
@@ -576,6 +653,115 @@
     </main>
   </div>
 
+  <!-- Modal: Add Goal or Bucket to Saving Plan -->
+  <div class="modal-backdrop" id="planModal" hidden onclick="if(event.target===this)closePlanModal()">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="planModalTitle">
+      <div class="modal-head">
+        <h2 id="planModalTitle"><span id="planModalIcon">🎯</span> Add Savings Goal</h2>
+        <button class="modal-close" onclick="closePlanModal()" aria-label="Close dialog">✕</button>
+      </div>
+      <form id="planForm" onsubmit="event.preventDefault();submitPlanItem();">
+        <div class="type-toggle">
+          <button type="button" class="type-btn active" id="typeGoalBtn" onclick="setPlanType('goal')">🎯 Savings Goal</button>
+          <button type="button" class="type-btn" id="typeBucketBtn" onclick="setPlanType('bucket')">🪣 Cash Bucket</button>
+        </div>
+
+        <div class="form-group">
+          <label for="planItemName">Name</label>
+          <input type="text" id="planItemName" placeholder="e.g. Holiday to Japan, Emergency Fund" required maxlength="40">
+          <div class="chip-presets">
+            <span style="font-size:11.5px;color:var(--muted);align-self:center">Suggestions:</span>
+            <button type="button" class="preset-chip" onclick="applyPreset('✈️ Holiday Trip', 'goal', 2500, 150, '#7e22ce', 'Dec 2027')">✈️ Holiday Trip</button>
+            <button type="button" class="preset-chip" onclick="applyPreset('🚗 New Car', 'goal', 6000, 400, '#0067b1', 'June 2028')">🚗 New Car</button>
+            <button type="button" class="preset-chip" onclick="applyPreset('🛡️ Emergency Buffer', 'bucket', 0, 300, '#0d9488')">🛡️ Emergency Buffer</button>
+            <button type="button" class="preset-chip" onclick="applyPreset('☕ Dining & Fun', 'bucket', 0, 100, '#f0a500')">☕ Dining &amp; Fun</button>
+            <button type="button" class="preset-chip" onclick="applyPreset('💻 Laptop & Tech', 'goal', 1800, 200, '#db2777', 'Aug 2027')">💻 Laptop</button>
+          </div>
+        </div>
+
+        <div class="form-group" id="goalTargetGroup">
+          <label for="planItemTarget">Target Goal Amount ($)</label>
+          <input type="number" id="planItemTarget" placeholder="e.g. 2500" min="1" step="any">
+        </div>
+
+        <div class="form-group">
+          <label for="planItemAmount">Starting Balance ($)</label>
+          <input type="number" id="planItemAmount" placeholder="e.g. 100 (or 0)" min="0" step="any" value="100">
+          <div style="font-size:12px;color:var(--muted);margin-top:4px">Funds immediately set aside in this bucket/goal.</div>
+        </div>
+
+        <div class="form-group" id="goalDateGroup">
+          <label for="planItemDate">Target Date / Timeline (optional)</label>
+          <input type="text" id="planItemDate" placeholder="e.g. Dec 2027 or 6 months">
+        </div>
+
+        <div class="form-group">
+          <label>Color Tag</label>
+          <div class="color-swatches" id="colorSwatches"></div>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:22px">
+          <button type="button" class="applybtn" onclick="closePlanModal()" style="margin:0">Cancel</button>
+          <button type="submit" class="signinbtn" style="padding:10px 24px;font-size:15px" id="planSubmitBtn">Add to Saving Plan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add Transaction -->
+  <div class="modal-backdrop" id="txModal" hidden onclick="if(event.target===this)closeTxModal()">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="txModalTitle">
+      <div class="modal-head">
+        <h2 id="txModalTitle"><span>💳</span> Add Transaction</h2>
+        <button class="modal-close" onclick="closeTxModal()" aria-label="Close dialog">✕</button>
+      </div>
+      <form id="txForm" onsubmit="event.preventDefault();submitTransaction();">
+        <div class="type-toggle">
+          <button type="button" class="type-btn active" id="txTypeDebitBtn" onclick="setTxType('debit')">− Debit (money out)</button>
+          <button type="button" class="type-btn" id="txTypeCreditBtn" onclick="setTxType('credit')">+ Credit (money in)</button>
+        </div>
+
+        <div class="form-group">
+          <label for="txAccountSelect">Account</label>
+          <select id="txAccountSelect" onchange="updateTxPreview()"></select>
+        </div>
+
+        <div class="form-group">
+          <label for="txDesc">Description</label>
+          <input type="text" id="txDesc" placeholder="e.g. Woolworths Bondi Junction" required maxlength="60">
+          <div class="chip-presets" id="txPresets"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="txAmount">Amount ($)</label>
+          <input type="number" id="txAmount" placeholder="0.00" min="0.01" step="0.01" required oninput="updateTxPreview()">
+        </div>
+
+        <div class="form-group">
+          <label for="txDate">Transaction Date</label>
+          <input type="date" id="txDate" required>
+        </div>
+
+        <div id="txPreviewBox" style="background:#f4f5f7;border:1px solid #e0e0e0;border-radius:6px;padding:12px 14px;font-size:13px;margin:16px 0;line-height:1.5">
+          <div style="color:var(--muted);font-size:11.5px;font-weight:700;text-transform:uppercase;margin-bottom:3px">Balance impact</div>
+          <div id="txPreviewContent">Select account and enter amount</div>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:22px">
+          <button type="button" class="applybtn" onclick="closeTxModal()" style="margin:0">Cancel</button>
+          <button type="submit" class="signinbtn" style="padding:10px 24px;font-size:15px" id="txSubmitBtn">Add Transaction</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Floating Corner Button for Transaction Screen -->
+  <button type="button" class="demo-corner" id="addTxBtn" hidden onclick="openTxModal()">
+    <span style="font-size:15px">💳</span> + Add transaction
+  </button>
+
+  <div id="bsToast" class="toast" hidden></div>
+
   <!-- ===== Wesley floating chat ===== -->
   <div class="wesley-fab" onclick="openWesley()"><span class="fblabel">Chat with Wesley</span><svg width="32" height="32" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>
   <div class="wesley-panel" id="wesleyPanel" hidden>
@@ -593,150 +779,1342 @@
 </div>
 
 <script>
-  var loginEl=document.getElementById('login'), appEl=document.getElementById('app');
-  document.getElementById('loginForm').addEventListener('submit',function(e){e.preventDefault();enter();});
-  function enter(){loginEl.hidden=true;appEl.hidden=false;setMode('personal');}
-  function logout(){appEl.hidden=true;loginEl.hidden=false;closeWesley();window.scrollTo(0,0);}
-  function togglePw(){var p=document.getElementById('pw');p.type=(p.type==='password')?'text':'password';}
-  function toggleMenu(e){e.stopPropagation();var m=document.getElementById('modeMenu');m.hidden=!m.hidden;}
-  document.addEventListener('click',function(){var m=document.getElementById('modeMenu');if(m)m.hidden=true;});
+  // ==========================================
+  // DATA MODELS & PRE-POPULATED DEMO USERS
+  // ==========================================
+  var DEMO_USERS = {
+    alex: {
+      id: 'alex',
+      customerId: '21157077',
+      firstName: 'Alex',
+      fullName: 'Alex Chen',
+      role: 'Young renter saving for a rental bond',
+      blurb: 'Renter saving for bond · Choice & Life',
+      avatar: 'AC',
+      hasBusiness: true,
+      defaultMode: 'personal',
+      businessName: 'COMPANY PTY LTD - Business banking',
+      accounts: [
+        { id: 'choice', mode: 'personal', kind: 'everyday', name: 'Westpac Choice', number: 'BSB 032-000 · 1234 5678 · Everyday', opening: 703.79 },
+        { id: 'life', mode: 'personal', kind: 'savings', name: 'Westpac Life', number: 'BSB 032-000 · 8765 4321 · where your savings & goals live', opening: 0, linkedTo: 'choice' },
+        { id: 'card', mode: 'personal', kind: 'credit', name: 'Low Rate Card', number: 'Card ending 4417 · Limit $5,000', limit: 5000, opening: 688.00 },
+        { id: 'biz1', mode: 'business', kind: 'everyday', name: 'Westpac Business One', number: '00000000000', opening: 7363.33 }
+      ],
+      transactions: [
+        { id: 'at1', acct: 'choice', date: '2026-11-13', desc: 'Netflix.com', amount: -18.99 },
+        { id: 'at2', acct: 'choice', date: '2026-11-14', desc: 'Salary — Acme Pty Ltd', amount: 2480.00 },
+        { id: 'at3', acct: 'choice', date: '2026-11-15', desc: 'Woolworths Bondi Junction', amount: -84.20 },
+        { id: 'abt1', acct: 'biz1', date: '2026-11-13', desc: 'Officeworks Business', amount: -318.40 },
+        { id: 'abt2', acct: 'biz1', date: '2026-11-14', desc: 'BPAY — ATO Integrated Client Acct', amount: -2100.00 },
+        { id: 'abt3', acct: 'biz1', date: '2026-11-15', desc: 'EFTPOS Settlement — Rollers Pty Ltd', amount: 1284.00 }
+      ],
+      savingsPlan: [
+        { id: 'spend', name: 'Spending', type: 'bucket', amount: 428.60, color: 'var(--brand)', note: 'Safe to spend', fixed: true },
+        { id: 'bills', name: 'Bills', type: 'bucket', amount: 612.00, color: '#f0a500', note: '✓ 4 bills covered', fixed: true },
+        { id: 'buffer', name: 'Buffer', type: 'bucket', amount: 300.00, color: '#0067b1', note: 'Auto-sized', fixed: true },
+        { id: 'bond', name: 'Rental bond', type: 'goal', amount: 1740.00, target: 2500.00, targetDate: 'March 2027', color: '#008a4b', note: 'On track · $1,740 of $2,500', fixed: false }
+      ],
+      wesley: { intensity: '2×', elig: { dir: 'above', amt: 5 }, feeCover: true, digest: 'weekly' }
+    },
 
+    priya: {
+      id: 'priya',
+      customerId: '18524718',
+      firstName: 'Priya',
+      fullName: 'Priya Sharma',
+      role: 'Family budgeter',
+      blurb: 'Family budgeter · Holiday & Education goals',
+      avatar: 'PS',
+      hasBusiness: false,
+      defaultMode: 'personal',
+      businessName: '',
+      accounts: [
+        { id: 'choice', mode: 'personal', kind: 'everyday', name: 'Westpac Choice', number: 'BSB 032-000 · 2948 1192 · Everyday', opening: 1450.00 },
+        { id: 'life', mode: 'personal', kind: 'savings', name: 'Westpac Life', number: 'BSB 032-000 · 2948 9931 · Family savings & goals', opening: 0, linkedTo: 'choice' },
+        { id: 'card', mode: 'personal', kind: 'credit', name: 'Altitude Black Card', number: 'Card ending 8190 · Limit $15,000', limit: 15000, opening: 1240.50 }
+      ],
+      transactions: [
+        { id: 'pt1', acct: 'choice', date: '2026-11-12', desc: 'Harris Farm Markets', amount: -94.30 },
+        { id: 'pt2', acct: 'choice', date: '2026-11-13', desc: 'Little Explorers Childcare', amount: -385.00 },
+        { id: 'pt3', acct: 'choice', date: '2026-11-14', desc: 'Salary — TechCorp Solutions', amount: 3650.00 },
+        { id: 'pt4', acct: 'choice', date: '2026-11-15', desc: 'Rebel Sport — Kids Soccer Boots', amount: -119.00 },
+        { id: 'ptc1', acct: 'card', date: '2026-11-10', desc: 'Qantas Airways — Family Flights Deposit', amount: -620.00 },
+        { id: 'ptc2', acct: 'card', date: '2026-11-13', desc: 'David Jones Sydney', amount: -145.50 }
+      ],
+      savingsPlan: [
+        { id: 'spend', name: 'Spending', type: 'bucket', amount: 650.00, color: 'var(--brand)', note: 'Safe to spend', fixed: true },
+        { id: 'bills', name: 'Bills', type: 'bucket', amount: 980.00, color: '#f0a500', note: '✓ Mortgage & Utilities', fixed: true },
+        { id: 'buffer', name: 'Buffer', type: 'bucket', amount: 500.00, color: '#0067b1', note: 'Family buffer', fixed: true },
+        { id: 'holiday', name: 'Family holiday', type: 'goal', amount: 3200.00, target: 6000.00, targetDate: 'Dec 2027', color: '#7e22ce', note: 'On track · Japan 2027', fixed: false },
+        { id: 'education', name: 'Kids Education', type: 'goal', amount: 4500.00, target: 10000.00, targetDate: 'Jan 2029', color: '#008a4b', note: 'On track', fixed: false }
+      ],
+      wesley: { intensity: '2×', elig: { dir: 'above', amt: 10 }, feeCover: true, digest: 'weekly' }
+    },
+
+    sam: {
+      id: 'sam',
+      customerId: '90815760',
+      firstName: 'Sam',
+      fullName: 'Sam Rossi',
+      role: 'Café owner, Rollers Pty Ltd',
+      blurb: 'Café owner · Rollers Pty Ltd business banking',
+      avatar: 'SR',
+      hasBusiness: true,
+      defaultMode: 'business',
+      businessName: 'Rollers Pty Ltd - Business banking',
+      accounts: [
+        { id: 'choice', mode: 'personal', kind: 'everyday', name: 'Westpac Choice', number: 'BSB 032-000 · 5512 8840 · Personal', opening: 820.00 },
+        { id: 'life', mode: 'personal', kind: 'savings', name: 'Westpac Life', number: 'BSB 032-000 · 5512 8859 · Personal savings', opening: 0, linkedTo: 'choice' },
+        { id: 'card', mode: 'personal', kind: 'credit', name: 'Business Platinum Card', number: 'Card ending 1932 · Limit $20,000', limit: 20000, opening: 3150.00 },
+        { id: 'biz1', mode: 'business', kind: 'everyday', name: 'Westpac Business One', number: 'BSB 032-001 · 9923 1144', opening: 5800.00 }
+      ],
+      transactions: [
+        { id: 'st1', acct: 'choice', date: '2026-11-13', desc: 'Director Draw — Rollers Pty Ltd', amount: 1500.00 },
+        { id: 'st2', acct: 'choice', date: '2026-11-14', desc: 'Anytime Fitness Bondi', amount: -39.95 },
+        { id: 'st3', acct: 'choice', date: '2026-11-15', desc: 'Ampol Fuel Express', amount: -88.50 },
+        { id: 'sbt1', acct: 'biz1', date: '2026-11-13', desc: 'Single O Coffee Roasters Wholesale', amount: -840.00 },
+        { id: 'sbt2', acct: 'biz1', date: '2026-11-14', desc: 'Dairy Farmers Milk Delivery', amount: -420.00 },
+        { id: 'sbt3', acct: 'biz1', date: '2026-11-15', desc: 'Square POS Daily Settlement', amount: 2140.00 }
+      ],
+      savingsPlan: [
+        { id: 'spend', name: 'Spending', type: 'bucket', amount: 520.00, color: 'var(--brand)', note: 'Safe to spend', fixed: true },
+        { id: 'bills', name: 'Bills', type: 'bucket', amount: 450.00, color: '#f0a500', note: '✓ Regular expenses', fixed: true },
+        { id: 'buffer', name: 'Buffer', type: 'bucket', amount: 400.00, color: '#0067b1', note: 'Personal buffer', fixed: true },
+        { id: 'renovation', name: 'Café Renovation', type: 'goal', amount: 5800.00, target: 15000.00, targetDate: 'Mid 2028', color: '#f0a500', note: 'Equipment upgrade', fixed: false }
+      ],
+      wesley: { intensity: '5×', elig: { dir: 'above', amt: 5 }, feeCover: true, digest: 'daily' }
+    },
+
+    peggy: {
+      id: 'peggy',
+      customerId: '13138554',
+      firstName: 'Peggy',
+      fullName: 'Margaret "Peggy" Wilson',
+      role: 'Retiree on Age Pension + super income',
+      blurb: 'Retiree (age 71) · Pension, goals & Term deposit',
+      avatar: 'MW',
+      hasBusiness: false,
+      defaultMode: 'personal',
+      businessName: '',
+      accounts: [
+        { id: 'choice', mode: 'personal', kind: 'everyday', name: 'Westpac Choice', number: 'BSB 032-000 · 4471 9902 · Everyday', opening: 670.35 },
+        { id: 'life', mode: 'personal', kind: 'savings', name: 'Westpac Life', number: 'BSB 032-000 · 4471 9910 · Retirement savings', opening: 0, linkedTo: 'choice' },
+        { id: 'td1', mode: 'personal', kind: 'term', name: 'Westpac Term Deposit', number: '12 months · 4.60% p.a. · matures 3 Jun 2027', opening: 40000.00 }
+      ],
+      transactions: [
+        { id: 'mwt1', acct: 'choice', date: '2026-11-06', desc: 'Services Australia — Age Pension', amount: 1149.00 },
+        { id: 'mwt2', acct: 'choice', date: '2026-11-10', desc: 'AustralianSuper — Pension Payment', amount: 1850.00 },
+        { id: 'mwt3', acct: 'choice', date: '2026-11-11', desc: 'Chemist Warehouse Cronulla', amount: -42.35 },
+        { id: 'mwt4', acct: 'choice', date: '2026-11-12', desc: 'Origin Energy — Gas & Electricity', amount: -186.20 },
+        { id: 'mwt5', acct: 'choice', date: '2026-11-14', desc: 'Cronulla Bowls Club Membership', amount: -95.00 },
+        { id: 'mwt6', acct: 'choice', date: '2026-11-15', desc: 'Coles Supermarkets Cronulla', amount: -118.60 }
+      ],
+      savingsPlan: [
+        { id: 'spend', name: 'Spending', type: 'bucket', amount: 380.00, color: 'var(--brand)', note: 'Comfy everyday spend', fixed: true },
+        { id: 'bills', name: 'Bills', type: 'bucket', amount: 520.00, color: '#f0a500', note: '✓ Utilities covered', fixed: true },
+        { id: 'rates', name: 'Rates & Insurance', type: 'bucket', amount: 650.00, color: '#0d9488', note: 'Quarterly council rates', fixed: false },
+        { id: 'buffer', name: 'Buffer', type: 'bucket', amount: 300.00, color: '#0067b1', note: 'Rainy day fund', fixed: true },
+        { id: 'grandkids', name: 'Grandkids Christmas', type: 'goal', amount: 600.00, target: 1000.00, targetDate: 'Dec 2026', color: '#db2777', note: 'Nearly there! 60%', fixed: false },
+        { id: 'caravan', name: 'Caravan Trip', type: 'goal', amount: 3200.00, target: 8000.00, targetDate: 'Oct 2027', color: '#008a4b', note: 'Lap of Australia', fixed: false }
+      ],
+      wesley: { intensity: '1×', elig: { dir: 'above', amt: 5 }, feeCover: true, digest: 'weekly' }
+    }
+  };
+
+  // ==========================================
+  // PERSISTENCE LAYER (localStorage & sessionStorage)
+  // ==========================================
+  var STORE_KEY = 'wbc_demo_v1';
+  var SESSION_KEY = 'wbc_demo_user';
+  var store = loadStore();
+  var user = null;
+  var currentAcctId = 'choice';
+
+  function clone(obj){
+    return JSON.parse(JSON.stringify(obj));
+  }
+
+  function loadStore(){
+    try {
+      var saved = localStorage.getItem(STORE_KEY);
+      if (saved) {
+        var parsed = JSON.parse(saved);
+        if (parsed && parsed.version === 1 && parsed.users) return parsed;
+      }
+    } catch(e) {}
+    var fresh = { version: 1, users: clone(DEMO_USERS) };
+    // migrate legacy single-user plan if present
+    try {
+      var legacy = localStorage.getItem('banksmart_savings_plan_items');
+      if (legacy) {
+        fresh.users.alex.savingsPlan = JSON.parse(legacy);
+        localStorage.removeItem('banksmart_savings_plan_items');
+      }
+    } catch(e) {}
+    saveStoreData(fresh);
+    return fresh;
+  }
+
+  function saveStore(){
+    saveStoreData(store);
+  }
+
+  function saveStoreData(s){
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify(s));
+    } catch(e) {}
+  }
+
+  function resetStore(){
+    store = { version: 1, users: clone(DEMO_USERS) };
+    saveStore();
+  }
+
+  function findAcct(acctId){
+    if (!user || !user.accounts) return null;
+    return user.accounts.find(function(a){ return a.id === acctId; }) || user.accounts[0];
+  }
+
+  function balanceOf(acct){
+    if (!user || !acct) return 0;
+    var txs = user.transactions.filter(function(t){ return t.acct === acct.id; });
+    var txSum = txs.reduce(function(acc, t){ return acc + (t.amount || 0); }, 0);
+
+    if (acct.kind === 'credit') {
+      var owing = Math.round(((acct.opening || 0) - txSum) * 100) / 100;
+      var avail = Math.max(0, Math.round(((acct.limit || 0) - owing) * 100) / 100);
+      return { owing: owing, available: avail, limit: acct.limit };
+    }
+    if (acct.kind === 'savings') {
+      var goalsSum = (user.savingsPlan || [])
+        .filter(function(i){ return i.type === 'goal'; })
+        .reduce(function(acc, g){ return acc + (g.amount || 0); }, 0);
+      return Math.round((goalsSum + (acct.opening || 0) + txSum) * 100) / 100;
+    }
+    if (acct.kind === 'term') {
+      return acct.opening || 0;
+    }
+    return Math.round(((acct.opening || 0) + txSum) * 100) / 100;
+  }
+
+  function money(n){
+    if (typeof n !== 'number' || isNaN(n)) n = 0;
+    return '$' + n.toLocaleString('en-AU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function moneyParts(n){
+    if (typeof n !== 'number' || isNaN(n)) n = 0;
+    var s = (Math.round(n * 100) / 100).toFixed(2);
+    var parts = s.split('.');
+    var d = parseInt(parts[0], 10);
+    return {
+      dollars: '$' + d.toLocaleString('en-AU'),
+      cents: parts[1] || '00'
+    };
+  }
+
+  function escapeHtml(str){
+    return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function formatTxDate(dStr){
+    if (!dStr) return '';
+    var parts = dStr.split('-');
+    if (parts.length === 3) {
+      var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var day = parseInt(parts[2], 10);
+      var mIdx = parseInt(parts[1], 10) - 1;
+      return day + ' ' + (months[mIdx] || parts[1]) + (parts[0] !== '2026' ? ' ' + parts[0] : '');
+    }
+    return dStr;
+  }
+
+  function showToast(msg){
+    var t = document.getElementById('bsToast');
+    if (!t) return;
+    t.textContent = msg;
+    t.hidden = false;
+    clearTimeout(t._timer);
+    t._timer = setTimeout(function(){ t.hidden = true; }, 3400);
+  }
+
+  // ==========================================
+  // AUTHENTICATION & LOGIN SCREEN
+  // ==========================================
+  var loginEl = document.getElementById('login');
+  var appEl = document.getElementById('app');
+
+  document.getElementById('loginForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var cid = (document.getElementById('custId').value || '').trim();
+    var found = Object.values(store.users).find(function(u){ return u.customerId === cid; });
+    login(found ? found.id : 'alex');
+  });
+
+  function login(userId){
+    if (!store.users[userId]) userId = 'alex';
+    user = store.users[userId];
+    sessionStorage.setItem(SESSION_KEY, user.id);
+
+    loginEl.hidden = true;
+    appEl.hidden = false;
+
+    var demoBtn = document.getElementById('demoLoginBtn');
+    if (demoBtn) demoBtn.style.display = 'none';
+    closeDemoMenu();
+
+    currentAcctId = user.accounts[0] ? user.accounts[0].id : 'choice';
+    resetChat();
+    renderAll();
+    setMode(user.defaultMode || 'personal');
+    window.scrollTo(0, 0);
+  }
+
+  function logout(){
+    sessionStorage.removeItem(SESSION_KEY);
+    user = null;
+    appEl.hidden = true;
+    loginEl.hidden = false;
+
+    var demoBtn = document.getElementById('demoLoginBtn');
+    if (demoBtn) demoBtn.style.display = 'inline-flex';
+    var addTxBtn = document.getElementById('addTxBtn');
+    if (addTxBtn) addTxBtn.hidden = true;
+
+    closeWesley();
+    closeDemoMenu();
+    renderDemoMenu();
+    window.scrollTo(0, 0);
+  }
+
+  function togglePw(){
+    var p = document.getElementById('pw');
+    p.type = (p.type === 'password') ? 'text' : 'password';
+  }
+
+  function toggleMenu(e){
+    e.stopPropagation();
+    var m = document.getElementById('modeMenu');
+    m.hidden = !m.hidden;
+  }
+
+  document.addEventListener('click', function(e){
+    var m = document.getElementById('modeMenu');
+    if (m && !e.target.closest('.dropdown')) m.hidden = true;
+    if (!e.target.closest('#demoLoginBtn') && !e.target.closest('#demoMenu')) closeDemoMenu();
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') {
+      closePlanModal();
+      closeTxModal();
+      closeDemoMenu();
+    }
+  });
+
+  // Demo menu helpers
+  function toggleDemoMenu(e){
+    if (e) e.stopPropagation();
+    var m = document.getElementById('demoMenu');
+    if (!m) return;
+    m.hidden = !m.hidden;
+  }
+
+  function closeDemoMenu(){
+    var m = document.getElementById('demoMenu');
+    if (m) m.hidden = true;
+  }
+
+  function renderDemoMenu(){
+    var listEl = document.getElementById('demoUserList');
+    if (!listEl) return;
+    listEl.innerHTML = Object.values(store.users).map(function(u){
+      return '<div class="demo-row" onclick="login(\'' + u.id + '\')">' +
+        '<div class="demo-avatar">' + escapeHtml(u.avatar) + '</div>' +
+        '<div class="demo-info">' +
+          '<div class="name">' + escapeHtml(u.fullName) + ' <span class="cid">(' + u.customerId + ')</span></div>' +
+          '<div class="role">' + escapeHtml(u.blurb) + '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  function resetDemoData(){
+    if (!confirm('Reset all demo profiles, accounts, transactions and saving plans back to initial seed data?')) return;
+    resetStore();
+    closeDemoMenu();
+    showToast('✓ Demo data reset to defaults');
+    renderDemoMenu();
+    if (user) {
+      user = store.users[user.id];
+      renderAll();
+    }
+  }
+
+  // ==========================================
+  // NAVIGATION & VIEW SWITCHING
+  // ==========================================
   function setMode(mode){
-    document.querySelectorAll('.mode').forEach(function(el){el.hidden=(el.getAttribute('data-mode')!==mode);});
-    document.getElementById('modeLabel').textContent=(mode==='personal')?'Personal banking':'COMPANY PTY LTD - Business banking';
-    document.getElementById('approvalBtn').style.display=(mode==='business')?'':'none';
-    document.getElementById('modeMenu').hidden=true;
+    if (mode === 'business' && (!user || !user.hasBusiness)) {
+      mode = 'personal';
+    }
+    document.querySelectorAll('.mode').forEach(function(el){
+      el.hidden = (el.getAttribute('data-mode') !== mode);
+    });
+    var label = (mode === 'personal') ? 'Personal banking' : ((user && user.businessName) || 'COMPANY PTY LTD - Business banking');
+    document.getElementById('modeLabel').textContent = label;
+    document.getElementById('approvalBtn').style.display = (mode === 'business') ? '' : 'none';
+    document.getElementById('modeMenu').hidden = true;
     go('overview');
   }
-  function go(page){
-    var m=document.querySelector('.mode:not([hidden])'); if(!m) return;
-    m.querySelectorAll('.page').forEach(function(p){p.hidden=(p.getAttribute('data-page')!==page);});
-    var key=(page==='account')?'overview':((page==='approval'||page==='inbox')?null:page);
-    m.querySelectorAll('nav.tabs a').forEach(function(a){a.classList.toggle('active',a.getAttribute('data-nav')===key);});
-    window.scrollTo(0,0);
-  }
-  document.querySelectorAll('.undo').forEach(function(u){u.addEventListener('click',function(){u.closest('.move').classList.add('undone');u.textContent='Reversed';});});
 
-  // ===== Wesley chat (memory + quick replies) =====
-  var chatSeeded=false;
-  var MINI='<div class="mini"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>';
-  var ctx={topic:null, amount:0, item:'', awaiting:null, delay:0, recover:0, intensity:'2×', elig:{dir:'above',amt:5}, feeCover:true, digest:'weekly'};
-  function pick(a){return a[Math.floor(Math.random()*a.length)];}
-  function money(n){return '$'+n.toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function go(page){
+    var m = document.querySelector('.mode:not([hidden])');
+    if (!m) return;
+    m.querySelectorAll('.page').forEach(function(p){
+      p.hidden = (p.getAttribute('data-page') !== page);
+    });
+    var key = (page === 'account') ? 'overview' : ((page === 'approval' || page === 'inbox') ? null : page);
+    m.querySelectorAll('nav.tabs a').forEach(function(a){
+      a.classList.toggle('active', a.getAttribute('data-nav') === key);
+    });
+
+    var addTxBtn = document.getElementById('addTxBtn');
+    if (addTxBtn) {
+      addTxBtn.hidden = (page !== 'account');
+    }
+    window.scrollTo(0, 0);
+  }
+
+  function openAccount(acctId){
+    currentAcctId = acctId || 'choice';
+    var acct = findAcct(currentAcctId);
+    if (acct && acct.mode === 'business' && document.querySelector('.mode:not([hidden])').getAttribute('data-mode') !== 'business') {
+      setMode('business');
+    } else if (acct && acct.mode === 'personal' && document.querySelector('.mode:not([hidden])').getAttribute('data-mode') !== 'personal') {
+      setMode('personal');
+    }
+    renderAccountPage(currentAcctId);
+    go('account');
+  }
+
+  // ==========================================
+  // DYNAMIC RENDERING: OVERVIEW & PAGES
+  // ==========================================
+  function updateHeaderModeDropdown(){
+    var menu = document.getElementById('modeMenu');
+    if (!menu) return;
+    if (user && !user.hasBusiness) {
+      menu.innerHTML = '<a onclick="setMode(\'personal\')">Personal banking</a>';
+    } else {
+      var bizName = (user && user.businessName) || 'COMPANY PTY LTD - Business banking';
+      menu.innerHTML = '<a onclick="setMode(\'personal\')">Personal banking</a>' +
+                       '<a onclick="setMode(\'business\')">' + escapeHtml(bizName) + '</a>';
+    }
+  }
+
+  function renderPersonalOverview(){
+    var acctSec = document.getElementById('ovPersonalAccountsSection');
+    var cardsSec = document.getElementById('ovPersonalCardsSection');
+    var termSec = document.getElementById('ovPersonalTermSection');
+    if (!acctSec || !user) return;
+
+    var everydayAccounts = user.accounts.filter(function(a){ return a.mode === 'personal' && a.kind === 'everyday'; });
+    var savingsAccounts = user.accounts.filter(function(a){ return a.mode === 'personal' && a.kind === 'savings'; });
+    var creditCards = user.accounts.filter(function(a){ return a.mode === 'personal' && a.kind === 'credit'; });
+    var termDeposits = user.accounts.filter(function(a){ return a.mode === 'personal' && a.kind === 'term'; });
+
+    var totalEveryday = everydayAccounts.reduce(function(sum, a){ return sum + balanceOf(a); }, 0);
+    var totalSavings = savingsAccounts.reduce(function(sum, a){ return sum + balanceOf(a); }, 0);
+    var totalTerm = termDeposits.reduce(function(sum, a){ return sum + balanceOf(a); }, 0);
+    var accountsTotal = totalEveryday + totalSavings + totalTerm;
+
+    // Accounts section
+    var accountsHtml = '<div class="tbl"><div class="thead acctcols"><span>Account</span><span class="r">Available</span><span class="r">Current balance</span><span></span></div></div>';
+    everydayAccounts.forEach(function(acct){
+      var bal = balanceOf(acct);
+      var linkedSavings = savingsAccounts.filter(function(s){ return s.linkedTo === acct.id; });
+      var linkedHtml = '';
+
+      if (linkedSavings.length > 0) {
+        linkedSavings.forEach(function(sav){
+          var savBal = balanceOf(sav);
+          linkedHtml += '<div class="linked">' +
+            '<div class="sub-row">' +
+              '<div><div class="nm">' + escapeHtml(sav.name) + ' <span class="tag">Linked savings</span></div><div class="num">' + escapeHtml(sav.number) + '</div></div>' +
+              '<div class="v" id="westpacLifeTotal">' + money(savBal) + '</div>' +
+            '</div>' +
+            '<div id="overviewGoalsContainer"></div>' +
+            '<div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">' +
+              '<button class="hbtn" onclick="openPlanModal(\'goal\')" style="font-size:12.5px;padding:5px 12px;color:var(--brand);border-color:#d9d9d9">' +
+                '<span style="font-weight:700;margin-right:2px">+</span> Add saving goal' +
+              '</button>' +
+              '<button class="hbtn" onclick="openAccount(\'' + sav.id + '\')" style="font-size:12.5px;padding:5px 12px;color:var(--ink);border-color:#d9d9d9">' +
+                'View savings transactions' +
+              '</button>' +
+            '</div>' +
+          '</div>';
+        });
+      }
+
+      accountsHtml += '<div class="acct-main">' +
+        '<div class="main-row">' +
+          '<div><div class="nm">' + escapeHtml(acct.name) + '</div><div class="num">' + escapeHtml(acct.number) + '</div></div>' +
+          '<div class="v">' + money(bal) + '</div><div class="v">' + money(bal) + '</div>' +
+          '<button class="expand" onclick="openAccount(\'' + acct.id + '\')" title="View transactions" aria-label="View transactions for ' + escapeHtml(acct.name) + '">▾</button>' +
+        '</div>' +
+        linkedHtml +
+      '</div>';
+    });
+
+    accountsHtml += '<div class="totrow" style="border:1px solid var(--line);border-top:none;border-radius:0 0 8px 8px;margin-top:-12px;margin-bottom:12px">' +
+      '<div class="lbl">Accounts total</div><div class="v" id="overviewAccountsTotal">' + money(accountsTotal) + '</div><div class="v" id="overviewAccountsTotalCur">' + money(accountsTotal) + '</div><div></div>' +
+    '</div>';
+
+    acctSec.innerHTML = accountsHtml;
+
+    // Credit cards section
+    if (creditCards.length > 0) {
+      var cardsHtml = '<div class="section-gap"></div>' +
+        '<div class="tbl">' +
+          '<div class="thead acctcols"><span>Credit cards</span><span class="r">Available</span><span class="r">Owing</span><span></span></div>' +
+          creditCards.map(function(card){
+            var info = balanceOf(card);
+            return '<div class="arow" style="border-bottom:1px solid var(--line)">' +
+              '<div><div class="nm">' + escapeHtml(card.name) + '</div><div class="num">' + escapeHtml(card.number) + '</div></div>' +
+              '<div class="v">' + money(info.available) + '</div>' +
+              '<div class="v">' + money(info.owing) + '</div>' +
+              '<button class="expand" onclick="openAccount(\'' + card.id + '\')" title="View transactions" aria-label="View transactions for ' + escapeHtml(card.name) + '">▾</button>' +
+            '</div>';
+          }).join('') +
+        '</div>';
+      cardsSec.innerHTML = cardsHtml;
+    } else {
+      cardsSec.innerHTML = '';
+    }
+
+    // Term deposits section
+    if (termDeposits.length > 0) {
+      var termHtml = '<div class="section-gap"></div>' +
+        '<div class="tbl">' +
+          '<div class="thead acctcols"><span>Term deposits</span><span class="r">Interest rate</span><span class="r">Current balance</span><span></span></div>' +
+          termDeposits.map(function(term){
+            return '<div class="arow" style="border-bottom:1px solid var(--line)">' +
+              '<div><div class="nm">' + escapeHtml(term.name) + '</div><div class="num">' + escapeHtml(term.number) + '</div></div>' +
+              '<div class="v">4.60% p.a.</div>' +
+              '<div class="v">' + money(term.opening) + '</div>' +
+              '<span></span>' +
+            '</div>';
+          }).join('') +
+        '</div>';
+      termSec.innerHTML = termHtml;
+    } else {
+      termSec.innerHTML = '';
+    }
+  }
+
+  function renderBusinessOverview(){
+    var sec = document.getElementById('ovBusinessAccountsSection');
+    if (!sec || !user) return;
+    var bizAccounts = user.accounts.filter(function(a){ return a.mode === 'business'; });
+    if (bizAccounts.length === 0) {
+      sec.innerHTML = '<div class="placeholder">No business accounts active.</div>';
+      return;
+    }
+
+    var total = 0;
+    var rowsHtml = bizAccounts.map(function(a){
+      var b = balanceOf(a);
+      total += b;
+      return '<div class="arow"><div><div class="nm">' + escapeHtml(a.name) + '</div><div class="num">' + escapeHtml(a.number) + '</div></div>' +
+        '<div class="v">' + money(b) + '</div>' +
+        '<div class="v">' + money(b) + '</div>' +
+        '<button class="expand" onclick="openAccount(\'' + a.id + '\')" title="View transactions">▾</button>' +
+      '</div>';
+    }).join('');
+
+    var totHtml = '<div class="totrow"><div class="lbl">Accounts total</div><div class="v">' + money(total) + '</div><div class="v">' + money(total) + '</div><div></div></div>';
+    sec.innerHTML = '<div class="tbl"><div class="thead acctcols"><span>Account</span><span class="r">Available</span><span class="r">Current balance</span><span></span></div>' + rowsHtml + totHtml + '</div>';
+
+    var merchEl = document.getElementById('ovMerchName');
+    if (merchEl) merchEl.textContent = user.businessName ? user.businessName.split('-')[0].trim() : 'Rollers Pty Ltd';
+  }
+
+  function renderCards(){
+    var container = document.getElementById('cardsListContainer');
+    if (!container || !user) return;
+    var cards = user.accounts.filter(function(a){ return a.kind === 'credit'; });
+    if (cards.length === 0) {
+      container.innerHTML = '<div class="placeholder" style="padding:32px;background:#fafafa;border-radius:8px">You have no credit cards attached to this profile.</div>';
+      return;
+    }
+    container.innerHTML = '<div class="tbl">' +
+      '<div class="thead" style="grid-template-columns:1fr 150px 150px"><span>Card</span><span class="r">Available</span><span class="r">Owing</span></div>' +
+      cards.map(function(c){
+        var info = balanceOf(c);
+        return '<div class="arow" style="grid-template-columns:1fr 150px 150px;border-bottom:1px solid var(--line);cursor:pointer" onclick="openAccount(\'' + c.id + '\')">' +
+          '<div><div class="nm">' + escapeHtml(c.name) + '</div><div class="num">' + escapeHtml(c.number) + '</div></div>' +
+          '<div class="v">' + money(info.available) + '</div>' +
+          '<div class="v">' + money(info.owing) + '</div>' +
+        '</div>';
+      }).join('') +
+    '</div>';
+  }
+
+  function renderAccountPage(acctId){
+    if (!user) return;
+    var acct = findAcct(acctId || currentAcctId);
+    if (!acct) return;
+    currentAcctId = acct.id;
+
+    // Update Titles
+    var titleP = document.getElementById('acctPageTitle');
+    var titleB = document.getElementById('bizAcctPageTitle');
+    if (titleP) titleP.textContent = acct.name;
+    if (titleB) titleB.textContent = acct.name;
+
+    // Summary Header Table
+    var summaryHtml = '';
+    if (acct.kind === 'credit') {
+      var card = balanceOf(acct);
+      summaryHtml = '<div class="tbl">' +
+        '<div class="thead acctcols"><span>Account</span><span class="r">Available</span><span class="r">Owing</span><span></span></div>' +
+        '<div class="arow" style="border-bottom:1px solid var(--line)">' +
+          '<div><div class="nm">' + escapeHtml(acct.name) + '</div><div class="num">' + escapeHtml(acct.number) + '</div></div>' +
+          '<div class="v">' + money(card.available) + '</div>' +
+          '<div class="v">' + money(card.owing) + '</div><span></span>' +
+        '</div>' +
+      '</div>';
+    } else {
+      var bal = balanceOf(acct);
+      summaryHtml = '<div class="tbl">' +
+        '<div class="thead acctcols"><span>Account</span><span class="r">Available</span><span class="r">Current balance</span><span></span></div>' +
+        '<div class="arow" style="border-bottom:1px solid var(--line)">' +
+          '<div><div class="nm">' + escapeHtml(acct.name) + '</div><div class="num">' + escapeHtml(acct.number) + '</div></div>' +
+          '<div class="v">' + money(bal) + '</div>' +
+          '<div class="v">' + money(bal) + '</div><span></span>' +
+        '</div>' +
+      '</div>';
+    }
+
+    var sumP = document.getElementById('acctSummaryContainer');
+    var sumB = document.getElementById('bizAcctSummaryContainer');
+    if (sumP) sumP.innerHTML = summaryHtml;
+    if (sumB) sumB.innerHTML = summaryHtml;
+
+    // Calculate Running Balance and Transaction List
+    var txs = (user.transactions || []).filter(function(t){ return t.acct === acct.id; });
+    var txHtml = '';
+
+    if (txs.length === 0) {
+      txHtml = '<div class="placeholder" style="padding:34px;background:#fafafa;border-radius:8px">' +
+        'No transactions found for this account yet.<br>' +
+        '<button class="hbtn" onclick="openTxModal()" style="margin-top:14px;color:var(--brand);border-color:var(--brand);font-weight:700">+ Add first transaction</button>' +
+      '</div>';
+    } else {
+      // Sort oldest first to calculate running balances accurately
+      var sortedTxs = txs.slice().sort(function(a, b){
+        if (a.date !== b.date) return a.date.localeCompare(b.date);
+        return String(a.id).localeCompare(String(b.id));
+      });
+
+      var run = acct.opening || 0;
+      sortedTxs.forEach(function(t){
+        if (acct.kind === 'credit') {
+          // debits increase owing, credits decrease owing
+          run = Math.round((run - t.amount) * 100) / 100;
+        } else {
+          run = Math.round((run + t.amount) * 100) / 100;
+        }
+        t._running = run;
+      });
+
+      // Display newest first
+      var displayTxs = sortedTxs.slice().reverse();
+
+      txHtml = '<div class="tbl">' +
+        '<div class="thead" style="grid-template-columns:120px 1fr 130px 140px"><span>Date</span><span>Description</span><span class="r">Amount</span><span class="r">Balance</span></div>' +
+        displayTxs.map(function(t){
+          var isPos = t.amount > 0;
+          var signStr = isPos ? '+' : '−';
+          var valStr = signStr + money(Math.abs(t.amount));
+          var balStr = money(t._running);
+          return '<div class="arow" style="grid-template-columns:120px 1fr 130px 140px;border-bottom:1px solid var(--line);padding:14px 16px">' +
+            '<div class="num" style="margin:0">' + formatTxDate(t.date) + '</div>' +
+            '<div style="font-weight:600">' + escapeHtml(t.desc) + (t.custom ? ' <span class="tag" style="background:#e8f1fb;color:#0067b1;font-size:10.5px">Added</span>' : '') + '</div>' +
+            '<div class="v" style="' + (isPos ? 'color:#008a4b' : '') + '">' + valStr + '</div>' +
+            '<div class="v">' + balStr + '</div>' +
+          '</div>';
+        }).join('') +
+      '</div>';
+    }
+
+    var txP = document.getElementById('acctTxContainer');
+    var txB = document.getElementById('bizAcctTxContainer');
+    if (txP) txP.innerHTML = txHtml;
+    if (txB) txB.innerHTML = txHtml;
+  }
+
+  function renderBankSmartStats(){
+    if (!user) return;
+    var choiceAcct = findAcct('choice');
+    var curBal = choiceAcct ? balanceOf(choiceAcct) : 0;
+    var safeSpend = getSafeToSpend();
+
+    var bCur = document.getElementById('bankSmartCurrentBal');
+    if (bCur) bCur.textContent = money(curBal);
+
+    var stsEl = document.getElementById('bsSafeToSpend');
+    if (stsEl) {
+      var parts = moneyParts(safeSpend);
+      stsEl.innerHTML = parts.dollars + '<small>.' + parts.cents + '</small>';
+    }
+
+    var promoSts = document.getElementById('overviewPromoSts');
+    if (promoSts) {
+      promoSts.textContent = money(safeSpend);
+    }
+  }
+
+  function getSafeToSpend(){
+    if (!user || !user.savingsPlan) return 428.60;
+    var spend = user.savingsPlan.find(function(i){ return i.id === 'spend'; });
+    return spend ? (spend.amount || 0) : 428.60;
+  }
+
+  function renderAll(){
+    if (!user) return;
+    updateHeaderModeDropdown();
+    renderPersonalOverview();
+    renderBusinessOverview();
+    renderCards();
+    renderSavingsPlan();
+    renderBankSmartStats();
+    renderAccountPage(currentAcctId);
+  }
+
+  // ==========================================
+  // ADD TRANSACTION MODAL & HANDLERS
+  // ==========================================
+  var currentTxType = 'debit';
+  var TX_PRESETS = {
+    debit: [
+      { label: '☕ Coffee', desc: 'Single O Espresso', amount: 5.50 },
+      { label: '🛒 Groceries', desc: 'Woolworths Bondi Junction', amount: 84.20 },
+      { label: '⛽ Fuel', desc: 'Ampol Express Petrol', amount: 75.00 },
+      { label: '⚡ Electricity', desc: 'Origin Energy Power', amount: 180.00 },
+      { label: '🍽️ Dining', desc: 'Bondi Trattoria', amount: 68.00 },
+      { label: '💻 Tech / Subs', desc: 'Software Subscription', amount: 29.99 }
+    ],
+    credit: [
+      { label: '💼 Salary', desc: 'Salary Payment — Acme Pty Ltd', amount: 2480.00 },
+      { label: '👵 Pension', desc: 'Services Australia — Age Pension', amount: 1149.00 },
+      { label: '↩ Refund', desc: 'Store Refund', amount: 45.00 },
+      { label: '💵 Transfer in', desc: 'Transfer from Savings', amount: 250.00 },
+      { label: '📈 Dividend', desc: 'Vanguard Dividend Payment', amount: 135.50 }
+    ]
+  };
+
+  function openTxModal(){
+    setTxType('debit');
+    var form = document.getElementById('txForm');
+    if (form) form.reset();
+    document.getElementById('txDate').value = new Date().toISOString().slice(0, 10);
+    populateTxAccountSelect(currentAcctId);
+    renderTxPresets();
+    updateTxPreview();
+
+    var m = document.getElementById('txModal');
+    if (m) m.hidden = false;
+    setTimeout(function(){
+      var inp = document.getElementById('txDesc');
+      if (inp) inp.focus();
+    }, 50);
+  }
+
+  function closeTxModal(){
+    var m = document.getElementById('txModal');
+    if (m) m.hidden = true;
+  }
+
+  function setTxType(type){
+    currentTxType = type;
+    document.getElementById('txTypeDebitBtn').classList.toggle('active', type === 'debit');
+    document.getElementById('txTypeCreditBtn').classList.toggle('active', type === 'credit');
+    var submitBtn = document.getElementById('txSubmitBtn');
+    if (submitBtn) {
+      submitBtn.textContent = type === 'debit' ? 'Add Debit (Spend)' : 'Add Credit (Deposit)';
+    }
+    renderTxPresets();
+    updateTxPreview();
+  }
+
+  function populateTxAccountSelect(selectedId){
+    var sel = document.getElementById('txAccountSelect');
+    if (!sel || !user) return;
+    var personal = user.accounts.filter(function(a){ return a.mode === 'personal' && a.kind !== 'term'; });
+    var business = user.accounts.filter(function(a){ return a.mode === 'business' && a.kind !== 'term'; });
+
+    var html = '';
+    if (personal.length > 0) {
+      html += '<optgroup label="Personal Accounts">';
+      personal.forEach(function(a){
+        var cur = balanceOf(a);
+        var balLabel = (a.kind === 'credit') ? (money(cur.available) + ' available') : money(cur);
+        html += '<option value="' + a.id + '"' + (a.id === selectedId ? ' selected' : '') + '>' +
+                escapeHtml(a.name) + ' (' + balLabel + ')</option>';
+      });
+      html += '</optgroup>';
+    }
+    if (business.length > 0) {
+      html += '<optgroup label="Business Accounts">';
+      business.forEach(function(a){
+        var cur = balanceOf(a);
+        html += '<option value="' + a.id + '"' + (a.id === selectedId ? ' selected' : '') + '>' +
+                escapeHtml(a.name) + ' (' + money(cur) + ')</option>';
+      });
+      html += '</optgroup>';
+    }
+    sel.innerHTML = html;
+  }
+
+  function renderTxPresets(){
+    var container = document.getElementById('txPresets');
+    if (!container) return;
+    var list = TX_PRESETS[currentTxType] || TX_PRESETS.debit;
+    container.innerHTML = '<span style="font-size:11.5px;color:var(--muted);align-self:center">Quick presets:</span>' +
+      list.map(function(p, idx){
+        return '<button type="button" class="preset-chip" onclick="applyTxPresetByIndex(' + idx + ')">' +
+               escapeHtml(p.label) + ' (' + money(p.amount) + ')</button>';
+      }).join('');
+  }
+
+  function applyTxPresetByIndex(idx){
+    var list = TX_PRESETS[currentTxType] || TX_PRESETS.debit;
+    var p = list[idx];
+    if (!p) return;
+    document.getElementById('txDesc').value = p.desc;
+    document.getElementById('txAmount').value = p.amount.toFixed(2);
+    updateTxPreview();
+  }
+
+  function updateTxPreview(){
+    var previewEl = document.getElementById('txPreviewContent');
+    if (!previewEl || !user) return;
+    var sel = document.getElementById('txAccountSelect');
+    var acctId = sel ? sel.value : null;
+    var acct = findAcct(acctId);
+    if (!acct) {
+      previewEl.textContent = 'Select an account to view impact';
+      return;
+    }
+    var amt = parseFloat(document.getElementById('txAmount').value);
+    if (isNaN(amt) || amt <= 0) {
+      var cur = balanceOf(acct);
+      var curStr = (acct.kind === 'credit') ? (money(cur.owing) + ' owing (Available: ' + money(cur.available) + ')') : money(cur);
+      previewEl.innerHTML = 'Current balance: <strong>' + curStr + '</strong>. Enter an amount to preview change.';
+      return;
+    }
+
+    if (acct.kind === 'credit') {
+      var card = balanceOf(acct);
+      var change = (currentTxType === 'debit') ? amt : -amt;
+      var newOwing = Math.max(0, card.owing + change);
+      var newAvail = Math.max(0, card.limit - newOwing);
+      previewEl.innerHTML = 'Current owing: <strong>' + money(card.owing) + '</strong> → New owing: <strong style="color:var(--brand)">' +
+        money(newOwing) + '</strong> (Available: ' + money(newAvail) + ' of ' + money(card.limit) + ')';
+    } else {
+      var cur = balanceOf(acct);
+      var change = (currentTxType === 'debit') ? -amt : amt;
+      var newBal = cur + change;
+      var color = newBal < 0 ? 'var(--brand)' : 'var(--navy)';
+      previewEl.innerHTML = 'Current balance: <strong>' + money(cur) + '</strong> → After ' + currentTxType + ': <strong style="color:' + color + '">' +
+        money(newBal) + '</strong>';
+    }
+  }
+
+  function submitTransaction(){
+    var sel = document.getElementById('txAccountSelect');
+    var acctId = sel ? sel.value : null;
+    var acct = findAcct(acctId);
+    if (!acct) return;
+
+    var desc = (document.getElementById('txDesc').value || '').trim();
+    if (!desc) return;
+
+    var rawAmt = parseFloat(document.getElementById('txAmount').value);
+    if (isNaN(rawAmt) || rawAmt <= 0) return;
+    rawAmt = Math.round(rawAmt * 100) / 100;
+
+    var dateVal = document.getElementById('txDate').value || new Date().toISOString().slice(0, 10);
+    var signedAmt = (currentTxType === 'debit') ? -rawAmt : rawAmt;
+
+    var newTx = {
+      id: 'tx_' + Date.now(),
+      acct: acct.id,
+      date: dateVal,
+      desc: desc,
+      amount: signedAmt,
+      custom: true
+    };
+
+    user.transactions.push(newTx);
+
+    // If everyday personal account, adjust Safe to spend in savingPlan
+    if (acct.kind === 'everyday' && acct.mode === 'personal') {
+      var spendBucket = user.savingsPlan.find(function(i){ return i.id === 'spend'; });
+      if (spendBucket) {
+        spendBucket.amount = Math.max(0, Math.round((spendBucket.amount + signedAmt) * 100) / 100);
+      }
+    }
+
+    saveStore();
+
+    currentAcctId = acct.id;
+    if (acct.mode === 'business' && document.querySelector('.mode:not([hidden])').getAttribute('data-mode') !== 'business') {
+      setMode('business');
+    } else if (acct.mode === 'personal' && document.querySelector('.mode:not([hidden])').getAttribute('data-mode') !== 'personal') {
+      setMode('personal');
+    }
+
+    renderAll();
+    go('account');
+    closeTxModal();
+    showToast('✓ Added ' + (signedAmt < 0 ? 'debit' : 'credit') + ' of ' + money(Math.abs(signedAmt)) + ' to ' + acct.name);
+  }
+
+  // ==========================================
+  // SAVING PLAN (GOALS & BUCKETS)
+  // ==========================================
+  var PRESET_COLORS = ['#008a4b', '#7e22ce', '#0067b1', '#f0a500', '#db2777', '#0d9488', '#da1710', '#4f46e5'];
+  var currentSelectedColor = PRESET_COLORS[0];
+  var currentPlanType = 'goal';
+
+  function renderSavingsPlan(){
+    var allocBar = document.getElementById('savingsAllocBar');
+    var legend = document.getElementById('savingsLegend');
+    var pots = document.getElementById('savingsPots');
+    var ovGoals = document.getElementById('overviewGoalsContainer');
+    var ovLifeTotal = document.getElementById('westpacLifeTotal');
+    if (!allocBar || !legend || !pots || !user || !user.savingsPlan) return;
+
+    var planItems = user.savingsPlan;
+
+    // Render Allocation Bar
+    allocBar.innerHTML = planItems.map(function(item){
+      var flex = Math.max(1, Math.round(item.amount || 1));
+      return '<span style="flex:' + flex + ';background:' + item.color + '" title="' + escapeHtml(item.name) + ': ' + money(item.amount) + '"></span>';
+    }).join('');
+
+    // Render Legend
+    legend.innerHTML = planItems.map(function(item){
+      return '<span><i style="background:' + item.color + '"></i>' + escapeHtml(item.name) + '</span>';
+    }).join('');
+
+    // Render Pots
+    var potsHtml = planItems.map(function(item){
+      var isGoal = item.type === 'goal';
+      var delBtn = !item.fixed ? '<button type="button" class="pot-del" onclick="deletePlanItem(\'' + item.id + '\')" title="Remove ' + escapeHtml(item.name) + '" aria-label="Remove ' + escapeHtml(item.name) + '">✕</button>' : '';
+      var tag = '<span class="pot-tag">' + (isGoal ? 'Goal' : 'Bucket') + '</span>';
+
+      var progressHtml = '';
+      if (isGoal && item.target) {
+        var pct = Math.min(100, Math.round((item.amount / item.target) * 100));
+        progressHtml = '<div class="potbar"><span style="width:' + pct + '%;background:' + item.color + '"></span></div>' +
+          '<div class="pnote" style="color:var(--success)">' + pct + '% of ' + money(item.target) + (item.targetDate ? ' · ' + escapeHtml(item.targetDate) : '') + '</div>';
+      } else {
+        progressHtml = '<div class="pnote" style="color:' + (item.id === 'bills' ? 'var(--success)' : 'var(--muted)') + '">' + escapeHtml(item.note || 'Cash bucket') + '</div>';
+      }
+
+      return '<div class="pot">' +
+        delBtn +
+        '<div class="pn"><span class="dot" style="background:' + item.color + '"></span><span>' + escapeHtml(item.name) + '</span>' + tag + '</div>' +
+        '<div class="pv">' + money(item.amount) + '</div>' +
+        progressHtml +
+      '</div>';
+    }).join('');
+
+    var addCardHtml = '<div class="pot-add-card" onclick="openPlanModal()" role="button" tabindex="0" onkeydown="if(event.key===\'Enter\'||event.key===\' \')openPlanModal()">' +
+      '<div class="plus-icon">+</div><div class="txt">Add goal or bucket</div></div>';
+
+    pots.innerHTML = potsHtml + addCardHtml;
+
+    // Render Overview Goals
+    if (ovGoals) {
+      var goals = planItems.filter(function(i){ return i.type === 'goal'; });
+      if (goals.length === 0) {
+        ovGoals.innerHTML = '<div style="font-size:13px;color:var(--muted);margin-top:8px">No active goals yet. Add one below!</div>';
+      } else {
+        ovGoals.innerHTML = goals.map(function(g){
+          var pct = g.target ? Math.min(100, Math.round((g.amount / g.target) * 100)) : 100;
+          return '<div class="goal">' +
+            escapeHtml(g.name) + ' goal — <strong>' + money(g.amount) + '</strong> of ' + money(g.target || g.amount) +
+            (g.targetDate ? ' · on track for ' + escapeHtml(g.targetDate) : ' · on track') +
+            '<div class="goalbar"><span style="width:' + pct + '%;background:' + (g.color || 'var(--success)') + '"></span></div>' +
+          '</div>';
+        }).join('');
+      }
+
+      var savAcct = findAcct('life');
+      if (ovLifeTotal && savAcct) {
+        ovLifeTotal.textContent = money(balanceOf(savAcct));
+      }
+    }
+  }
+
+  function initColorSwatches(){
+    var container = document.getElementById('colorSwatches');
+    if (!container) return;
+    container.innerHTML = PRESET_COLORS.map(function(c){
+      return '<div class="color-swatch' + (c === currentSelectedColor ? ' active' : '') + '" style="background:' + c + '" onclick="selectPlanColor(\'' + c + '\')"></div>';
+    }).join('');
+  }
+
+  function selectPlanColor(color){
+    currentSelectedColor = color;
+    document.querySelectorAll('.color-swatch').forEach(function(el){
+      el.classList.toggle('active', el.style.background === color || el.getAttribute('style').indexOf(color) !== -1);
+    });
+  }
+
+  function setPlanType(type){
+    currentPlanType = type;
+    var btnG = document.getElementById('typeGoalBtn');
+    var btnB = document.getElementById('typeBucketBtn');
+    var title = document.getElementById('planModalTitle');
+    var targetGroup = document.getElementById('goalTargetGroup');
+    var dateGroup = document.getElementById('goalDateGroup');
+    var submitBtn = document.getElementById('planSubmitBtn');
+
+    if (btnG) btnG.classList.toggle('active', type === 'goal');
+    if (btnB) btnB.classList.toggle('active', type === 'bucket');
+
+    if (title) {
+      title.innerHTML = type === 'goal' ? '<span>🎯</span> Add Savings Goal' : '<span>🪣</span> Add Cash Bucket';
+    }
+    if (targetGroup) targetGroup.style.display = type === 'goal' ? '' : 'none';
+    if (dateGroup) dateGroup.style.display = type === 'goal' ? '' : 'none';
+    if (submitBtn) {
+      submitBtn.textContent = type === 'goal' ? 'Create Goal' : 'Create Bucket';
+    }
+  }
+
+  function openPlanModal(defaultType){
+    setPlanType(defaultType || 'goal');
+    var form = document.getElementById('planForm');
+    if (form) form.reset();
+    document.getElementById('planItemAmount').value = '100';
+    initColorSwatches();
+    selectPlanColor(currentPlanType === 'goal' ? '#7e22ce' : '#0d9488');
+    var modal = document.getElementById('planModal');
+    if (modal) modal.hidden = false;
+    setTimeout(function(){
+      var inp = document.getElementById('planItemName');
+      if (inp) inp.focus();
+    }, 50);
+  }
+
+  function closePlanModal(){
+    var modal = document.getElementById('planModal');
+    if (modal) modal.hidden = true;
+  }
+
+  function applyPreset(name, type, target, amount, color, date){
+    setPlanType(type);
+    document.getElementById('planItemName').value = name.replace(/^[^ws]+s*/, '');
+    if (target && document.getElementById('planItemTarget')) document.getElementById('planItemTarget').value = target;
+    if (amount !== undefined && document.getElementById('planItemAmount')) document.getElementById('planItemAmount').value = amount;
+    if (date && document.getElementById('planItemDate')) document.getElementById('planItemDate').value = date;
+    if (color) selectPlanColor(color);
+  }
+
+  function submitPlanItem(){
+    if (!user) return;
+    var name = (document.getElementById('planItemName').value || '').trim();
+    if (!name) return;
+    var amount = parseFloat(document.getElementById('planItemAmount').value) || 0;
+    var target = currentPlanType === 'goal' ? (parseFloat(document.getElementById('planItemTarget').value) || (amount * 2 || 1000)) : null;
+    var date = currentPlanType === 'goal' ? (document.getElementById('planItemDate').value || '').trim() : '';
+
+    var newItem = {
+      id: 'custom_' + Date.now(),
+      name: name,
+      type: currentPlanType,
+      amount: amount,
+      target: target,
+      targetDate: date || (currentPlanType === 'goal' ? 'End of year' : ''),
+      color: currentSelectedColor || '#7e22ce',
+      note: currentPlanType === 'goal' ? 'On track' : 'Custom bucket',
+      fixed: false
+    };
+
+    user.savingsPlan.push(newItem);
+    saveStore();
+    renderAll();
+    closePlanModal();
+    showToast('✓ Added "' + name + '" to your saving plan');
+  }
+
+  function deletePlanItem(id){
+    if (!user || !user.savingsPlan) return;
+    var idx = user.savingsPlan.findIndex(function(i){ return i.id === id; });
+    if (idx === -1) return;
+    var name = user.savingsPlan[idx].name;
+    if (!confirm('Remove "' + name + '" from your saving plan?')) return;
+    user.savingsPlan.splice(idx, 1);
+    saveStore();
+    renderAll();
+    showToast('Removed "' + name + '" from saving plan');
+  }
+
+  // ==========================================
+  // WESLEY AI CHAT ENGINE
+  // ==========================================
+  var chatSeeded = false;
+  var MINI = '<div class="mini"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>';
+  var ctx = { topic: null, amount: 0, item: '', awaiting: null, delay: 0, recover: 0, intensity: '2×', elig: { dir: 'above', amt: 5 }, feeCover: true, digest: 'weekly' };
+
+  function pick(a){ return a[Math.floor(Math.random() * a.length)]; }
+
+  function resetChat(){
+    chatSeeded = false;
+    var log = document.getElementById('chatLog');
+    if (log) log.innerHTML = '';
+    ctx = {
+      topic: null, amount: 0, item: '', awaiting: null, delay: 0, recover: 0,
+      intensity: (user && user.wesley && user.wesley.intensity) || '2×',
+      elig: (user && user.wesley && user.wesley.elig) || { dir: 'above', amt: 5 },
+      feeCover: (user && user.wesley && user.wesley.feeCover !== undefined) ? user.wesley.feeCover : true,
+      digest: (user && user.wesley && user.wesley.digest) || 'weekly'
+    };
+  }
 
   function openWesley(prefill){
-    document.getElementById('wesleyPanel').hidden=false; seedChat();
-    var b=document.getElementById('chatBox'); if(prefill){b.value=prefill;}
-    setTimeout(function(){b.focus();},50);
+    document.getElementById('wesleyPanel').hidden = false;
+    seedChat();
+    var b = document.getElementById('chatBox');
+    if (prefill) b.value = prefill;
+    setTimeout(function(){ b.focus(); }, 50);
   }
-  function closeWesley(){document.getElementById('wesleyPanel').hidden=true;}
+
+  function closeWesley(){
+    document.getElementById('wesleyPanel').hidden = true;
+  }
+
   function seedChat(){
-    var log=document.getElementById('chatLog'); if(!log||chatSeeded) return; chatSeeded=true;
-    wesleyBubble("Hey Alex 👋 I'm Wesley, your money helper. You've got <strong>$428.60</strong> free to spend before your next pay — that's what's left once I've set your bills and rent aside. I've also sorted a few bits this week. What can I help with?", ["Can I afford something?","How are my round-ups?","What am I eligible for?","What have you done lately?"]);
+    var log = document.getElementById('chatLog');
+    if (!log || chatSeeded) return;
+    chatSeeded = true;
+    var safeAmt = getSafeToSpend();
+    var name = (user ? user.firstName : 'Alex');
+    var paydayStr = (user && user.id === 'peggy') ? 'next pension payment' : 'payday';
+    wesleyBubble("Hey " + name + " 👋 I'm Wesley. You've got <strong>" + money(safeAmt) + "</strong> safe to spend till " + paydayStr + ", and I've quietly sorted a few things this week. What's on your mind?", ["Can I afford something?","Add a goal or bucket","My round-ups","What've you been up to?"]);
   }
-  function addMe(t){var log=document.getElementById('chatLog');var d=document.createElement('div');d.className='bubble me';d.textContent=t;log.appendChild(d);log.scrollTop=log.scrollHeight;}
-  function wesleyBubble(html,chips){
-    var log=document.getElementById('chatLog');var row=document.createElement('div');row.className='wrow';
-    var inner='<div class="bubble wes">'+html;
-    if(chips&&chips.length){inner+='<div class="qr-row">'+chips.map(function(c){return '<button class="qr" onclick="wesleyAsk(this.textContent)">'+c+'</button>';}).join('')+'</div>';}
-    inner+='</div>'; row.innerHTML=MINI+inner; log.appendChild(row); log.scrollTop=log.scrollHeight;
+
+  function addMe(t){
+    var log = document.getElementById('chatLog');
+    var d = document.createElement('div');
+    d.className = 'bubble me';
+    d.textContent = t;
+    log.appendChild(d);
+    log.scrollTop = log.scrollHeight;
   }
+
+  function wesleyBubble(html, chips){
+    var log = document.getElementById('chatLog');
+    var row = document.createElement('div');
+    row.className = 'wrow';
+    var inner = '<div class="bubble wes">' + html;
+    if (chips && chips.length) {
+      inner += '<div class="qr-row">' + chips.map(function(c){
+        return '<button class="qr" onclick="wesleyAsk(this.textContent)">' + c + '</button>';
+      }).join('') + '</div>';
+    }
+    inner += '</div>';
+    row.innerHTML = MINI + inner;
+    log.appendChild(row);
+    log.scrollTop = log.scrollHeight;
+  }
+
   function wesleyAsk(text){
     addMe(text);
-    var log=document.getElementById('chatLog');var typing=document.createElement('div');typing.className='wrow';
-    typing.innerHTML=MINI+'<div class="bubble wes typing">Wesley is typing…</div>';log.appendChild(typing);log.scrollTop=log.scrollHeight;
-    var ans=answerFor(text);
-    setTimeout(function(){typing.remove();wesleyBubble(ans.html,ans.chips);},620);
+    var log = document.getElementById('chatLog');
+    var typing = document.createElement('div');
+    typing.className = 'wrow';
+    typing.innerHTML = MINI + '<div class="bubble wes typing">Wesley is typing…</div>';
+    log.appendChild(typing);
+    log.scrollTop = log.scrollHeight;
+    var ans = answerFor(text);
+    setTimeout(function(){
+      typing.remove();
+      wesleyBubble(ans.html, ans.chips);
+    }, 550);
   }
-  function wesleySend(){var b=document.getElementById('chatBox');var v=(b.value||'').trim();if(!v)return;b.value='';wesleyAsk(v);}
 
-  function weeklyAmt(){return ctx.intensity==='5×'?31:(ctx.intensity==='1×'?6:12);}
-  function afford(amt, changed){
-    var safe=428.60, buffer=300, weekly=55;
-    var left=safe-amt, delay=Math.ceil(amt/weekly), recover=Math.ceil(amt/(weekly*2));
-    ctx.topic='afford'; ctx.amount=amt; ctx.delay=delay; ctx.recover=recover; ctx.awaiting='choice';
-    var pre = changed ? pick(["No worries — let's use "+money(amt)+" instead. ","Easy fix — going with "+money(amt)+" now. ","Got it, "+money(amt)+" it is. "]) : "";
-    var noun = ctx.item?(" for the "+ctx.item):"";
-    var verdict, detail;
-    if(left>=0){
-      verdict = pick(["Yes, you can afford that. ","That's fine. ","Yep, no problem. "]);
-      detail = "If you paid "+money(amt)+noun+" today, you'd still have about <strong>"+money(left)+"</strong> left to spend before your next pay (28 Nov).";
-    } else if(amt<=safe+buffer){
-      verdict = pick(["You can — but it'd leave you tight. ","Doable, just a bit tight. "]);
-      detail = money(amt)+" is about "+money(amt-safe)+" more than the "+money(safe)+" you've got free right now. I'd cover the gap from your $300 safety stash, which would leave you with nothing spare until pay day.";
-    } else {
-      verdict = pick(["I'd hold off for now. ","Not just yet, I reckon. "]);
-      detail = money(amt)+" is more than everything you've got free ("+money(safe)+") plus your $300 safety stash — you'd come up about <strong>"+money(amt-(safe+buffer))+"</strong> short.";
-    }
-    var save = " It would also slow your rental-bond savings goal by roughly <strong>"+delay+" week"+(delay===1?"":"s")+"</strong>.";
-    var choice = " Want to stay on track? I can <strong>save a bit harder</strong> for a while (you'd make it back in about "+recover+" weeks), or <strong>keep things relaxed</strong> and just let the goal arrive a little later.";
-    return {html:pre+verdict+detail+save+choice, chips:["Save a bit harder","Keep it relaxed","Pick a different amount","Not now"]};
+  function wesleySend(){
+    var b = document.getElementById('chatBox');
+    var v = (b.value || '').trim();
+    if (!v) return;
+    b.value = '';
+    wesleyAsk(v);
+  }
+
+  function afford(amt){
+    var safe = getSafeToSpend();
+    var bufItem = user && user.savingsPlan && user.savingsPlan.find(function(i){ return i.id === 'buffer'; });
+    var buffer = bufItem ? (bufItem.amount || 300) : 300;
+    var weekly = 55;
+    var after = safe - amt;
+    var used = Math.max(0, Math.min(buffer, amt - safe));
+    var delay = Math.ceil(amt / weekly);
+    var recover = Math.ceil(amt / (weekly * 2));
+    ctx.topic = 'afford'; ctx.amount = amt; ctx.delay = delay; ctx.recover = recover; ctx.awaiting = 'intensity';
+    var head = after >= 0 ? pick(["Yep — " + money(amt) + "'s fine.", "You're good for that.", "Comfortably, yeah."])
+             : amt <= safe + buffer ? pick(["You can, but it's a bit snug.", "Doable — just a touch tight."])
+             : pick(["I'd hold off on that one, honestly.", "That's a stretch right now."]);
+    var noun = ctx.item ? (" on the " + ctx.item) : "";
+    var body = " After it" + noun + " you'd have <strong>" + money(after) + "</strong> left to spend" + (used > 0 ? (" (dipping " + money(used) + " into your buffer)") : "") + ", and it'd nudge your primary goal out by about <strong>" + delay + " weeks</strong>.";
+    var tail = pick([" Want me to claw that back? I can go Hard Savings, or keep things easy.", " I can recover it in ~" + recover + " weeks on Hard Savings, or stay Budget Friendly — your call."]);
+    return { html: head + body + tail, chips: ["Hard Savings", "Budget Friendly", "Not now"] };
   }
 
   function answerFor(t){
-    var raw=t||''; t=raw.toLowerCase().trim();
-    var amtMatch=t.replace(/,/g,'').match(/\$?\s?(\d+(?:\.\d+)?)/);
-    var amt=amtMatch?parseFloat(amtMatch[1]):0;
+    var raw = t || '';
+    t = raw.toLowerCase().trim();
+    var amtMatch = t.replace(/,/g, '').match(/\$?\s?(\d+(?:\.\d+)?)/);
+    var amt = amtMatch ? parseFloat(amtMatch[1]) : 0;
 
-    // --- memory-driven short replies (change your mind any time) ---
-    // asked to pick a different amount (no number given yet)
-    if(/different amount|another amount|change the amount|pick a different|change my number/.test(t) && !amt){ ctx.awaiting='amount'; return {html:pick(["Sure — what number should I use?","No problem — what's the new amount?"]), chips:["$500","$1,200","$3,000"]};}
-    // a number while we're on affordability = set OR correct the amount
-    if(ctx.topic==='afford' && amt>0 && (/^\$?\s?[\d,.]+\??$/.test(t) || /(actually|i meant|make it|change it|instead|no wait|^no[, ]|typo|rather|should be)/.test(t))){
-      var changedAmt = ctx.amount>0 && ctx.amount!==amt;
-      return afford(amt, changedAmt);
+    if (ctx.topic === 'afford' && ctx.amount === 0 && amt > 0 && /^\$?\s?[\d,.]+\??$/.test(t)) return afford(amt);
+
+    if (/hard savings|save harder|save more/.test(t)) {
+      ctx.intensity = '5×';
+      if (user) { user.wesley = user.wesley || {}; user.wesley.intensity = '5×'; saveStore(); }
+      if (ctx.topic === 'afford' && ctx.amount > 0) return { html: pick(["Nice — Hard Savings it is. ", "Love it. "]) + "I'll push round-ups to 5× (~$31/week), so that " + money(ctx.amount) + " is back on track in about <strong>" + ctx.recover + " weeks</strong>.", chips: ["Sounds good", "Actually, Budget Friendly"] };
+      return { html: "You're on <strong>Hard Savings</strong> now — 5× round-ups, roughly $31 a week. Goals land faster, and I'll ease off on tight weeks so it never hurts.", chips: ["Perfect", "Go easier instead"] };
     }
-    // save harder / keep relaxed — applied to whatever we're discussing
-    if(/hard savings|save.*harder|save more|\bharder\b/.test(t)){ ctx.intensity='5×'; ctx.awaiting=null;
-      if(ctx.topic==='afford' && ctx.amount>0) return {html:pick(["Good plan. ","Nice one. "])+"I'll put a bit more aside each week — around <strong>$31</strong> instead of $12 — so you make up that "+money(ctx.amount)+" in about <strong>"+ctx.recover+" weeks</strong>, and your savings goal still lands around March.", chips:["Sounds good","Actually, keep it relaxed","Pick a different amount"]};
-      return {html:"Done — I'll save a bit harder for you, about <strong>$31 a week</strong> into your bond savings. You'll reach the goal sooner, and I'll still go easy automatically on weeks that are tight.", chips:["Perfect","Go easier instead"]};}
-    if(/budget friendly|keep.*relaxed|\brelaxed\b|save.*easier|ease off|go easier|take it easy/.test(t)){ ctx.intensity='1×'; ctx.awaiting=null;
-      if(ctx.topic==='afford' && ctx.amount>0) return {html:"No stress — I'll keep your saving where it is (about <strong>$12 a week</strong>). Your everyday spending stays comfortable, and the goal just arrives about <strong>"+ctx.delay+" week"+(ctx.delay===1?"":"s")+"</strong> later. Easy to speed up again whenever.", chips:["That works","Actually, save harder","Pick a different amount"]};
-      return {html:"Keeping things relaxed — about <strong>$12 a week</strong> into savings. Comfortable day-to-day, and the goal arrives a little later. No drama.", chips:["Great","Save a bit harder"]};}
-
-    if(/^(yes|yep|yeah|ok|okay|sure|do it|go on|please)\b/.test(t) && ctx.awaiting==='choice') return {html:"Would you rather save a bit harder, or keep it relaxed?", chips:["Save a bit harder","Keep it relaxed"]};
-    if(/\b(no thanks|not now|not yet|maybe later|leave (it|them)|later|nope|nah)\b/.test(t)){ ctx.awaiting=null; return {html:pick(["No worries — I'll leave things as they are.","All good, nothing's changed. Give me a shout when you need me."]), chips:["Can I afford something?","My offers"]};}
-    if(/sounds good|that works|perfect|great|cheers|^ta\b|awesome|all good|got it|nice work|^nice\b|love it/.test(t)) return {html:pick(["👍 Anything else?","Easy. What else can I do for you?","Done — anything else on your mind?"]), chips:["My round-ups","What do I qualify for?","What've you been up to?"]};
-
-    // --- primary intents ---
-    if(/afford|can i (buy|get|spend|afford)|should i (buy|get)|i want to buy|thinking of buying/.test(t)){
-      var it=raw.match(/(?:buy|afford|get)\s+(?:an?\s+|some\s+)?([a-z][a-z \-]{2,28})/i); ctx.item=it?it[1].trim().replace(/\s+(for|at|that).*$/,''):'';
-      if(amt>0) return afford(amt);
-      ctx.topic='afford'; ctx.amount=0; ctx.awaiting='amount';
-      return {html:pick(["Sure — how much are we talking?","Happy to check. What's it set you back?","Go on — what's the price tag?"]), chips:["$500","$1,200","$3,000"]};
+    if (/budget friendly|save easier|save less|ease off|go easier/.test(t)) {
+      ctx.intensity = '1×';
+      if (user) { user.wesley = user.wesley || {}; user.wesley.intensity = '1×'; saveStore(); }
+      if (ctx.topic === 'afford' && ctx.amount > 0) return { html: "All good — I'll keep it <strong>Budget Friendly</strong> (1×, ~$6.20/week) so your week stays comfy. That " + money(ctx.amount) + " just nudges the goal out ~" + ctx.delay + " weeks, which is no drama.", chips: ["That works", "Change my mind — Hard Savings"] };
+      return { html: "Done — <strong>Budget Friendly</strong> (1×, ~$6.20 a week). Everyday spending stays relaxed.", chips: ["Great", "Save harder"] };
     }
-    if(/round.?up (above|over)|only (above|over)/.test(t)){ ctx.topic='roundups'; ctx.elig={dir:'above',amt:amt||10}; return {html:"Righto — I'll only round up purchases <strong>above $"+ctx.elig.amt+"</strong>, so the little taps stay out of it.", chips:["Save harder","Save easier","All good"]};}
-    if(/round.?up (below|under)|only (below|under)/.test(t)){ ctx.topic='roundups'; ctx.elig={dir:'below',amt:amt||100}; return {html:"Done — only purchases <strong>below $"+ctx.elig.amt+"</strong> get rounded up, so big one-offs won't skew things.", chips:["Save harder","Save easier","All good"]};}
-    if(/bigger buys|only.*bigger|skip.*small/.test(t)){ ctx.topic='roundups'; ctx.elig={dir:'above',amt:20}; return {html:"Good idea — I'll only round up your bigger buys (over $20), so the little everyday taps stay untouched.", chips:["Save a bit harder","Keep it relaxed","All good"]};}
-    if(/round.?up|spare change|round up/.test(t)){ ctx.topic='roundups';
-      return {html:"Here's the simple version: whenever you buy something, I round the price up to the next dollar and slip the spare change into your bond savings. Right now that adds up to roughly <strong>$"+weeklyAmt()+" a week</strong>. I can save a bit harder, keep it relaxed, or only do it on bigger buys — whatever suits you.", chips:["Save a bit harder","Keep it relaxed","Only on bigger buys"]};}
-    if(/offer|qualify|eligible|deal|discount/.test(t)){ ctx.topic='offers';
-      return {html:"A few things jumped out from your spending:<br>• <strong>Travel insurance</strong> — I spotted a Japan trip with no cover yet.<br>• <strong>Fee-free overseas card</strong> — could save you ~$60–90 over there.<br>• <strong>Bonus saver rate</strong> — six months of steady saving earns it.<br>Nothing happens unless you say so.", chips:["Travel insurance","Overseas card","Maybe later"]};}
-    if(/travel insurance/.test(t)){ ctx.topic='offers'; return {html:"Smart for the Japan trip. I can pull up single-trip cover for your December dates whenever you're ready — want me to?", chips:["Yes, show me","Not yet"]};}
-    if(/overseas card/.test(t)){ ctx.topic='offers'; return {html:"Good call — a fee-free card means no foreign-transaction stings while you're away. I can kick off the switch from here.", chips:["Start it","Later"]};}
-    if(/show me|start it|yes, show|set it up/.test(t)) return {html:"On it — I'll get that moving for you. (Heads up: this is a concept demo, so nothing's actually submitted.)", chips:["Thanks","Anything else?"]};
-    if(/(turn off|disable|stop).*(fee)/.test(t)){ ctx.feeCover=false; return {html:"Okay, fee cover's <strong>off</strong>. Just so you know, I won't step in if a payment's about to trip a fee — worth watching the tight days.", chips:["Turn it back on","Got it"]};}
-    if(/(turn on|enable|back on).*(fee)|cover.*(fee)|fee cover|avoid.*(fee)|dishonou?r|overdraw/.test(t)){ ctx.feeCover=true; return {html:"You're covered — if something's about to trigger a dishonour or overdraw fee, I'll quietly shift money from your Buffer first so it doesn't bite.", chips:["Nice","Turn it off"]};}
-    if(/sweep/.test(t)) return {html:"Smart sweeps are on — I tuck surplus away on good weeks and go easy on the lean ones, all between your own accounts.", chips:["Save harder","Leave it"]};
-    if(/notif|alert|digest|group/.test(t)){ ctx.topic='notif'; return {html:"I'm bundling your round-up and money-movement alerts into one <strong>"+ctx.digest+"</strong> digest, so you're not buzzed for every little move. Want it daily, or spelled out move-by-move?", chips:["Make it daily","Keep weekly"]};}
-    if(/make it daily|^daily/.test(t)){ ctx.digest='daily'; return {html:"Done — a quick <strong>daily</strong> digest from me from now on.", chips:["Back to weekly","Thanks"]};}
-    if(/keep weekly|^weekly/.test(t)){ ctx.digest='weekly'; return {html:"Sticking with a <strong>weekly</strong> digest — one tidy summary, no spam.", chips:["Make it daily","Thanks"]};}
-    if(/did you do|this week|moves|what have you|what've you|activity|history|been up to/.test(t)){ ctx.topic='activity';
-      return {html:"Three little saves this week: 🛡️ parked $80 out of reach on Friday night and handed it back Saturday, ⤵ covered a $45 gap so your transit charge didn't bounce, and ↩ slipped $60 back into your bond goal. All undoable if you'd rather.", chips:["Undo one","Nice work"]};}
-    if(/undo/.test(t)) return {html:"Easiest spot is the BankSmart dashboard — every move's got an <strong>Undo</strong> next to it. Want me to open it?", chips:["Open dashboard","Leave them"]};
-    if(/open dashboard/.test(t)){ go('banksmart'); return {html:"Opened your BankSmart dashboard — the moves are listed on the right.", chips:["Thanks"]};}
-    if(/safe to spend|how much.*(spend|left)|balance|spare/.test(t)){ ctx.topic='balance';
-      return {html:"You've got <strong>$428.60</strong> to play with until payday on Fri 28 Nov — rent and bills are already tucked away, so that's genuinely yours.", chips:["Can I afford something?","My round-ups"]};}
-    if(/save|saving|goal|bond/.test(t)){ ctx.topic='goal';
-      return {html:"You've saved <strong>$1,740</strong> of your <strong>$2,500</strong> rental-bond goal — on track for March. Just say the word if you'd like to get there quicker.", chips:["Save a bit harder","Keep it relaxed"]};}
-    if(/forecast|ahead|future|run dry|short|next month/.test(t)){ ctx.topic='forecast';
-      return {html:"Mid-December's the one to watch — three bills land the week of the 14th. I've already nudged $120 forward so you won't get caught short.", chips:["Nice","What else can you do?"]};}
-    if(/^(hi|hey|hello|yo|hiya|morning|g'day)\b/.test(t)) return {html:pick(["Hey! What can I sort for you?","Hiya — what's up?","Morning! How can I help?"]), chips:["Can I afford something?","My round-ups","What do I qualify for?"]};
-    if(/thank/.test(t)) return {html:pick(["Anytime 🙂","No worries at all.","Happy to help!"]), chips:["Can I afford something?","What've you been up to?"]};
 
-    // fallback — stay in context if mid-topic
-    if(ctx.topic==='afford' && ctx.amount===0) return {html:"Just pop in a number and I'll tell you if it's doable.", chips:["$500","$1,200","$3,000"]};
-    return {html:pick(["Hmm, didn't quite catch that — here's where I'm handy:","Not sure I follow, but I can help with a few things:"])+" affording a purchase, your round-ups, the offers you qualify for, fee cover, or what I've been up to.", chips:["Can I afford something?","My round-ups","What do I qualify for?","What've you been up to?"]};
+    if (/^(yes|yep|yeah|ok|okay|sure|do it|go on|please)\b/.test(t) && ctx.awaiting === 'intensity') return { html: "Which way do you want to lean?", chips: ["Hard Savings", "Budget Friendly"] };
+    if (/\b(no thanks|not now|not yet|maybe later|leave (it|them)|later|nope|nah)\b/.test(t)) { ctx.awaiting = null; return { html: pick(["No worries — I'll leave things as they are.", "All good, nothing's changed. Give me a shout when you need me."]), chips: ["Can I afford something?", "My offers"] }; }
+    if (/sounds good|that works|perfect|great|cheers|^ta\b|awesome|all good|got it|nice work|^nice\b|love it/.test(t)) return { html: pick(["👍 Anything else?", "Easy. What else can I do for you?", "Done — anything else on your mind?"]), chips: ["My round-ups", "What do I qualify for?", "What've you been up to?"] };
+
+    if (/afford|can i (buy|get|spend|afford)|should i (buy|get)|i want to buy|thinking of buying/.test(t)) {
+      var it = raw.match(/(?:buy|afford|get)\s+(?:an?\s+|some\s+)?([a-z][a-z \-]{2,28})/i);
+      ctx.item = it ? it[1].trim().replace(/\s+(for|at|that).*$/, '') : '';
+      if (amt > 0) return afford(amt);
+      ctx.topic = 'afford'; ctx.amount = 0; ctx.awaiting = 'amount';
+      return { html: pick(["Sure — how much are we talking?", "Happy to check. What's it set you back?", "Go on — what's the price tag?"]), chips: ["$500", "$1,200", "$3,000"] };
+    }
+    if (/round.?up (above|over)|only (above|over)/.test(t)) {
+      ctx.topic = 'roundups'; ctx.elig = { dir: 'above', amt: amt || 10 };
+      if (user) { user.wesley = user.wesley || {}; user.wesley.elig = ctx.elig; saveStore(); }
+      return { html: "Righto — I'll only round up purchases <strong>above $" + ctx.elig.amt + "</strong>, so small coffee taps stay untouched.", chips: ["Save harder", "Save easier", "All good"] };
+    }
+    if (/round.?up (below|under)|only (below|under)/.test(t)) {
+      ctx.topic = 'roundups'; ctx.elig = { dir: 'below', amt: amt || 100 };
+      if (user) { user.wesley = user.wesley || {}; user.wesley.elig = ctx.elig; saveStore(); }
+      return { html: "Done — only purchases <strong>below $" + ctx.elig.amt + "</strong> get rounded up, so big one-offs won't skew things.", chips: ["Save harder", "Save easier", "All good"] };
+    }
+    if (/round.?up|spare change|round up/.test(t)) {
+      ctx.topic = 'roundups';
+      return { html: "Right now I'm rounding your purchases up to the nearest $1 at " + ctx.intensity + ", on anything " + ctx.elig.dir + " $" + ctx.elig.amt + " — about <strong>$12.40 a week</strong> into your savings. Want to push harder, ease off, or change which purchases count?", chips: ["Save harder", "Save easier", "Only above $10"] };
+    }
+    if (/offer|qualify|eligible|deal|discount/.test(t)) {
+      ctx.topic = 'offers';
+      return { html: "A few tailored insights from your accounts:<br>• <strong>Travel insurance</strong> — automatic quote for your trip dates.<br>• <strong>Fee-free overseas card</strong> — save on foreign transactions.<br>• <strong>Bonus saver rate</strong> — maintain steady deposits to earn peak interest.<br>Nothing happens without your say-so.", chips: ["Travel insurance", "Overseas card", "Maybe later"] };
+    }
+    if (/sweep/.test(t)) return { html: "Smart sweeps are active — I tuck surplus away on good weeks and go easy on lean ones, strictly between your own accounts.", chips: ["Save harder", "Leave it"] };
+    if (/notif|alert|digest|group/.test(t)) {
+      ctx.topic = 'notif';
+      return { html: "I'm bundling your money movements into a <strong>" + ctx.digest + "</strong> digest. Want it daily or weekly?", chips: ["Make it daily", "Keep weekly"] };
+    }
+    if (/make it daily|^daily/.test(t)) {
+      ctx.digest = 'daily';
+      if (user) { user.wesley = user.wesley || {}; user.wesley.digest = 'daily'; saveStore(); }
+      return { html: "Done — a quick <strong>daily</strong> digest from me from now on.", chips: ["Back to weekly", "Thanks"] };
+    }
+    if (/keep weekly|^weekly/.test(t)) {
+      ctx.digest = 'weekly';
+      if (user) { user.wesley = user.wesley || {}; user.wesley.digest = 'weekly'; saveStore(); }
+      return { html: "Sticking with a <strong>weekly</strong> digest — one tidy summary, no spam.", chips: ["Make it daily", "Thanks"] };
+    }
+    if (/did you do|this week|moves|what have you|what've you|activity|history|been up to/.test(t)) {
+      ctx.topic = 'activity';
+      return { html: "Three smart moves this week: 🛡️ parked $80 out of reach on Friday night and released it Sat, ⤵ covered a $45 gap so your transit charge didn't bounce, and ↩ returned $60 back into your savings goal. All undoable in BankSmart.", chips: ["Open dashboard", "Nice work"] };
+    }
+    if (/open dashboard/.test(t)) {
+      go('banksmart');
+      return { html: "Opened your BankSmart dashboard — the moves and pots are right there.", chips: ["Thanks"] };
+    }
+    if (/safe to spend|how much.*(spend|left)|balance|spare/.test(t)) {
+      ctx.topic = 'balance';
+      var s = getSafeToSpend();
+      return { html: "You've got <strong>" + money(s) + "</strong> safe to spend right now — rent and bills are already set aside.", chips: ["Can I afford something?", "My round-ups"] };
+    }
+    if (/add.*(goal|bucket)|new.*(goal|bucket)|create.*(goal|bucket)|add to plan|add a saving/.test(t)) {
+      return {
+        html: "I can set up a new goal or bucket for your saving plan right away! Tap <strong>Custom Goal / Bucket</strong> to open the creator dialog.",
+        chips: ["Custom Goal / Bucket", "What are my goals?", "All good"]
+      };
+    }
+    if (/custom goal|custom bucket|open goal creator|open creator|goal creator/.test(t)) {
+      openPlanModal();
+      return {
+        html: "I've opened the Goal & Bucket Creator for you on screen. Choose the name, target, and color, and tap <strong>Add to Saving Plan</strong>.",
+        chips: ["Thanks", "What are my goals?"]
+      };
+    }
+    if (/what are my goals|my goals|view goals|show goals|list goals/.test(t)) {
+      var goals = (user && user.savingsPlan ? user.savingsPlan : []).filter(function(i){ return i.type === 'goal'; });
+      if (goals.length === 0) return { html: "You don't have any goals set up yet. Would you like to create one?", chips: ["Custom Goal / Bucket"] };
+      var listHtml = goals.map(function(g){
+        var pct = g.target ? Math.min(100, Math.round((g.amount / g.target) * 100)) : 100;
+        return '• <strong>' + escapeHtml(g.name) + '</strong>: ' + money(g.amount) + (g.target ? ' of ' + money(g.target) + ' (' + pct + '%)' : '');
+      }).join('<br>');
+      return {
+        html: "Here are your active savings goals:<br>" + listHtml + "<br>Would you like to add another?",
+        chips: ["Custom Goal / Bucket", "Save harder", "All good"]
+      };
+    }
+    if (/forecast|ahead|future|run dry|short|next month/.test(t)) {
+      ctx.topic = 'forecast';
+      return { html: "Mid-December's the key period to watch — multiple scheduled payments land. I've already set aside buffer funds so you won't get caught short.", chips: ["Nice", "What else can you do?"] };
+    }
+    if (/^(hi|hey|hello|yo|hiya|morning|g'day)\b/.test(t)) return { html: pick(["Hey! What can I sort for you?", "Hiya — what's up?", "Morning! How can I help?"]), chips: ["Can I afford something?", "My round-ups", "What do I qualify for?"] };
+    if (/thank/.test(t)) return { html: pick(["Anytime 🙂", "No worries at all.", "Happy to help!"]), chips: ["Can I afford something?", "What've you been up to?"] };
+
+    if (ctx.topic === 'afford' && ctx.amount === 0) return { html: "Just pop in a number and I'll tell you if it's doable.", chips: ["$500", "$1,200", "$3,000"] };
+    return { html: pick(["Hmm, didn't quite catch that — here's where I can help:", "Not sure I follow, but I can help you with:"]) + " checking if you can afford a purchase, adjusting round-ups, savings goals, or recent smart moves.", chips: ["Can I afford something?", "My round-ups", "What do I qualify for?", "What've you been up to?"] };
+  }
+
+  // Hook up Undo buttons in moves feed
+  document.querySelectorAll('.undo').forEach(function(u){
+    u.addEventListener('click', function(){
+      u.closest('.move').classList.add('undone');
+      u.textContent = 'Reversed';
+    });
+  });
+
+  // ==========================================
+  // INITIALIZATION
+  // ==========================================
+  initColorSwatches();
+  renderDemoMenu();
+
+  var savedUserId = sessionStorage.getItem(SESSION_KEY);
+  if (savedUserId && store.users[savedUserId]) {
+    login(savedUserId);
+  } else {
+    // Show login screen
+    loginEl.hidden = false;
+    appEl.hidden = true;
+    var demoBtn = document.getElementById('demoLoginBtn');
+    if (demoBtn) demoBtn.style.display = 'inline-flex';
   }
 </script>
 </body>
