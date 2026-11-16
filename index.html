@@ -241,6 +241,16 @@
 
   .digest{background:#fafbfc;border:1px solid var(--line);border-radius:8px;padding:14px;margin-top:14px;font-size:13.5px}
   .digest .dh{font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+  /* Wesley */
+  .wesley{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line2);border-radius:12px;padding:18px;margin-bottom:22px;background:#fffaf9}
+  .wesley-av{flex:0 0 auto;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#da1710,#ff7468);display:flex;align-items:center;justify-content:center}
+  .wesley-body{flex:1}
+  .wesley-name{font-weight:800;font-size:15px;display:flex;align-items:center;gap:8px}
+  .wesley-tag{font-size:11px;font-weight:700;color:var(--brand);background:var(--soft);padding:2px 8px;border-radius:999px}
+  .wesley-msg{font-size:14px;color:#333;margin-top:4px;line-height:1.5}
+  .wesley-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .wesley-chips button{font-family:inherit;font-size:13px;border:1px solid var(--line2);background:#fff;border-radius:999px;padding:7px 14px;cursor:pointer}
+  .wesley-chips button:hover{background:var(--soft);border-color:var(--brand);color:var(--brand)}
 
   @media(max-width:900px){
     .util .in{gap:14px;flex-wrap:wrap}.sitenav{gap:16px}.sitenav a{font-size:16px}
@@ -371,7 +381,7 @@
         </div>
 
         <div class="promos">
-          <div class="promo"><h4>BankSmart <svg class="spk" width="18" height="18" viewBox="0 0 24 24" fill="url(#sgrad)"><use href="#spark"/></svg></h4><div class="meta">Your AI money assistant</div><div class="mid">You're <strong>$428.60</strong> safe to spend until payday. 3 automatic moves this week.</div><button class="applybtn" onclick="go('banksmart')">Open BankSmart</button></div>
+          <div class="promo"><h4>BankSmart <svg class="spk" width="18" height="18" viewBox="0 0 24 24" fill="url(#sgrad)"><use href="#spark"/></svg></h4><div class="meta">Powered by Wesley · your AI assistant</div><div class="mid">Wesley has you at <strong>$428.60</strong> safe to spend. 3 moves this week.</div><button class="applybtn" onclick="go('banksmart')">Open BankSmart</button></div>
           <div class="promo"><h4 style="display:block">Thinking of a purchase?</h4><div class="mid">Use What-If to see if you can afford it — and how it affects your savings.</div><button class="applybtn" onclick="go('banksmart');bsgo('whatif')">Try What-If</button></div>
           <div class="promo add" onclick="return false"><div class="plus">+</div><div>Add accounts</div></div>
         </div>
@@ -417,7 +427,20 @@
       <!-- ===== BANKSMART (all features nested here) ===== -->
       <section class="page" data-page="banksmart" hidden>
         <div class="bs-hero"><svg width="36" height="36" viewBox="0 0 24 24" fill="url(#sgrad)" aria-hidden="true"><use href="#spark"/></svg><h1>BankSmart</h1></div>
-        <div class="bs-tag">Your AI money assistant. It keeps money in the right place across your own accounts — so bills are covered, savings fill themselves, and you always know what's safe to spend.</div>
+        <div class="bs-tag">Powered by <strong>Wesley</strong> — your AI money assistant. Wesley keeps money in the right place across your own accounts, so bills are covered, savings fill themselves, and you always know what's safe to spend.</div>
+
+        <div class="wesley">
+          <div class="wesley-av"><svg width="30" height="30" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><use href="#spark"/></svg></div>
+          <div class="wesley-body">
+            <div class="wesley-name">Wesley <span class="wesley-tag">AI assistant</span></div>
+            <div class="wesley-msg">Hi Alex — I'm Wesley. You're <strong>$428.60</strong> safe to spend until payday, and I've made <strong>3 moves</strong> this week — all internal and reversible. What would you like to do?</div>
+            <div class="wesley-chips">
+              <button onclick="bsgo('whatif')">Can I afford something?</button>
+              <button onclick="bsgo('roundups')">Adjust my round-ups</button>
+              <button onclick="bsgo('offers')">What do I qualify for?</button>
+            </div>
+          </div>
+        </div>
 
         <div class="bsub-nav">
           <a data-bsub="dash" class="active" onclick="bsgo('dash')">Dashboard</a>
@@ -453,13 +476,13 @@
                 <path d="M0,55 L95,80 L190,110 L285,132 L380,122 L475,92 L560,76" fill="none" stroke="var(--brand)" stroke-width="3.5"/>
                 <circle cx="285" cy="186" r="5.5" fill="#c4121a"/><text x="250" y="206" font-size="12" fill="#c4121a" font-family="sans-serif">14 Dec — 3 bills</text>
               </svg>
-              <div class="fcap"><span class="ic">⟳</span><span><strong>Moved $120 forward in time.</strong> Three bills land the week of 14 Dec — BankSmart set aside small amounts weeks early so you won't run dry.</span></div>
+              <div class="fcap"><span class="ic">⟳</span><span><strong>I moved $120 forward in time.</strong> Three bills land the week of 14 Dec — I set aside small amounts weeks early so you won't run dry. — Wesley</span></div>
             </div>
             <div class="panelbox feed" style="margin:0">
-              <h3 style="font-size:16px;margin-bottom:8px">What BankSmart did</h3>
-              <div class="move"><div class="mbadge" style="background:var(--soft);color:var(--brand)">🛡️</div><div style="flex:1"><div class="mt">Temptation shield</div><div class="md">Locked $80 away during your Friday big-spend window; released Sat 9 AM.</div><div class="mf"><span class="mtime">Fri 8:02 PM</span><button class="undo">Undo</button></div></div></div>
-              <div class="move"><div class="mbadge" style="background:var(--info-bg);color:var(--info)">⤵</div><div style="flex:1"><div class="mt">Rescue sweep</div><div class="md">Topped up Spending with $45 from Buffer so your transit charge cleared.</div><div class="mf"><span class="mtime">Wed 7:14 AM</span><button class="undo">Undo</button></div></div></div>
-              <div class="move"><div class="mbadge" style="background:var(--success-bg);color:var(--success)">↩</div><div style="flex:1"><div class="mt">Self-repaying savings</div><div class="md">Returned $60 to your bond goal from this week's surplus.</div><div class="mf"><span class="mtime">Mon 6:00 AM</span><button class="undo">Undo</button></div></div></div>
+              <h3 style="font-size:16px;margin-bottom:8px">What Wesley did for you</h3>
+              <div class="move"><div class="mbadge" style="background:var(--soft);color:var(--brand)">🛡️</div><div style="flex:1"><div class="mt">Temptation shield</div><div class="md">I locked $80 away during your Friday big-spend window and released it Sat 9 AM.</div><div class="mf"><span class="mtime">Fri 8:02 PM</span><button class="undo">Undo</button></div></div></div>
+              <div class="move"><div class="mbadge" style="background:var(--info-bg);color:var(--info)">⤵</div><div style="flex:1"><div class="mt">Rescue sweep</div><div class="md">I topped up Spending with $45 from your Buffer so your transit charge cleared — no fee.</div><div class="mf"><span class="mtime">Wed 7:14 AM</span><button class="undo">Undo</button></div></div></div>
+              <div class="move"><div class="mbadge" style="background:var(--success-bg);color:var(--success)">↩</div><div style="flex:1"><div class="mt">Self-repaying savings</div><div class="md">I returned $60 to your bond goal from this week's surplus.</div><div class="mf"><span class="mtime">Mon 6:00 AM</span><button class="undo">Undo</button></div></div></div>
             </div>
           </div>
           <div class="bs-note">🔒 BankSmart only moves money between your own accounts — never to third parties.</div>
@@ -482,7 +505,7 @@
         <!-- ROUND-UPS -->
         <div class="bsub" data-bsub="roundups" hidden>
           <div class="bs-h3">Round-up settings</div>
-          <div class="bs-p">Round up your purchases and send the spare change to a goal. Set which purchases qualify and how hard to save.</div>
+          <div class="bs-p">Tell Wesley which purchases qualify and how hard to save — Wesley rounds up your purchases and moves the spare change to your goal.</div>
           <div class="panelbox">
             <div class="setrow">
               <div><div class="l">Round-ups</div><div class="s">Turn spare-change saving on or off.</div></div>
@@ -509,19 +532,19 @@
               <div><div class="l">Send round-ups to</div><div class="s">Which goal fills up.</div></div>
               <div class="setctl"><select><option>Rental bond (Westpac Life)</option><option>Holiday fund</option><option>Rainy-day buffer</option></select></div>
             </div>
-            <div class="estimate">Estimated round-ups: <b id="ruEstimate">≈ $12.40 / week</b> → your bond goal reaches target <span id="ruWhen">~3 weeks sooner</span>.</div>
+            <div class="estimate">Wesley will set aside: <b id="ruEstimate">≈ $12.40 / week</b> → your bond goal reaches target <span id="ruWhen">~3 weeks sooner</span>.</div>
           </div>
         </div>
 
         <!-- OFFERS -->
         <div class="bsub" data-bsub="offers" hidden>
-          <div class="bs-h3">Offers you're eligible for</div>
-          <div class="bs-p">BankSmart reads your spending to surface offers that actually fit — shown only when you qualify. Nothing is applied without you choosing it.</div>
+          <div class="bs-h3">Offers Wesley found for you</div>
+          <div class="bs-p">Wesley reads your spending to surface offers that actually fit — shown only when you qualify. Nothing is applied unless you choose it.</div>
           <div class="offer">
             <div class="oic">✈️</div>
             <div style="flex:1">
               <h4>Travel insurance</h4>
-              <div class="why">Why you're eligible: flights + hotel booked to Japan (Dec), and no active travel cover found.</div>
+              <div class="why">Wesley spotted: flights + hotel booked to Japan (Dec), and no active travel cover found.</div>
               <p>Single-trip cover for your December dates. BankSmart spotted the trip from your recent spending.</p>
               <button class="cta" onclick="return false">See cover</button>
             </div>
@@ -549,18 +572,18 @@
         <!-- AUTOMATION -->
         <div class="bsub" data-bsub="auto" hidden>
           <div class="bs-h3">Automation</div>
-          <div class="bs-p">Let BankSmart handle the small stuff automatically — always internal to your own accounts, always reversible.</div>
+          <div class="bs-p">Let Wesley handle the small stuff automatically — always internal to your own accounts, always reversible.</div>
           <div class="panelbox">
             <div class="setrow">
-              <div><div class="l">Cover fees automatically</div><div class="s">If a transaction would trigger a dishonour or overdraw fee, BankSmart moves money internally from your Buffer to cover it first — so you avoid the fee.</div></div>
+              <div><div class="l">Let Wesley cover fees automatically</div><div class="s">If a transaction would trigger a dishonour or overdraw fee, Wesley moves money internally from your Buffer to cover it first — so you avoid the fee.</div></div>
               <div class="setctl"><label class="toggle"><input type="checkbox" checked><span class="tk"></span></label></div>
             </div>
             <div class="setrow">
-              <div><div class="l">Smart sweeps</div><div class="s">Move surplus into savings on good weeks and ease off on tight ones, between your own accounts.</div></div>
+              <div><div class="l">Wesley's smart sweeps</div><div class="s">Wesley moves surplus into savings on good weeks and eases off on tight ones, between your own accounts.</div></div>
               <div class="setctl"><label class="toggle"><input type="checkbox" checked><span class="tk"></span></label></div>
             </div>
             <div class="setrow">
-              <div><div class="l">Group notifications</div><div class="s">Bundle round-up and money-movement alerts into one digest instead of pinging you for every move.</div></div>
+              <div><div class="l">How Wesley notifies you</div><div class="s">Let Wesley bundle round-up and money-movement alerts into one digest instead of pinging you for every move.</div></div>
               <div class="setctl">
                 <select id="notifFreq" onchange="notifChange()"><option value="daily">Daily</option><option value="weekly" selected>Weekly</option></select>
                 <label class="toggle"><input type="checkbox" id="notifGroup" checked onchange="notifChange()"><span class="tk"></span></label>
@@ -668,7 +691,14 @@
 
       <section class="page" data-page="banksmart" hidden>
         <div class="bs-hero"><svg width="36" height="36" viewBox="0 0 24 24" fill="url(#sgrad)" aria-hidden="true"><use href="#spark"/></svg><h1>BankSmart</h1></div>
-        <div class="bs-tag">Your AI assistant for business banking — it watches your cash flow and keeps money in the right place across your own accounts, automatically.</div>
+        <div class="bs-tag">Powered by <strong>Wesley</strong> — your AI assistant for business banking. Wesley watches your cash flow and keeps money in the right place across your own accounts, automatically.</div>
+        <div class="wesley">
+          <div class="wesley-av"><svg width="30" height="30" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><use href="#spark"/></svg></div>
+          <div class="wesley-body">
+            <div class="wesley-name">Wesley <span class="wesley-tag">AI assistant</span></div>
+            <div class="wesley-msg">I'm watching your cash flow. Heads up: three bills and payroll land the week of 14 Dec — I've started pre-funding so you won't be caught short.</div>
+          </div>
+        </div>
         <div class="bs-grid">
           <div class="bs-card"><div class="ic">📈</div><div><h3>Cash-flow forecast</h3><p>Projects your balance weeks ahead and flags a shortfall before it happens — like the week supplier bills and payroll collide.</p></div></div>
           <div class="bs-card"><div class="ic">⟳</div><div><h3>Smart sweeps</h3><p>Moves surplus between your own accounts to pre-fund bills and earn on idle cash. Internal only — money never leaves your business.</p></div></div>
@@ -755,13 +785,14 @@
     var delay=Math.ceil(amt/weekly);
     var recover=Math.ceil(amt/(weekly*2));
     el.innerHTML =
-      '<div class="wi-verdict" style="color:'+color+'">'+verdict+'</div>'+
+      '<div style="font-size:12px;color:var(--muted);font-weight:700;margin-top:16px;letter-spacing:.04em">WESLEY\'S VERDICT</div>'+
+      '<div class="wi-verdict" style="color:'+color+';margin-top:2px">'+verdict+'</div>'+
       '<div class="wi-metrics">'+
         '<div class="wi-metric"><div class="k">Safe to spend after</div><div class="v" style="color:'+(after<0?'#c4121a':'#222')+'">'+money(after)+'</div></div>'+
         '<div class="wi-metric"><div class="k">Buffer used</div><div class="v">'+money(bufferUsed)+'</div></div>'+
         '<div class="wi-metric"><div class="k">Bond goal impact</div><div class="v">+'+delay+' wks</div></div>'+
       '</div>'+
-      '<div class="bs-p" style="margin:0 0 10px">Recommended ways to adjust:</div>'+
+      '<div class="bs-p" style="margin:0 0 10px">Wesley recommends:</div>'+
       '<div class="wi-options">'+
         '<div class="wi-opt"><h4>🪶 Budget Friendly</h4><p>Ease round-ups to 1× for a few weeks so day-to-day stays comfortable. Your bond goal shifts about <strong>'+delay+' weeks</strong> later.</p><button class="apply" onclick="bsgo(\'roundups\')">Use Budget Friendly</button></div>'+
         '<div class="wi-opt"><h4>💪 Hard Savings</h4><p>Raise round-ups to 5× and sweep surplus to recover the cost in about <strong>'+recover+' weeks</strong> — goal date held, spending a little tighter.</p><button class="apply" onclick="bsgo(\'roundups\')">Use Hard Savings</button></div>'+
