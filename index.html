@@ -423,6 +423,60 @@
   .ai-num{font-family:inherit;font-size:13px;padding:7px 10px;border:1px solid #bcbcbc;border-radius:6px;width:76px}
   @media(max-width:900px){.ai-insights,.ai-tools{grid-template-columns:1fr 1fr}}
   @media(max-width:600px){.ai-insights,.ai-tools{grid-template-columns:1fr}}
+
+  /* ====== Notifications & Alert Rules ====== */
+  .notif-wesley-bar{border:1px dashed var(--brand);border-radius:10px;padding:16px;background:#fffaf9;margin-bottom:20px}
+  .notif-wesley-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .notif-wesley-input{flex:1;min-width:220px;font-family:inherit;font-size:14px;padding:10px 14px;border:1px solid #bcbcbc;border-radius:999px;background:#fff}
+  .notif-wesley-input:focus{outline:2px solid var(--brand);border-color:var(--brand)}
+  .notif-wesley-btn{font-family:inherit;font-size:14px;font-weight:700;background:var(--brand);color:#fff;border:none;border-radius:999px;padding:10px 20px;cursor:pointer;white-space:nowrap}
+  .notif-wesley-btn:hover{background:#b2110c}
+  .notif-two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+  .notif-ctrl-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+  .notif-ctrl-row:last-child{border-bottom:none;padding-bottom:0}
+  .notif-ctrl-title{font-size:14.5px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .notif-ctrl-sub{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.45}
+  .notif-ctrl-actions{display:flex;align-items:center;gap:10px;flex-shrink:0}
+  .biz-panel{border-top:3px solid var(--navy)}
+  .biz-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;background:#ecebf6;color:var(--navy);padding:3px 8px;border-radius:4px}
+  .agent-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;background:var(--soft);color:var(--brand);border:1px solid #f7c7c4;padding:2px 8px;border-radius:999px}
+  .channel-pill{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;background:#f4f5f7;color:#333;border:1px solid var(--line2)}
+  .channel-pill.sms{background:#e8f1fb;color:#0067b1;border-color:#c6ddf7}
+  .channel-pill.email{background:#e6f4ec;color:#008a4b;border-color:#bfe3ce}
+  .channel-pill.both{background:#f3e8ff;color:#6b21a8;border-color:#e2c6ff}
+  .rule-type-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+  .rule-type-tab{font-family:inherit;font-size:13px;font-weight:700;padding:8px 14px;border-radius:999px;border:1px solid var(--line2);background:#f9f9f9;color:var(--ink);cursor:pointer;transition:.15s}
+  .rule-type-tab:hover{border-color:var(--brand);color:var(--brand);background:var(--soft)}
+  .rule-type-tab.active{background:var(--brand2);border-color:var(--brand2);color:#fff}
+  .rule-builder-box{border:1px solid var(--line2);border-radius:8px;padding:18px;background:#fafafa;margin-bottom:18px}
+  .rule-cond-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(190px, 1fr));gap:12px;align-items:end}
+  .rule-list{display:flex;flex-direction:column;gap:10px}
+  .notif-rule-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 16px;border:1px solid var(--line2);border-radius:8px;background:#fff;flex-wrap:wrap}
+  .notif-rule-row.paused{opacity:.6;background:#fafafa}
+  .notif-rule-main{flex:1;min-width:240px}
+  .notif-rule-title{font-size:14.5px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .notif-rule-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .rule-tag{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:6px;background:#f1f3f5;color:#333;border:1px solid #e2e5e9}
+  .notif-rule-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .notif-mini-btn{font-family:inherit;font-size:12px;font-weight:700;padding:6px 11px;border-radius:4px;border:1px solid #c7c7c7;background:#fff;color:var(--ink);cursor:pointer}
+  .notif-mini-btn:hover{border-color:var(--brand);color:var(--brand);background:var(--soft)}
+  .inbox-filter-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+  .inbox-filter-pills{display:flex;gap:6px;flex-wrap:wrap}
+  .inbox-filter-pill{font-family:inherit;font-size:12.5px;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid var(--line2);background:#fff;color:var(--muted);cursor:pointer}
+  .inbox-filter-pill.active{background:var(--navy);border-color:var(--navy);color:#fff}
+  .inbox-feed{border:1px solid var(--line2);border-radius:8px;overflow:hidden;background:#fff}
+  .inbox-row{display:flex;gap:14px;padding:15px 16px;border-bottom:1px solid var(--line);align-items:flex-start;transition:background .12s}
+  .inbox-row:last-child{border-bottom:none}
+  .inbox-row.unread{background:#fffaf9}
+  .inbox-dot{width:9px;height:9px;border-radius:50%;background:var(--brand);margin-top:6px;flex-shrink:0}
+  .inbox-dot.read{background:#d4d4d4}
+  .inbox-body{flex:1;min-width:0}
+  .inbox-title{font-size:14.5px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .inbox-desc{font-size:13.5px;color:var(--muted);margin-top:3px;line-height:1.45}
+  .inbox-meta{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+  .inbox-action-link{font-size:12.5px;font-weight:700;color:var(--brand);cursor:pointer}
+  .notif-contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+  @media(max-width:900px){.notif-two-col,.notif-contact-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -508,7 +562,7 @@
       </div>
       <div class="hbtns">
         <span class="hbtn" id="approvalBtn" onclick="go('approval')">Approval</span>
-        <span class="hbtn" onclick="go('inbox')">Notifications <span>▾</span><span class="badge">9</span></span>
+        <span class="hbtn" id="notifHeaderBtn" onclick="go('inbox')">Notifications <span>▾</span><span class="badge" id="notifBadge">0</span></span>
         <span class="hbtn" onclick="logout()">Sign Out</span>
       </div>
     </div>
@@ -781,8 +835,12 @@
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Personal details</div><div class="v"><a onclick="return false">Edit</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Security &amp; sign-in</div><div class="v"><a onclick="return false">Manage</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">BankSmart preferences (Income splitting &amp; Round-ups)</div><div class="v"><a onclick="go('bs-settings')">Manage</a></div></div>
-          <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Notifications</div><div class="v"><a onclick="go('inbox')">Manage</a></div></div>
+          <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Notifications &amp; alert rules</div><div class="v"><a onclick="go('inbox')">Manage</a></div></div>
         </div>
+      </section>
+
+      <section class="page" data-page="inbox" hidden>
+        <div id="personalInboxContainer"></div>
       </section>
     </main>
   </div>
@@ -885,25 +943,23 @@
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Users &amp; permissions</div><div class="v"><a onclick="return false">Manage</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Approval settings</div><div class="v"><a onclick="go('approval')">Manage</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Daily limits</div><div class="v"><a onclick="return false">Manage</a></div></div>
+          <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Notifications &amp; alert rules</div><div class="v"><a onclick="go('inbox')">Manage</a></div></div>
         </div>
       </section>
 
       <section class="page" data-page="approval" hidden>
-        <div class="pagehead"><h1>Approvals</h1></div>
-        <div class="tbl">
-          <div class="thead" style="grid-template-columns:1fr 150px 120px"><span>Pending payment</span><span class="r">Amount</span><span class="r">Action</span></div>
-          <div class="arow" style="grid-template-columns:1fr 150px 120px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Payroll — staff wages</div><div class="v">$4,560.00</div><div class="v"><a onclick="return false">Approve</a></div></div>
-          <div class="arow" style="grid-template-columns:1fr 150px 120px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Supplier — Officeworks</div><div class="v">$318.40</div><div class="v"><a onclick="return false">Approve</a></div></div>
+        <div class="bs-header-row" style="margin-bottom:18px">
+          <div class="pagehead" style="margin:0"><h1>Approvals</h1></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button type="button" class="hbtn" onclick="simulateCoSignatoryApproval()" style="color:var(--navy);border-color:var(--navy);font-weight:700">⚡ Simulate co-signatory request</button>
+            <button type="button" class="bs-settings-btn" onclick="go('inbox')">🔔 Approval alerts</button>
+          </div>
         </div>
+        <div id="bizApprovalsContainer"></div>
       </section>
 
       <section class="page" data-page="inbox" hidden>
-        <div class="pagehead"><h1>Notifications</h1></div>
-        <div class="tbl">
-          <div class="thead" style="grid-template-columns:1fr 150px"><span>Message</span><span class="r">Date</span></div>
-          <div class="arow" style="grid-template-columns:1fr 150px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">2 payments awaiting approval</div><div class="v">16 Nov 2026</div></div>
-          <div class="arow" style="grid-template-columns:1fr 150px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Scam alert: fake invoice emails</div><div class="v">24 Oct 2026</div></div>
-        </div>
+        <div id="businessInboxContainer"></div>
       </section>
     </main>
   </div>
@@ -993,8 +1049,29 @@
         </div>
 
         <div class="form-group">
-          <label for="txDate">Transaction Date</label>
-          <input type="date" id="txDate" required>
+          <label for="txCategory">Category (for alert rules)</label>
+          <select id="txCategory">
+            <option value="auto">Auto-detect from description</option>
+            <option value="Groceries">Groceries</option>
+            <option value="Entertainment & eating out">Entertainment &amp; eating out</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Transport & fuel">Transport &amp; fuel</option>
+            <option value="Subscriptions">Subscriptions</option>
+            <option value="Important bills">Important bills</option>
+            <option value="Travel">Travel</option>
+            <option value="Income & transfers">Income &amp; transfers</option>
+          </select>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="form-group">
+            <label for="txDate">Transaction Date</label>
+            <input type="date" id="txDate" required>
+          </div>
+          <div class="form-group">
+            <label for="txTime">Time of Day</label>
+            <input type="time" id="txTime" required>
+          </div>
         </div>
 
         <div id="txPreviewBox" style="background:#f4f5f7;border:1px solid #e0e0e0;border-radius:6px;padding:12px 14px;font-size:13px;margin:16px 0;line-height:1.5">
@@ -1386,6 +1463,104 @@
     }
   }
 
+  function getDefaultNotificationsSeed(u){
+    var uid = u ? u.id : 'alex';
+    var firstGoal = (u && u.savingsPlan || []).find(function(p){ return p.type === 'goal'; });
+    var firstCard = (u && u.accounts || []).find(function(a){ return a.kind === 'credit'; });
+    var seeds = {
+      alex: {
+        channels: { preferred: 'both', smsEnabled: true, emailEnabled: true, phone: '0412 345 678', email: 'alex.chen@example.com' },
+        standard: { allDebits: false, allDebitsChannel: 'sms', allCredits: true, allCreditsChannel: 'email' },
+        businessEvents: { approvalRequired: true, approvalDecision: true, batchPayrollSignoff: true, highValueBizTx: true, highValueThreshold: 1000, merchantSettlement: false, channel: 'both' },
+        rules: [
+          { id: 'nr_a1', enabled: true, channel: 'sms', createdBy: 'user', createdAt: '12 Nov 2026', conditions: { category: '', merchant: '', amountOp: 'above', amountVal: 100, timePreset: '', timeStart: '', timeEnd: '', cardId: firstCard ? firstCard.id : 'card', goalId: '', goalMilestone: 100 } },
+          { id: 'nr_a2', enabled: true, channel: 'both', createdBy: 'agent', createdAt: '14 Nov 2026', conditions: { category: '', merchant: '', amountOp: '', amountVal: null, timePreset: 'late_night', timeStart: '22:00', timeEnd: '06:00', cardId: firstCard ? firstCard.id : 'card', goalId: '', goalMilestone: 100 } },
+          { id: 'nr_a3', enabled: true, channel: 'email', createdBy: 'agent', createdAt: '15 Nov 2026', conditions: { category: '', merchant: '', amountOp: '', amountVal: null, timePreset: '', timeStart: '', timeEnd: '', cardId: '', goalId: firstGoal ? firstGoal.id : 'bond', goalMilestone: 100 } },
+          { id: 'nr_a4', enabled: true, channel: 'sms', createdBy: 'user', createdAt: '15 Nov 2026', conditions: { category: 'Entertainment & eating out', merchant: '', amountOp: 'above', amountVal: 50, timePreset: '', timeStart: '', timeEnd: '', cardId: '', goalId: '', goalMilestone: 100 } }
+        ],
+        inbox: [
+          { id: 'nmsg_a1', title: 'Co-signatory approval required: Payroll — staff wages', body: 'Jamie Taylor (Co-director) initiated $4,560.00 from Westpac Business One requiring your sign-off.', date: '16 Nov 2026, 09:30 AM', category: 'approval', channelsSent: ['sms', 'email'], unread: true, actionPage: 'approval', actionLabel: 'Review approval' },
+          { id: 'nmsg_a2', title: 'Credit alert: +$2,480.00 received', body: 'Salary — Acme Pty Ltd was deposited into Westpac Choice.', date: '14 Nov 2026, 08:15 AM', category: 'credit', channelsSent: ['email'], unread: true, actionPage: 'account', actionLabel: 'View account' },
+          { id: 'nmsg_a3', title: 'Scam alert: watch out for fake invoice emails', body: 'Westpac Protect™ security reminder for business account holders.', date: '24 Oct 2026, 11:00 AM', category: 'security', channelsSent: ['email'], unread: false }
+        ],
+        pendingApprovals: [
+          { id: 'appr_a1', title: 'Payroll — staff wages', initiatedBy: 'Jamie Taylor (Co-director)', acctId: 'biz1', amount: 4560.00, date: '16 Nov 2026', status: 'pending' },
+          { id: 'appr_a2', title: 'Supplier — Officeworks', initiatedBy: 'Samira Patel (Finance)', acctId: 'biz1', amount: 318.40, date: '16 Nov 2026', status: 'pending' }
+        ]
+      },
+      priya: {
+        channels: { preferred: 'email', smsEnabled: true, emailEnabled: true, phone: '0421 889 310', email: 'priya.sharma@example.com' },
+        standard: { allDebits: false, allDebitsChannel: 'sms', allCredits: true, allCreditsChannel: 'email' },
+        businessEvents: { approvalRequired: false, approvalDecision: false, batchPayrollSignoff: false, highValueBizTx: false, highValueThreshold: 1000, merchantSettlement: false, channel: 'email' },
+        rules: [
+          { id: 'nr_p1', enabled: true, channel: 'sms', createdBy: 'user', createdAt: '10 Nov 2026', conditions: { category: '', merchant: '', amountOp: 'above', amountVal: 250, timePreset: '', timeStart: '', timeEnd: '', cardId: firstCard ? firstCard.id : 'card', goalId: '', goalMilestone: 100 } },
+          { id: 'nr_p2', enabled: true, channel: 'both', createdBy: 'agent', createdAt: '11 Nov 2026', conditions: { category: '', merchant: 'Qantas', amountOp: '', amountVal: null, timePreset: '', timeStart: '', timeEnd: '', cardId: '', goalId: '', goalMilestone: 100 } },
+          { id: 'nr_p3', enabled: true, channel: 'email', createdBy: 'user', createdAt: '12 Nov 2026', conditions: { category: '', merchant: '', amountOp: '', amountVal: null, timePreset: '', timeStart: '', timeEnd: '', cardId: '', goalId: firstGoal ? firstGoal.id : 'holiday', goalMilestone: 100 } }
+        ],
+        inbox: [
+          { id: 'nmsg_p1', title: 'Rule matched: Qantas Airways ($620.00)', body: 'Triggered Merchant contains "Qantas" & Card alert on Altitude Black Card.', date: '10 Nov 2026, 02:18 PM', category: 'rule', channelsSent: ['sms', 'email'], unread: true, actionPage: 'account', actionLabel: 'View transactions' },
+          { id: 'nmsg_p2', title: 'Credit alert: +$3,650.00 received', body: 'Salary — TechCorp Solutions was credited to Westpac Choice.', date: '14 Nov 2026, 07:45 AM', category: 'credit', channelsSent: ['email'], unread: false }
+        ],
+        pendingApprovals: []
+      },
+      sam: {
+        channels: { preferred: 'both', smsEnabled: true, emailEnabled: true, phone: '0409 551 224', email: 'sam@rollerscafe.com.au' },
+        standard: { allDebits: true, allDebitsChannel: 'sms', allCredits: true, allCreditsChannel: 'email' },
+        businessEvents: { approvalRequired: true, approvalDecision: true, batchPayrollSignoff: true, highValueBizTx: true, highValueThreshold: 750, merchantSettlement: true, channel: 'both' },
+        rules: [
+          { id: 'nr_s1', enabled: true, channel: 'sms', createdBy: 'agent', createdAt: '12 Nov 2026', conditions: { category: '', merchant: '', amountOp: '', amountVal: null, timePreset: 'after_hours', timeStart: '18:00', timeEnd: '08:00', cardId: firstCard ? firstCard.id : 'card', goalId: '', goalMilestone: 100 } },
+          { id: 'nr_s2', enabled: true, channel: 'email', createdBy: 'user', createdAt: '13 Nov 2026', conditions: { category: '', merchant: 'Single O', amountOp: 'above', amountVal: 500, timePreset: '', timeStart: '', timeEnd: '', cardId: '', goalId: '', goalMilestone: 100 } },
+          { id: 'nr_s3', enabled: true, channel: 'both', createdBy: 'user', createdAt: '14 Nov 2026', conditions: { category: '', merchant: '', amountOp: '', amountVal: null, timePreset: '', timeStart: '', timeEnd: '', cardId: '', goalId: firstGoal ? firstGoal.id : 'renovation', goalMilestone: 100 } }
+        ],
+        inbox: [
+          { id: 'nmsg_s1', title: 'Co-signatory sign-off needed: Roastery Invoice ($1,420.00)', body: 'Marco Rossi (Co-owner) queued a payment from Westpac Business One requiring your approval.', date: '16 Nov 2026, 08:40 AM', category: 'approval', channelsSent: ['sms', 'email'], unread: true, actionPage: 'approval', actionLabel: 'Review approval' },
+          { id: 'nmsg_s2', title: 'Merchant settlement received: +$2,140.00', body: 'Square POS Daily Settlement credited to Westpac Business One.', date: '15 Nov 2026, 06:05 PM', category: 'credit', channelsSent: ['email'], unread: true, actionPage: 'account', actionLabel: 'View account' },
+          { id: 'nmsg_s3', title: 'Scam alert: fake invoice emails', body: 'Check supplier BSB & account numbers before signing off.', date: '24 Oct 2026, 10:15 AM', category: 'security', channelsSent: ['email'], unread: false }
+        ],
+        pendingApprovals: [
+          { id: 'appr_s1', title: 'Roastery Invoice — Single O Wholesale', initiatedBy: 'Marco Rossi (Co-owner)', acctId: 'biz1', amount: 1420.00, date: '16 Nov 2026', status: 'pending' },
+          { id: 'appr_s2', title: 'Weekly Barista Payroll', initiatedBy: 'Elena Costa (Store Manager)', acctId: 'biz1', amount: 3840.00, date: '16 Nov 2026', status: 'pending' }
+        ]
+      },
+      peggy: {
+        channels: { preferred: 'sms', smsEnabled: true, emailEnabled: true, phone: '0438 112 904', email: 'peggy.wilson@example.com' },
+        standard: { allDebits: true, allDebitsChannel: 'sms', allCredits: true, allCreditsChannel: 'sms' },
+        businessEvents: { approvalRequired: false, approvalDecision: false, batchPayrollSignoff: false, highValueBizTx: false, highValueThreshold: 1000, merchantSettlement: false, channel: 'sms' },
+        rules: [
+          { id: 'nr_m1', enabled: true, channel: 'sms', createdBy: 'agent', createdAt: '11 Nov 2026', conditions: { category: 'Important bills', merchant: '', amountOp: 'above', amountVal: 150, timePreset: '', timeStart: '', timeEnd: '', cardId: '', goalId: '', goalMilestone: 100 } },
+          { id: 'nr_m2', enabled: true, channel: 'both', createdBy: 'user', createdAt: '12 Nov 2026', conditions: { category: '', merchant: '', amountOp: '', amountVal: null, timePreset: '', timeStart: '', timeEnd: '', cardId: '', goalId: firstGoal ? firstGoal.id : 'grandkids', goalMilestone: 100 } }
+        ],
+        inbox: [
+          { id: 'nmsg_m1', title: 'Credit alert: +$1,149.00 Age Pension', body: 'Services Australia — Age Pension credited to Westpac Choice.', date: '06 Nov 2026, 06:20 AM', category: 'credit', channelsSent: ['sms'], unread: true, actionPage: 'account', actionLabel: 'View account' },
+          { id: 'nmsg_m2', title: 'Important bills rule: Origin Energy ($186.20)', body: 'Bill above $150 detected on Westpac Choice.', date: '12 Nov 2026, 09:10 AM', category: 'rule', channelsSent: ['sms'], unread: false }
+        ],
+        pendingApprovals: []
+      }
+    };
+    return clone(seeds[uid] || seeds.alex);
+  }
+
+  function ensureUserNotifications(u){
+    if (!u) return;
+    var seed = getDefaultNotificationsSeed(u);
+    if (!u.notifications) {
+      u.notifications = {
+        channels: seed.channels,
+        standard: seed.standard,
+        businessEvents: seed.businessEvents,
+        rules: seed.rules,
+        inbox: seed.inbox
+      };
+    }
+    var n = u.notifications;
+    if (!n.channels) n.channels = seed.channels;
+    if (!n.standard) n.standard = seed.standard;
+    if (!n.businessEvents) n.businessEvents = seed.businessEvents;
+    if (!Array.isArray(n.rules)) n.rules = seed.rules;
+    if (!Array.isArray(n.inbox)) n.inbox = seed.inbox;
+    if (!Array.isArray(u.pendingApprovals)) u.pendingApprovals = seed.pendingApprovals || [];
+  }
+
   function loadStore(){
     try {
       var saved = localStorage.getItem(STORE_KEY);
@@ -1394,6 +1569,7 @@
         if (parsed && parsed.version === 1 && parsed.users) {
           Object.keys(parsed.users).forEach(function(k){
             ensureUserBSSettings(parsed.users[k]);
+            ensureUserNotifications(parsed.users[k]);
           });
           return parsed;
         }
@@ -1410,6 +1586,7 @@
     } catch(e) {}
     Object.keys(fresh.users).forEach(function(k){
       ensureUserBSSettings(fresh.users[k]);
+      ensureUserNotifications(fresh.users[k]);
     });
     saveStoreData(fresh);
     return fresh;
@@ -1427,6 +1604,10 @@
 
   function resetStore(){
     store = { version: 1, users: clone(DEMO_USERS) };
+    Object.keys(store.users).forEach(function(k){
+      ensureUserBSSettings(store.users[k]);
+      ensureUserNotifications(store.users[k]);
+    });
     saveStore();
   }
 
@@ -1514,6 +1695,8 @@
   function login(userId){
     if (!store.users[userId]) userId = 'alex';
     user = store.users[userId];
+    ensureUserBSSettings(user);
+    ensureUserNotifications(user);
     sessionStorage.setItem(SESSION_KEY, user.id);
 
     loginEl.hidden = true;
@@ -1525,8 +1708,8 @@
 
     currentAcctId = user.accounts[0] ? user.accounts[0].id : 'choice';
     resetChat();
-    renderAll();
     setMode(user.defaultMode || 'personal');
+    renderAll();
     window.scrollTo(0, 0);
   }
 
@@ -1626,6 +1809,7 @@
     document.getElementById('approvalBtn').style.display = (mode === 'business') ? '' : 'none';
     document.getElementById('modeMenu').hidden = true;
     go('overview');
+    renderNotificationsPage();
   }
 
   function go(page){
@@ -1643,6 +1827,8 @@
     if (addTxBtn) {
       addTxBtn.hidden = (page !== 'account');
     }
+    if (page === 'inbox') renderNotificationsPage();
+    if (page === 'approval') renderBusinessApprovals();
     window.scrollTo(0, 0);
   }
 
@@ -2008,6 +2194,7 @@
 
   function renderAll(){
     if (!user) return;
+    ensureUserNotifications(user);
     updateHeaderModeDropdown();
     renderPersonalOverview();
     renderBusinessOverview();
@@ -2018,6 +2205,9 @@
     renderAiControls();
     renderAccountPage(currentAcctId);
     renderBSSettings();
+    renderBusinessApprovals();
+    renderNotificationsPage();
+    updateNotifBadge();
   }
 
   // ==========================================
@@ -2046,7 +2236,12 @@
     setTxType('debit');
     var form = document.getElementById('txForm');
     if (form) form.reset();
-    document.getElementById('txDate').value = new Date().toISOString().slice(0, 10);
+    var now = new Date();
+    document.getElementById('txDate').value = now.toISOString().slice(0, 10);
+    var timeInp = document.getElementById('txTime');
+    if (timeInp) timeInp.value = now.toTimeString().slice(0, 5);
+    var catSel = document.getElementById('txCategory');
+    if (catSel) catSel.value = 'auto';
     populateTxAccountSelect(currentAcctId);
     renderTxPresets();
     updateTxPreview();
@@ -2174,12 +2369,18 @@
     rawAmt = Math.round(rawAmt * 100) / 100;
 
     var dateVal = document.getElementById('txDate').value || new Date().toISOString().slice(0, 10);
+    var timeInp = document.getElementById('txTime');
+    var timeVal = (timeInp && timeInp.value) ? timeInp.value : new Date().toTimeString().slice(0, 5);
+    var catSel = document.getElementById('txCategory');
+    var catVal = (catSel && catSel.value && catSel.value !== 'auto') ? catSel.value : inferTxCategory(desc);
     var signedAmt = (currentTxType === 'debit') ? -rawAmt : rawAmt;
 
     var newTx = {
       id: 'tx_' + Date.now(),
       acct: acct.id,
       date: dateVal,
+      time: timeVal,
+      category: catVal,
       desc: desc,
       amount: signedAmt,
       custom: true
@@ -2195,6 +2396,7 @@
       }
     }
 
+    var triggeredCount = evaluateTxNotificationRules(newTx, acct);
     saveStore();
 
     currentAcctId = acct.id;
@@ -2207,7 +2409,11 @@
     renderAll();
     go('account');
     closeTxModal();
-    showToast('✓ Added ' + (signedAmt < 0 ? 'debit' : 'credit') + ' of ' + money(Math.abs(signedAmt)) + ' to ' + acct.name);
+    var toastMsg = '✓ Added ' + (signedAmt < 0 ? 'debit' : 'credit') + ' of ' + money(Math.abs(signedAmt)) + ' to ' + acct.name;
+    if (triggeredCount > 0) {
+      toastMsg += ' · 🔔 ' + triggeredCount + ' notification' + (triggeredCount === 1 ? '' : 's') + ' sent';
+    }
+    showToast(toastMsg);
   }
 
   // ==========================================
@@ -2432,6 +2638,10 @@
 
     user.savingsPlan.push(newItem);
     ensureUserBSSettings(user);
+    ensureUserNotifications(user);
+    if (newItem.type === 'goal') {
+      evaluateGoalNotificationRules(newItem, 0);
+    }
     saveStore();
     renderAll();
     closePlanModal();
@@ -2824,6 +3034,1446 @@
   }
 
   // ==========================================
+  // NOTIFICATIONS SCREEN, RULE ENGINE & BUSINESS APPROVALS
+  // ==========================================
+  var NOTIF_CATEGORIES = [
+    'Groceries',
+    'Entertainment & eating out',
+    'Shopping',
+    'Transport & fuel',
+    'Subscriptions',
+    'Important bills',
+    'Travel',
+    'Income & transfers',
+    'Other'
+  ];
+
+  var notifBuilderType = 'category'; // 'category' | 'merchant' | 'amount' | 'time' | 'card' | 'goal'
+  var notifCombineMode = false;
+  var notifRuleFilter = 'all';
+  var notifInboxFilter = 'all';
+
+  function inferTxCategory(desc){
+    var d = String(desc || '').toLowerCase();
+    if (/woolworths|coles|aldi|iga|harris farm|grocer|supermarket/.test(d)) return 'Groceries';
+    if (/coffee|cafe|espresso|single o|trattoria|restaurant|dining|uber eats|bar|pub|club|bakery/.test(d)) return 'Entertainment & eating out';
+    if (/netflix|spotify|disney|prime|software|subscription|adobe|apple\.com/.test(d)) return 'Subscriptions';
+    if (/ampol|bp |shell|caltex|petrol|fuel|uber|opal|rego|transport|parking/.test(d)) return 'Transport & fuel';
+    if (/agl|origin|energy|water|optus|telstra|vodafone|insurance|youi|bupa|nrma|medibank|childcare|ato|bpay/.test(d)) return 'Important bills';
+    if (/qantas|jetstar|airline|hotel|airbnb|booking|flight|travel/.test(d)) return 'Travel';
+    if (/david jones|rebel|kmart|target|officeworks|chemist|bunnings|amazon|shop|store/.test(d)) return 'Shopping';
+    if (/salary|pension|dividend|settlement|draw|refund|transfer/.test(d)) return 'Income & transfers';
+    return 'Other';
+  }
+
+  function getUserCardOptions(u){
+    if (!u || !u.accounts) return [];
+    var cards = [];
+    u.accounts.forEach(function(a){
+      if (a.kind === 'credit') {
+        cards.push({ id: a.id, label: a.name + ' (Credit)', shortName: a.name });
+      } else if (a.kind === 'everyday') {
+        cards.push({ id: a.id, label: a.name + ' (Debit Card)', shortName: a.name + ' Debit' });
+      }
+    });
+    return cards;
+  }
+
+  function getUserGoalOptions(u){
+    if (!u || !u.savingsPlan) return [];
+    return u.savingsPlan.filter(function(p){ return p.type === 'goal'; });
+  }
+
+  function formatTimeWindowLabel(preset, start, end){
+    if (preset === 'late_night') return 'Late night (10:00 PM – 6:00 AM)';
+    if (preset === 'after_hours') return 'Outside business hours (6:00 PM – 8:00 AM)';
+    if (preset === 'business_hours') return 'Business hours (9:00 AM – 5:00 PM)';
+    if (preset === 'weekend') return 'Weekends (Sat – Sun)';
+    if (preset === 'custom' && start && end) return 'Between ' + start + ' – ' + end;
+    return '';
+  }
+
+  function formatChannelBadge(ch){
+    if (ch === 'sms') return '<span class="channel-pill sms">📱 SMS</span>';
+    if (ch === 'email') return '<span class="channel-pill email">✉️ Email</span>';
+    return '<span class="channel-pill both">📱+✉️ SMS &amp; Email</span>';
+  }
+
+  function formatChannelsSentHtml(arr){
+    if (!arr || !arr.length) return '<span class="channel-pill">In-app</span>';
+    return arr.map(function(c){
+      return c === 'sms' ? '<span class="channel-pill sms">📱 SMS</span>' : '<span class="channel-pill email">✉️ Email</span>';
+    }).join('');
+  }
+
+  function getChannelsToSend(requested){
+    if (!user) return ['email'];
+    ensureUserNotifications(user);
+    var ch = user.notifications.channels;
+    var req = requested || ch.preferred || 'both';
+    var out = [];
+    if ((req === 'sms' || req === 'both') && ch.smsEnabled) out.push('sms');
+    if ((req === 'email' || req === 'both') && ch.emailEnabled) out.push('email');
+    if (out.length === 0) {
+      if (ch.smsEnabled) out.push('sms');
+      else if (ch.emailEnabled) out.push('email');
+    }
+    return out;
+  }
+
+  function getRuleConditionTags(rule){
+    var c = (rule && rule.conditions) || {};
+    var tags = [];
+    if (c.goalId) {
+      var goalName = 'Any savings goal';
+      if (c.goalId !== '__any_goal__' && user && user.savingsPlan) {
+        var g = user.savingsPlan.find(function(p){ return p.id === c.goalId; });
+        if (g) goalName = g.name;
+      }
+      var ms = c.goalMilestone || 100;
+      tags.push({ kind: 'goal', text: '🎯 Goal: ' + goalName + ' (' + ms + '%)' });
+    }
+    if (c.category) tags.push({ kind: 'category', text: '🏷️ Category: ' + c.category });
+    if (c.merchant) tags.push({ kind: 'merchant', text: '🏪 Merchant: "' + c.merchant + '"' });
+    if (c.amountOp && c.amountVal !== null && c.amountVal !== '' && !isNaN(Number(c.amountVal))) {
+      var opLabel = c.amountOp === 'above' ? 'Over' : (c.amountOp === 'below' ? 'Under' : 'Exactly');
+      tags.push({ kind: 'amount', text: '💲 Amount: ' + opLabel + ' ' + money(Number(c.amountVal)) });
+    }
+    if (c.timePreset) {
+      tags.push({ kind: 'time', text: '🕒 Time: ' + formatTimeWindowLabel(c.timePreset, c.timeStart, c.timeEnd) });
+    }
+    if (c.cardId) {
+      var cardLabel = 'Any card';
+      if (c.cardId !== '__any_card__') {
+        var cardObj = getUserCardOptions(user).find(function(x){ return x.id === c.cardId; });
+        cardLabel = cardObj ? cardObj.label : c.cardId;
+      }
+      tags.push({ kind: 'card', text: '💳 Card: ' + cardLabel });
+    }
+    return tags;
+  }
+
+  function getRulePrimaryKind(rule){
+    var c = (rule && rule.conditions) || {};
+    if (c.goalId) return 'goal';
+    if (c.cardId && !c.category && !c.merchant && !c.timePreset) return 'card';
+    if (c.merchant) return 'merchant';
+    if (c.category) return 'category';
+    if (c.timePreset) return 'time';
+    if (c.amountOp) return 'amount';
+    if (c.cardId) return 'card';
+    return 'other';
+  }
+
+  function getRuleSummary(rule){
+    var c = (rule && rule.conditions) || {};
+    var parts = [];
+    if (c.goalId) {
+      var gName = 'any savings goal';
+      if (c.goalId !== '__any_goal__' && user && user.savingsPlan) {
+        var g = user.savingsPlan.find(function(p){ return p.id === c.goalId; });
+        if (g) gName = '"' + g.name + '"';
+      }
+      var ms = Number(c.goalMilestone) || 100;
+      parts.push('when goal ' + gName + (ms >= 100 ? ' is met (100%)' : ' reaches ' + ms + '%'));
+    } else {
+      var txParts = [];
+      if (c.cardId && c.cardId !== '__any_card__') {
+        var cardObj = getUserCardOptions(user).find(function(x){ return x.id === c.cardId; });
+        txParts.push('on ' + (cardObj ? cardObj.shortName : c.cardId));
+      } else if (c.cardId === '__any_card__') {
+        txParts.push('on any card');
+      }
+      if (c.category) txParts.push('in ' + c.category);
+      if (c.merchant) txParts.push('at merchant "' + c.merchant + '"');
+      if (c.amountOp && c.amountVal !== null && c.amountVal !== '' && !isNaN(Number(c.amountVal))) {
+        var opWord = c.amountOp === 'above' ? 'over' : (c.amountOp === 'below' ? 'under' : 'of');
+        txParts.push(opWord + ' ' + money(Number(c.amountVal)));
+      }
+      if (c.timePreset) {
+        txParts.push('during ' + formatTimeWindowLabel(c.timePreset, c.timeStart, c.timeEnd).toLowerCase());
+      }
+      parts.push('a transaction occurs ' + (txParts.length ? txParts.join(' ') : 'matching your filters'));
+    }
+    var chName = rule.channel === 'sms' ? 'SMS' : (rule.channel === 'email' ? 'Email' : 'SMS & Email');
+    return 'Send ' + chName + ' when ' + parts.join(' ');
+  }
+
+  function updateNotifBadge(){
+    var badge = document.getElementById('notifBadge');
+    if (!badge || !user) return;
+    ensureUserNotifications(user);
+    var unread = (user.notifications.inbox || []).filter(function(m){ return m.unread; }).length;
+    badge.textContent = unread;
+    badge.style.display = unread > 0 ? 'flex' : 'none';
+  }
+
+  function formatNowLabel(){
+    var d = new Date();
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var h = d.getHours();
+    var m = String(d.getMinutes()).padStart(2, '0');
+    var ampm = h >= 12 ? 'PM' : 'AM';
+    var h12 = h % 12 || 12;
+    return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear() + ', ' + String(h12).padStart(2, '0') + ':' + m + ' ' + ampm;
+  }
+
+  function pushInboxAlert(opts){
+    if (!user) return null;
+    ensureUserNotifications(user);
+    var item = {
+      id: 'nmsg_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+      title: opts.title || 'Account alert',
+      body: opts.body || '',
+      date: opts.date || formatNowLabel(),
+      category: opts.category || 'rule',
+      channelsSent: opts.channelsSent && opts.channelsSent.length ? opts.channelsSent : getChannelsToSend(opts.channel),
+      unread: true,
+      ruleId: opts.ruleId || null,
+      actionPage: opts.actionPage || '',
+      actionLabel: opts.actionLabel || ''
+    };
+    user.notifications.inbox.unshift(item);
+    return item;
+  }
+
+  function parseMinutes(hhmm){
+    if (!hhmm || hhmm.indexOf(':') === -1) return null;
+    var p = hhmm.split(':');
+    var h = parseInt(p[0], 10);
+    var m = parseInt(p[1], 10);
+    if (isNaN(h) || isNaN(m)) return null;
+    return h * 60 + m;
+  }
+
+  function matchesTimeCondition(txDate, txTime, preset, customStart, customEnd){
+    if (!preset) return true;
+    if (preset === 'weekend') {
+      var parts = (txDate || '').split('-');
+      if (parts.length === 3) {
+        var dt = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+        var day = dt.getDay();
+        return day === 0 || day === 6;
+      }
+      return false;
+    }
+    var mins = parseMinutes(txTime);
+    if (mins === null) mins = parseMinutes(new Date().toTimeString().slice(0, 5));
+    var startMin = 0, endMin = 1439;
+    if (preset === 'late_night') { startMin = 22 * 60; endMin = 6 * 60; }
+    else if (preset === 'after_hours') { startMin = 18 * 60; endMin = 8 * 60; }
+    else if (preset === 'business_hours') { startMin = 9 * 60; endMin = 17 * 60; }
+    else if (preset === 'custom') {
+      var cs = parseMinutes(customStart);
+      var ce = parseMinutes(customEnd);
+      if (cs !== null && ce !== null) { startMin = cs; endMin = ce; }
+    }
+    if (startMin <= endMin) {
+      return mins >= startMin && mins <= endMin;
+    }
+    // Wraps past midnight (e.g. 22:00 - 06:00)
+    return mins >= startMin || mins <= endMin;
+  }
+
+  function evaluateTxNotificationRules(tx, acct){
+    if (!user || !tx || !acct) return 0;
+    ensureUserNotifications(user);
+    var n = user.notifications;
+    var fired = 0;
+    var absAmt = Math.abs(Number(tx.amount) || 0);
+    var isDebit = tx.amount < 0;
+    var txCat = tx.category || inferTxCategory(tx.desc);
+    var txTime = tx.time || new Date().toTimeString().slice(0, 5);
+
+    // 1. Standard toggles: All Debits / All Credits
+    if (isDebit && n.standard.allDebits) {
+      pushInboxAlert({
+        title: 'Debit alert: −' + money(absAmt) + ' at ' + tx.desc,
+        body: 'Money out on ' + acct.name + ' (' + txCat + ') at ' + txTime + '.',
+        category: 'debit',
+        channel: n.standard.allDebitsChannel || n.channels.preferred,
+        actionPage: 'account',
+        actionLabel: 'View account'
+      });
+      fired++;
+    }
+    if (!isDebit && n.standard.allCredits) {
+      pushInboxAlert({
+        title: 'Credit alert: +' + money(absAmt) + ' received',
+        body: tx.desc + ' deposited into ' + acct.name + '.',
+        category: 'credit',
+        channel: n.standard.allCreditsChannel || n.channels.preferred,
+        actionPage: 'account',
+        actionLabel: 'View account'
+      });
+      fired++;
+    }
+
+    // 2. Business account holder event alerts
+    if (user.hasBusiness && acct.mode === 'business') {
+      var biz = n.businessEvents || {};
+      if (isDebit && biz.highValueBizTx && absAmt >= (Number(biz.highValueThreshold) || 1000)) {
+        pushInboxAlert({
+          title: 'High-value business payment: ' + money(absAmt),
+          body: tx.desc + ' on ' + acct.name + ' exceeded your ' + money(Number(biz.highValueThreshold) || 1000) + ' business threshold.',
+          category: 'approval',
+          channel: biz.channel || n.channels.preferred,
+          actionPage: 'account',
+          actionLabel: 'Inspect transaction'
+        });
+        fired++;
+      }
+      if (!isDebit && biz.merchantSettlement && /settlement|pos|eftpos/i.test(tx.desc || '')) {
+        pushInboxAlert({
+          title: 'Merchant settlement received: +' + money(absAmt),
+          body: tx.desc + ' landed in ' + acct.name + '.',
+          category: 'credit',
+          channel: biz.channel || n.channels.preferred,
+          actionPage: 'account',
+          actionLabel: 'View settlement'
+        });
+        fired++;
+      }
+    }
+
+    // 3. Custom rules
+    (n.rules || []).forEach(function(rule){
+      if (!rule.enabled) return;
+      var c = rule.conditions || {};
+      if (c.goalId) return; // Goal rules evaluated separately
+
+      if (c.category && c.category.toLowerCase() !== txCat.toLowerCase()) return;
+      if (c.merchant && String(tx.desc || '').toLowerCase().indexOf(c.merchant.toLowerCase()) === -1) return;
+      if (c.amountOp && c.amountVal !== null && c.amountVal !== '' && !isNaN(Number(c.amountVal))) {
+        var tVal = Number(c.amountVal);
+        if (c.amountOp === 'above' && !(absAmt > tVal)) return;
+        if (c.amountOp === 'below' && !(absAmt < tVal)) return;
+        if (c.amountOp === 'equal' && !(Math.abs(absAmt - tVal) < 0.01)) return;
+      }
+      if (c.timePreset && !matchesTimeCondition(tx.date, txTime, c.timePreset, c.timeStart, c.timeEnd)) return;
+      if (c.cardId) {
+        if (c.cardId === '__any_card__') {
+          if (acct.kind !== 'credit' && acct.kind !== 'everyday') return;
+        } else if (c.cardId !== acct.id) {
+          return;
+        }
+      }
+
+      pushInboxAlert({
+        title: 'Rule alert: ' + (isDebit ? '−' : '+') + money(absAmt) + ' · ' + tx.desc,
+        body: 'Matched rule "' + getRuleSummary(rule) + '" on ' + acct.name + ' (' + txTime + ').',
+        category: 'rule',
+        channel: rule.channel || n.channels.preferred,
+        ruleId: rule.id,
+        actionPage: 'account',
+        actionLabel: 'View transaction'
+      });
+      fired++;
+    });
+
+    return fired;
+  }
+
+  function evaluateGoalNotificationRules(goalItem, prevAmount){
+    if (!user || !goalItem || goalItem.type !== 'goal' || !goalItem.target) return 0;
+    ensureUserNotifications(user);
+    var n = user.notifications;
+    var prevPct = goalItem.target > 0 ? ((Number(prevAmount) || 0) / goalItem.target) * 100 : 0;
+    var curPct = goalItem.target > 0 ? ((Number(goalItem.amount) || 0) / goalItem.target) * 100 : 100;
+    var fired = 0;
+
+    (n.rules || []).forEach(function(rule){
+      if (!rule.enabled) return;
+      var c = rule.conditions || {};
+      if (!c.goalId) return;
+      if (c.goalId !== '__any_goal__' && c.goalId !== goalItem.id) return;
+      var ms = Number(c.goalMilestone) || 100;
+      if (curPct >= ms && prevPct < ms) {
+        pushInboxAlert({
+          title: (ms >= 100 ? '🎯 Goal reached: ' : '🎯 Goal milestone (' + ms + '%): ') + goalItem.name,
+          body: 'Your "' + goalItem.name + '" goal is now at ' + money(goalItem.amount) + ' of ' + money(goalItem.target) + ' (' + Math.min(100, Math.round(curPct)) + '%).',
+          category: 'goal',
+          channel: rule.channel || n.channels.preferred,
+          ruleId: rule.id,
+          actionPage: 'banksmart',
+          actionLabel: 'View goal'
+        });
+        fired++;
+      }
+    });
+
+    return fired;
+  }
+
+  function createNotificationRule(spec, source){
+    if (!user) return null;
+    ensureUserNotifications(user);
+    var c = (spec && spec.conditions) ? spec.conditions : (spec || {});
+    var rule = {
+      id: 'nr_' + Date.now() + '_' + Math.floor(Math.random() * 100),
+      enabled: spec && spec.enabled !== undefined ? !!spec.enabled : true,
+      channel: (spec && spec.channel) || user.notifications.channels.preferred || 'both',
+      createdBy: source || (spec && spec.createdBy) || 'user',
+      createdAt: formatTxDate(new Date().toISOString().slice(0, 10)) || '16 Nov',
+      conditions: {
+        category: c.category || '',
+        merchant: c.merchant || '',
+        amountOp: c.amountOp || '',
+        amountVal: (c.amountVal !== undefined && c.amountVal !== null && c.amountVal !== '') ? Number(c.amountVal) : null,
+        timePreset: c.timePreset || '',
+        timeStart: c.timeStart || '',
+        timeEnd: c.timeEnd || '',
+        cardId: c.cardId || '',
+        goalId: c.goalId || '',
+        goalMilestone: c.goalMilestone ? Number(c.goalMilestone) : 100
+      }
+    };
+    user.notifications.rules.unshift(rule);
+    saveStore();
+    renderNotificationsPage();
+    updateNotifBadge();
+    return rule;
+  }
+  window.createNotificationRule = createNotificationRule;
+
+  function setNotificationPreference(path, value){
+    if (!user) return;
+    ensureUserNotifications(user);
+    var n = user.notifications;
+    if (path === 'preferred') n.channels.preferred = value;
+    else if (path === 'smsEnabled') n.channels.smsEnabled = !!value;
+    else if (path === 'emailEnabled') n.channels.emailEnabled = !!value;
+    else if (path === 'phone') n.channels.phone = String(value || '');
+    else if (path === 'email') n.channels.email = String(value || '');
+    else if (path === 'allDebits') n.standard.allDebits = !!value;
+    else if (path === 'allDebitsChannel') n.standard.allDebitsChannel = value;
+    else if (path === 'allCredits') n.standard.allCredits = !!value;
+    else if (path === 'allCreditsChannel') n.standard.allCreditsChannel = value;
+    else if (path.indexOf('biz.') === 0) {
+      var bk = path.slice(4);
+      n.businessEvents[bk] = (bk === 'highValueThreshold') ? (Number(value) || 0) : (bk === 'channel' ? value : !!value);
+    }
+    saveStore();
+    renderNotificationsPage();
+  }
+  window.setNotificationPreference = setNotificationPreference;
+
+  function toggleNotificationRule(id){
+    if (!user) return;
+    ensureUserNotifications(user);
+    var r = user.notifications.rules.find(function(x){ return x.id === id; });
+    if (!r) return;
+    r.enabled = !r.enabled;
+    saveStore();
+    renderNotificationsPage();
+    showToast(r.enabled ? '✓ Notification rule enabled' : '⏸ Notification rule paused');
+  }
+
+  function deleteNotificationRule(id){
+    if (!user) return;
+    ensureUserNotifications(user);
+    user.notifications.rules = user.notifications.rules.filter(function(x){ return x.id !== id; });
+    saveStore();
+    renderNotificationsPage();
+    showToast('Removed notification rule');
+  }
+
+  function updateNotificationRuleChannel(id, channel){
+    if (!user) return;
+    ensureUserNotifications(user);
+    var r = user.notifications.rules.find(function(x){ return x.id === id; });
+    if (!r) return;
+    r.channel = channel;
+    saveStore();
+    renderNotificationsPage();
+    showToast('✓ Updated delivery channel to ' + (channel === 'both' ? 'SMS & Email' : channel.toUpperCase()));
+  }
+
+  function testNotificationRule(id){
+    if (!user) return;
+    ensureUserNotifications(user);
+    var r = user.notifications.rules.find(function(x){ return x.id === id; });
+    if (!r) return;
+    var c = r.conditions || {};
+    if (c.goalId) {
+      var g = (c.goalId !== '__any_goal__' && user.savingsPlan)
+        ? user.savingsPlan.find(function(p){ return p.id === c.goalId; })
+        : (getUserGoalOptions(user)[0] || { name: 'Savings Goal', amount: 2500, target: 2500 });
+      var ms = Number(c.goalMilestone) || 100;
+      var targetVal = g && g.target ? g.target : 2500;
+      var reachVal = Math.round(targetVal * (ms / 100) * 100) / 100;
+      pushInboxAlert({
+        title: (ms >= 100 ? '🎯 Goal met: ' : '🎯 Goal reached ' + ms + '%: ') + (g ? g.name : 'Savings Goal'),
+        body: 'Simulated goal alert — "' + (g ? g.name : 'Savings Goal') + '" reached ' + money(reachVal) + ' of ' + money(targetVal) + '.',
+        category: 'goal',
+        channel: r.channel,
+        ruleId: r.id,
+        actionPage: 'banksmart',
+        actionLabel: 'View goal'
+      });
+    } else {
+      var acctObj = (c.cardId && c.cardId !== '__any_card__') ? findAcct(c.cardId) : user.accounts[0];
+      var sampleAmt = (c.amountOp === 'above' && c.amountVal) ? Number(c.amountVal) + 25 : ((c.amountOp === 'below' && c.amountVal) ? Math.max(5, Number(c.amountVal) - 5) : 64.50);
+      var sampleMerchant = c.merchant || (c.category === 'Groceries' ? 'Woolworths Metro' : (c.category === 'Travel' ? 'Qantas Airways' : (c.category === 'Subscriptions' ? 'Netflix.com' : 'Single O Espresso')));
+      var sampleTime = c.timePreset === 'late_night' ? '23:18' : (c.timePreset === 'after_hours' ? '19:45' : (c.timeStart || '14:20'));
+      pushInboxAlert({
+        title: 'Rule triggered: −' + money(sampleAmt) + ' at ' + sampleMerchant,
+        body: 'Test event on ' + (acctObj ? acctObj.name : 'Westpac Choice') + ' (' + sampleTime + ') matched "' + getRuleSummary(r) + '".',
+        category: 'rule',
+        channel: r.channel,
+        ruleId: r.id,
+        actionPage: 'account',
+        actionLabel: 'View account'
+      });
+    }
+    saveStore();
+    renderNotificationsPage();
+    updateNotifBadge();
+    showToast('🔔 Test notification delivered via ' + (r.channel === 'both' ? 'SMS & Email' : r.channel.toUpperCase()));
+  }
+
+  function simulateCoSignatoryApproval(){
+    if (!user || !user.hasBusiness) return;
+    ensureUserNotifications(user);
+    var samples = user.id === 'sam' ? [
+      { title: 'Equipment Deposit — La Marzocco AU', initiatedBy: 'Marco Rossi (Co-owner)', amount: 2450.00 },
+      { title: 'Supplier — Milk & Packaging Co', initiatedBy: 'Elena Costa (Store Manager)', amount: 685.50 },
+      { title: 'Superannuation Batch — Nov 2026', initiatedBy: 'Marco Rossi (Co-owner)', amount: 3120.00 }
+    ] : [
+      { title: 'Cloud Hosting — AWS Australia', initiatedBy: 'Jamie Taylor (Co-director)', amount: 1480.00 },
+      { title: 'Contractor Retainer — Design Studio', initiatedBy: 'Samira Patel (Finance)', amount: 2200.00 },
+      { title: 'Staff Payroll Batch — Fortnight 23', initiatedBy: 'Jamie Taylor (Co-director)', amount: 5400.00 }
+    ];
+    var pickIdx = (user.pendingApprovals.length) % samples.length;
+    var s = samples[pickIdx];
+    var newAppr = {
+      id: 'appr_' + Date.now(),
+      title: s.title,
+      initiatedBy: s.initiatedBy,
+      acctId: 'biz1',
+      amount: s.amount,
+      date: '16 Nov 2026',
+      status: 'pending'
+    };
+    user.pendingApprovals.unshift(newAppr);
+
+    var biz = user.notifications.businessEvents || {};
+    var sent = false;
+    if (biz.approvalRequired) {
+      pushInboxAlert({
+        title: 'Approval required: ' + s.title + ' (' + money(s.amount) + ')',
+        body: s.initiatedBy + ' initiated a business payment requiring your co-signatory approval/sign-off.',
+        category: 'approval',
+        channel: biz.channel || user.notifications.channels.preferred,
+        actionPage: 'approval',
+        actionLabel: 'Review & sign off'
+      });
+      sent = true;
+    }
+    saveStore();
+    renderBusinessApprovals();
+    renderNotificationsPage();
+    updateNotifBadge();
+    showToast(sent ? '🔔 Co-signatory approval request added & alert sent!' : 'Added pending approval (approval alerts are currently paused)');
+  }
+
+  function resolveBusinessApproval(id, decision){
+    if (!user || !Array.isArray(user.pendingApprovals)) return;
+    ensureUserNotifications(user);
+    var appr = user.pendingApprovals.find(function(a){ return a.id === id; });
+    if (!appr || appr.status !== 'pending') return;
+    appr.status = decision; // 'approved' | 'declined'
+
+    if (decision === 'approved') {
+      user.transactions.push({
+        id: 'tx_' + Date.now(),
+        acct: appr.acctId || 'biz1',
+        date: '2026-11-16',
+        time: new Date().toTimeString().slice(0, 5),
+        category: 'Important bills',
+        desc: appr.title + ' (Signed off)',
+        amount: -Math.abs(appr.amount),
+        custom: true
+      });
+    }
+
+    var biz = user.notifications.businessEvents || {};
+    if (biz.approvalDecision) {
+      pushInboxAlert({
+        title: 'Co-signatory ' + (decision === 'approved' ? 'approved' : 'declined') + ': ' + appr.title,
+        body: 'You ' + decision + ' ' + money(appr.amount) + ' initiated by ' + appr.initiatedBy + '.',
+        category: 'approval',
+        channel: biz.channel || user.notifications.channels.preferred,
+        actionPage: 'approval',
+        actionLabel: 'View approvals'
+      });
+    }
+
+    saveStore();
+    renderAll();
+    showToast(decision === 'approved' ? '✓ Approved & signed off ' + money(appr.amount) : '✕ Declined payment ' + appr.title);
+  }
+
+  function renderBusinessApprovals(){
+    var box = document.getElementById('bizApprovalsContainer');
+    if (!box || !user) return;
+    ensureUserNotifications(user);
+    var items = user.pendingApprovals || [];
+    if (items.length === 0) {
+      box.innerHTML = '<div class="placeholder">No pending payments requiring sign-off.</div>';
+      return;
+    }
+    box.innerHTML = '<div class="tbl">' +
+      '<div class="thead" style="grid-template-columns:1fr 140px 180px"><span>Payment &amp; Co-signatory</span><span class="r">Amount</span><span class="r">Action</span></div>' +
+      items.map(function(a){
+        var actHtml = '';
+        if (a.status === 'pending') {
+          actHtml = '<div class="v" style="display:flex;gap:8px;justify-content:flex-end">' +
+            '<button type="button" class="notif-mini-btn" style="border-color:var(--success);color:var(--success)" onclick="resolveBusinessApproval(\'' + a.id + '\',\'approved\')">Approve</button>' +
+            '<button type="button" class="notif-mini-btn" onclick="resolveBusinessApproval(\'' + a.id + '\',\'declined\')">Decline</button>' +
+          '</div>';
+        } else {
+          var badgeCol = a.status === 'approved' ? 'var(--success);background:var(--success-bg)' : 'var(--brand);background:var(--soft)';
+          actHtml = '<div class="v"><span class="tag" style="color:' + badgeCol + '">' + (a.status === 'approved' ? '✓ Approved' : '✕ Declined') + '</span></div>';
+        }
+        return '<div class="arow" style="grid-template-columns:1fr 140px 180px;border-bottom:1px solid var(--line)">' +
+          '<div><div class="nm" style="font-size:15px">' + escapeHtml(a.title) + '</div><div class="num">Initiated by ' + escapeHtml(a.initiatedBy) + ' · ' + escapeHtml(a.date) + '</div></div>' +
+          '<div class="v">' + money(a.amount) + '</div>' +
+          actHtml +
+        '</div>';
+      }).join('') +
+    '</div>';
+  }
+
+  function markInboxItemRead(id, toggle){
+    if (!user) return;
+    ensureUserNotifications(user);
+    var msg = user.notifications.inbox.find(function(m){ return m.id === id; });
+    if (!msg) return;
+    msg.unread = toggle ? !msg.unread : false;
+    saveStore();
+    renderNotificationsPage();
+    updateNotifBadge();
+  }
+
+  function markAllInboxRead(){
+    if (!user) return;
+    ensureUserNotifications(user);
+    user.notifications.inbox.forEach(function(m){ m.unread = false; });
+    saveStore();
+    renderNotificationsPage();
+    updateNotifBadge();
+    showToast('✓ All notifications marked as read');
+  }
+
+  function openInboxAction(id){
+    if (!user) return;
+    ensureUserNotifications(user);
+    var msg = user.notifications.inbox.find(function(m){ return m.id === id; });
+    if (!msg) return;
+    msg.unread = false;
+    saveStore();
+    updateNotifBadge();
+    if (msg.actionPage === 'approval') {
+      if (user.hasBusiness) {
+        setMode('business');
+        go('approval');
+      }
+    } else if (msg.actionPage === 'banksmart') {
+      go('banksmart');
+    } else if (msg.actionPage === 'account') {
+      openAccount(currentAcctId);
+    }
+  }
+
+  function getActiveInboxContainer(){
+    var activeModeEl = document.querySelector('.mode:not([hidden])');
+    var modeName = activeModeEl ? activeModeEl.getAttribute('data-mode') : 'personal';
+    var pBox = document.getElementById('personalInboxContainer');
+    var bBox = document.getElementById('businessInboxContainer');
+    if (modeName === 'business') {
+      if (pBox) pBox.innerHTML = '';
+      return bBox;
+    }
+    if (bBox) bBox.innerHTML = '';
+    return pBox;
+  }
+
+  function readRuleBuilderForm(){
+    var catEl = document.getElementById('nrCategory');
+    var catCustomEl = document.getElementById('nrCategoryCustom');
+    var merchEl = document.getElementById('nrMerchant');
+    var amtOpEl = document.getElementById('nrAmountOp');
+    var amtValEl = document.getElementById('nrAmountVal');
+    var timePresetEl = document.getElementById('nrTimePreset');
+    var timeStartEl = document.getElementById('nrTimeStart');
+    var timeEndEl = document.getElementById('nrTimeEnd');
+    var cardEl = document.getElementById('nrCardId');
+    var goalEl = document.getElementById('nrGoalId');
+    var goalMsEl = document.getElementById('nrGoalMilestone');
+    var chEl = document.getElementById('nrChannel');
+
+    var cond = {
+      category: '',
+      merchant: '',
+      amountOp: '',
+      amountVal: null,
+      timePreset: '',
+      timeStart: '',
+      timeEnd: '',
+      cardId: '',
+      goalId: '',
+      goalMilestone: 100
+    };
+
+    var useCat = notifCombineMode || notifBuilderType === 'category';
+    var useMerch = notifCombineMode || notifBuilderType === 'merchant';
+    var useAmt = notifCombineMode || notifBuilderType === 'amount';
+    var useTime = notifCombineMode || notifBuilderType === 'time';
+    var useCard = notifCombineMode || notifBuilderType === 'card';
+    var useGoal = (!notifCombineMode && notifBuilderType === 'goal');
+
+    if (useGoal) {
+      cond.goalId = goalEl ? (goalEl.value || '__any_goal__') : '__any_goal__';
+      cond.goalMilestone = goalMsEl ? (parseInt(goalMsEl.value, 10) || 100) : 100;
+    } else {
+      if (useCat && catEl && catEl.value) {
+        cond.category = (catEl.value === '__custom__') ? (catCustomEl ? catCustomEl.value.trim() : '') : catEl.value;
+      }
+      if (useMerch && merchEl && merchEl.value.trim()) {
+        cond.merchant = merchEl.value.trim();
+      }
+      if (useAmt && amtOpEl && amtOpEl.value && amtValEl && amtValEl.value !== '') {
+        cond.amountOp = amtOpEl.value;
+        cond.amountVal = parseFloat(amtValEl.value);
+      }
+      if (useTime && timePresetEl && timePresetEl.value) {
+        cond.timePreset = timePresetEl.value;
+        if (cond.timePreset === 'custom') {
+          cond.timeStart = timeStartEl ? timeStartEl.value : '22:00';
+          cond.timeEnd = timeEndEl ? timeEndEl.value : '06:00';
+        }
+      }
+      if (useCard && cardEl && cardEl.value) {
+        cond.cardId = cardEl.value;
+      }
+    }
+
+    return {
+      channel: chEl ? chEl.value : ((user && user.notifications.channels.preferred) || 'both'),
+      conditions: cond
+    };
+  }
+
+  function updateRuleBuilderPreview(){
+    var prevEl = document.getElementById('nrBuilderPreviewText');
+    if (!prevEl) return;
+    var draft = readRuleBuilderForm();
+    prevEl.textContent = getRuleSummary({ channel: draft.channel, conditions: draft.conditions });
+  }
+
+  function renderNotificationsPage(){
+    if (!user) return;
+    ensureUserNotifications(user);
+    updateNotifBadge();
+    var container = getActiveInboxContainer();
+    if (!container) return;
+
+    var n = user.notifications;
+    var ch = n.channels;
+    var std = n.standard;
+    var biz = n.businessEvents;
+    var cards = getUserCardOptions(user);
+    var goals = getUserGoalOptions(user);
+    var unreadCount = (n.inbox || []).filter(function(m){ return m.unread; }).length;
+
+    // 1. Header & Wesley Natural-Language Rule Bar
+    var agentExamples = [
+      'SMS if I spend over $100',
+      'Email when goal is met',
+      'Alert on late-night card spend',
+      'Notify on Woolworths over $50',
+      'Alert on Groceries'
+    ];
+    if (user.hasBusiness) {
+      agentExamples.push('Alert when co-signatory needs approval');
+    }
+
+    var wesleyBarHtml = '<div class="bs-header-row" style="margin-bottom:10px">' +
+      '<div class="pagehead" style="margin:0"><h1>Notifications &amp; Alert Rules</h1></div>' +
+      '<div style="display:flex;gap:8px;align-items:center">' +
+        '<span class="tag" style="background:' + (unreadCount ? 'var(--soft);color:var(--brand)' : '#f1f1f1;color:var(--muted)') + '">' + unreadCount + ' unread</span>' +
+        '<button type="button" class="bs-settings-btn" onclick="go(\'overview\')">← Back to accounts</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="bs-tag" style="margin-bottom:16px">Choose how we contact you (SMS or Email), manage standard debit/credit alerts, and build smart rules — manually or by asking <strong>Wesley</strong>.</div>' +
+    '<div class="notif-wesley-bar">' +
+      '<div class="notif-wesley-row">' +
+        '<div class="wesley-av" style="width:38px;height:38px;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>' +
+        '<input type="text" id="notifAgentPrompt" class="notif-wesley-input" placeholder="Ask Wesley to create a rule… e.g. &quot;SMS me when I spend over $100 on Groceries&quot;">' +
+        '<button type="button" id="notifAgentSubmit" class="notif-wesley-btn">✨ Create with Wesley</button>' +
+      '</div>' +
+      '<div class="chip-presets" style="margin-top:10px">' +
+        '<span style="font-size:11.5px;color:var(--muted);align-self:center">Try asking Wesley:</span>' +
+        agentExamples.map(function(ex){
+          return '<button type="button" class="preset-chip notif-agent-chip" data-prompt="' + escapeHtml(ex) + '">' + escapeHtml(ex) + '</button>';
+        }).join('') +
+      '</div>' +
+      '<div id="notifAgentFeedback" style="font-size:13px;margin-top:10px" hidden></div>' +
+    '</div>';
+
+    // 2. Delivery Channels & Regular Debits/Credits Toggles
+    var channelsHtml = '<div class="panelbox" style="margin:0">' +
+      '<div class="bs-subhead">Delivery Channels</div>' +
+      '<div class="bs-subdesc" style="margin-bottom:14px">Choose whether alerts are sent by SMS, Email, or both by default.</div>' +
+      '<div class="seg-group" id="notifPreferredSeg" role="radiogroup" aria-label="Default notification channel" style="margin-bottom:14px">' +
+        '<button type="button" class="seg-btn' + (ch.preferred === 'sms' ? ' active' : '') + '" data-pref="sms">📱 SMS</button>' +
+        '<button type="button" class="seg-btn' + (ch.preferred === 'email' ? ' active' : '') + '" data-pref="email">✉️ Email</button>' +
+        '<button type="button" class="seg-btn' + (ch.preferred === 'both' ? ' active' : '') + '" data-pref="both">📱+✉️ Both</button>' +
+      '</div>' +
+      '<div class="notif-ctrl-row">' +
+        '<div><div class="notif-ctrl-title">📱 SMS alerts</div><div class="notif-ctrl-sub">Instant text messages to your mobile</div></div>' +
+        '<div class="notif-ctrl-actions"><label class="toggle"><input type="checkbox" id="notifSmsMaster"' + (ch.smsEnabled ? ' checked' : '') + '><span class="tk"></span></label></div>' +
+      '</div>' +
+      '<div class="notif-ctrl-row">' +
+        '<div><div class="notif-ctrl-title">✉️ Email alerts</div><div class="notif-ctrl-sub">Detailed summaries to your email address</div></div>' +
+        '<div class="notif-ctrl-actions"><label class="toggle"><input type="checkbox" id="notifEmailMaster"' + (ch.emailEnabled ? ' checked' : '') + '><span class="tk"></span></label></div>' +
+      '</div>' +
+      '<div class="notif-contact-grid">' +
+        '<div><label class="ru-field-lbl" for="notifPhoneInput">Mobile number</label><input type="text" id="notifPhoneInput" class="ru-input" value="' + escapeHtml(ch.phone) + '"></div>' +
+        '<div><label class="ru-field-lbl" for="notifEmailInput">Email address</label><input type="email" id="notifEmailInput" class="ru-input" value="' + escapeHtml(ch.email) + '"></div>' +
+      '</div>' +
+    '</div>';
+
+    var channelSelectOpts = function(cur){
+      return '<option value="sms"' + (cur === 'sms' ? ' selected' : '') + '>📱 SMS</option>' +
+             '<option value="email"' + (cur === 'email' ? ' selected' : '') + '>✉️ Email</option>' +
+             '<option value="both"' + (cur === 'both' ? ' selected' : '') + '>📱+✉️ Both</option>';
+    };
+
+    var standardHtml = '<div class="panelbox" style="margin:0">' +
+      '<div class="bs-subhead">Standard Transaction Alerts</div>' +
+      '<div class="bs-subdesc" style="margin-bottom:14px">Regular toggles for all money coming in or going out of your accounts.</div>' +
+      '<div class="notif-ctrl-row">' +
+        '<div><div class="notif-ctrl-title">− All Debits (money out)</div><div class="notif-ctrl-sub">Notify on every purchase, card tap, transfer, or BPAY debit</div></div>' +
+        '<div class="notif-ctrl-actions">' +
+          '<select id="notifAllDebitsCh" class="ai-sel" aria-label="Channel for all debits">' + channelSelectOpts(std.allDebitsChannel) + '</select>' +
+          '<label class="toggle"><input type="checkbox" id="notifAllDebits"' + (std.allDebits ? ' checked' : '') + '><span class="tk"></span></label>' +
+        '</div>' +
+      '</div>' +
+      '<div class="notif-ctrl-row">' +
+        '<div><div class="notif-ctrl-title">+ All Credits (money in)</div><div class="notif-ctrl-sub">Notify on every salary deposit, refund, or incoming transfer</div></div>' +
+        '<div class="notif-ctrl-actions">' +
+          '<select id="notifAllCreditsCh" class="ai-sel" aria-label="Channel for all credits">' + channelSelectOpts(std.allCreditsChannel) + '</select>' +
+          '<label class="toggle"><input type="checkbox" id="notifAllCredits"' + (std.allCredits ? ' checked' : '') + '><span class="tk"></span></label>' +
+        '</div>' +
+      '</div>' +
+      '<div class="fcap" style="margin-top:16px"><span class="ic">💡</span><span>Tip: Even with <strong>All Debits</strong> switched off, your custom rules below will still alert you on the purchases and milestones you care about.</span></div>' +
+    '</div>';
+
+    var topGridHtml = '<div class="notif-two-col">' + channelsHtml + standardHtml + '</div>';
+
+    // 3. Business Account Holder Event Options (only when user.hasBusiness === true)
+    var bizHtml = '';
+    if (user.hasBusiness) {
+      var pendingCount = (user.pendingApprovals || []).filter(function(a){ return a.status === 'pending'; }).length;
+      bizHtml = '<div class="panelbox biz-panel">' +
+        '<div class="bs-header-row" style="margin-bottom:8px">' +
+          '<div>' +
+            '<div class="bs-subhead" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">Business Account Holder Events <span class="biz-badge">🏢 ' + escapeHtml(user.businessName || 'Business Banking') + '</span></div>' +
+            '<div class="bs-subdesc" style="margin-bottom:6px">Additional notifications for multi-signatory business accounts, approvals, and settlements.</div>' +
+          '</div>' +
+          '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">' +
+            '<select id="notifBizChannel" class="ai-sel" aria-label="Channel for business events">' + channelSelectOpts(biz.channel) + '</select>' +
+            '<button type="button" class="notif-mini-btn" id="simCoSignBtn" style="border-color:var(--navy);color:var(--navy)">⚡ Simulate co-signatory request</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="notif-ctrl-row">' +
+          '<div>' +
+            '<div class="notif-ctrl-title">✍️ Another account holder requires approval / sign-off <span class="tag">' + pendingCount + ' pending</span></div>' +
+            '<div class="notif-ctrl-sub">Instant alert when a co-director, partner, or authorised user queues a transaction for your sign-off.</div>' +
+          '</div>' +
+          '<div class="notif-ctrl-actions"><label class="toggle"><input type="checkbox" class="biz-evt-toggle" data-biz="approvalRequired"' + (biz.approvalRequired ? ' checked' : '') + '><span class="tk"></span></label></div>' +
+        '</div>' +
+        '<div class="notif-ctrl-row">' +
+          '<div><div class="notif-ctrl-title">✅ Co-signatory approval decision</div><div class="notif-ctrl-sub">Notify when another account holder approves or declines a transaction you submitted.</div></div>' +
+          '<div class="notif-ctrl-actions"><label class="toggle"><input type="checkbox" class="biz-evt-toggle" data-biz="approvalDecision"' + (biz.approvalDecision ? ' checked' : '') + '><span class="tk"></span></label></div>' +
+        '</div>' +
+        '<div class="notif-ctrl-row">' +
+          '<div><div class="notif-ctrl-title">👥 Batch / payroll run awaiting dual sign-off</div><div class="notif-ctrl-sub">Alert when staff payroll or bulk supplier ABA files need second authorisation.</div></div>' +
+          '<div class="notif-ctrl-actions"><label class="toggle"><input type="checkbox" class="biz-evt-toggle" data-biz="batchPayrollSignoff"' + (biz.batchPayrollSignoff ? ' checked' : '') + '><span class="tk"></span></label></div>' +
+        '</div>' +
+        '<div class="notif-ctrl-row">' +
+          '<div><div class="notif-ctrl-title">🚨 High-value business payment alert</div><div class="notif-ctrl-sub">Flag any outgoing business transaction above your threshold.</div></div>' +
+          '<div class="notif-ctrl-actions">' +
+            '<span>$<input type="number" id="notifBizHighValInput" class="ai-num" min="1" step="50" value="' + (Number(biz.highValueThreshold) || 1000) + '"></span>' +
+            '<label class="toggle"><input type="checkbox" class="biz-evt-toggle" data-biz="highValueBizTx"' + (biz.highValueBizTx ? ' checked' : '') + '><span class="tk"></span></label>' +
+          '</div>' +
+        '</div>' +
+        '<div class="notif-ctrl-row">' +
+          '<div><div class="notif-ctrl-title">💳 Daily merchant / EFTPOS settlement</div><div class="notif-ctrl-sub">Notify when daily card terminal settlements hit your business account.</div></div>' +
+          '<div class="notif-ctrl-actions"><label class="toggle"><input type="checkbox" class="biz-evt-toggle" data-biz="merchantSettlement"' + (biz.merchantSettlement ? ' checked' : '') + '><span class="tk"></span></label></div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    // 4. Custom Alert Rules Builder & Active Rules List
+    var tabs = [
+      { id: 'category', label: '🏷️ Category' },
+      { id: 'merchant', label: '🏪 Merchant' },
+      { id: 'amount', label: '💲 Amount' },
+      { id: 'time', label: '🕒 Time of day' },
+      { id: 'card', label: '💳 Specific card' },
+      { id: 'goal', label: '🎯 Goal met' }
+    ];
+
+    var catOpts = '<option value="">Any category</option>' +
+      NOTIF_CATEGORIES.map(function(c){ return '<option value="' + escapeHtml(c) + '">' + escapeHtml(c) + '</option>'; }).join('') +
+      '<option value="__custom__">Custom category...</option>';
+
+    var cardOpts = '<option value="">Any account / card</option><option value="__any_card__">Any credit or debit card</option>' +
+      cards.map(function(c){ return '<option value="' + escapeHtml(c.id) + '">' + escapeHtml(c.label) + '</option>'; }).join('');
+
+    var goalOpts = '<option value="__any_goal__">Any savings goal</option>' +
+      goals.map(function(g){
+        var pct = g.target ? Math.min(100, Math.round((g.amount / g.target) * 100)) : 0;
+        return '<option value="' + escapeHtml(g.id) + '">' + escapeHtml(g.name) + ' (' + pct + '% of ' + money(g.target) + ')</option>';
+      }).join('');
+
+    var showGoalFields = (!notifCombineMode && notifBuilderType === 'goal');
+    var showCatField = !showGoalFields && (notifCombineMode || notifBuilderType === 'category');
+    var showMerchField = !showGoalFields && (notifCombineMode || notifBuilderType === 'merchant');
+    var showAmtField = !showGoalFields && (notifCombineMode || notifBuilderType === 'amount');
+    var showTimeField = !showGoalFields && (notifCombineMode || notifBuilderType === 'time');
+    var showCardField = !showGoalFields && (notifCombineMode || notifBuilderType === 'card');
+
+    var builderHtml = '<div class="panelbox">' +
+      '<div class="bs-header-row" style="margin-bottom:8px">' +
+        '<div><div class="bs-subhead">Custom Alert Rules</div><div class="bs-subdesc" style="margin-bottom:8px">Trigger alerts by category, merchant, amount, time of day, specific card, or when savings goals are met.</div></div>' +
+        '<label class="toggle-wrap" style="margin:0;font-size:13px" for="nrCombineToggle"><input type="checkbox" id="nrCombineToggle"' + (notifCombineMode ? ' checked' : '') + '><span>Combine multiple conditions</span></label>' +
+      '</div>' +
+      '<div class="rule-type-tabs">' +
+        tabs.map(function(tb){
+          return '<button type="button" class="rule-type-tab' + (notifBuilderType === tb.id ? ' active' : '') + '" data-rtype="' + tb.id + '">' + tb.label + '</button>';
+        }).join('') +
+      '</div>' +
+      '<div class="rule-builder-box">' +
+        '<div class="rule-cond-grid">' +
+          (showCatField ? '<div><label class="ru-field-lbl" for="nrCategory">Category</label><select id="nrCategory" class="ru-select">' + catOpts + '</select><input type="text" id="nrCategoryCustom" class="ru-input" placeholder="Enter custom category" style="margin-top:6px" hidden></div>' : '') +
+          (showMerchField ? '<div><label class="ru-field-lbl" for="nrMerchant">Merchant contains</label><input type="text" id="nrMerchant" class="ru-input" placeholder="e.g. Woolworths, Netflix, Uber"></div>' : '') +
+          (showAmtField ? '<div><label class="ru-field-lbl" for="nrAmountOp">Amount condition</label><div style="display:flex;gap:6px"><select id="nrAmountOp" class="ru-select" style="width:110px"><option value="above" selected>Over ($)</option><option value="below">Under ($)</option><option value="equal">Equal ($)</option></select><input type="number" id="nrAmountVal" class="ru-input" placeholder="100" min="1" step="any" value="' + (notifBuilderType === 'amount' && !notifCombineMode ? '100' : '') + '"></div></div>' : '') +
+          (showTimeField ? '<div><label class="ru-field-lbl" for="nrTimePreset">Time of day</label><select id="nrTimePreset" class="ru-select"><option value="">Any time</option><option value="late_night"' + (notifBuilderType === 'time' ? ' selected' : '') + '>Late night (10 PM – 6 AM)</option><option value="after_hours">Outside business hours (6 PM – 8 AM)</option><option value="business_hours">Business hours (9 AM – 5 PM)</option><option value="weekend">Weekends (Sat – Sun)</option><option value="custom">Custom time window…</option></select><div id="nrCustomTimeRow" style="display:flex;gap:6px;margin-top:6px" hidden><input type="time" id="nrTimeStart" class="ru-input" value="22:00"><input type="time" id="nrTimeEnd" class="ru-input" value="06:00"></div></div>' : '') +
+          (showCardField ? '<div><label class="ru-field-lbl" for="nrCardId">Specific card / account</label><select id="nrCardId" class="ru-select">' + cardOpts + '</select></div>' : '') +
+          (showGoalFields ? '<div><label class="ru-field-lbl" for="nrGoalId">Savings goal</label><select id="nrGoalId" class="ru-select">' + goalOpts + '</select></div><div><label class="ru-field-lbl" for="nrGoalMilestone">Notify when goal reaches</label><select id="nrGoalMilestone" class="ru-select"><option value="100" selected>100% — Goal met</option><option value="80">80% — Nearly there</option><option value="50">50% — Halfway</option></select></div>' : '') +
+          '<div><label class="ru-field-lbl" for="nrChannel">Deliver via</label><select id="nrChannel" class="ru-select">' + channelSelectOpts(ch.preferred) + '</select></div>' +
+          '<div><button type="button" id="nrCreateBtn" class="signinbtn" style="padding:9px 20px;font-size:14px;width:100%">+ Create Rule</button></div>' +
+        '</div>' +
+        '<div class="fcap" style="margin-top:14px"><span class="ic">🔔</span><span id="nrBuilderPreviewText"></span></div>' +
+      '</div>' +
+      '<div class="inbox-filter-bar">' +
+        '<div style="font-size:15px;font-weight:700;color:var(--navy)">Active &amp; Saved Rules (' + (n.rules || []).length + ')</div>' +
+        '<div class="inbox-filter-pills">' +
+          ['all','category','merchant','amount','time','card','goal'].map(function(fk){
+            var lbls = { all: 'All', category: 'Category', merchant: 'Merchant', amount: 'Amount', time: 'Time', card: 'Card', goal: 'Goals' };
+            return '<button type="button" class="inbox-filter-pill' + (notifRuleFilter === fk ? ' active' : '') + '" data-rfilter="' + fk + '">' + lbls[fk] + '</button>';
+          }).join('') +
+        '</div>' +
+      '</div>';
+
+    var filteredRules = (n.rules || []).filter(function(r){
+      if (notifRuleFilter === 'all') return true;
+      var c = r.conditions || {};
+      if (notifRuleFilter === 'goal') return !!c.goalId;
+      if (notifRuleFilter === 'category') return !!c.category;
+      if (notifRuleFilter === 'merchant') return !!c.merchant;
+      if (notifRuleFilter === 'amount') return !!c.amountOp;
+      if (notifRuleFilter === 'time') return !!c.timePreset;
+      if (notifRuleFilter === 'card') return !!c.cardId;
+      return true;
+    });
+
+    var rulesListHtml = '';
+    if (filteredRules.length === 0) {
+      rulesListHtml = '<div style="font-size:13.5px;color:var(--muted);padding:18px;border:1px dashed var(--line2);border-radius:8px;text-align:center">No custom rules match this filter yet. Create one above or ask Wesley!</div>';
+    } else {
+      rulesListHtml = '<div class="rule-list">' + filteredRules.map(function(r){
+        var tagsHtml = getRuleConditionTags(r).map(function(tg){
+          return '<span class="rule-tag">' + escapeHtml(tg.text) + '</span>';
+        }).join('');
+        var agentBadge = r.createdBy === 'agent' ? '<span class="agent-badge">✨ Wesley</span>' : '';
+        return '<div class="notif-rule-row' + (r.enabled ? '' : ' paused') + '">' +
+          '<div class="notif-rule-main">' +
+            '<div class="notif-rule-title">' + escapeHtml(getRuleSummary(r)) + ' ' + agentBadge + '</div>' +
+            '<div class="notif-rule-tags">' + tagsHtml + '</div>' +
+          '</div>' +
+          '<div class="notif-rule-controls">' +
+            '<select class="ai-sel nr-row-ch" data-rid="' + r.id + '" aria-label="Rule channel">' + channelSelectOpts(r.channel) + '</select>' +
+            '<button type="button" class="notif-mini-btn nr-row-test" data-rid="' + r.id + '">⚡ Test</button>' +
+            '<label class="toggle" title="' + (r.enabled ? 'Enabled' : 'Paused') + '"><input type="checkbox" class="nr-row-tog" data-rid="' + r.id + '"' + (r.enabled ? ' checked' : '') + '><span class="tk"></span></label>' +
+            '<button type="button" class="ru-remove-btn nr-row-del" data-rid="' + r.id + '" title="Delete rule" aria-label="Delete rule">✕</button>' +
+          '</div>' +
+        '</div>';
+      }).join('') + '</div>';
+    }
+
+    builderHtml += rulesListHtml + '</div>';
+
+    // 5. Recent Notification Inbox Feed
+    var inboxFilterPills = [
+      { id: 'all', label: 'All (' + (n.inbox || []).length + ')' },
+      { id: 'unread', label: 'Unread (' + unreadCount + ')' },
+      { id: 'rules', label: 'Rules & Spend' },
+      { id: 'goals', label: 'Goals' }
+    ];
+    if (user.hasBusiness) {
+      inboxFilterPills.push({ id: 'approvals', label: 'Business Approvals' });
+    }
+
+    var filteredInbox = (n.inbox || []).filter(function(m){
+      if (notifInboxFilter === 'unread') return m.unread;
+      if (notifInboxFilter === 'rules') return m.category === 'rule' || m.category === 'debit' || m.category === 'credit';
+      if (notifInboxFilter === 'goals') return m.category === 'goal';
+      if (notifInboxFilter === 'approvals') return m.category === 'approval';
+      return true;
+    });
+
+    var inboxFeedHtml = '<div class="panelbox">' +
+      '<div class="inbox-filter-bar">' +
+        '<div><div class="bs-subhead" style="margin:0">Recent Alerts &amp; Inbox</div></div>' +
+        '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">' +
+          '<div class="inbox-filter-pills">' +
+            inboxFilterPills.map(function(fp){
+              return '<button type="button" class="inbox-filter-pill' + (notifInboxFilter === fp.id ? ' active' : '') + '" data-ifilter="' + fp.id + '">' + fp.label + '</button>';
+            }).join('') +
+          '</div>' +
+          (unreadCount > 0 ? '<button type="button" class="notif-mini-btn" id="markAllReadBtn">Mark all read</button>' : '') +
+        '</div>' +
+      '</div>';
+
+    if (filteredInbox.length === 0) {
+      inboxFeedHtml += '<div style="font-size:13.5px;color:var(--muted);padding:24px;text-align:center;border:1px dashed var(--line2);border-radius:8px">No notifications in this view.</div>';
+    } else {
+      inboxFeedHtml += '<div class="inbox-feed">' + filteredInbox.map(function(m){
+        return '<div class="inbox-row' + (m.unread ? ' unread' : '') + '">' +
+          '<div class="inbox-dot' + (m.unread ? '' : ' read') + '"></div>' +
+          '<div class="inbox-body">' +
+            '<div class="inbox-title">' + escapeHtml(m.title) + ' ' + formatChannelsSentHtml(m.channelsSent) + '</div>' +
+            '<div class="inbox-desc">' + escapeHtml(m.body) + '</div>' +
+            '<div class="inbox-meta">' +
+              '<span>' + escapeHtml(m.date) + '</span>' +
+              (m.actionLabel ? '<a class="inbox-action-link" data-action-msg="' + m.id + '">' + escapeHtml(m.actionLabel) + ' ›</a>' : '') +
+              '<a style="color:var(--muted);cursor:pointer;margin-left:auto" data-toggle-msg="' + m.id + '">' + (m.unread ? 'Mark read' : 'Mark unread') + '</a>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('') + '</div>';
+    }
+    inboxFeedHtml += '</div>';
+
+    container.innerHTML = wesleyBarHtml + topGridHtml + bizHtml + builderHtml + inboxFeedHtml;
+
+    // Bind events cleanly inside container
+    bindNotificationsPageEvents(container);
+    updateRuleBuilderPreview();
+  }
+
+  function bindNotificationsPageEvents(container){
+    // Inline Wesley prompt
+    var agentInput = document.getElementById('notifAgentPrompt');
+    var agentBtn = document.getElementById('notifAgentSubmit');
+    var agentFb = document.getElementById('notifAgentFeedback');
+    function runAgentPrompt(text){
+      var val = (text || '').trim();
+      if (!val) return;
+      var res = wesleyParseNotificationIntent(val);
+      var fbNow = document.getElementById('notifAgentFeedback');
+      if (res && res.handled) {
+        if (fbNow) {
+          fbNow.innerHTML = '<strong>✨ Wesley:</strong> ' + res.html;
+          fbNow.hidden = false;
+        }
+        showToast('✨ Wesley updated your notification rules');
+      } else {
+        if (fbNow) {
+          fbNow.innerHTML = '<strong>✨ Wesley:</strong> Try mentioning a condition like <em>"SMS if I spend over $100 on Groceries"</em>, <em>"Email when Rental bond goal is met"</em>, or <em>"Alert on Low Rate card after 10pm"</em>.';
+          fbNow.hidden = false;
+        }
+      }
+    }
+    if (agentBtn && agentInput) {
+      agentBtn.addEventListener('click', function(){ runAgentPrompt(agentInput.value); });
+      agentInput.addEventListener('keydown', function(e){
+        if (e.key === 'Enter') { e.preventDefault(); runAgentPrompt(agentInput.value); }
+      });
+    }
+    container.querySelectorAll('.notif-agent-chip').forEach(function(chip){
+      chip.addEventListener('click', function(){
+        var p = chip.getAttribute('data-prompt');
+        if (agentInput) agentInput.value = p;
+        runAgentPrompt(p);
+      });
+    });
+
+    // Delivery channels & contacts
+    container.querySelectorAll('#notifPreferredSeg .seg-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        setNotificationPreference('preferred', btn.getAttribute('data-pref'));
+        showToast('✓ Default delivery channel updated');
+      });
+    });
+    var smsMas = document.getElementById('notifSmsMaster');
+    if (smsMas) smsMas.addEventListener('change', function(){ setNotificationPreference('smsEnabled', smsMas.checked); });
+    var emMas = document.getElementById('notifEmailMaster');
+    if (emMas) emMas.addEventListener('change', function(){ setNotificationPreference('emailEnabled', emMas.checked); });
+    var phInp = document.getElementById('notifPhoneInput');
+    if (phInp) phInp.addEventListener('change', function(){ setNotificationPreference('phone', phInp.value); showToast('✓ Mobile number saved'); });
+    var emInp = document.getElementById('notifEmailInput');
+    if (emInp) emInp.addEventListener('change', function(){ setNotificationPreference('email', emInp.value); showToast('✓ Email address saved'); });
+
+    // Standard debit / credit toggles
+    var debTog = document.getElementById('notifAllDebits');
+    if (debTog) debTog.addEventListener('change', function(){
+      setNotificationPreference('allDebits', debTog.checked);
+      showToast(debTog.checked ? '✓ All debits alerts enabled' : 'All debits alerts turned off');
+    });
+    var debCh = document.getElementById('notifAllDebitsCh');
+    if (debCh) debCh.addEventListener('change', function(){ setNotificationPreference('allDebitsChannel', debCh.value); });
+    var credTog = document.getElementById('notifAllCredits');
+    if (credTog) credTog.addEventListener('change', function(){
+      setNotificationPreference('allCredits', credTog.checked);
+      showToast(credTog.checked ? '✓ All credits alerts enabled' : 'All credits alerts turned off');
+    });
+    var credCh = document.getElementById('notifAllCreditsCh');
+    if (credCh) credCh.addEventListener('change', function(){ setNotificationPreference('allCreditsChannel', credCh.value); });
+
+    // Business events
+    container.querySelectorAll('.biz-evt-toggle').forEach(function(tog){
+      tog.addEventListener('change', function(){
+        setNotificationPreference('biz.' + tog.getAttribute('data-biz'), tog.checked);
+        showToast('✓ Business notification setting saved');
+      });
+    });
+    var bizCh = document.getElementById('notifBizChannel');
+    if (bizCh) bizCh.addEventListener('change', function(){ setNotificationPreference('biz.channel', bizCh.value); });
+    var bizHV = document.getElementById('notifBizHighValInput');
+    if (bizHV) bizHV.addEventListener('change', function(){ setNotificationPreference('biz.highValueThreshold', bizHV.value); showToast('✓ High-value threshold updated'); });
+    var simCoBtn = document.getElementById('simCoSignBtn');
+    if (simCoBtn) simCoBtn.addEventListener('click', simulateCoSignatoryApproval);
+
+    // Rule builder controls
+    var combineTog = document.getElementById('nrCombineToggle');
+    if (combineTog) {
+      combineTog.addEventListener('change', function(){
+        notifCombineMode = combineTog.checked;
+        if (notifCombineMode && notifBuilderType === 'goal') notifBuilderType = 'category';
+        renderNotificationsPage();
+      });
+    }
+    container.querySelectorAll('.rule-type-tab').forEach(function(tb){
+      tb.addEventListener('click', function(){
+        notifBuilderType = tb.getAttribute('data-rtype');
+        if (notifBuilderType === 'goal') notifCombineMode = false;
+        renderNotificationsPage();
+      });
+    });
+
+    var catSel = document.getElementById('nrCategory');
+    var catCust = document.getElementById('nrCategoryCustom');
+    if (catSel && catCust) {
+      catSel.addEventListener('change', function(){
+        catCust.hidden = (catSel.value !== '__custom__');
+        updateRuleBuilderPreview();
+      });
+      catCust.addEventListener('input', updateRuleBuilderPreview);
+    }
+    var timeSel = document.getElementById('nrTimePreset');
+    var timeCustRow = document.getElementById('nrCustomTimeRow');
+    if (timeSel && timeCustRow) {
+      timeSel.addEventListener('change', function(){
+        timeCustRow.hidden = (timeSel.value !== 'custom');
+        updateRuleBuilderPreview();
+      });
+    }
+    ['nrMerchant','nrAmountOp','nrAmountVal','nrTimeStart','nrTimeEnd','nrCardId','nrGoalId','nrGoalMilestone','nrChannel'].forEach(function(id){
+      var el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('input', updateRuleBuilderPreview);
+        el.addEventListener('change', updateRuleBuilderPreview);
+      }
+    });
+
+    var createBtn = document.getElementById('nrCreateBtn');
+    if (createBtn) {
+      createBtn.addEventListener('click', function(){
+        var draft = readRuleBuilderForm();
+        var c = draft.conditions;
+        var hasAny = !!(c.category || c.merchant || c.amountOp || c.timePreset || c.cardId || c.goalId);
+        if (!hasAny) {
+          showToast('Please select or enter at least one condition for your rule');
+          return;
+        }
+        if (c.amountOp && (c.amountVal === null || isNaN(c.amountVal) || c.amountVal <= 0)) {
+          showToast('Please enter a valid dollar amount greater than 0');
+          return;
+        }
+        createNotificationRule(draft, 'user');
+        showToast('✓ Created new notification rule');
+      });
+    }
+
+    // Rule filters & row actions
+    container.querySelectorAll('[data-rfilter]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        notifRuleFilter = btn.getAttribute('data-rfilter');
+        renderNotificationsPage();
+      });
+    });
+    container.querySelectorAll('.nr-row-ch').forEach(function(sel){
+      sel.addEventListener('change', function(){ updateNotificationRuleChannel(sel.getAttribute('data-rid'), sel.value); });
+    });
+    container.querySelectorAll('.nr-row-test').forEach(function(btn){
+      btn.addEventListener('click', function(){ testNotificationRule(btn.getAttribute('data-rid')); });
+    });
+    container.querySelectorAll('.nr-row-tog').forEach(function(tog){
+      tog.addEventListener('change', function(){ toggleNotificationRule(tog.getAttribute('data-rid')); });
+    });
+    container.querySelectorAll('.nr-row-del').forEach(function(btn){
+      btn.addEventListener('click', function(){ deleteNotificationRule(btn.getAttribute('data-rid')); });
+    });
+
+    // Inbox filters & row actions
+    container.querySelectorAll('[data-ifilter]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        notifInboxFilter = btn.getAttribute('data-ifilter');
+        renderNotificationsPage();
+      });
+    });
+    var markAllBtn = document.getElementById('markAllReadBtn');
+    if (markAllBtn) markAllBtn.addEventListener('click', markAllInboxRead);
+    container.querySelectorAll('[data-toggle-msg]').forEach(function(lnk){
+      lnk.addEventListener('click', function(){ markInboxItemRead(lnk.getAttribute('data-toggle-msg'), true); });
+    });
+    container.querySelectorAll('[data-action-msg]').forEach(function(lnk){
+      lnk.addEventListener('click', function(){ openInboxAction(lnk.getAttribute('data-action-msg')); });
+    });
+  }
+
+  function wesleyParseNotificationIntent(rawText){
+    if (!user) return { handled: false };
+    ensureUserNotifications(user);
+    var raw = String(rawText || '').trim();
+    var t = raw.toLowerCase();
+
+    // Navigation shortcut
+    if (/^(open|show|go to|view) (my )?(notifications|alerts|inbox|notification settings|alert settings)/.test(t)) {
+      go('inbox');
+      return {
+        handled: true,
+        html: "I've opened your <strong>Notifications &amp; Alert Rules</strong> screen where you can inspect your inbox and rules.",
+        chips: ["SMS if I spend over $100", "Email when goal is met", "My round-ups"]
+      };
+    }
+
+    var isOff = /\b(disable|turn off|stop|pause|mute|remove)\b/.test(t);
+    var isOn = /\b(enable|turn on|activate|start)\b/.test(t);
+    var mentionsChannelSwitch = /(switch|change|set|use|prefer).*(sms|text|email|both)/.test(t) && !/(over|under|above|below|when|if|merchant|category|woolworths|netflix|uber|goal|debit|credit|approval)/.test(t);
+
+    // Determine channel requested
+    var hasSms = /\b(sms|text|txt)\b/.test(t);
+    var hasEmail = /\b(email|e-mail|mail)\b/.test(t);
+    var reqChannel = (hasSms && hasEmail) || /\bboth\b/.test(t) ? 'both' : (hasSms ? 'sms' : (hasEmail ? 'email' : (user.notifications.channels.preferred || 'both')));
+
+    if (mentionsChannelSwitch) {
+      setNotificationPreference('preferred', reqChannel);
+      var lbl = reqChannel === 'both' ? 'SMS & Email' : reqChannel.toUpperCase();
+      return {
+        handled: true,
+        html: "Updated your default notification delivery channel to <strong>" + lbl + "</strong>.",
+        chips: ["Open Notifications", "SMS if spend > $100", "Email when goal is met"]
+      };
+    }
+
+    // Standard all debits / all credits toggles
+    if (/\b(all debits?|every debit|all spending|every purchase)\b/.test(t)) {
+      var enableDeb = isOff ? false : true;
+      setNotificationPreference('allDebits', enableDeb);
+      if (hasSms || hasEmail) setNotificationPreference('allDebitsChannel', reqChannel);
+      return {
+        handled: true,
+        html: enableDeb
+          ? "Turned <strong>ON</strong> alerts for <strong>all debits (money out)</strong> via <strong>" + (reqChannel === 'both' ? 'SMS & Email' : reqChannel.toUpperCase()) + "</strong>."
+          : "Turned <strong>OFF</strong> alerts for all debits. Custom rules remain active.",
+        chips: ["Open Notifications", "Turn on all credits", "All good"]
+      };
+    }
+    if (/\b(all credits?|every credit|all deposits?|every deposit)\b/.test(t)) {
+      var enableCred = isOff ? false : true;
+      setNotificationPreference('allCredits', enableCred);
+      if (hasSms || hasEmail) setNotificationPreference('allCreditsChannel', reqChannel);
+      return {
+        handled: true,
+        html: enableCred
+          ? "Turned <strong>ON</strong> alerts for <strong>all credits (money in)</strong> via <strong>" + (reqChannel === 'both' ? 'SMS & Email' : reqChannel.toUpperCase()) + "</strong>."
+          : "Turned <strong>OFF</strong> alerts for all credits.",
+        chips: ["Open Notifications", "Turn on all debits", "All good"]
+      };
+    }
+
+    // Business account holder approval / sign-off events
+    if (/\b(approv|sign[- ]?off|co-?sign|account holder|payroll|settlement)\b/.test(t)) {
+      if (!user.hasBusiness) {
+        return {
+          handled: true,
+          html: "Business approval and co-signatory alerts are available on Business banking profiles (like Alex Chen or Sam Rossi). Would you like to set up a personal card, merchant, or goal rule instead?",
+          chips: ["SMS if I spend over $100", "Email when goal is met"]
+        };
+      }
+      var enableBiz = isOff ? false : true;
+      if (/payroll|batch/.test(t)) {
+        setNotificationPreference('biz.batchPayrollSignoff', enableBiz);
+      } else if (/settlement|eftpos|pos/.test(t)) {
+        setNotificationPreference('biz.merchantSettlement', enableBiz);
+      } else {
+        setNotificationPreference('biz.approvalRequired', enableBiz);
+      }
+      if (hasSms || hasEmail) setNotificationPreference('biz.channel', reqChannel);
+      return {
+        handled: true,
+        html: (enableBiz ? "Enabled" : "Paused") + " <strong>business account holder approval &amp; sign-off alerts</strong> via <strong>" + (reqChannel === 'both' ? 'SMS & Email' : reqChannel.toUpperCase()) + "</strong>.",
+        chips: ["Open Notifications", "Simulate co-signatory request", "All good"]
+      };
+    }
+
+    // Rule creation intent detection
+    var looksLikeRule = /(notif|alert|remind|warn|ping|tell me|let me know|sms me|text me|email me|create.*rule|add.*rule|set.*rule|watch)|(?:\b(?:sms|text|email)\b.*\b(?:if|when|for|on|over|under|above|below|at)\b)/.test(t);
+    if (!looksLikeRule) return { handled: false };
+
+    var cond = {
+      category: '',
+      merchant: '',
+      amountOp: '',
+      amountVal: null,
+      timePreset: '',
+      timeStart: '',
+      timeEnd: '',
+      cardId: '',
+      goalId: '',
+      goalMilestone: 100
+    };
+
+    // Goal detection
+    if (/\b(goal|goals|milestone|target|bond|holiday|education|renovation|christmas|caravan)\b/.test(t)) {
+      var goals = getUserGoalOptions(user);
+      var matchedGoal = goals.find(function(g){
+        return t.indexOf(g.name.toLowerCase()) !== -1;
+      });
+      if (!matchedGoal) {
+        matchedGoal = goals.find(function(g){
+          return g.name.toLowerCase().split(/\s+/).some(function(w){ return w.length > 3 && t.indexOf(w) !== -1; });
+        });
+      }
+      cond.goalId = matchedGoal ? matchedGoal.id : '__any_goal__';
+      var pctM = t.match(/(\d{2,3})\s*%/);
+      cond.goalMilestone = pctM ? Math.min(100, Math.max(10, parseInt(pctM[1], 10))) : 100;
+    } else {
+      // Category detection
+      var catMap = [
+        { rx: /\b(grocer|supermarket)/, val: 'Groceries' },
+        { rx: /\b(entertainment|eating out|dining|coffee|restaurant)/, val: 'Entertainment & eating out' },
+        { rx: /\b(shopping|retail)/, val: 'Shopping' },
+        { rx: /\b(transport|fuel|petrol)/, val: 'Transport & fuel' },
+        { rx: /\b(subscription|streaming)/, val: 'Subscriptions' },
+        { rx: /\b(bill|bills|utilities|energy|electricity|water)/, val: 'Important bills' },
+        { rx: /\b(travel|flight|hotel|airline)/, val: 'Travel' }
+      ];
+      catMap.some(function(cm){
+        if (cm.rx.test(t)) { cond.category = cm.val; return true; }
+        return false;
+      });
+
+      // Known merchants or explicit "at <Merchant>" / "from <Merchant>"
+      var knownMerchants = ['Woolworths', 'Coles', 'Aldi', 'Netflix', 'Spotify', 'Uber', 'Qantas', 'Jetstar', 'Officeworks', 'Single O', 'Amazon', 'Bunnings', 'Ampol', 'Origin Energy', 'Telstra', 'Optus', 'David Jones'];
+      knownMerchants.some(function(m){
+        if (t.indexOf(m.toLowerCase()) !== -1) { cond.merchant = m; return true; }
+        return false;
+      });
+      if (!cond.merchant) {
+        var atM = raw.match(/\b(?:at|from|merchant)\s+["']?([A-Za-z0-9][A-Za-z0-9 &'._-]{1,28}?)(?=["']?(?:\s+(?:over|above|under|below|exceeding|after|before|during|by|via|on|for)\b|$))/i);
+        if (atM && !/^(my|the|a|an|all|any)$/i.test(atM[1].trim())) {
+          cond.merchant = atM[1].trim();
+        }
+      }
+
+      // Amount detection
+      var amtMatch = t.replace(/,/g, '').match(/(?:over|above|more than|greater than|exceeding|>)\s*\$?\s*(\d+(?:\.\d+)?)/);
+      if (amtMatch) {
+        cond.amountOp = 'above';
+        cond.amountVal = parseFloat(amtMatch[1]);
+      } else {
+        var underMatch = t.replace(/,/g, '').match(/(?:under|below|less than|<)\s*\$?\s*(\d+(?:\.\d+)?)/);
+        if (underMatch) {
+          cond.amountOp = 'below';
+          cond.amountVal = parseFloat(underMatch[1]);
+        } else {
+          var eqMatch = t.replace(/,/g, '').match(/(?:equal(?:s| to)?|exactly)\s*\$?\s*(\d+(?:\.\d+)?)/);
+          if (eqMatch) {
+            cond.amountOp = 'equal';
+            cond.amountVal = parseFloat(eqMatch[1]);
+          }
+        }
+      }
+
+      // Time of day detection
+      if (/late[- ]?night|at night|overnight|after 10\s*pm|10\s*pm/.test(t)) {
+        cond.timePreset = 'late_night';
+        cond.timeStart = '22:00';
+        cond.timeEnd = '06:00';
+      } else if (/after hours|outside business hours|after 6\s*pm/.test(t)) {
+        cond.timePreset = 'after_hours';
+        cond.timeStart = '18:00';
+        cond.timeEnd = '08:00';
+      } else if (/business hours|during work/.test(t)) {
+        cond.timePreset = 'business_hours';
+        cond.timeStart = '09:00';
+        cond.timeEnd = '17:00';
+      } else if (/weekend/.test(t)) {
+        cond.timePreset = 'weekend';
+      }
+
+      // Card detection
+      var cards = getUserCardOptions(user);
+      var matchedCard = cards.find(function(c){
+        var nm = c.shortName.toLowerCase();
+        var acct = findAcct(c.id);
+        var last4Match = acct && acct.number ? acct.number.match(/(\d{4})/) : null;
+        return t.indexOf(nm) !== -1 || (last4Match && t.indexOf(last4Match[1]) !== -1);
+      });
+      if (!matchedCard && /\bcredit card\b/.test(t)) {
+        matchedCard = cards.find(function(c){ var a = findAcct(c.id); return a && a.kind === 'credit'; });
+      }
+      if (!matchedCard && /\bdebit card\b/.test(t)) {
+        matchedCard = cards.find(function(c){ var a = findAcct(c.id); return a && a.kind === 'everyday'; });
+      }
+      if (matchedCard) {
+        cond.cardId = matchedCard.id;
+      } else if (/\bcard\b/.test(t)) {
+        cond.cardId = '__any_card__';
+      }
+    }
+
+    var hasCondition = !!(cond.category || cond.merchant || cond.amountOp || cond.timePreset || cond.cardId || cond.goalId);
+    if (!hasCondition) return { handled: false };
+
+    var created = createNotificationRule({ channel: reqChannel, conditions: cond }, 'agent');
+    return {
+      handled: true,
+      rule: created,
+      html: "Done! I created a new alert rule: <strong>" + escapeHtml(getRuleSummary(created)) + "</strong>. It's active now in your Notifications rules.",
+      chips: ["Open Notifications", "Create another rule", "All good"]
+    };
+  }
+
+  // ==========================================
   // WESLEY AI CHAT ENGINE
   // ==========================================
   var chatSeeded = false;
@@ -2864,7 +4514,7 @@
     var safeAmt = getSafeToSpend();
     var name = (user ? user.firstName : 'Alex');
     var paydayStr = (user && user.id === 'peggy') ? 'next pension payment' : 'payday';
-    wesleyBubble("Hey " + name + " 👋 I'm Wesley. You've got <strong>" + money(safeAmt) + "</strong> safe to spend till " + paydayStr + ", and I've quietly sorted a few things this week. What's on your mind?", ["Can I afford something?","Add a goal or bucket","My round-ups","BankSmart settings"]);
+    wesleyBubble("Hey " + name + " 👋 I'm Wesley. You've got <strong>" + money(safeAmt) + "</strong> safe to spend till " + paydayStr + ", and I've quietly sorted a few things this week. What's on your mind?", ["Can I afford something?","Add a goal or bucket","Notifications & alerts","My round-ups","BankSmart settings"]);
   }
 
   function addMe(t){
@@ -2999,7 +4649,21 @@
       ctx.topic = 'roundups';
       return { html: "Here's the simple version: whenever you buy something, I round the price up to the next dollar and slip the spare change into your savings. Right now that adds up to roughly <strong>$" + weeklyAmt() + " a week</strong>. I can save a bit harder, keep it relaxed, or only do it on bigger buys — whatever suits you. You can also customize increments and purchase rules in settings.", chips: ["BankSmart settings", "Save a bit harder", "Keep it relaxed", "Only on bigger buys"] };
     }
-    if (/settings|income split|round.?up rules|adjust my round.?ups|configure round.?ups/.test(t)) {
+    if (/simulate co-?sign/.test(t)) {
+      simulateCoSignatoryApproval();
+      return { html: "I've simulated a co-signatory approval request for you and sent the alert to your Notifications inbox.", chips: ["Open Notifications", "All good"] };
+    }
+    if (/create another rule|create a rule/.test(t)) {
+      return {
+        html: "Tell me what you'd like to watch — for example:<br>• <em>\"SMS if I spend over $100 on Groceries\"</em><br>• <em>\"Email when my Rental bond goal is met\"</em><br>• <em>\"Alert on Low Rate card late night\"</em><br>• <em>\"Turn on all debits by SMS\"</em>",
+        chips: ["SMS if I spend over $100", "Email when goal is met", "Open Notifications"]
+      };
+    }
+    var notifIntent = wesleyParseNotificationIntent(raw);
+    if (notifIntent && notifIntent.handled) {
+      return { html: notifIntent.html, chips: notifIntent.chips || ["Open Notifications", "All good"] };
+    }
+    if (/settings|income split|round.?up rules|adjust my round.?ups|configure round.?ups/.test(t) && !/notif|alert|sms|email/.test(t)) {
       go('bs-settings');
       return {
         html: "I've navigated you to <strong>BankSmart Settings & Rules</strong>. You can configure your income splitting percentages, set round-up increments ($1, $5, $10, $50, $100), and customize purchase-type rules right here.",
@@ -3013,7 +4677,15 @@
     if (/sweep/.test(t)) return { html: "Smart sweeps are active — I tuck surplus away on good weeks and go easy on lean ones, strictly between your own accounts.", chips: ["Save harder", "Leave it"] };
     if (/notif|alert|digest|group/.test(t)) {
       ctx.topic = 'notif';
-      return { html: "I'm bundling your money movements into a <strong>" + ctx.digest + "</strong> digest. Want it daily or weekly?", chips: ["Make it daily", "Keep weekly"] };
+      if (/digest|group|daily|weekly/.test(t)) {
+        return { html: "I'm bundling your money movements into a <strong>" + ctx.digest + "</strong> digest. Want it daily or weekly?", chips: ["Make it daily", "Keep weekly"] };
+      }
+      var rCount = (user && user.notifications && user.notifications.rules) ? user.notifications.rules.length : 0;
+      var chPref = (user && user.notifications && user.notifications.channels) ? user.notifications.channels.preferred : 'both';
+      return {
+        html: "You currently have <strong>" + rCount + " custom alert rule" + (rCount === 1 ? "" : "s") + "</strong> (delivering via <strong>" + (chPref === 'both' ? 'SMS & Email' : chPref.toUpperCase()) + "</strong>), plus BankSmart digest set to <strong>" + ctx.digest + "</strong>. Want me to create a rule or open Notifications?",
+        chips: ["Open Notifications", "Create a rule", "Make it daily", "Keep weekly"]
+      };
     }
     if (/make it daily|^daily/.test(t)) {
       ctx.digest = 'daily';
