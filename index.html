@@ -168,11 +168,28 @@
   .allocbar span{height:100%}
   .legend{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:13px;color:var(--muted)}
   .legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:7px;vertical-align:middle}
-  .pots{display:grid;grid-template-columns:repeat(auto-fill, minmax(210px, 1fr));gap:14px;margin-top:22px}
+  .pots{display:grid;grid-template-columns:repeat(auto-fill, minmax(210px, 1fr));gap:14px;margin-top:22px;align-items:start}
   .pot{border:1px solid var(--line2);border-radius:8px;padding:16px;background:#fff;position:relative;display:flex;flex-direction:column}
   .pot .pn{font-size:13px;color:var(--muted);font-weight:700;display:flex;align-items:center;gap:7px}
   .pot .pv{font-size:22px;font-weight:800;margin-top:8px}
   .pot .pnote{font-size:12px;font-weight:700;margin-top:8px}
+  .bills-toggle{margin-top:10px;display:flex;align-items:center;gap:6px;width:100%;background:var(--soft);border:1px solid var(--line2);border-radius:6px;padding:7px 10px;font-size:12.5px;font-weight:700;color:var(--brand);cursor:pointer;text-align:left;transition:background .15s,border-color .15s}
+  .bills-toggle:hover{background:#fdeceb;border-color:var(--brand)}
+  .bills-toggle .chev{margin-left:auto;transition:transform .15s}
+  .bills-toggle[aria-expanded="true"] .chev{transform:rotate(180deg)}
+  .bills-list{margin-top:8px;border-top:1px solid var(--line)}
+  .bills-list[hidden]{display:none}
+  .bill-row{display:grid;grid-template-columns:1fr auto;gap:2px 8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:12.5px}
+  .bill-row .bn{font-weight:700;color:var(--ink)}
+  .bill-row .ba{font-weight:800;text-align:right;color:var(--ink)}
+  .bill-row .bm{color:var(--muted);font-size:11.5px}
+  .bill-row .bs{font-size:11.5px;font-weight:700;text-align:right}
+  .bill-row .bs.ok{color:var(--success)}
+  .bill-row .bs.part{color:#b45309}
+  .bill-row .potbar{grid-column:1/-1;height:4px;margin-top:4px}
+  .bills-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:var(--muted);padding-top:8px}
+  .bills-foot a{color:var(--brand);font-weight:700;cursor:pointer;text-decoration:none}
+  .bills-foot a:hover{text-decoration:underline}
   .pot-tag{display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;padding:2px 6px;border-radius:4px;background:#f1f1f1;color:var(--muted);margin-left:auto}
   .pot-del{position:absolute;top:10px;right:10px;background:none;border:none;color:#aaa;cursor:pointer;font-size:16px;line-height:1;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center}
   .pot-del:hover{background:#fee2e2;color:var(--brand)}
@@ -814,6 +831,12 @@
         { id: 'buffer', name: 'Buffer', type: 'bucket', amount: 300.00, color: '#0067b1', note: 'Auto-sized', fixed: true },
         { id: 'bond', name: 'Rental bond', type: 'goal', amount: 1740.00, target: 2500.00, targetDate: 'March 2027', color: '#008a4b', note: 'On track · $1,740 of $2,500', fixed: false }
       ],
+      detectedBills: [
+        { id: 'ab1', name: 'Netflix', source: 'Netflix.com transaction', freq: 'Monthly', due: '2026-12-13', amount: 18.99, setAside: 18.99 },
+        { id: 'ab2', name: 'AGL Energy (electricity)', source: 'Recurring BPAY', freq: 'Quarterly', due: '2026-12-14', amount: 246.00, setAside: 246.00 },
+        { id: 'ab3', name: 'Optus (mobile + internet)', source: 'Direct debit', freq: 'Monthly', due: '2026-12-15', amount: 139.00, setAside: 139.00 },
+        { id: 'ab4', name: 'Youi contents insurance', source: 'Direct debit', freq: 'Annual', due: '2026-12-17', amount: 208.01, setAside: 208.01 }
+      ],
       wesley: { intensity: '2×', elig: { dir: 'above', amt: 5 }, feeCover: true, digest: 'weekly' }
     },
 
@@ -843,10 +866,17 @@
       ],
       savingsPlan: [
         { id: 'spend', name: 'Spending', type: 'bucket', amount: 650.00, color: 'var(--brand)', note: 'Safe to spend', fixed: true },
-        { id: 'bills', name: 'Bills', type: 'bucket', amount: 980.00, color: '#f0a500', note: '✓ Mortgage & Utilities', fixed: true },
+        { id: 'bills', name: 'Bills', type: 'bucket', amount: 980.00, color: '#f0a500', note: '✓ Childcare & utilities', fixed: true },
         { id: 'buffer', name: 'Buffer', type: 'bucket', amount: 500.00, color: '#0067b1', note: 'Family buffer', fixed: true },
         { id: 'holiday', name: 'Family holiday', type: 'goal', amount: 3200.00, target: 6000.00, targetDate: 'Dec 2027', color: '#7e22ce', note: 'On track · Japan 2027', fixed: false },
         { id: 'education', name: 'Kids Education', type: 'goal', amount: 4500.00, target: 10000.00, targetDate: 'Jan 2029', color: '#008a4b', note: 'On track', fixed: false }
+      ],
+      detectedBills: [
+        { id: 'pb1', name: 'Little Explorers Childcare', source: 'Existing transaction', freq: 'Fortnightly', due: '2026-11-27', amount: 385.00, setAside: 385.00 },
+        { id: 'pb2', name: 'EnergyAustralia', source: 'Direct debit', freq: 'Monthly', due: '2026-12-01', amount: 214.60, setAside: 214.60 },
+        { id: 'pb3', name: 'Telstra', source: 'Direct debit', freq: 'Monthly', due: '2026-12-07', amount: 89.00, setAside: 89.00 },
+        { id: 'pb4', name: 'Sydney Water', source: 'Recurring BPAY', freq: 'Quarterly', due: '2026-12-11', amount: 168.40, setAside: 168.40 },
+        { id: 'pb5', name: 'Bupa health insurance', source: 'Direct debit', freq: 'Monthly', due: '2026-12-14', amount: 246.00, setAside: 123.00 }
       ],
       wesley: { intensity: '2×', elig: { dir: 'above', amt: 10 }, feeCover: true, digest: 'weekly' }
     },
@@ -882,6 +912,12 @@
         { id: 'buffer', name: 'Buffer', type: 'bucket', amount: 400.00, color: '#0067b1', note: 'Personal buffer', fixed: true },
         { id: 'renovation', name: 'Café Renovation', type: 'goal', amount: 5800.00, target: 15000.00, targetDate: 'Mid 2028', color: '#f0a500', note: 'Equipment upgrade', fixed: false }
       ],
+      detectedBills: [
+        { id: 'sb1', name: 'Anytime Fitness Bondi', source: 'Existing transaction', freq: 'Fortnightly', due: '2026-11-28', amount: 39.95, setAside: 39.95 },
+        { id: 'sb2', name: 'Vodafone', source: 'Direct debit', freq: 'Monthly', due: '2026-12-03', amount: 55.00, setAside: 55.00 },
+        { id: 'sb3', name: 'Origin Energy', source: 'Recurring BPAY', freq: 'Monthly', due: '2026-12-09', amount: 142.30, setAside: 142.30 },
+        { id: 'sb4', name: 'NRMA car insurance', source: 'Direct debit', freq: 'Monthly', due: '2026-12-15', amount: 212.75, setAside: 212.75 }
+      ],
       wesley: { intensity: '5×', elig: { dir: 'above', amt: 5 }, feeCover: true, digest: 'daily' }
     },
 
@@ -916,6 +952,12 @@
         { id: 'buffer', name: 'Buffer', type: 'bucket', amount: 300.00, color: '#0067b1', note: 'Rainy day fund', fixed: true },
         { id: 'grandkids', name: 'Grandkids Christmas', type: 'goal', amount: 600.00, target: 1000.00, targetDate: 'Dec 2026', color: '#db2777', note: 'Nearly there! 60%', fixed: false },
         { id: 'caravan', name: 'Caravan Trip', type: 'goal', amount: 3200.00, target: 8000.00, targetDate: 'Oct 2027', color: '#008a4b', note: 'Lap of Australia', fixed: false }
+      ],
+      detectedBills: [
+        { id: 'mb1', name: 'Telstra landline & internet', source: 'Direct debit', freq: 'Monthly', due: '2026-12-04', amount: 79.00, setAside: 79.00 },
+        { id: 'mb2', name: 'Origin Energy (gas & electricity)', source: 'Existing transaction', freq: 'Monthly', due: '2026-12-12', amount: 186.20, setAside: 186.20 },
+        { id: 'mb3', name: 'Cronulla Bowls Club', source: 'Existing transaction', freq: 'Monthly', due: '2026-12-14', amount: 95.00, setAside: 95.00 },
+        { id: 'mb4', name: 'Medibank health insurance', source: 'Direct debit', freq: 'Monthly', due: '2026-12-16', amount: 159.80, setAside: 159.80 }
       ],
       wesley: { intensity: '1×', elig: { dir: 'above', amt: 5 }, feeCover: true, digest: 'weekly' }
     }
@@ -1690,6 +1732,27 @@
   var currentSelectedColor = PRESET_COLORS[0];
   var currentPlanType = 'goal';
 
+  var billsOpen = false;
+
+  function getDetectedBills(){
+    if (!user) return [];
+    if (user.detectedBills && user.detectedBills.length) return user.detectedBills;
+    var seed = DEMO_USERS[user.id];
+    return (seed && seed.detectedBills) ? seed.detectedBills : [];
+  }
+
+  function formatBillDue(iso){
+    var parts = (iso || '').split('-');
+    if (parts.length !== 3) return iso || '';
+    var d = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+    return d.toLocaleDateString('en-AU', { weekday: 'short', day: 'numeric', month: 'short' });
+  }
+
+  function toggleBills(){
+    billsOpen = !billsOpen;
+    renderSavingsPlan();
+  }
+
   function renderSavingsPlan(){
     var allocBar = document.getElementById('savingsAllocBar');
     var legend = document.getElementById('savingsLegend');
@@ -1726,11 +1789,45 @@
         progressHtml = '<div class="pnote" style="color:' + (item.id === 'bills' ? 'var(--success)' : 'var(--muted)') + '">' + escapeHtml(item.note || 'Cash bucket') + '</div>';
       }
 
+      var billsHtml = '';
+      if (item.id === 'bills') {
+        var bills = getDetectedBills().slice().sort(function(a, b){ return (a.due || '').localeCompare(b.due || ''); });
+        if (bills.length > 0) {
+          var totalDue = 0;
+          var totalSet = 0;
+          var rowsHtml = bills.map(function(b){
+            var amt = Number(b.amount) || 0;
+            var set = Number(b.setAside) || 0;
+            totalDue += amt;
+            totalSet += set;
+            var covered = set >= amt;
+            var bPct = amt > 0 ? Math.min(100, Math.round((set / amt) * 100)) : 100;
+            var statusHtml = covered
+              ? '<div class="bs ok">✓ Set aside</div>'
+              : '<div class="bs part">' + money(set) + ' of ' + money(amt) + '</div>' +
+                '<div class="potbar"><span style="width:' + bPct + '%;background:#f0a500"></span></div>';
+            return '<div class="bill-row">' +
+              '<div class="bn">' + escapeHtml(b.name) + '</div>' +
+              '<div class="ba">' + money(amt) + '</div>' +
+              '<div class="bm">' + escapeHtml(b.source) + ' · ' + escapeHtml(b.freq) + ' · Due ' + escapeHtml(formatBillDue(b.due)) + '</div>' +
+              statusHtml +
+            '</div>';
+          }).join('');
+          billsHtml = '<button type="button" class="bills-toggle" aria-expanded="' + billsOpen + '" aria-controls="billsList" onclick="toggleBills()">' +
+            '<svg class="spk" width="14" height="14" viewBox="0 0 24 24" fill="url(#sgrad)" aria-hidden="true"><use href="#spark"/></svg>' +
+            bills.length + ' bills detected by BankSmart<span class="chev">▾</span></button>' +
+            '<div class="bills-list" id="billsList"' + (billsOpen ? '' : ' hidden') + '>' + rowsHtml +
+            '<div class="bills-foot"><span>Set aside ' + money(totalSet) + ' of ' + money(totalDue) + '</span>' +
+            '<a onclick="openWesley(\'Which bills have you detected?\')">Ask Wesley</a></div></div>';
+        }
+      }
+
       return '<div class="pot">' +
         delBtn +
         '<div class="pn"><span class="dot" style="background:' + item.color + '"></span><span>' + escapeHtml(item.name) + '</span>' + tag + '</div>' +
         '<div class="pv">' + money(item.amount) + '</div>' +
         progressHtml +
+        billsHtml +
       '</div>';
     }).join('');
 
@@ -2079,6 +2176,20 @@
       return {
         html: "Here are your active savings goals:<br>" + listHtml + "<br>Would you like to add another?",
         chips: ["Custom Goal / Bucket", "Save harder", "All good"]
+      };
+    }
+    if (/bill/.test(t)) {
+      var detected = getDetectedBills().slice().sort(function(a, b){ return (a.due || '').localeCompare(b.due || ''); });
+      if (detected.length === 0) {
+        return { html: "I haven't detected any recurring bills for this profile yet.", chips: ["Open dashboard", "Thanks"] };
+      }
+      var totalSetAside = detected.reduce(function(sum, b){ return sum + (Number(b.setAside) || 0); }, 0);
+      var billsListHtml = detected.map(function(b){
+        return '• <strong>' + escapeHtml(b.name) + '</strong>: ' + money(b.amount) + ' (due ' + escapeHtml(formatBillDue(b.due)) + ')';
+      }).join('<br>');
+      return {
+        html: "I've detected <strong>" + detected.length + " upcoming bills</strong> and set aside <strong>" + money(totalSetAside) + "</strong> in your Bills bucket:<br>" + billsListHtml,
+        chips: ["Open dashboard", "Thanks"]
       };
     }
     if (/forecast|ahead|future|run dry|short|next month/.test(t)) {

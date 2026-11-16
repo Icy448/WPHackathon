@@ -6,6 +6,7 @@ A self-contained single-page mock of a Westpac-style online banking site featuri
 
 - Styled with GEL-inspired design tokens (Westpac red `#DA1710`).
 - Features BankSmart AI settings for income splitting (into pots) and transaction round-up increments ($1, $5, $10, $50, $100).
+- Bills bucket lists the recurring bills BankSmart has detected.
 - `index.html` is fully self-contained — just open it in any modern browser.
 
 ---
