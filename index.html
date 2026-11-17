@@ -1636,6 +1636,14 @@
     </div>
   </div>
 
+  <!-- Brief loading flash between the welcome popup and onboarding -->
+  <div class="modal-backdrop" id="welcomeLoad" hidden>
+    <div style="text-align:center;color:#fff">
+      <div class="ob-spin" style="color:#fff;font-size:46px">✦</div>
+      <div style="margin-top:14px;font-size:16px;font-weight:600">Getting things ready…</div>
+    </div>
+  </div>
+
   <!-- Onboarding wizard -->
   <div class="modal-backdrop" id="onboardModal" hidden>
     <div class="modal-box" role="dialog" aria-modal="true" style="max-width:480px">
@@ -3060,7 +3068,15 @@
     document.getElementById('welcomeModal').hidden = false;
   }
   function welcomeNotNow(){ var w = wz(); w.welcomeSeen = true; saveStore(); document.getElementById('welcomeModal').hidden = true; obPromptUpdate(); showToast('No worries — you can set up Wesley any time on the BankSmart page.'); }
-  function welcomeTakeMeThere(){ var w = wz(); w.welcomeSeen = true; saveStore(); document.getElementById('welcomeModal').hidden = true; setMode('personal'); go('banksmart'); setTimeout(startOnboarding, 250); }
+  function welcomeTakeMeThere(){
+    var w = wz(); w.welcomeSeen = true; saveStore();
+    document.getElementById('welcomeModal').hidden = true;
+    setMode('personal'); go('banksmart');
+    // Brief loading flash so the hand-off into onboarding feels smooth, not stuttered.
+    var load = document.getElementById('welcomeLoad');
+    if (load) load.hidden = false;
+    setTimeout(function(){ if (load) load.hidden = true; startOnboarding(); }, 700);
+  }
   // Questions are relaxed and optional; some only appear based on earlier answers,
   // so the progress bar moves at its own pace (no "x of y" count shown).
   // Step types: 'single' (tap to advance), 'multi' (tick several, then Continue),
@@ -7095,7 +7111,7 @@
     sessionStorage.removeItem(SESSION_KEY);
   } catch (e) {}
   store = loadStore();
-  ['planModal', 'whatIfModal', 'utilModal', 'txModal', 'uiConfirmModal', 'welcomeModal', 'onboardModal', 'notifDropdown'].forEach(function(id){
+  ['planModal', 'whatIfModal', 'utilModal', 'txModal', 'uiConfirmModal', 'welcomeModal', 'welcomeLoad', 'onboardModal', 'notifDropdown'].forEach(function(id){
     var el = document.getElementById(id); if (el) el.hidden = true;
   });
   try { closeWesley(); } catch (e) {}
