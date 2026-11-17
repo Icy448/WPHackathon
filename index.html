@@ -2964,8 +2964,8 @@
   // Demo reset: wipe saved data and reload so the welcome + onboarding run fresh.
   function resetDemo(){
     uiConfirm({
-      title: 'Reset what Wesley has learned?',
-      body: 'This clears everything Wesley has tuned for you — your focus, savings pace, round-ups, weekly auto-save and feature choices — and runs the quick setup again from the start. Your accounts and transactions stay exactly as they are.',
+      title: 'Reset Wesley?',
+      body: 'This clears everything Wesley has tuned for you — your focus, savings pace, round-ups, weekly auto-save and feature choices — and takes you right back to the first-time welcome, as if you\'d just signed up. Your accounts and transactions stay exactly as they are.',
       confirmLabel: 'Reset & set up again',
       cancelLabel: 'Cancel',
       danger: true,
@@ -2974,20 +2974,23 @@
   }
   function resetWesleyLearning(){
     if (!user) return;
-    // Wipe Wesley's tuned/learned state back to defaults, but keep AI enabled and
-    // leave the user's accounts/transactions untouched. wz() backfills the defaults.
+    // Full reset to a first-login state: clears everything Wesley has learned AND the
+    // onboarded/welcomeSeen flags, so the first-time welcome popup appears again.
+    // Accounts and transactions are left untouched. wz() backfills the defaults.
     user.wesley = { aiEnabled: true };
     wz();
     user.bsSettings = user.bsSettings || {};
     user.bsSettings.roundUp = { enabled: true, step: 1, dest: (user.bsSettings.roundUp && user.bsSettings.roundUp.dest) || '', rules: [] };
+    user.billCover = null;               // clear any bill-cover banner/plan state
     saveStore();
     try { resetChat(); } catch(e){}      // clear Wesley's chat memory too
     try { closeWesley(); } catch(e){}
     setMode('personal');
-    go('banksmart');
+    go('overview');
     renderAll();
-    // Run the onboarding flow again so the user re-tunes Wesley.
-    setTimeout(startOnboarding, 200);
+    try { updateNotifBadge(); } catch(e){}
+    // Bring back the first-login welcome popup (which then leads into onboarding).
+    setTimeout(maybeShowWelcome, 250);
   }
 
   // ===== AI master toggle / disabled state =====
