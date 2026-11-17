@@ -3013,7 +3013,7 @@
       { v: 'control', l: '🧭 Keeping an eye on things' },
       { v: 'avoid', l: '🌊 Smoothing out the ups and downs' },
       { v: 'explore', l: '👀 Just having a look for now' }] },
-    { key: 'goalKind', q: 'Nice — what are you putting money towards?', show: function(a){ return a.focus === 'save'; }, opts: [
+    { key: 'goalKind', type: 'multi', q: 'Nice — what are you putting money towards?', hint: 'Pick any that apply — Wesley can track more than one.', show: function(a){ return a.focus === 'save'; }, opts: [
       { v: 'trip', l: '✈️ A trip or holiday' }, { v: 'home', l: '🏡 A home or rental bond' }, { v: 'car', l: '🚗 A car or a big buy' }, { v: 'rainy', l: '☔ A rainy-day fund' }, { v: 'other', l: '✨ Something else' }] },
     { key: 'style', q: 'How would you like Wesley to work with you?', opts: [
       { v: 'auto', l: '🤝 Take care of the small stuff for me' }, { v: 'suggest', l: '💡 Suggest things, I\'ll decide' }, { v: 'insights', l: '📊 Just show me the insights' }] },
@@ -3118,7 +3118,7 @@
     if (obA.roundupsOn === true && obA.roundStep) user.bsSettings.roundUp.step = obA.roundStep;
     if (obA.digest) { w.digest = obA.digest; try { ctx.digest = obA.digest; } catch(e){} }
     if (obA.focus) w.focus = obA.focus;
-    if (obA.goalKind) w.goalKind = obA.goalKind;
+    if (obA.goalKind && obA.goalKind.length) w.goalKind = obA.goalKind;
     if (obA.style) w.style = obA.style;
     w.onboarded = true; w.aiEnabled = true;
     saveStore();
