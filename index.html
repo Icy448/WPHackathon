@@ -17,6 +17,9 @@
   a:hover{text-decoration:underline}
   .screen[hidden]{display:none}
   .page[hidden]{display:none}
+  .page.page-enter{animation:pagein .5s ease both}
+  @keyframes pagein{0%{opacity:0;transform:translateY(8px)}40%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.page.page-enter{animation:none}}
   .mode[hidden]{display:none}
   .banksmart-tab[hidden],.wesley-fab[hidden],.promo[hidden],.notif-wesley-bar[hidden],.ai-off-banner[hidden],.arow[hidden]{display:none !important}
   .wmark{display:inline-block;line-height:0;cursor:pointer;user-select:none;-webkit-user-select:none;transition:transform .12s cubic-bezier(0.175, 0.885, 0.32, 1.275)}
@@ -1640,7 +1643,7 @@
   <div class="modal-backdrop" id="welcomeLoad" hidden>
     <div style="text-align:center;color:#fff">
       <div class="ob-spin" style="color:#fff;font-size:46px">✦</div>
-      <div style="margin-top:14px;font-size:16px;font-weight:600">Getting things ready…</div>
+      <div id="welcomeLoadMsg" style="margin-top:14px;font-size:16px;font-weight:600">Getting things ready…</div>
     </div>
   </div>
 
@@ -2373,7 +2376,18 @@
     login(found ? found.id : 'alex');
   });
 
+  function showLoad(msg, ms, cb){
+    var el = document.getElementById('welcomeLoad'), t = document.getElementById('welcomeLoadMsg');
+    if (!el) { cb(); return; }
+    if (t) t.textContent = msg;
+    el.hidden = false;
+    setTimeout(function(){ el.hidden = true; cb(); }, ms);
+  }
   function login(userId){
+    try { closeDemoMenu(); } catch(e){}
+    showLoad('Signing you in…', 900, function(){ doLogin(userId); });
+  }
+  function doLogin(userId){
     if (!store.users[userId]) userId = 'alex';
     user = store.users[userId];
     ensureUserBSSettings(user);
@@ -2506,7 +2520,11 @@
       if (!m) return;
     }
     m.querySelectorAll('.page').forEach(function(p){
-      p.hidden = (p.getAttribute('data-page') !== page);
+      var show = (p.getAttribute('data-page') === page);
+      p.hidden = !show;
+      // Short fade so page changes aren't instant.
+      p.classList.remove('page-enter');
+      if (show) { void p.offsetWidth; p.classList.add('page-enter'); }
     });
     var key = (page === 'account') ? 'overview' : ((page === 'approval' || page === 'inbox') ? null : (page === 'bs-settings' ? ((user && !wz().aiEnabled) ? 'settings' : 'banksmart') : page));
     m.querySelectorAll('nav.tabs a').forEach(function(a){
@@ -2519,7 +2537,8 @@
     }
     if (page === 'inbox') renderNotificationsPage();
     if (page === 'approval') renderBusinessApprovals();
-    if (page === 'banksmart' && user && wz().aiEnabled) { try { requestAnimationFrame(animateBankSmartEntry); } catch(e){} }
+    // Numbers and bars start filling only once the page has faded in.
+    if (page === 'banksmart' && user && wz().aiEnabled) { clearTimeout(go._t); go._t = setTimeout(function(){ try { animateBankSmartEntry(); } catch(e){} }, 240); }
     window.scrollTo(0, 0);
   }
 
@@ -3073,9 +3092,7 @@
     document.getElementById('welcomeModal').hidden = true;
     setMode('personal'); go('banksmart');
     // Brief loading flash so the hand-off into onboarding feels smooth, not stuttered.
-    var load = document.getElementById('welcomeLoad');
-    if (load) load.hidden = false;
-    setTimeout(function(){ if (load) load.hidden = true; startOnboarding(); }, 700);
+    showLoad('Getting things ready…', 700, startOnboarding);
   }
   // Questions are relaxed and optional; some only appear based on earlier answers,
   // so the progress bar moves at its own pace (no "x of y" count shown).
