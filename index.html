@@ -502,6 +502,14 @@
   .sub-row button.undo-sub{border-color:#c7c7c7;color:#555}
   .sub-row button.undo-sub:hover{background:#f1f1f1;color:#111}
   .subs-total{margin-top:12px;font-size:13px;background:var(--success-bg);color:var(--success);font-weight:700;padding:8px 12px;border-radius:8px}
+  .util-row{display:flex;gap:12px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--line)}
+  .util-row:first-of-type{padding-top:4px}
+  .util-ic{font-size:24px;line-height:1;flex-shrink:0;margin-top:2px}
+  .util-main{flex:1;min-width:0}
+  .util-top{font-size:15px;margin-bottom:3px}
+  .util-rate{font-size:12.5px;color:var(--muted);margin-bottom:5px}
+  .util-proj{font-size:13.5px}
+  .util-total{margin-top:14px;font-size:14px;background:var(--soft);border:1px solid var(--line2);padding:11px 14px;border-radius:10px}
   .watchbar{height:5px;background:var(--line);border-radius:3px;margin-top:6px;max-width:220px;overflow:hidden}
   .watchbar span{display:block;height:100%;background:var(--info)}
   .wi-result{border-radius:10px;padding:14px 16px;font-size:13.5px;line-height:1.55;background:#f4f5f7;border:1px solid #e0e0e0}
@@ -1031,7 +1039,7 @@
           <div class="ai-tool"><div class="ic">⟳</div><h4>Smart sweeps</h4><p>Move spare money into savings on good weeks, ease off on tight ones.</p><button onclick="openWesley('Tell me about smart sweeps')">Manage</button></div>
           <div class="ai-tool"><div class="ic">🛡️</div><h4>Bill cover</h4><p>Spent more than planned? Wesley tops up your bills from savings, then helps you refill.</p><button onclick="openWesley('How does bill cover work?')">Manage</button></div>
           <div class="ai-tool"><div class="ic">🎁</div><h4>Offers for you</h4><p>Deals you actually qualify for, spotted from your own spending.</p><button onclick="openWesley('What offers do I qualify for?')">See offers</button></div>
-          <div class="ai-tool"><div class="ic">🎯</div><h4>Goals &amp; buckets</h4><p>Create savings goals and spending buckets Wesley fills for you.</p><button onclick="openPlanModal()">Create</button></div>
+          <div class="ai-tool"><div class="ic">⚡</div><h4>Utilities tracker</h4><p>Wesley estimates your next power, gas &amp; water bills from your usage and your provider's rates.</p><button onclick="openUtilities()">View</button></div>
           <div class="ai-tool"><div class="ic">🔁</div><h4>Subscription check</h4><p>After 6 months, Wesley checks if paying yearly beats paying monthly.</p><button onclick="openWesley('Should any subscriptions go annual?')">Check</button></div>
         </div>
 
@@ -1502,6 +1510,17 @@
     </div>
   </div>
 
+  <!-- Modal: Utilities tracker -->
+  <div class="modal-backdrop" id="utilModal" hidden onclick="if(event.target===this)closeUtilities()">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="utilModalTitle">
+      <div class="modal-head">
+        <h2 id="utilModalTitle"><span>⚡</span> Utilities tracker</h2>
+        <button class="modal-close" onclick="closeUtilities()" aria-label="Close dialog">✕</button>
+      </div>
+      <div id="utilBody"></div>
+    </div>
+  </div>
+
   <!-- Modal: Add Transaction -->
   <div class="modal-backdrop" id="txModal" hidden onclick="if(event.target===this)closeTxModal()">
     <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="txModalTitle">
@@ -1738,6 +1757,8 @@
       detectedBills: [
         { id: 'ab1', name: 'Netflix', source: 'Netflix.com transaction', freq: 'Monthly', due: '2026-12-13', amount: 18.99, setAside: 18.99 },
         { id: 'ab2', name: 'AGL Energy (electricity)', source: 'Recurring BPAY', freq: 'Quarterly', due: '2026-12-14', amount: 246.00, setAside: 246.00 },
+        { id: 'ab2b', name: 'Sydney Water', source: 'Recurring BPAY', freq: 'Quarterly', due: '2026-12-21', amount: 212.40, setAside: 212.40 },
+        { id: 'ab2c', name: 'AGL Gas', source: 'Recurring BPAY', freq: 'Quarterly', due: '2026-12-28', amount: 158.70, setAside: 158.70 },
         { id: 'ab3', name: 'Optus (mobile + internet)', source: 'Direct debit', freq: 'Monthly', due: '2026-12-15', amount: 139.00, setAside: 139.00 },
         { id: 'ab4', name: 'Youi contents insurance', source: 'Direct debit', freq: 'Annual', due: '2026-12-17', amount: 208.01, setAside: 208.01 }
       ],
@@ -4235,6 +4256,68 @@
     saveStore(); renderSubscriptions(); renderWesleyInsights();
     showToast('↩ ' + sub.name + ' is back on monthly billing');
   }
+  // ===== Utilities tracker (estimates next bills from usage × provider rates; dummy rates) =====
+  var UTIL_RATES = {
+    electricity: { label: 'Electricity', icon: '⚡', unit: 'kWh', rate: 28.6, supply: 105 }, // rate c/unit, supply c/day
+    gas:         { label: 'Gas',         icon: '🔥', unit: 'MJ',  rate: 4.15, supply: 80 },
+    water:       { label: 'Water',       icon: '💧', unit: 'kL',  rate: 298,  supply: 72 }
+  };
+  function classifyUtility(name){
+    var n = (name || '').toLowerCase();
+    if (/water/.test(n)) return 'water';
+    if (/gas/.test(n) && !/electric/.test(n)) return 'gas';
+    if (/energy|electric|power|agl|origin|energyaustralia|synergy|ergon|alinta|aurora/.test(n)) return 'electricity';
+    return null;
+  }
+  function utilDaysForFreq(f){ f = (f || '').toLowerCase(); if (/quarter/.test(f)) return 91; if (/fortn/.test(f)) return 14; if (/year|annual/.test(f)) return 365; return 30; }
+  function cleanProvider(name){ return (name || '').replace(/\s*\(.*?\)\s*/g, ' ').replace(/\s*[—-].*$/, '').trim(); }
+  function utilityData(){
+    var bills = (user && (user.detectedBills || getDetectedBills())) || [];
+    var seedStr = (user && user.id) || 'x'; var seed = 0; for (var i = 0; i < seedStr.length; i++) seed += seedStr.charCodeAt(i);
+    var out = [];
+    bills.forEach(function(b, bi){
+      var kind = classifyUtility(b.name); if (!kind) return;
+      var r = UTIL_RATES[kind], days = utilDaysForFreq(b.freq);
+      var supplyCost = Math.round(r.supply * days) / 100;
+      var usageCost = Math.max(5, (b.amount || 0) - supplyCost);
+      var usage = Math.round(usageCost / (r.rate / 100));
+      var trendPct = ((seed + bi * 17) % 13) - 4; // roughly -4%..+8%
+      var projUsage = Math.max(1, Math.round(usage * (1 + trendPct / 100)));
+      var projected = Math.round((projUsage * (r.rate / 100) + supplyCost) * 100) / 100;
+      out.push({ kind: kind, label: r.label, icon: r.icon, provider: cleanProvider(b.name), unit: r.unit, rate: r.rate, supply: r.supply, days: days, usage: usage, projUsage: projUsage, lastBill: b.amount, projected: projected, trendPct: trendPct, due: b.due });
+    });
+    return out;
+  }
+  function openUtilities(){
+    if (!user) return;
+    var body = document.getElementById('utilBody'); if (!body) return;
+    var data = utilityData();
+    if (!data.length) {
+      body.innerHTML = '<p class="muted" style="font-size:14px">I haven\'t spotted any power, gas or water bills in your transactions yet. As soon as one comes through, I\'ll start estimating your next bill here.</p>';
+      document.getElementById('utilModal').hidden = false; return;
+    }
+    var totalProj = data.reduce(function(a, u){ return a + u.projected; }, 0);
+    var totalLast = data.reduce(function(a, u){ return a + (u.lastBill || 0); }, 0);
+    var rows = data.map(function(u){
+      var arrow = u.trendPct > 1 ? '▲' : u.trendPct < -1 ? '▼' : '▬';
+      var tcol = u.trendPct > 1 ? '#c4703a' : u.trendPct < -1 ? '#2fa37e' : 'var(--muted)';
+      var rateStr = u.kind === 'water' ? ('$' + (u.rate / 100).toFixed(2) + '/' + u.unit) : (u.rate + 'c/' + u.unit);
+      return '<div class="util-row"><div class="util-ic">' + u.icon + '</div><div class="util-main">' +
+        '<div class="util-top"><strong>' + escapeHtml(u.label) + '</strong> · <span class="muted">' + escapeHtml(u.provider) + '</span></div>' +
+        '<div class="util-rate">' + rateStr + ' + ' + (u.supply / 100).toFixed(2) + '/day supply · ~' + u.usage.toLocaleString() + ' ' + u.unit + ' over ' + u.days + ' days</div>' +
+        '<div class="util-proj">Projected next bill: <strong>' + money(u.projected) + '</strong> <span style="color:' + tcol + ';font-weight:700">' + arrow + ' ' + Math.abs(u.trendPct) + '%</span> <span class="muted">vs last ' + money(u.lastBill) + '</span></div>' +
+        '</div></div>';
+    }).join('');
+    var up = data.slice().sort(function(a, b){ return b.trendPct - a.trendPct; })[0];
+    var tipText = (up && up.trendPct > 1) ? 'Your ' + up.label.toLowerCase() + ' is trending up about ' + up.trendPct + '%. I can tuck a little aside each week so the next bill doesn\'t sting.' : 'Your usage looks steady. I can still set a little aside each week so these are covered when they land.';
+    body.innerHTML =
+      '<p style="font-size:13.5px;color:var(--muted);margin-bottom:12px">I estimate your upcoming bills from your recent usage and each provider\'s rates (cents per kWh, MJ or litre). These are prototype figures — a live version would keep the rates current for you automatically.</p>' +
+      rows +
+      '<div class="util-total">Projected utilities next cycle: <strong>' + money(totalProj) + '</strong> <span class="muted">(last ~' + money(totalLast) + ')</span></div>' +
+      '<div class="fcap" style="margin-top:12px"><span class="ic">⚡</span><span><strong>Heads-up.</strong> ' + tipText + ' <a style="cursor:pointer;color:var(--brand);font-weight:700" onclick="closeUtilities();openWesley(\'Set aside for my utility bills\')">Set aside for these</a></span></div>';
+    document.getElementById('utilModal').hidden = false;
+  }
+  function closeUtilities(){ var m = document.getElementById('utilModal'); if (m) m.hidden = true; }
   function subProvider(s){
     // Friendly provider name to point the customer at (they make the switch themselves).
     var n = (s.name || '').trim();
@@ -6719,6 +6802,21 @@
       return { html: "Bill cover is <strong>" + (on ? "on" : "off") + "</strong>. If a purchase is bigger than your Safe to spend, it would eat into money set aside for bills. When that happens I automatically top your bills back up from savings, tell you straight away, and then give you three ways to refill: increase round-ups, a bigger lump sum, or a bit of both.", chips: ["Can I afford something?", "Open dashboard"] };
     }
 
+    // ===== Utilities tracker =====
+    if (!notifIntent && /utilit|electric|power bill|water bill|gas bill|kwh|energy bill|set aside for.*(util|bill)/.test(t)) {
+      ctx.topic = 'utils';
+      var ud = (typeof utilityData === 'function') ? utilityData() : [];
+      if (!ud.length) return { html: "I haven't spotted any power, gas or water bills in your transactions yet. As soon as one comes through, I'll start estimating your next bill from your usage and your provider's rates.", chips: ["Open dashboard", "Thanks"] };
+      var tProj = ud.reduce(function(a, u){ return a + u.projected; }, 0);
+      var perWeek = Math.max(5, Math.round(tProj / 13 / 5) * 5); // rough weekly set-aside across a quarter
+      if (/set aside|save|cover|put.*aside/.test(t)) {
+        return { html: "Good call. Based on your projected bills (about <strong>" + money(tProj) + "</strong> next cycle), I'd tuck away around <strong>" + money(perWeek) + " a week</strong> into a 'Utilities' bucket so each bill is already covered when it lands. Want me to set that up?", chips: ["Yes, set it up", "Not yet"] };
+      }
+      return { html: "Here's where your utilities are heading, based on your usage and each provider's rates:<br>" +
+        ud.map(function(u){ return "• <strong>" + escapeHtml(u.label) + "</strong> (" + escapeHtml(u.provider) + "): about <strong>" + money(u.projected) + "</strong> next bill" + (u.trendPct > 1 ? " (up ~" + u.trendPct + "%)" : u.trendPct < -1 ? " (down ~" + Math.abs(u.trendPct) + "%)" : "") + " — ~" + u.usage.toLocaleString() + " " + u.unit; }).join("<br>") +
+        "<br>That's about <strong>" + money(tProj) + "</strong> altogether. Want me to set a little aside each week so they're covered?",
+        chips: ["Set aside for my utility bills", "Thanks"] };
+    }
     // ===== Subscription savings (Wesley finds the deal; the customer makes the switch) =====
     if (!notifIntent && /subscri|annual|yearly|pay (for )?the year/.test(t)) {
       ctx.topic = 'subs';
