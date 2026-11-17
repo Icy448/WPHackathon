@@ -1617,16 +1617,16 @@
 
   <!-- First-time Wesley welcome -->
   <div class="modal-backdrop" id="welcomeModal" hidden>
-    <div class="modal-box" role="dialog" aria-modal="true" style="max-width:480px;text-align:center">
-      <div class="wesley-av" style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#da1710,#ff7468);display:flex;align-items:center;justify-content:center;margin:0 auto 14px"><svg width="40" height="40" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>
-      <h2 style="font-size:22px;margin-bottom:6px">Hey, I'm Wesley 👋</h2>
-      <p style="font-size:14.5px;color:#444;line-height:1.55;margin-bottom:14px">Think of me as a handy sidekick for the fiddly money admin — totally optional, and you're always in the driver's seat. A few things I can lend a hand with:</p>
+    <div class="modal-box" role="dialog" aria-modal="true" style="max-width:420px;text-align:center;max-height:88vh;overflow-y:auto">
+      <div class="wesley-av" style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#da1710,#ff7468);display:flex;align-items:center;justify-content:center;margin:0 auto 12px"><svg width="34" height="34" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>
+      <h2 style="font-size:21px;margin-bottom:6px">Hey, I'm Wesley 👋</h2>
+      <p style="font-size:14px;color:#444;line-height:1.5;margin-bottom:12px">Think of me as a hands-on helper for the fiddly money admin — totally optional, and you're always in control. A few things I can do:</p>
       <ul class="wel-list">
-        <li>🧮 Sense-check a purchase if you'd like a second opinion</li>
+        <li>🧮 Sense-check a purchase before you buy</li>
+        <li>⚡ Estimate your power &amp; water bills — even what running the aircon costs</li>
         <li>🪙 Put your spare change to work, automatically</li>
-        <li>🛡️ Keep an eye on bills and fees so there are no surprises</li>
-        <li>📈 Show you how your money moves month to month</li>
-        <li>🎁 Flag offers you already qualify for</li>
+        <li>🛡️ Keep bills and fees covered so there are no surprises</li>
+        <li>📈 Show how your money moves month to month</li>
       </ul>
       <p style="font-size:13px;color:var(--muted);line-height:1.5;margin-top:4px">Takes under a minute to set up — or skip it, no worries.</p>
       <div style="display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap">
@@ -7087,16 +7087,23 @@
   renderDemoMenu();
   renderLogoMarks();
 
-  var savedUserId = sessionStorage.getItem(SESSION_KEY);
-  if (savedUserId && store.users[savedUserId]) {
-    login(savedUserId);
-  } else {
-    // Show login screen
-    loginEl.hidden = false;
-    appEl.hidden = true;
-    var demoBtn = document.getElementById('demoLoginBtn');
-    if (demoBtn) demoBtn.style.display = 'inline-flex';
-  }
+  // Demo: every refresh starts clean. Wipe saved data + session and close any
+  // open popouts, so the page always resets to the first-run login state.
+  try {
+    localStorage.removeItem(STORE_KEY);
+    localStorage.removeItem('banksmart_savings_plan_items');
+    sessionStorage.removeItem(SESSION_KEY);
+  } catch (e) {}
+  store = loadStore();
+  ['planModal', 'whatIfModal', 'utilModal', 'txModal', 'uiConfirmModal', 'welcomeModal', 'onboardModal', 'notifDropdown'].forEach(function(id){
+    var el = document.getElementById(id); if (el) el.hidden = true;
+  });
+  try { closeWesley(); } catch (e) {}
+  // Always show the login screen fresh (no auto-resume).
+  loginEl.hidden = false;
+  appEl.hidden = true;
+  var demoBtn = document.getElementById('demoLoginBtn');
+  if (demoBtn) demoBtn.style.display = 'inline-flex';
 </script>
 </body>
 </html>
