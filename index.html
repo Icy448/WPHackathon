@@ -673,6 +673,34 @@
   .lp-demo button:hover{background:var(--brand);color:#fff}
   .lp-demo button.ghost{border-color:var(--line2);color:var(--muted)}
   @media(max-width:760px){.lp-grid,.lp-stats{grid-template-columns:1fr}.moment-stack{top:auto;bottom:96px;right:16px}}
+  /* welcome / onboarding / confirm / disabled / bar graph */
+  .wel-list{list-style:none;margin:0 auto;padding:0;max-width:330px;text-align:left;display:flex;flex-direction:column;gap:9px;font-size:14px;color:#333}
+  .miss-list{list-style:none;margin:10px 0;padding:0;display:flex;flex-direction:column;gap:7px;font-size:14px}
+  .signinbtn.danger{background:#c4121a}
+  .signinbtn.danger:hover{background:#9c0e15}
+  .fp-bar-wrap{height:6px;background:#eee;border-radius:999px;overflow:hidden;margin-bottom:18px}
+  .fp-bar-fill{height:100%;background:var(--brand);transition:width .25s}
+  .ob-opt{display:block;width:100%;text-align:left;font-family:inherit;font-size:15px;border:1px solid var(--line2);background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer}
+  .ob-opt:hover{border-color:var(--brand);background:var(--soft)}
+  .bs-disabled-overlay{position:absolute;inset:0;background:rgba(244,245,247,.82);display:flex;align-items:flex-start;justify-content:center;padding:70px 16px 16px;z-index:40;border-radius:8px}
+  .bs-disabled-overlay[hidden]{display:none}
+  .bs-disabled-card{background:#fff;border:1px solid var(--line2);border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.14);padding:28px;max-width:380px;text-align:center}
+  .bs-disabled-card .ic{font-size:34px}
+  .bs-disabled-card h3{font-size:19px;margin:8px 0 6px}
+  .bs-disabled-card p{font-size:14px;color:var(--muted);line-height:1.55;margin-bottom:18px}
+  .bs-disabled-card button{font-family:inherit;font-size:15px;font-weight:700;background:var(--brand);color:#fff;border:none;border-radius:999px;padding:12px 26px;cursor:pointer}
+  .la-chart{margin-top:10px;position:relative}
+  .la-bars{display:flex;align-items:flex-end;gap:12px;padding:0 4px}
+  .la-month{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
+  .la-pair{display:flex;align-items:flex-end;gap:4px;height:150px;width:100%;justify-content:center}
+  .la-bar{width:15px;border-radius:4px 4px 0 0;transition:opacity .15s;min-height:2px}
+  .la-bar.saved{background:var(--success)}
+  .la-bar.spent{background:#c4121a}
+  .la-month:hover .la-bar{opacity:.75}
+  .la-mlabel{font-size:11px;color:var(--muted)}
+  .la-legend{display:flex;gap:18px;font-size:12.5px;color:var(--muted);margin-top:12px}
+  .la-legend i{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:6px;vertical-align:middle}
+  .la-tip{position:absolute;pointer-events:none;background:#222;color:#fff;font-size:12px;padding:8px 10px;border-radius:6px;opacity:0;transform:translate(-50%,-100%);white-space:nowrap;z-index:5;transition:opacity .1s}
 </style>
 </head>
 <body>
@@ -780,6 +808,7 @@
         <!-- Dynamic Personal Accounts Section -->
         <div class="billCoverSlot" data-variant="compact"></div>
         <div id="ovPersonalAccountsSection"></div>
+        <div id="ovPersonalSavingsSection"></div>
         <div id="ovPersonalCardsSection"></div>
         <div id="ovPersonalTermSection"></div>
 
@@ -822,12 +851,26 @@
       </section>
 
       <!-- BankSmart dashboard (overhauled) -->
-      <section class="page" data-page="banksmart" hidden>
+      <section class="page" data-page="banksmart" hidden style="position:relative">
+        <div id="bsDisabledOverlay" class="bs-disabled-overlay" hidden>
+          <div class="bs-disabled-card">
+            <div class="ic">⏸️</div>
+            <h3>Wesley is turned off</h3>
+            <p>Your AI tools are disabled. Turn Wesley back on to use BankSmart's features — it's instant, and your settings are saved.</p>
+            <button onclick="aiMasterEnable()">Enable Wesley</button>
+          </div>
+        </div>
         <div class="bs-header-row">
           <div class="bs-hero"><svg width="36" height="36" viewBox="0 0 24 24" fill="url(#sgrad)" aria-hidden="true"><use href="#spark"/></svg><h1>BankSmart</h1></div>
           <button class="bs-settings-btn" onclick="go('bs-settings')">⚙ Settings &amp; Rules</button>
         </div>
         <div class="bs-tag">Your AI money assistant, <strong>Wesley</strong>, reads your own accounts, transactions and statements to keep money in the right place — and does the little jobs for you. Everything here is optional and fully in your control.</div>
+
+        <!-- Finish onboarding prompt -->
+        <div id="obPrompt" class="ai-off-banner" style="background:#eef6ff;border-color:#bcd9f5;color:#13477a" hidden>
+          <span>👋 <strong>Finish setting up Wesley</strong> — answer a few quick questions and he'll tailor everything to you.</span>
+          <button onclick="startOnboarding()">Set up Wesley</button>
+        </div>
 
         <!-- AI off banner -->
         <div id="aiOffBanner" class="ai-off-banner" hidden>
@@ -880,14 +923,9 @@
         <div class="grid2">
           <div class="panelbox" style="margin:0">
             <h3 style="font-size:16px;margin-bottom:2px">Looking ahead</h3>
-            <div style="font-size:12.5px;color:var(--muted)">Wesley spots a low point before it happens — and smooths it out early.</div>
-            <svg class="chart" viewBox="0 0 560 210" preserveAspectRatio="none" role="img" aria-label="Balance forecast smoothed above zero">
-              <line x1="0" y1="160" x2="560" y2="160" stroke="#e4e6eb" stroke-width="1"/><text x="4" y="176" font-size="12" fill="#9a9ea6" font-family="sans-serif">$0</text>
-              <path d="M0,55 L95,76 L190,104 L285,186 L380,142 L475,104 L560,84" fill="none" stroke="#c4121a" stroke-width="2.5" stroke-dasharray="6 5" opacity=".85"/>
-              <path d="M0,55 L95,80 L190,110 L285,132 L380,122 L475,92 L560,76" fill="none" stroke="var(--brand)" stroke-width="3.5"/>
-              <circle cx="285" cy="186" r="5.5" fill="#c4121a"/><text x="250" y="206" font-size="12" fill="#c4121a" font-family="sans-serif">mid-Dec — bills due</text>
-            </svg>
-            <div class="fcap"><span class="ic">⟳</span><span><strong>I set aside a little early.</strong> A few bills land around the same week next month, so I've been tucking small amounts away ahead of time so you won't run short. — Wesley</span></div>
+            <div style="font-size:12.5px;color:var(--muted)">Your last 6 months of saving and spending. Hover a month to see the exact amounts.</div>
+            <div id="lookAheadChart" class="la-chart"></div>
+            <div class="fcap"><span class="ic">⟳</span><span><strong>I keep an eye on the trend.</strong> When a low point looks likely, I set a little aside ahead of time so you won't run short. — Wesley</span></div>
           </div>
           <div class="panelbox feed" style="margin:0">
             <h3 style="font-size:16px;margin-bottom:8px">What Wesley did for you</h3>
@@ -1398,6 +1436,46 @@
   <div id="bsToast" class="toast" hidden></div>
 
   <!-- ===== Wesley floating chat ===== -->
+  <!-- Reusable confirm modal -->
+  <div class="modal-backdrop" id="uiConfirmModal" hidden onclick="if(event.target===this)uiConfirmClose()">
+    <div class="modal-box" role="dialog" aria-modal="true" style="max-width:440px">
+      <h2 id="uiConfirmTitle" style="font-size:20px;margin-bottom:10px"></h2>
+      <div id="uiConfirmBody" style="font-size:14.5px;color:#333;line-height:1.55"></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:22px">
+        <button type="button" class="applybtn" style="margin:0" id="uiConfirmCancel" onclick="uiConfirmClose()">Cancel</button>
+        <button type="button" class="signinbtn" style="width:auto;padding:12px 22px" id="uiConfirmOk" onclick="uiConfirmRun()">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- First-time Wesley welcome -->
+  <div class="modal-backdrop" id="welcomeModal" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true" style="max-width:480px;text-align:center">
+      <div class="wesley-av" style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#da1710,#ff7468);display:flex;align-items:center;justify-content:center;margin:0 auto 14px"><svg width="40" height="40" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>
+      <h2 style="font-size:22px;margin-bottom:6px">Hey, I'm Wesley 👋</h2>
+      <p style="font-size:14.5px;color:#444;line-height:1.55;margin-bottom:14px">Your AI money assistant. Here are a few things I can do for you:</p>
+      <ul class="wel-list">
+        <li>🧮 Tell you if you can afford something</li>
+        <li>🪙 Round up purchases and grow your savings</li>
+        <li>🛡️ Cover your bills so nothing bounces</li>
+        <li>📈 Spot low points early and prepare for them</li>
+        <li>🎁 Find offers from your own spending</li>
+      </ul>
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap">
+        <button type="button" class="applybtn" style="margin:0" onclick="welcomeNotNow()">Not now</button>
+        <button type="button" class="signinbtn" style="width:auto;padding:12px 24px" onclick="welcomeTakeMeThere()">Take me there</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Onboarding wizard -->
+  <div class="modal-backdrop" id="onboardModal" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true" style="max-width:480px">
+      <div class="fp-bar-wrap"><div id="obBar" class="fp-bar-fill" style="width:0"></div></div>
+      <div id="obBody"></div>
+    </div>
+  </div>
+
   <div class="wesley-fab" onclick="openWesley()"><span class="fblabel">Chat with Wesley</span><svg width="32" height="32" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>
   <div class="moment-stack" id="momentStack" aria-label="Wesley notifications"></div>
   <div class="wesley-panel" id="wesleyPanel" hidden>
@@ -2061,6 +2139,7 @@
     setMode(user.defaultMode || 'personal');
     renderAll();
     window.scrollTo(0, 0);
+    setTimeout(maybeShowWelcome, 400);
   }
 
   function logout(){
@@ -2220,6 +2299,7 @@
 
   function renderPersonalOverview(){
     var acctSec = document.getElementById('ovPersonalAccountsSection');
+    var savSec = document.getElementById('ovPersonalSavingsSection');
     var cardsSec = document.getElementById('ovPersonalCardsSection');
     var termSec = document.getElementById('ovPersonalTermSection');
     if (!acctSec || !user) return;
@@ -2231,52 +2311,49 @@
 
     var totalEveryday = everydayAccounts.reduce(function(sum, a){ return sum + balanceOf(a); }, 0);
     var totalSavings = savingsAccounts.reduce(function(sum, a){ return sum + balanceOf(a); }, 0);
-    var totalTerm = termDeposits.reduce(function(sum, a){ return sum + balanceOf(a); }, 0);
-    var accountsTotal = totalEveryday + totalSavings + totalTerm;
 
-    // Accounts section
-    var accountsHtml = '<div class="tbl"><div class="thead acctcols"><span>Account</span><span class="r">Available</span><span class="r">Current balance</span><span></span></div></div>';
+    // Everyday accounts (savings are shown in their own section below)
+    var accountsHtml = '<div class="tbl"><div class="thead acctcols"><span>Everyday accounts</span><span class="r">Available</span><span class="r">Current balance</span><span></span></div></div>';
     everydayAccounts.forEach(function(acct){
       var bal = balanceOf(acct);
-      var linkedSavings = savingsAccounts.filter(function(s){ return s.linkedTo === acct.id; });
-      var linkedHtml = '';
-
-      if (linkedSavings.length > 0) {
-        linkedSavings.forEach(function(sav){
-          var savBal = balanceOf(sav);
-          linkedHtml += '<div class="linked">' +
-            '<div class="sub-row">' +
-              '<div><div class="nm">' + escapeHtml(sav.name) + ' <span class="tag">Linked savings</span></div><div class="num">' + escapeHtml(sav.number) + '</div></div>' +
-              '<div class="v" id="westpacLifeTotal">' + money(savBal) + '</div>' +
-            '</div>' +
-            '<div id="overviewGoalsContainer"></div>' +
-            '<div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">' +
-              '<button class="hbtn" onclick="openPlanModal(\'goal\')" style="font-size:12.5px;padding:5px 12px;color:var(--brand);border-color:#d9d9d9">' +
-                '<span style="font-weight:700;margin-right:2px">+</span> Add saving goal' +
-              '</button>' +
-              '<button class="hbtn" onclick="openAccount(\'' + sav.id + '\')" style="font-size:12.5px;padding:5px 12px;color:var(--ink);border-color:#d9d9d9">' +
-                'View savings transactions' +
-              '</button>' +
-            '</div>' +
-          '</div>';
-        });
-      }
-
-      accountsHtml += '<div class="acct-main">' +
-        '<div class="main-row">' +
+      accountsHtml += '<div class="acct-main"><div class="main-row">' +
           '<div><div class="nm">' + escapeHtml(acct.name) + '</div><div class="num">' + escapeHtml(acct.number) + '</div></div>' +
           '<div class="v">' + money(bal) + '</div><div class="v">' + money(bal) + '</div>' +
           '<button class="expand" onclick="openAccount(\'' + acct.id + '\')" title="View transactions" aria-label="View transactions for ' + escapeHtml(acct.name) + '">▾</button>' +
-        '</div>' +
-        linkedHtml +
-      '</div>';
+        '</div></div>';
     });
-
     accountsHtml += '<div class="totrow" style="border:1px solid var(--line);border-top:none;border-radius:0 0 8px 8px;margin-top:-12px;margin-bottom:12px">' +
-      '<div class="lbl">Accounts total</div><div class="v" id="overviewAccountsTotal">' + money(accountsTotal) + '</div><div class="v" id="overviewAccountsTotalCur">' + money(accountsTotal) + '</div><div></div>' +
+      '<div class="lbl">Everyday total</div><div class="v">' + money(totalEveryday) + '</div><div class="v">' + money(totalEveryday) + '</div><div></div>' +
     '</div>';
-
     acctSec.innerHTML = accountsHtml;
+
+    // Savings accounts — separate section, keeping the goals & buckets breakdown
+    if (savSec) {
+      if (savingsAccounts.length > 0) {
+        var savHtml = '<div class="section-gap"></div><div class="tbl"><div class="thead acctcols"><span>Savings</span><span class="r">Available</span><span class="r">Current balance</span><span></span></div></div>';
+        savingsAccounts.forEach(function(sav){
+          var savBal = balanceOf(sav);
+          savHtml += '<div class="acct-main"><div class="main-row">' +
+              '<div><div class="nm">' + escapeHtml(sav.name) + '</div><div class="num">' + escapeHtml(sav.number) + '</div></div>' +
+              '<div class="v" id="westpacLifeTotal">' + money(savBal) + '</div><div class="v">' + money(savBal) + '</div>' +
+              '<button class="expand" onclick="openAccount(\'' + sav.id + '\')" title="View savings transactions" aria-label="View transactions for ' + escapeHtml(sav.name) + '">▾</button>' +
+            '</div>' +
+            '<div class="linked" style="padding-left:16px">' +
+              '<div style="font-size:12.5px;color:var(--muted);font-weight:700;margin-bottom:6px">Your goals &amp; buckets</div>' +
+              '<div id="overviewGoalsContainer"></div>' +
+              '<div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">' +
+                '<button class="hbtn" onclick="openPlanModal(\'goal\')" style="font-size:12.5px;padding:5px 12px;color:var(--brand);border-color:#d9d9d9"><span style="font-weight:700;margin-right:2px">+</span> Add saving goal</button>' +
+                '<button class="hbtn" onclick="openAccount(\'' + sav.id + '\')" style="font-size:12.5px;padding:5px 12px;color:var(--ink);border-color:#d9d9d9">View savings transactions</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+        });
+        savHtml += '<div class="totrow" style="border:1px solid var(--line);border-top:none;border-radius:0 0 8px 8px;margin-top:-12px;margin-bottom:12px"><div class="lbl">Savings total</div><div class="v">' + money(totalSavings) + '</div><div class="v">' + money(totalSavings) + '</div><div></div></div>';
+        savSec.innerHTML = savHtml;
+      } else {
+        savSec.innerHTML = '';
+      }
+    }
 
     // Credit cards section
     if (creditCards.length > 0) {
@@ -2576,6 +2653,7 @@
     syncWesleyVisibility();
     renderAiControls();
     renderWesleyInsights();
+    try { applyAiState(); obPromptUpdate(); } catch(e){}
     if (path === 'aiEnabled') {
       renderSavingsPlan();
       renderBankSmartStats();
@@ -2600,7 +2678,7 @@
     return '<div class="ai-tile' + (on ? '' : ' off') + (opts.master ? ' master' : '') + (opts.dim ? ' dim' : '') + '">' +
       '<div class="top"><div class="ic" aria-hidden="true">' + icon + '</div><h4>' + label + '</h4><p>' + sub + '</p><div class="wm" aria-hidden="true">W</div></div>' +
       '<div class="band"><div class="st">' + (on ? 'On' : 'Off') + (opts.note ? '<small>' + opts.note + '</small>' : '') + '</div>' +
-      '<label class="toggle" title="Turn ' + label + (on ? ' off' : ' on') + '"><input type="checkbox" aria-label="' + label + '" ' + (on ? 'checked' : '') + ' onchange="aiSet(\'' + key + '\', this.checked)"><span class="tk"></span></label></div></div>';
+      '<label class="toggle" title="Turn ' + label + (on ? ' off' : ' on') + '"><input type="checkbox" aria-label="' + label + '" ' + (on ? 'checked' : '') + ' onchange="' + (opts.master ? 'aiMasterToggle(this)' : ('aiSet(\'' + key + '\', this.checked)')) + '"><span class="tk"></span></label></div></div>';
   }
   function renderAiControls(){
     var box = document.getElementById('aiControls'); if (!box || !user) return;
@@ -2644,6 +2722,145 @@
     box.innerHTML = cards.slice(0, 3).join('');
   }
 
+  // ===== Reusable confirm modal =====
+  var _uiConfirmCb = null;
+  function uiConfirm(o){
+    o = o || {};
+    document.getElementById('uiConfirmTitle').textContent = o.title || 'Are you sure?';
+    document.getElementById('uiConfirmBody').innerHTML = o.body || '';
+    var ok = document.getElementById('uiConfirmOk');
+    ok.textContent = o.confirmLabel || 'Confirm';
+    ok.className = o.danger ? 'signinbtn danger' : 'signinbtn';
+    document.getElementById('uiConfirmCancel').textContent = o.cancelLabel || 'Cancel';
+    _uiConfirmCb = o.onConfirm || null;
+    document.getElementById('uiConfirmModal').hidden = false;
+  }
+  function uiConfirmClose(){ document.getElementById('uiConfirmModal').hidden = true; _uiConfirmCb = null; }
+  function uiConfirmRun(){ var cb = _uiConfirmCb; uiConfirmClose(); if (cb) cb(); }
+
+  // ===== AI master toggle / disabled state =====
+  function aiMasterToggle(el){
+    if (el.checked){ aiSet('aiEnabled', true); applyAiState(); showToast('Wesley is back on 🎉'); return; }
+    el.checked = true; // revert until confirmed
+    uiConfirm({
+      title: 'Turn Wesley off?',
+      body: '<p>You\'d stop getting these:</p><ul class="miss-list">' +
+        '<li>🧮 "Can I afford it?" and What-if planning</li>' +
+        '<li>🪙 Round-ups &amp; automatic saving</li>' +
+        '<li>🛡️ Bill cover &amp; fee protection</li>' +
+        '<li>📈 Look-ahead and spotting low points early</li>' +
+        '<li>🎁 Offers picked from your own spending</li>' +
+        '<li>💬 Chatting with Wesley</li></ul>' +
+        '<p class="muted" style="margin-top:6px">Your everyday banking keeps working exactly as normal, and you can switch Wesley back on at any time.</p>',
+      confirmLabel: 'Turn Wesley off', cancelLabel: 'Keep Wesley on', danger: true,
+      onConfirm: function(){ aiSet('aiEnabled', false); applyAiState(); showToast('All good — Wesley has been disabled. You can opt back in at any time.'); }
+    });
+  }
+  function aiMasterEnable(){ aiSet('aiEnabled', true); applyAiState(); showToast('Wesley is back on 🎉'); }
+  function applyAiState(){
+    if (!user) return;
+    var on = wz().aiEnabled;
+    var fab = document.querySelector('.wesley-fab'); if (fab) fab.style.display = on ? '' : 'none';
+    var ov = document.getElementById('bsDisabledOverlay'); if (ov) ov.hidden = on;
+    if (!on) { try { closeWesley(); } catch(e){} }
+  }
+
+  // ===== First-time welcome + onboarding =====
+  function maybeShowWelcome(){
+    if (!user) return; var w = wz();
+    if (w.onboarded || w.welcomeSeen) return;
+    document.getElementById('welcomeModal').hidden = false;
+  }
+  function welcomeNotNow(){ var w = wz(); w.welcomeSeen = true; saveStore(); document.getElementById('welcomeModal').hidden = true; obPromptUpdate(); showToast('No worries — you can set up Wesley any time on the BankSmart page.'); }
+  function welcomeTakeMeThere(){ var w = wz(); w.welcomeSeen = true; saveStore(); document.getElementById('welcomeModal').hidden = true; setMode('personal'); go('banksmart'); setTimeout(startOnboarding, 250); }
+  var OB_STEPS = [
+    { key: 'focus', q: 'What matters most to you right now?', opts: [
+      { v: 'save', l: '🎯 Saving for something' }, { v: 'control', l: '🧘 Staying on top of my money' }, { v: 'avoid', l: '🛡️ Never getting caught short' }] },
+    { key: 'intensity', q: 'How hard should Wesley help you save?', opts: [
+      { v: '1×', l: '🪶 Relaxed — keep things comfortable' }, { v: '2×', l: '⚖️ Balanced (recommended)' }, { v: '5×', l: '💪 Hard — reach goals faster' }] },
+    { key: 'roundupsOn', q: 'Round up purchases and save the spare change?', opts: [
+      { v: true, l: '🪙 Yes, round up and save' }, { v: false, l: '🚫 Not for now' }] },
+    { key: 'digest', q: 'How should Wesley keep you posted?', opts: [
+      { v: 'weekly', l: '🗓️ A weekly summary' }, { v: 'daily', l: '☀️ A daily summary' }, { v: 'off', l: '🔔 Tell me every move' }] }
+  ];
+  var obI = 0, obA = {};
+  function startOnboarding(){ obI = 0; obA = {}; document.getElementById('onboardModal').hidden = false; obRender(); }
+  function obRender(){
+    var total = OB_STEPS.length;
+    if (obI >= total) { obFinish(); return; }
+    var s = OB_STEPS[obI];
+    document.getElementById('obBar').style.width = Math.round((obI + 1) / (total + 1) * 100) + '%';
+    document.getElementById('obBody').innerHTML =
+      '<div class="fp-step" style="margin-bottom:4px">Setting up Wesley · ' + (obI + 1) + ' of ' + total + '</div>' +
+      '<h3 style="font-size:19px;margin-bottom:14px">' + s.q + '</h3>' +
+      s.opts.map(function(o, idx){ return '<button type="button" class="ob-opt" onclick="obPick(' + idx + ')">' + o.l + '</button>'; }).join('') +
+      (obI > 0 ? '<div style="margin-top:6px"><a href="#" onclick="obBack();return false" style="font-size:13px">‹ Back</a></div>' : '');
+  }
+  function obPick(idx){ var s = OB_STEPS[obI]; obA[s.key] = s.opts[idx].v; obI++; obRender(); }
+  function obBack(){ if (obI > 0) { obI--; obRender(); } }
+  function obFinish(){
+    var w = wz();
+    if (obA.intensity) { w.intensity = obA.intensity; try { ctx.intensity = obA.intensity; } catch(e){} }
+    if (obA.roundupsOn !== undefined) w.roundupsOn = obA.roundupsOn;
+    if (obA.digest) { w.digest = obA.digest; try { ctx.digest = obA.digest; } catch(e){} }
+    if (obA.focus) w.focus = obA.focus;
+    w.onboarded = true; w.aiEnabled = true;
+    saveStore();
+    document.getElementById('onboardModal').hidden = true;
+    renderAll();
+    showToast('🎉 All set! Wesley is ready and working for you.');
+  }
+  function obPromptUpdate(){
+    var el = document.getElementById('obPrompt'); if (!el || !user) return;
+    var w = wz();
+    el.hidden = !!(w.onboarded) || !w.aiEnabled;
+  }
+
+  // ===== Looking ahead: last 6 months bar graph =====
+  var _laData = null;
+  function sixMonthData(){
+    var now = new Date(), out = [];
+    var seedStr = (user && user.id) || 'x'; var seed = 0; for (var c = 0; c < seedStr.length; c++) seed += seedStr.charCodeAt(c);
+    var monthly = {};
+    (user.transactions || []).forEach(function(t){
+      if ((t.amount || 0) >= 0 || !t.date) return;
+      var ym = String(t.date).slice(0, 7); monthly[ym] = (monthly[ym] || 0) + Math.abs(t.amount);
+    });
+    for (var k = 5; k >= 0; k--){
+      var d = new Date(now.getFullYear(), now.getMonth() - k, 1);
+      var ym = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+      var base = 1800 + ((seed + k * 37) % 9) * 160;
+      var spent = monthly[ym] != null ? Math.round(monthly[ym]) : base + ((seed * 7 + k * 53) % 600);
+      var saved = Math.max(120, Math.round(400 + ((seed * 3 + k * 29) % 520)));
+      out.push({ ym: ym, label: d.toLocaleDateString('en-AU', { month: 'short' }), saved: saved, spent: spent });
+    }
+    _laData = out; return out;
+  }
+  function renderLookAhead(){
+    var box = document.getElementById('lookAheadChart'); if (!box || !user) return;
+    var data = sixMonthData();
+    var max = Math.max(1, data.reduce(function(m, d){ return Math.max(m, d.saved, d.spent); }, 0));
+    var bars = data.map(function(d, i){
+      var sh = Math.max(2, Math.round(d.saved / max * 140)), ph = Math.max(2, Math.round(d.spent / max * 140));
+      return '<div class="la-month" onmousemove="laTip(event,' + i + ')" onmouseleave="laTipHide()" ontouchstart="laTip(event,' + i + ')">' +
+        '<div class="la-pair"><div class="la-bar saved" style="height:' + sh + 'px"></div><div class="la-bar spent" style="height:' + ph + 'px"></div></div>' +
+        '<div class="la-mlabel">' + d.label + '</div></div>';
+    }).join('');
+    box.innerHTML = '<div class="la-bars">' + bars + '</div>' +
+      '<div class="la-legend"><span><i style="background:var(--success)"></i>Saved</span><span><i style="background:#c4121a"></i>Spent</span></div>' +
+      '<div class="la-tip" id="laTip"></div>';
+  }
+  function laTip(e, i){
+    var tip = document.getElementById('laTip'); if (!tip || !_laData) return;
+    var d = _laData[i]; var box = document.getElementById('lookAheadChart'); if (!box) return;
+    var rect = box.getBoundingClientRect();
+    tip.innerHTML = '<b>' + d.label + '</b> · Saved <b style="color:#6ee7a8">' + money(d.saved) + '</b> · Spent <b style="color:#ffb4ab">' + money(d.spent) + '</b>';
+    tip.style.left = (e.clientX - rect.left) + 'px';
+    tip.style.top = (e.clientY - rect.top - 12) + 'px';
+    tip.style.opacity = '1';
+  }
+  function laTipHide(){ var tip = document.getElementById('laTip'); if (tip) tip.style.opacity = '0'; }
+
   function renderAll(){
     if (!user) return;
     ensureUserNotifications(user);
@@ -2665,6 +2882,9 @@
     renderBusinessApprovals();
     renderNotificationsPage();
     updateNotifBadge();
+    renderLookAhead();
+    obPromptUpdate();
+    applyAiState();
   }
 
   // ==========================================
@@ -3139,15 +3359,23 @@
 
   function deletePlanItem(id){
     if (!user || !user.savingsPlan) return;
-    var idx = user.savingsPlan.findIndex(function(i){ return i.id === id; });
-    if (idx === -1) return;
-    var name = user.savingsPlan[idx].name;
-    if (!confirm('Remove "' + name + '" from your saving plan?')) return;
-    user.savingsPlan.splice(idx, 1);
-    ensureUserBSSettings(user);
-    saveStore();
-    renderAll();
-    showToast('Removed "' + name + '" from saving plan');
+    var item = user.savingsPlan.find(function(i){ return i.id === id; });
+    if (!item) return;
+    var name = item.name;
+    uiConfirm({
+      title: 'Remove this?',
+      body: '<p>Remove <strong>' + escapeHtml(name) + '</strong> from your saving plan? Any money set aside in it goes back to your available savings.</p>',
+      confirmLabel: 'Remove', cancelLabel: 'Keep it', danger: true,
+      onConfirm: function(){
+        var j = user.savingsPlan.findIndex(function(i){ return i.id === id; });
+        if (j === -1) return;
+        user.savingsPlan.splice(j, 1);
+        ensureUserBSSettings(user);
+        saveStore();
+        renderAll();
+        showToast('Removed "' + name + '" from saving plan');
+      }
+    });
   }
 
   // ==========================================
@@ -4051,6 +4279,7 @@
         { v: 3, ic: '🛟', l: '3 months of essentials', s: 'About ' + m0(e * 3) + ' · a common rule of thumb' },
         { v: 6, ic: '🏰', l: '6 months of essentials', s: 'About ' + m0(e * 6) + ' · extra peace of mind' }]; }, def: 3 },
     { key: 'extra', type: 'choice', q: 'Anything else changing in the next 12 months?',
+      show: function(){ return fp.type !== 'income'; },
       opts: function(){ return [{ v: 'none', ic: '👌', l: 'Nothing else I know of' }, { v: 'raise', ic: '📈', l: 'Expecting a pay rise', s: 'We\'ll allow for about 3%' }, { v: 'bill', ic: '🧾', l: 'A big one-off cost coming up' }]; }, def: 'none' },
     { key: 'extraAmt', type: 'money', q: 'Roughly how much is that one-off cost?', show: function(a){ return a.extra === 'bill'; },
       chips: function(){ return [500, 1000, 2500, 5000]; }, def: 1000 }
