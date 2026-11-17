@@ -510,6 +510,12 @@
   .util-rate{font-size:12.5px;color:var(--muted);margin-bottom:5px}
   .util-proj{font-size:13.5px}
   .util-total{margin-top:14px;font-size:14px;background:var(--soft);border:1px solid var(--line2);padding:11px 14px;border-radius:10px}
+  .util-calc{margin-top:16px;border-top:1px solid var(--line2);padding-top:14px}
+  .util-calc h4{font-size:14.5px;margin-bottom:10px}
+  .util-calc-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .util-calc-row select{flex:1 1 150px;min-width:140px;font-family:inherit;font-size:14px;padding:10px;border:1px solid var(--line2);border-radius:8px;background:#fff}
+  .util-calc-row input{width:80px;font-family:inherit;font-size:14px;padding:10px;border:1px solid var(--line2);border-radius:8px;background:#fff}
+  .util-calc-res{margin-top:12px;font-size:14px;background:var(--soft);border:1px solid var(--line2);border-radius:10px;padding:12px 14px;line-height:1.5}
   .watchbar{height:5px;background:var(--line);border-radius:3px;margin-top:6px;max-width:220px;overflow:hidden}
   .watchbar span{display:block;height:100%;background:var(--info)}
   .wi-result{border-radius:10px;padding:14px 16px;font-size:13.5px;line-height:1.55;background:#f4f5f7;border:1px solid #e0e0e0}
@@ -4262,6 +4268,49 @@
     gas:         { label: 'Gas',         icon: '🔥', unit: 'MJ',  rate: 4.15, supply: 80 },
     water:       { label: 'Water',       icon: '💧', unit: 'kL',  rate: 298,  supply: 72 }
   };
+  // Typical ratings (prototype): power in kW, water flow in L/min.
+  var APPLIANCES = [
+    { id: 'aircon', label: '❄️ Air conditioner', type: 'power', kw: 2.4 },
+    { id: 'heater', label: '🔥 Portable heater', type: 'power', kw: 2.0 },
+    { id: 'dryer', label: '🌀 Clothes dryer', type: 'power', kw: 3.0 },
+    { id: 'oven', label: '🍝 Oven', type: 'power', kw: 2.4 },
+    { id: 'dishwasher', label: '🍽️ Dishwasher', type: 'power', kw: 1.5 },
+    { id: 'washer', label: '👕 Washing machine', type: 'power', kw: 0.5 },
+    { id: 'poolpump', label: '🏊 Pool pump', type: 'power', kw: 1.1 },
+    { id: 'fridge', label: '🧊 Fridge', type: 'power', kw: 0.15 },
+    { id: 'tv', label: '📺 TV', type: 'power', kw: 0.12 },
+    { id: 'pc', label: '🖥️ Gaming PC', type: 'power', kw: 0.4 },
+    { id: 'shower', label: '🚿 Shower', type: 'water', lpm: 9 },
+    { id: 'hose', label: '🌱 Garden hose', type: 'water', lpm: 15 },
+    { id: 'sprinkler', label: '💦 Sprinkler', type: 'water', lpm: 12 },
+    { id: 'tap', label: '🚰 Running tap', type: 'water', lpm: 6 }
+  ];
+  function utilCalcHtml(){
+    return '<div class="util-calc"><h4>💡 What would it cost to run…?</h4>' +
+      '<div class="util-calc-row">' +
+        '<select id="applSel" onchange="utilCalc()">' + APPLIANCES.map(function(a){ return '<option value="' + a.id + '">' + a.label + '</option>'; }).join('') + '</select>' +
+        '<input id="applDur" type="number" min="0" step="0.5" value="4" oninput="utilCalc()" aria-label="Duration">' +
+        '<span id="applUnit" class="muted">hours</span>' +
+      '</div><div id="applRes" class="util-calc-res"></div></div>';
+  }
+  function utilCalc(){
+    var sel = document.getElementById('applSel'), durEl = document.getElementById('applDur'), res = document.getElementById('applRes'), unit = document.getElementById('applUnit');
+    if (!sel || !durEl || !res) return;
+    var a = APPLIANCES.filter(function(x){ return x.id === sel.value; })[0] || APPLIANCES[0];
+    var dur = parseFloat(durEl.value); if (isNaN(dur) || dur < 0) dur = 0;
+    var name = a.label.replace(/^\S+\s/, '');
+    if (a.type === 'power') {
+      if (unit) unit.textContent = dur === 1 ? 'hour' : 'hours';
+      var eRate = UTIL_RATES.electricity.rate;
+      var kwh = a.kw * dur, cost = kwh * eRate / 100;
+      res.innerHTML = 'Running the <strong>' + escapeHtml(name) + '</strong> for <strong>' + dur + ' ' + (dur === 1 ? 'hour' : 'hours') + '</strong> ≈ <strong>' + money(cost) + '</strong><br><span class="muted">' + kwh.toFixed(2) + ' kWh at ' + eRate + 'c/kWh · ' + a.kw + ' kW appliance</span>';
+    } else {
+      if (unit) unit.textContent = dur === 1 ? 'minute' : 'minutes';
+      var wRate = UTIL_RATES.water.rate;
+      var litres = a.lpm * dur, wcost = litres * (wRate / 100) / 1000;
+      res.innerHTML = 'Running the <strong>' + escapeHtml(name) + '</strong> for <strong>' + dur + ' ' + (dur === 1 ? 'minute' : 'minutes') + '</strong> ≈ <strong>' + money(wcost) + '</strong><br><span class="muted">' + Math.round(litres) + ' L at $' + (wRate / 100).toFixed(2) + '/kL · ' + a.lpm + ' L/min flow</span>';
+    }
+  }
   function classifyUtility(name){
     var n = (name || '').toLowerCase();
     if (/water/.test(n)) return 'water';
@@ -4293,8 +4342,8 @@
     var body = document.getElementById('utilBody'); if (!body) return;
     var data = utilityData();
     if (!data.length) {
-      body.innerHTML = '<p class="muted" style="font-size:14px">I haven\'t spotted any power, gas or water bills in your transactions yet. As soon as one comes through, I\'ll start estimating your next bill here.</p>';
-      document.getElementById('utilModal').hidden = false; return;
+      body.innerHTML = '<p class="muted" style="font-size:14px">I haven\'t spotted any power, gas or water bills in your transactions yet. As soon as one comes through, I\'ll start estimating your next bill here. In the meantime, try the run-cost calculator:</p>' + utilCalcHtml();
+      document.getElementById('utilModal').hidden = false; utilCalc(); return;
     }
     var totalProj = data.reduce(function(a, u){ return a + u.projected; }, 0);
     var totalLast = data.reduce(function(a, u){ return a + (u.lastBill || 0); }, 0);
@@ -4314,8 +4363,10 @@
       '<p style="font-size:13.5px;color:var(--muted);margin-bottom:12px">I estimate your upcoming bills from your recent usage and each provider\'s rates (cents per kWh, MJ or litre). These are prototype figures — a live version would keep the rates current for you automatically.</p>' +
       rows +
       '<div class="util-total">Projected utilities next cycle: <strong>' + money(totalProj) + '</strong> <span class="muted">(last ~' + money(totalLast) + ')</span></div>' +
-      '<div class="fcap" style="margin-top:12px"><span class="ic">⚡</span><span><strong>Heads-up.</strong> ' + tipText + ' <a style="cursor:pointer;color:var(--brand);font-weight:700" onclick="closeUtilities();openWesley(\'Set aside for my utility bills\')">Set aside for these</a></span></div>';
+      '<div class="fcap" style="margin-top:12px"><span class="ic">⚡</span><span><strong>Heads-up.</strong> ' + tipText + ' <a style="cursor:pointer;color:var(--brand);font-weight:700" onclick="closeUtilities();openWesley(\'Set aside for my utility bills\')">Set aside for these</a></span></div>' +
+      utilCalcHtml();
     document.getElementById('utilModal').hidden = false;
+    utilCalc();
   }
   function closeUtilities(){ var m = document.getElementById('utilModal'); if (m) m.hidden = true; }
   function subProvider(s){
