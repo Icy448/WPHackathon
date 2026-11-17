@@ -73,4 +73,6 @@ All demo data is automatically persisted in browser storage:
 
 ---
 
+We also hid easter eggs 🥚 everywhere because we thought it would be fun...nny.
+
 **Not affiliated with or endorsed by Westpac. Demonstration only.**
