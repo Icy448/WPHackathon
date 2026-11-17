@@ -18,6 +18,7 @@
   .screen[hidden]{display:none}
   .page[hidden]{display:none}
   .mode[hidden]{display:none}
+  .banksmart-tab[hidden],.wesley-fab[hidden],.promo[hidden],.notif-wesley-bar[hidden],.ai-off-banner[hidden],.arow[hidden]{display:none !important}
   .wmark{display:inline-block;line-height:0;cursor:pointer;user-select:none;-webkit-user-select:none;transition:transform .12s cubic-bezier(0.175, 0.885, 0.32, 1.275)}
   .wmark:hover{opacity:.9}
   .wmark:active,.wmark.wah-bounce{transform:scale(1.15) rotate(-3deg)}
@@ -695,9 +696,9 @@
   .la-bar{width:15px;border-radius:4px 4px 0 0;transition:opacity .15s, height .65s cubic-bezier(.2,.75,.25,1);min-height:0}
   .la-bar.saved{background:#2fa37e}
   .la-bar.spent{background:#9aa6bd}
-  .ob-spin{font-size:42px;display:inline-block;animation:obspin 1.1s linear infinite;color:var(--brand)}
-  @keyframes obspin{to{transform:rotate(360deg)}}
   .la-month:hover .la-bar{opacity:.75}
+  .ob-spin{display:inline-block;font-size:42px;line-height:1;animation:obspin 1.1s linear infinite;color:var(--brand)}
+  @keyframes obspin{to{transform:rotate(360deg)}}
   .la-mlabel{font-size:11px;color:var(--muted)}
   .la-legend{display:flex;gap:18px;font-size:12.5px;color:var(--muted);margin-top:12px}
   .la-legend i{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:6px;vertical-align:middle}
@@ -814,8 +815,8 @@
         <div id="ovPersonalTermSection"></div>
 
         <div class="promos">
-          <div class="promo"><h4>BankSmart <svg class="spk" width="18" height="18" viewBox="0 0 24 24" fill="url(#sgrad)"><use href="#spark"/></svg></h4><div class="meta">Powered by Wesley · your AI assistant</div><div class="mid">Wesley has you at <strong id="overviewPromoSts">$428.60</strong> safe to spend. 3 moves this week.</div><button class="applybtn" onclick="go('banksmart')">Open BankSmart</button></div>
-          <div class="promo"><h4 style="display:block">Thinking of a purchase?</h4><div class="mid">Just ask Wesley "can I afford $1,200?" — he'll check the impact on your savings.</div><button class="applybtn" onclick="openWesley('Can I afford a $1,200 purchase?')">Ask Wesley</button></div>
+          <div class="promo" id="ovPersonalPromoBs"><h4>BankSmart <svg class="spk" width="18" height="18" viewBox="0 0 24 24" fill="url(#sgrad)"><use href="#spark"/></svg></h4><div class="meta">Powered by Wesley · your AI assistant</div><div class="mid">Wesley has you at <strong id="overviewPromoSts">$428.60</strong> safe to spend. 3 moves this week.</div><button class="applybtn" onclick="go('banksmart')">Open BankSmart</button></div>
+          <div class="promo" id="ovPersonalPromoAsk"><h4 style="display:block">Thinking of a purchase?</h4><div class="mid">Just ask Wesley "can I afford $1,200?" — he'll check the impact on your savings.</div><button class="applybtn" onclick="openWesley('Can I afford a $1,200 purchase?')">Ask Wesley</button></div>
           <div class="promo add" onclick="return false"><div class="plus">+</div><div>Add accounts</div></div>
         </div>
         <div class="lastsign" id="overviewLastSign">Last sign in 09:41am, 16 Nov 2026 AEST</div>
@@ -926,7 +927,7 @@
             <h3 style="font-size:16px;margin-bottom:2px">Your money, month by month</h3>
             <div style="font-size:12.5px;color:var(--muted)">What you've set aside and spent over the last 6 months. Hover a month for the details.</div>
             <div id="lookAheadChart" class="la-chart"></div>
-            <div class="fcap"><span class="ic">💡</span><span><strong>I learn from your trends.</strong> Seeing how your months usually go helps me give you a gentle heads-up before a busier one comes around. — Wesley</span></div>
+            <div class="fcap"><span class="ic">⟳</span><span><strong>I learn from your trends.</strong> If a tighter month looks likely, I can quietly set a little aside beforehand so things stay comfortable. — Wesley</span></div>
           </div>
           <div class="panelbox feed" style="margin:0">
             <h3 style="font-size:16px;margin-bottom:8px">What Wesley did for you</h3>
@@ -958,20 +959,50 @@
         <div class="bs-note">⚙️ Want to switch a feature on or off? <a href="#" onclick="go('bs-settings');setTimeout(function(){var e=document.getElementById('aiControls');e&&e.scrollIntoView({block:'start'})},60);return false">Manage AI controls &amp; privacy in Settings &amp; Rules</a>.</div>
       </section>
 
-      <!-- BankSmart Settings -->
+      <!-- BankSmart Settings / Advanced Budgeting Settings -->
       <section class="page" data-page="bs-settings" hidden>
         <div class="bs-header-row">
-          <div class="bs-hero"><svg width="36" height="36" viewBox="0 0 24 24" fill="url(#sgrad)" aria-hidden="true"><use href="#spark"/></svg><h1>BankSmart Settings</h1></div>
-          <button class="bs-settings-btn" onclick="go('banksmart')">← Back to BankSmart</button>
+          <div class="bs-hero"><svg id="bsSettingsSpark" width="36" height="36" viewBox="0 0 24 24" fill="url(#sgrad)" aria-hidden="true"><use href="#spark"/></svg><h1 id="bsSettingsTitle">BankSmart Settings</h1></div>
+          <button class="bs-settings-btn" id="bsSettingsBackBtn" onclick="go(wz().aiEnabled ? 'banksmart' : 'settings')">← Back to BankSmart</button>
         </div>
-        <div class="bs-tag">Configure how BankSmart automates your money movements, categorises incoming funds, and helps you save effortlessly.</div>
+        <div class="bs-tag" id="bsSettingsTag">Configure how BankSmart automates your money movements, categorises incoming funds, and helps you save effortlessly.</div>
 
-        <!-- Section 0: AI controls & privacy (moved from BankSmart main page) -->
-        <h2 class="bs-sec" style="margin-top:6px">AI controls &amp; privacy</h2>
-        <div class="muted" style="font-size:13px;margin:-6px 0 14px">Fine-tune or switch off anything. Your choices are saved to your profile.</div>
-        <div class="ai-tiles" id="aiControls"></div>
+        <!-- Banner shown when Wesley & BankSmart are turned off -->
+        <div id="advSettingsAiBanner" class="ai-off-banner" hidden style="background:#f5f6f8;border-color:#d4d8df;color:var(--ink)">
+          <span><strong>Wesley &amp; BankSmart are turned off.</strong> Recommendations, the BankSmart tab, and Wesley chat are hidden. Your budgeting tools remain available here as advanced settings.</span>
+          <button onclick="aiSet('aiEnabled', true)">Turn Wesley &amp; BankSmart on</button>
+        </div>
 
-        <div class="bs-note" style="margin-bottom:24px">🔒 Wesley only ever reads your own accounts and moves money between them — never to anyone else, and never using another customer's data.</div>
+        <!-- Section 0: AI controls & privacy (hidden when Wesley & BankSmart are off) -->
+        <div id="aiControlsSection">
+          <h2 class="bs-sec" style="margin-top:6px">AI controls &amp; privacy</h2>
+          <div class="muted" style="font-size:13px;margin:-6px 0 14px">Fine-tune or switch off anything. Your choices are saved to your profile.</div>
+          <div class="ai-tiles" id="aiControls"></div>
+
+          <div class="bs-note" style="margin-bottom:24px">🔒 Wesley only ever reads your own accounts and moves money between them — never to anyone else, and never using another customer's data.</div>
+        </div>
+
+        <!-- Advanced Budgeting Snapshot (shown when Wesley & BankSmart are off) -->
+        <div class="panelbox" id="advBudgetSnapshotPanel" hidden>
+          <div class="bs-subhead">Buckets, Goals &amp; Safe to Spend</div>
+          <div class="bs-subdesc">Track your safe-to-spend balance, allocate funds into buckets and savings goals, and review upcoming recurring bills.</div>
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px">
+            <div>
+              <div class="sts-label">Safe to spend <span class="help" title="What's left to spend after bills, rent and savings are set aside.">ⓘ</span></div>
+              <div class="sts" id="advSafeToSpend">$428<small>.60</small></div>
+              <div class="pill">✓ Bills &amp; rent set aside · until next pay</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px">
+              <div style="text-align:right"><div class="sts-label">Current balance</div><div class="sts" style="font-size:26px" id="advCurrentBal">$3,080.60</div></div>
+              <button class="hbtn" onclick="openPlanModal()" style="font-weight:700;color:var(--brand);border-color:var(--brand);padding:7px 14px;background:#fff">
+                <span style="font-size:16px;line-height:1;margin-right:2px">+</span> Add goal or bucket
+              </button>
+            </div>
+          </div>
+          <div class="allocbar" id="advSavingsAllocBar"></div>
+          <div class="legend" id="advSavingsLegend"></div>
+          <div class="pots" id="advSavingsPots"></div>
+        </div>
 
         <!-- Section 1: Income Splitting -->
         <div class="panelbox">
@@ -1086,8 +1117,32 @@
           <div class="thead" style="grid-template-columns:1fr 160px"><span>Setting</span><span class="r">Action</span></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Personal details</div><div class="v"><a onclick="return false">Edit</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Security &amp; sign-in</div><div class="v"><a onclick="return false">Manage</a></div></div>
-          <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">BankSmart preferences (Income splitting &amp; Round-ups)</div><div class="v"><a onclick="go('bs-settings')">Manage</a></div></div>
+          <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)">
+            <div>
+              <div class="nm" style="font-size:15px">Wesley &amp; BankSmart features</div>
+              <div class="num">AI assistant, smart recommendations, BankSmart tab, and Wesley chat</div>
+            </div>
+            <div class="v" style="display:flex;align-items:center;justify-content:flex-end;gap:10px">
+              <span id="personalWesleyStatus" class="muted" style="font-size:13px;font-weight:700">On</span>
+              <label class="toggle" title="Toggle Wesley and BankSmart features"><input type="checkbox" id="personalWesleyToggle" aria-label="Toggle Wesley and BankSmart features" checked onchange="aiSet('aiEnabled', this.checked)"><span class="tk"></span></label>
+            </div>
+          </div>
+          <div class="arow" id="personalBsPrefRow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">BankSmart preferences (Income splitting &amp; Round-ups)</div><div class="v"><a onclick="go('bs-settings')">Manage</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Notifications &amp; alert rules</div><div class="v"><a onclick="go('inbox')">Manage</a></div></div>
+        </div>
+        <div id="personalAdvSettingsSection" hidden style="margin-top:28px">
+          <h2 class="bs-sec" style="margin:0 0 6px">Advanced settings</h2>
+          <div class="muted" style="font-size:13.5px;margin-bottom:12px">Manual budgeting, buckets &amp; savings goals, income splitting, and transaction round-up rules remain available while Wesley &amp; BankSmart are turned off.</div>
+          <div class="tbl">
+            <div class="thead" style="grid-template-columns:1fr 160px"><span>Advanced setting</span><span class="r">Action</span></div>
+            <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)">
+              <div>
+                <div class="nm" style="font-size:15px">Budgeting, buckets &amp; savings automation</div>
+                <div class="num">Manage safe-to-spend buckets, savings goals, recurring bills, income splitting &amp; round-ups</div>
+              </div>
+              <div class="v"><a style="cursor:pointer;font-weight:700" onclick="go('bs-settings')">Manage</a></div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1122,7 +1177,7 @@
         </div>
         <div class="promos">
           <div class="promo"><h4>The share market <span style="color:#555">⚙</span></h4><div class="meta">Westpac Share Trading</div><div class="foot"><em>International Markets Roundup...</em><br><a onclick="return false">more</a><br>Source: Morningstar</div></div>
-          <div class="promo"><h4 style="display:block">Looking for an unsecured business overdraft?</h4><div class="mid">Complete your application, and you could get a decision in minutes.<br><br>T&amp;Cs, eligibility &amp; credit criteria apply.</div><button class="applybtn" onclick="return false">Apply now</button></div>
+          <div class="promo" id="ovBusinessPromoLoan"><h4 style="display:block">Looking for an unsecured business overdraft?</h4><div class="mid">Complete your application, and you could get a decision in minutes.<br><br>T&amp;Cs, eligibility &amp; credit criteria apply.</div><button class="applybtn" onclick="return false">Apply now</button></div>
           <div class="promo add" onclick="return false"><div class="plus">+</div><div>Add accounts</div></div>
         </div>
         <div class="lastsign">Last sign in 09:41am, 16 Nov 2026 AEST</div>
@@ -1195,7 +1250,31 @@
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Users &amp; permissions</div><div class="v"><a onclick="return false">Manage</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Approval settings</div><div class="v"><a onclick="go('approval')">Manage</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Daily limits</div><div class="v"><a onclick="return false">Manage</a></div></div>
+          <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)">
+            <div>
+              <div class="nm" style="font-size:15px">Wesley &amp; BankSmart features</div>
+              <div class="num">AI assistant, smart recommendations, BankSmart tab, and Wesley chat</div>
+            </div>
+            <div class="v" style="display:flex;align-items:center;justify-content:flex-end;gap:10px">
+              <span id="businessWesleyStatus" class="muted" style="font-size:13px;font-weight:700">On</span>
+              <label class="toggle" title="Toggle Wesley and BankSmart features"><input type="checkbox" id="businessWesleyToggle" aria-label="Toggle Wesley and BankSmart features" checked onchange="aiSet('aiEnabled', this.checked)"><span class="tk"></span></label>
+            </div>
+          </div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Notifications &amp; alert rules</div><div class="v"><a onclick="go('inbox')">Manage</a></div></div>
+        </div>
+        <div id="businessAdvSettingsSection" hidden style="margin-top:28px">
+          <h2 class="bs-sec" style="margin:0 0 6px">Advanced settings</h2>
+          <div class="muted" style="font-size:13.5px;margin-bottom:12px">Personal budgeting, buckets &amp; savings goals, income splitting, and transaction round-up rules remain available while Wesley &amp; BankSmart are turned off.</div>
+          <div class="tbl">
+            <div class="thead" style="grid-template-columns:1fr 160px"><span>Advanced setting</span><span class="r">Action</span></div>
+            <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)">
+              <div>
+                <div class="nm" style="font-size:15px">Personal budgeting, buckets &amp; savings automation</div>
+                <div class="num">Switch to Personal banking to manage safe-to-spend buckets, savings goals, income splitting &amp; round-ups</div>
+              </div>
+              <div class="v"><a style="cursor:pointer;font-weight:700" onclick="setMode('personal');go('bs-settings')">Manage</a></div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1376,15 +1455,15 @@
     <div class="modal-box" role="dialog" aria-modal="true" style="max-width:480px;text-align:center">
       <div class="wesley-av" style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#da1710,#ff7468);display:flex;align-items:center;justify-content:center;margin:0 auto 14px"><svg width="40" height="40" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>
       <h2 style="font-size:22px;margin-bottom:6px">Hey, I'm Wesley 👋</h2>
-      <p style="font-size:14.5px;color:#444;line-height:1.55;margin-bottom:14px">Think of me as a handy sidekick for the fiddly money admin — totally optional, and you're always in the driver's seat. Here's the kind of thing I can take off your plate:</p>
+      <p style="font-size:14.5px;color:#444;line-height:1.55;margin-bottom:14px">Think of me as a handy sidekick for the fiddly money admin — totally optional, and you're always in the driver's seat. A few things I can lend a hand with:</p>
       <ul class="wel-list">
-        <li>🧮 Sense-check a purchase before you make it</li>
-        <li>🪙 Put your spare change to work, if you fancy it</li>
-        <li>🧾 Keep an eye on bills and fees in the background</li>
-        <li>📊 Show how your money moves, month to month</li>
-        <li>🎁 Flag offers you actually qualify for</li>
+        <li>🧮 Sense-check a purchase if you'd like a second opinion</li>
+        <li>🪙 Put your spare change to work, automatically</li>
+        <li>🛡️ Keep an eye on bills and fees so there are no surprises</li>
+        <li>📈 Show you how your money moves month to month</li>
+        <li>🎁 Flag offers you already qualify for</li>
       </ul>
-      <p style="font-size:13px;color:#777;margin-top:12px">Takes under a minute to set up — or skip it, no worries.</p>
+      <p style="font-size:13px;color:var(--muted);line-height:1.5;margin-top:4px">Takes under a minute to set up — or skip it, no worries.</p>
       <div style="display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap">
         <button type="button" class="applybtn" style="margin:0" onclick="welcomeNotNow()">Not now</button>
         <button type="button" class="signinbtn" style="width:auto;padding:12px 24px" onclick="welcomeTakeMeThere()">Show me around</button>
@@ -2167,12 +2246,20 @@
   }
 
   function go(page){
+    if (user && !wz().aiEnabled && page === 'banksmart') {
+      page = 'settings';
+    }
     var m = document.querySelector('.mode:not([hidden])');
     if (!m) return;
+    if (page === 'bs-settings' && m.getAttribute('data-mode') !== 'personal') {
+      setMode('personal');
+      m = document.querySelector('.mode:not([hidden])');
+      if (!m) return;
+    }
     m.querySelectorAll('.page').forEach(function(p){
       p.hidden = (p.getAttribute('data-page') !== page);
     });
-    var key = (page === 'account') ? 'overview' : ((page === 'approval' || page === 'inbox') ? null : (page === 'bs-settings' ? 'banksmart' : page));
+    var key = (page === 'account') ? 'overview' : ((page === 'approval' || page === 'inbox') ? null : (page === 'bs-settings' ? ((user && !wz().aiEnabled) ? 'settings' : 'banksmart') : page));
     m.querySelectorAll('nav.tabs a').forEach(function(a){
       a.classList.toggle('active', a.getAttribute('data-nav') === key);
     });
@@ -2463,11 +2550,17 @@
     var bCur = document.getElementById('bankSmartCurrentBal');
     if (bCur) bCur.textContent = money(curBal);
 
+    var aCur = document.getElementById('advCurrentBal');
+    if (aCur) aCur.textContent = money(curBal);
+
+    var parts = moneyParts(safeSpend);
+    var stsHtml = parts.dollars + '<small>.' + parts.cents + '</small>';
+
     var stsEl = document.getElementById('bsSafeToSpend');
-    if (stsEl) {
-      var parts = moneyParts(safeSpend);
-      stsEl.innerHTML = parts.dollars + '<small>.' + parts.cents + '</small>';
-    }
+    if (stsEl) stsEl.innerHTML = stsHtml;
+
+    var aStsEl = document.getElementById('advSafeToSpend');
+    if (aStsEl) aStsEl.innerHTML = stsHtml;
 
     var promoSts = document.getElementById('overviewPromoSts');
     if (promoSts) {
@@ -2498,6 +2591,61 @@
     if (w.digest === undefined) w.digest = 'weekly';
     return w;
   }
+  function syncWesleyVisibility(){
+    if (!user) return;
+    var on = !!wz().aiEnabled;
+
+    document.querySelectorAll('.banksmart-tab').forEach(function(el){
+      el.hidden = !on;
+    });
+
+    var fab = document.querySelector('.wesley-fab');
+    if (fab) fab.hidden = !on;
+    if (!on) closeWesley();
+
+    ['ovPersonalPromoBs', 'ovPersonalPromoAsk', 'ovBusinessPromoLoan'].forEach(function(id){
+      var el = document.getElementById(id);
+      if (el) el.hidden = !on;
+    });
+
+    var pTog = document.getElementById('personalWesleyToggle');
+    if (pTog) pTog.checked = on;
+    var pSt = document.getElementById('personalWesleyStatus');
+    if (pSt) pSt.textContent = on ? 'On' : 'Off';
+
+    var bTog = document.getElementById('businessWesleyToggle');
+    if (bTog) bTog.checked = on;
+    var bSt = document.getElementById('businessWesleyStatus');
+    if (bSt) bSt.textContent = on ? 'On' : 'Off';
+
+    var pBsRow = document.getElementById('personalBsPrefRow');
+    if (pBsRow) pBsRow.hidden = !on;
+    var pAdv = document.getElementById('personalAdvSettingsSection');
+    if (pAdv) pAdv.hidden = on;
+    var bAdv = document.getElementById('businessAdvSettingsSection');
+    if (bAdv) bAdv.hidden = on;
+
+    var bsSpark = document.getElementById('bsSettingsSpark');
+    if (bsSpark) bsSpark.style.display = on ? '' : 'none';
+    var bsTitle = document.getElementById('bsSettingsTitle');
+    if (bsTitle) bsTitle.textContent = on ? 'BankSmart Settings' : 'Advanced Settings — Budgeting';
+    var bsBack = document.getElementById('bsSettingsBackBtn');
+    if (bsBack) bsBack.textContent = on ? '← Back to BankSmart' : '← Back to Settings';
+    var bsTag = document.getElementById('bsSettingsTag');
+    if (bsTag) {
+      bsTag.textContent = on
+        ? 'Configure how BankSmart automates your money movements, categorises incoming funds, and helps you save effortlessly.'
+        : 'Manage your savings buckets, goals, income splitting percentages, and transaction round-up rules.';
+    }
+
+    var aiSec = document.getElementById('aiControlsSection');
+    if (aiSec) aiSec.hidden = !on;
+    var advBanner = document.getElementById('advSettingsAiBanner');
+    if (advBanner) advBanner.hidden = on;
+    var advSnap = document.getElementById('advBudgetSnapshotPanel');
+    if (advSnap) advSnap.hidden = on;
+  }
+
   function aiSet(path, value){
     if (!user) return;
     var w = wz();
@@ -2506,9 +2654,28 @@
     else w[path] = value;
     try { if (path === 'intensity') ctx.intensity = value; if (path === 'digest') ctx.digest = value; if (path === 'feeCover') ctx.feeCover = value; if (path === 'elig.dir' || path === 'elig.amt') ctx.elig = w.elig; } catch(e){}
     saveStore();
+    syncWesleyVisibility();
     renderAiControls();
     renderWesleyInsights();
     try { applyAiState(); obPromptUpdate(); } catch(e){}
+    if (path === 'aiEnabled') {
+      renderSavingsPlan();
+      renderBankSmartStats();
+      renderBillCover();
+      renderMoments();
+      renderNotificationsPage();
+      var activeMode = document.querySelector('.mode:not([hidden])');
+      var activePage = activeMode ? activeMode.querySelector('.page:not([hidden])') : null;
+      var curPageName = activePage ? activePage.getAttribute('data-page') : '';
+      if (!value && curPageName === 'banksmart') {
+        go('settings');
+      } else if (curPageName === 'bs-settings') {
+        go('bs-settings');
+      }
+      showToast(value
+        ? '✓ Wesley & BankSmart features enabled'
+        : 'Wesley & BankSmart features turned off — budgeting remains in Advanced settings');
+    }
   }
   function aiTile(label, sub, key, on, icon, opts){
     opts = opts || {};
@@ -2636,7 +2803,6 @@
     var steps = obSteps();
     if (obI >= steps.length) { obLoading(); return; }
     var s = steps[obI];
-    // progress reflects where you are through the (possibly changing) set of questions — no numbers shown
     document.getElementById('obBar').style.width = Math.round((obI + 1) / (steps.length + 1) * 100) + '%';
     document.getElementById('obBody').innerHTML =
       '<div class="fp-step" style="margin-bottom:4px">Getting Wesley ready</div>' +
@@ -2701,7 +2867,8 @@
     var data = sixMonthData();
     var max = Math.max(1, data.reduce(function(m, d){ return Math.max(m, d.saved, d.spent); }, 0));
     var bars = data.map(function(d, i){
-      var sh = Math.max(3, Math.round(d.saved / max * 140)), ph = Math.max(3, Math.round(d.spent / max * 140));
+      var sh = Math.max(2, Math.round(d.saved / max * 140)), ph = Math.max(2, Math.round(d.spent / max * 140));
+      // Start at height 0; grow to data-h on the next frame so the chart animates up from nothing.
       return '<div class="la-month" onmousemove="laTip(event,' + i + ')" onmouseleave="laTipHide()" ontouchstart="laTip(event,' + i + ')">' +
         '<div class="la-pair"><div class="la-bar saved" data-h="' + sh + '" style="height:0"></div><div class="la-bar spent" data-h="' + ph + '" style="height:0"></div></div>' +
         '<div class="la-mlabel">' + d.label + '</div></div>';
@@ -2709,7 +2876,9 @@
     box.innerHTML = '<div class="la-bars">' + bars + '</div>' +
       '<div class="la-legend"><span><i style="background:#2fa37e"></i>Set aside</span><span><i style="background:#9aa6bd"></i>Spent</span></div>' +
       '<div class="la-tip" id="laTip"></div>';
-    requestAnimationFrame(function(){ box.querySelectorAll('.la-bar').forEach(function(b){ b.style.height = b.getAttribute('data-h') + 'px'; }); });
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      box.querySelectorAll('.la-bar').forEach(function(b){ b.style.height = (b.getAttribute('data-h') || '0') + 'px'; });
+    }); });
   }
   function laTip(e, i){
     var tip = document.getElementById('laTip'); if (!tip || !_laData) return;
@@ -2722,23 +2891,31 @@
   }
   function laTipHide(){ var tip = document.getElementById('laTip'); if (tip) tip.style.opacity = '0'; }
 
-  // Count numbers up and grow the chart from zero when BankSmart is opened
+  // Count a number element up from 0 to its real value, so the dashboard "loads" rather than snapping in.
   function countUp(el, target, cents){
-    if (!el) return; var start = null, dur = 750;
-    function frame(ts){ if (start === null) start = ts; var p = Math.min(1, (ts - start) / dur); var e = 0.5 - Math.cos(p * Math.PI) / 2; var v = target * e;
-      if (cents){ var mp = moneyParts(v); el.innerHTML = mp.dollars + '<small>.' + mp.cents + '</small>'; } else { el.textContent = money(v); }
-      if (p < 1) requestAnimationFrame(frame);
+    if (!el) return;
+    var start = null, dur = 900;
+    function frame(ts){
+      if (start === null) start = ts;
+      var p = Math.min(1, (ts - start) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      var val = target * eased;
+      el.textContent = cents ? money(val) : Math.round(val).toLocaleString();
+      if (p < 1) requestAnimationFrame(frame); else el.textContent = cents ? money(target) : Math.round(target).toLocaleString();
     }
     requestAnimationFrame(frame);
   }
   function animateBankSmartEntry(){
     if (!user) return;
-    var safe = getSafeToSpend();
-    var choice = findAcct('choice'); var cur = choice ? balanceOf(choice) : 0;
-    countUp(document.getElementById('bsSafeToSpend'), safe, true);
-    countUp(document.getElementById('bankSmartCurrentBal'), cur, false);
-    var pots = document.querySelectorAll('#savingsPots .pv');
-    pots.forEach(function(el){ var t = parseFloat((el.textContent || '').replace(/[^0-9.]/g, '')) || 0; el.textContent = money(0); countUp(el, t, false); });
+    try {
+      var safe = document.getElementById('bsSafeToSpend');
+      if (safe){ var sv = parseFloat(String(safe.textContent).replace(/[^0-9.\-]/g, '')) || 0; countUp(safe, sv, true); }
+      var bal = document.getElementById('bankSmartCurrentBal');
+      if (bal){ var bv = parseFloat(String(bal.textContent).replace(/[^0-9.\-]/g, '')) || 0; countUp(bal, bv, true); }
+      document.querySelectorAll('#savingsPots .pv').forEach(function(p){
+        var v = parseFloat(String(p.textContent).replace(/[^0-9.\-]/g, '')) || 0; countUp(p, v, true);
+      });
+    } catch(e){}
     renderLookAhead();
   }
 
@@ -2746,6 +2923,7 @@
     if (!user) return;
     ensureUserNotifications(user);
     updateHeaderModeDropdown();
+    syncWesleyVisibility();
     renderPersonalOverview();
     renderBusinessOverview();
     renderCards();
@@ -2913,10 +3091,10 @@
       previewEl.innerHTML = 'Current balance: <strong>' + money(cur) + '</strong> → After ' + currentTxType + ': <strong style="color:' + color + '">' +
         money(newBal) + '</strong>';
       var sts = getSafeToSpend();
-      if (currentTxType === 'debit' && acct.kind === 'everyday' && acct.mode === 'personal' && amt > sts) {
+      if (currentTxType === 'debit' && acct.kind === 'everyday' && acct.mode === 'personal' && amt > sts && wz().aiEnabled) {
         var w = wz(), bcp = billCoverPlan(amt - sts);
         previewEl.innerHTML += '<div style="margin-top:8px;padding:8px 10px;border-radius:6px;background:#fff8e6;border:1px solid #f0c060">⚠️ This is <strong>' + money(amt - sts) + '</strong> more than your Safe to spend (' + money(sts) + '), so it would eat into money set aside for bills.' +
-          ((w.aiEnabled && w.billCover !== false) ? (bcp.moves.length ? ' <strong>Bill cover</strong> will top your bills back up from ' + escapeHtml(bcp.from) + '.' + (bcp.left > 0 ? ' It can\'t cover the last ' + money(bcp.left) + '.' : '') : ' There\'s nothing unprotected to cover it from.') : ' Bill cover is off.') + '</div>';
+          ((w.billCover !== false) ? (bcp.moves.length ? ' <strong>Bill cover</strong> will top your bills back up from ' + escapeHtml(bcp.from) + '.' + (bcp.left > 0 ? ' It can\'t cover the last ' + money(bcp.left) + '.' : '') : ' There\'s nothing unprotected to cover it from.') : ' Bill cover is off.') + '</div>';
       }
     }
   }
@@ -3019,28 +3197,7 @@
     renderSavingsPlan();
   }
 
-  function renderSavingsPlan(){
-    var allocBar = document.getElementById('savingsAllocBar');
-    var legend = document.getElementById('savingsLegend');
-    var pots = document.getElementById('savingsPots');
-    var ovGoals = document.getElementById('overviewGoalsContainer');
-    var ovLifeTotal = document.getElementById('westpacLifeTotal');
-    if (!allocBar || !legend || !pots || !user || !user.savingsPlan) return;
-
-    var planItems = user.savingsPlan;
-
-    // Render Allocation Bar
-    allocBar.innerHTML = planItems.map(function(item){
-      var flex = Math.max(1, Math.round(item.amount || 1));
-      return '<span style="flex:' + flex + ';background:' + item.color + '" title="' + escapeHtml(item.name) + ': ' + money(item.amount) + '"></span>';
-    }).join('');
-
-    // Render Legend
-    legend.innerHTML = planItems.map(function(item){
-      return '<span><i style="background:' + item.color + '"></i>' + escapeHtml(item.name) + '</span>';
-    }).join('');
-
-    // Render Pots
+  function buildSavingsPotsHtml(planItems, aiOn, billsListId){
     var potsHtml = planItems.map(function(item){
       var isGoal = item.type === 'goal';
       var delBtn = !item.fixed ? '<button type="button" class="pot-del" onclick="deletePlanItem(\'' + item.id + '\')" title="Remove ' + escapeHtml(item.name) + '" aria-label="Remove ' + escapeHtml(item.name) + '">✕</button>' : '';
@@ -3079,12 +3236,15 @@
               statusHtml +
             '</div>';
           }).join('');
-          billsHtml = '<button type="button" class="bills-toggle" aria-expanded="' + billsOpen + '" aria-controls="billsList" onclick="toggleBills()">' +
-            '<svg class="spk" width="14" height="14" viewBox="0 0 24 24" fill="url(#sgrad)" aria-hidden="true"><use href="#spark"/></svg>' +
-            bills.length + ' bills detected by BankSmart<span class="chev">▾</span></button>' +
-            '<div class="bills-list" id="billsList"' + (billsOpen ? '' : ' hidden') + '>' + rowsHtml +
+          var billsLabel = aiOn
+            ? '<svg class="spk" width="14" height="14" viewBox="0 0 24 24" fill="url(#sgrad)" aria-hidden="true"><use href="#spark"/></svg>' + bills.length + ' bills detected by BankSmart'
+            : bills.length + ' recurring bills';
+          var billsFootLink = aiOn ? '<a onclick="openWesley(\'Which bills have you detected?\')">Ask Wesley</a>' : '';
+          billsHtml = '<button type="button" class="bills-toggle" aria-expanded="' + billsOpen + '" aria-controls="' + billsListId + '" onclick="toggleBills()">' +
+            billsLabel + '<span class="chev">▾</span></button>' +
+            '<div class="bills-list" id="' + billsListId + '"' + (billsOpen ? '' : ' hidden') + '>' + rowsHtml +
             '<div class="bills-foot"><span>Set aside ' + money(totalSet) + ' of ' + money(totalDue) + '</span>' +
-            '<a onclick="openWesley(\'Which bills have you detected?\')">Ask Wesley</a></div></div>';
+            billsFootLink + '</div></div>';
         }
       }
 
@@ -3093,7 +3253,7 @@
         '<div class="pn"><span class="dot" style="background:' + item.color + '"></span><span>' + escapeHtml(item.name) + '</span>' + tag + '</div>' +
         '<div class="pv">' + money(item.amount) + '</div>' +
         progressHtml +
-        (isGoal ? '<button type="button" class="pot-lock' + (item.protected ? ' on' : '') + '" onclick="toggleGoalProtect(\'' + item.id + '\')" title="Protected goals are never used for bill cover">' + (item.protected ? '🔒 Protected from bill cover' : '🔓 Protect from bill cover') + '</button>' : '') +
+        (aiOn && isGoal ? '<button type="button" class="pot-lock' + (item.protected ? ' on' : '') + '" onclick="toggleGoalProtect(\'' + item.id + '\')" title="Protected goals are never used for bill cover">' + (item.protected ? '🔒 Protected from bill cover' : '🔓 Protect from bill cover') + '</button>' : '') +
         billsHtml +
       '</div>';
     }).join('');
@@ -3101,7 +3261,38 @@
     var addCardHtml = '<div class="pot-add-card" onclick="openPlanModal()" role="button" tabindex="0" onkeydown="if(event.key===\'Enter\'||event.key===\' \')openPlanModal()">' +
       '<div class="plus-icon">+</div><div class="txt">Add goal or bucket</div></div>';
 
-    pots.innerHTML = potsHtml + addCardHtml;
+    return potsHtml + addCardHtml;
+  }
+
+  function renderSavingsPlan(){
+    var allocBar = document.getElementById('savingsAllocBar');
+    var legend = document.getElementById('savingsLegend');
+    var pots = document.getElementById('savingsPots');
+    var advAllocBar = document.getElementById('advSavingsAllocBar');
+    var advLegend = document.getElementById('advSavingsLegend');
+    var advPots = document.getElementById('advSavingsPots');
+    var ovGoals = document.getElementById('overviewGoalsContainer');
+    var ovLifeTotal = document.getElementById('westpacLifeTotal');
+    if (!user || !user.savingsPlan) return;
+
+    var planItems = user.savingsPlan;
+    var aiOn = !!wz().aiEnabled;
+
+    var allocHtml = planItems.map(function(item){
+      var flex = Math.max(1, Math.round(item.amount || 1));
+      return '<span style="flex:' + flex + ';background:' + item.color + '" title="' + escapeHtml(item.name) + ': ' + money(item.amount) + '"></span>';
+    }).join('');
+    var legendHtml = planItems.map(function(item){
+      return '<span><i style="background:' + item.color + '"></i>' + escapeHtml(item.name) + '</span>';
+    }).join('');
+
+    if (allocBar) allocBar.innerHTML = allocHtml;
+    if (legend) legend.innerHTML = legendHtml;
+    if (pots) pots.innerHTML = buildSavingsPotsHtml(planItems, aiOn, 'billsList');
+
+    if (advAllocBar) advAllocBar.innerHTML = allocHtml;
+    if (advLegend) advLegend.innerHTML = legendHtml;
+    if (advPots) advPots.innerHTML = buildSavingsPotsHtml(planItems, aiOn, 'advBillsList');
 
     // Render Overview Goals
     if (ovGoals) {
@@ -3496,7 +3687,7 @@
     }
     saveStore();
     renderAll();
-    showToast('✓ BankSmart settings saved successfully');
+    showToast(wz().aiEnabled ? '✓ BankSmart settings saved successfully' : '✓ Budgeting settings saved successfully');
   }
 
   function resetBSSettings(){
@@ -3510,7 +3701,7 @@
     }
     saveStore();
     renderBSSettings();
-    showToast('BankSmart settings reset to defaults');
+    showToast(wz().aiEnabled ? 'BankSmart settings reset to defaults' : 'Budgeting settings reset to defaults');
   }
 
   function initBSSettingsListeners(){
@@ -3714,7 +3905,7 @@
     var monthly = round2(Math.abs(amount));
     user.subscriptions = user.subscriptions || [];
     user.subscriptions.push({ id: 'sub_' + Date.now(), name: desc.replace(/\s+—.*$/, ''), monthly: monthly, months: 1, annual: round2(monthly * 10), estimated: true });
-    setTimeout(function(){ showToast('🔁 New subscription spotted — Wesley will check annual pricing after 6 months'); }, 3500);
+    if (wz().aiEnabled) setTimeout(function(){ showToast('🔁 New subscription spotted — Wesley will check annual pricing after 6 months'); }, 3500);
   }
 
   // ---------- Bill cover ----------
@@ -3841,8 +4032,9 @@
   function renderBillCover(){
     var slots = document.querySelectorAll('.billCoverSlot');
     var bc = user && user.billCover;
+    var aiOn = user ? !!wz().aiEnabled : true;
     slots.forEach(function(slot){
-      if (!bc || bc.dismissed) { slot.innerHTML = ''; return; }
+      if (!aiOn || !bc || bc.dismissed) { slot.innerHTML = ''; return; }
       var full = slot.getAttribute('data-variant') === 'full';
       var head = '🛡️';
       var title, body, extra = '';
@@ -4021,7 +4213,7 @@
   function momentDismiss(id){ var m = lrn().moments.find(function(x){ return x.id === id; }); if (m) { m.done = true; var c = lrn().checks.find(function(x){ return x.id === id && x.outcome === 'waiting'; }); if (c) c.outcome = 'Dismissed'; } saveStore(); renderMoments(); renderLearning(); }
   function renderMoments(){
     var box = document.getElementById('momentStack'); if (!box) return;
-    if (!user || !user.learn) { box.innerHTML = ''; return; }
+    if (!user || !user.learn || !wz().aiEnabled) { box.innerHTML = ''; return; }
     var open = user.learn.moments.filter(function(m){ return !m.done; }).slice(0, 2);
     box.innerHTML = open.map(function(m){ return '<section class="moment ' + m.type + '" role="status" aria-live="polite">' + momentHtml(m) + '</section>'; }).join('');
   }
@@ -5113,7 +5305,7 @@
         go('approval');
       }
     } else if (msg.actionPage === 'banksmart') {
-      go('banksmart');
+      go(wz().aiEnabled ? 'banksmart' : 'bs-settings');
     } else if (msg.actionPage === 'account') {
       openAccount(currentAcctId);
     }
@@ -5232,6 +5424,7 @@
       agentExamples.push('Alert when co-signatory needs approval');
     }
 
+    var aiOn = !!wz().aiEnabled;
     var wesleyBarHtml = '<div class="bs-header-row" style="margin-bottom:10px">' +
       '<div class="pagehead" style="margin:0"><h1>Notifications &amp; Alert Rules</h1></div>' +
       '<div style="display:flex;gap:8px;align-items:center">' +
@@ -5239,8 +5432,12 @@
         '<button type="button" class="bs-settings-btn" onclick="go(\'overview\')">← Back to accounts</button>' +
       '</div>' +
     '</div>' +
-    '<div class="bs-tag" style="margin-bottom:16px">Choose how we contact you (SMS or Email), manage standard debit/credit alerts, and build smart rules — manually or by asking <strong>Wesley</strong>.</div>' +
-    '<div class="notif-wesley-bar">' +
+    '<div class="bs-tag" style="margin-bottom:16px">' +
+      (aiOn
+        ? 'Choose how we contact you (SMS or Email), manage standard debit/credit alerts, and build smart rules — manually or by asking <strong>Wesley</strong>.'
+        : 'Choose how we contact you (SMS or Email), manage standard debit/credit alerts, and build custom alert rules.') +
+    '</div>' +
+    (aiOn ? '<div class="notif-wesley-bar">' +
       '<div class="notif-wesley-row">' +
         '<div class="wesley-av" style="width:38px;height:38px;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><use href="#spark"/></svg></div>' +
         '<input type="text" id="notifAgentPrompt" class="notif-wesley-input" placeholder="Ask Wesley to create a rule… e.g. &quot;SMS me when I spend over $100 on Groceries&quot;">' +
@@ -5253,7 +5450,7 @@
         }).join('') +
       '</div>' +
       '<div id="notifAgentFeedback" style="font-size:13px;margin-top:10px" hidden></div>' +
-    '</div>';
+    '</div>' : '');
 
     // 2. Delivery Channels & Regular Debits/Credits Toggles
     var channelsHtml = '<div class="panelbox" style="margin:0">' +
@@ -5427,13 +5624,13 @@
 
     var rulesListHtml = '';
     if (filteredRules.length === 0) {
-      rulesListHtml = '<div style="font-size:13.5px;color:var(--muted);padding:18px;border:1px dashed var(--line2);border-radius:8px;text-align:center">No custom rules match this filter yet. Create one above or ask Wesley!</div>';
+      rulesListHtml = '<div style="font-size:13.5px;color:var(--muted);padding:18px;border:1px dashed var(--line2);border-radius:8px;text-align:center">No custom rules match this filter yet. Create one above' + (aiOn ? ' or ask Wesley!' : '.') + '</div>';
     } else {
       rulesListHtml = '<div class="rule-list">' + filteredRules.map(function(r){
         var tagsHtml = getRuleConditionTags(r).map(function(tg){
           return '<span class="rule-tag">' + escapeHtml(tg.text) + '</span>';
         }).join('');
-        var agentBadge = r.createdBy === 'agent' ? '<span class="agent-badge">✨ Wesley</span>' : '';
+        var agentBadge = (aiOn && r.createdBy === 'agent') ? '<span class="agent-badge">✨ Wesley</span>' : '';
         return '<div class="notif-rule-row' + (r.enabled ? '' : ' paused') + '">' +
           '<div class="notif-rule-main">' +
             '<div class="notif-rule-title">' + escapeHtml(getRuleSummary(r)) + ' ' + agentBadge + '</div>' +
@@ -5929,6 +6126,7 @@
   }
 
   function openWesley(prefill){
+    if (user && !wz().aiEnabled) return;
     document.getElementById('wesleyPanel').hidden = false;
     seedChat();
     var b = document.getElementById('chatBox');
