@@ -738,6 +738,15 @@
   .ob-custom input:focus{outline:2px solid var(--info);border-color:var(--info)}
   .ob-cont{width:100%;font-family:inherit;font-size:15px;font-weight:700;background:var(--brand);color:#fff;border:none;border-radius:999px;padding:13px;cursor:pointer;margin-top:2px}
   .ob-cont:hover{filter:brightness(1.05)}
+  /* "Just having a look for now" — the rest of the banking app stays fully usable;
+     only the Wesley/BankSmart page is greyed out and locked until Wesley is set up.
+     Content stays visible and scrollable but can't be read clearly or interacted with. */
+  .page[data-page="banksmart"].bs-locked > :not(.lookonly-banner){filter:grayscale(100%);opacity:.5;pointer-events:none;user-select:none}
+  .lookonly-banner{position:sticky;top:0;z-index:45;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;background:linear-gradient(135deg,#da1710,#ff7468);color:#fff;padding:14px 18px;margin-bottom:16px;border-radius:12px;text-align:center;box-shadow:0 4px 16px rgba(218,23,16,.25)}
+  .lookonly-banner[hidden]{display:none}
+  .lookonly-banner .lob-text{font-size:14.5px;font-weight:600;line-height:1.4}
+  .lookonly-banner button{font-family:inherit;font-size:14px;font-weight:700;white-space:nowrap;background:#fff;color:var(--brand);border:none;border-radius:999px;padding:9px 22px;cursor:pointer}
+  .lookonly-banner button:hover{filter:brightness(.96)}
   .bs-disabled-overlay{position:absolute;inset:0;background:rgba(244,245,247,.82);display:flex;align-items:flex-start;justify-content:center;padding:70px 16px 16px;z-index:40;border-radius:8px}
   .bs-disabled-overlay[hidden]{display:none}
   /* When Wesley is off, grey out the BankSmart content behind the overlay box */
@@ -955,6 +964,11 @@
 
       <!-- BankSmart dashboard (overhauled) -->
       <section class="page" data-page="banksmart" hidden style="position:relative">
+        <!-- "Just having a look" lock — shown until Wesley is set up -->
+        <div class="lookonly-banner" hidden>
+          <span class="lob-text">👋 Hey! If you want to access these features, you'll need to set up Wesley first.</span>
+          <button type="button" onclick="startOnboarding()">Set up Wesley</button>
+        </div>
         <div id="bsDisabledOverlay" class="bs-disabled-overlay" hidden>
           <div class="bs-disabled-card">
             <div class="ic">⏸️</div>
@@ -1352,6 +1366,11 @@
       </section>
 
       <section class="page" data-page="banksmart" hidden style="position:relative">
+        <!-- "Just having a look" lock — shown until Wesley is set up -->
+        <div class="lookonly-banner" hidden>
+          <span class="lob-text">👋 Hey! If you want to access these features, you'll need to set up Wesley first.</span>
+          <button type="button" onclick="startOnboarding()">Set up Wesley</button>
+        </div>
         <div id="bsDisabledOverlayBiz" class="bs-disabled-overlay" hidden>
           <div class="bs-disabled-card">
             <div class="ic">⏸️</div>
@@ -2858,7 +2877,43 @@
     if (w.forecast === undefined) w.forecast = true;
     if (w.digest === undefined) w.digest = 'weekly';
     if (w.autoSaveWeekly === undefined) w.autoSaveWeekly = 0;
+    if (w.lookOnly === undefined) w.lookOnly = false;
     return w;
+  }
+  // "Just having a look for now": the rest of the banking app stays usable, but the
+  // Wesley/BankSmart page is greyed out and locked (scroll only, no interacting) with
+  // a "set up Wesley" banner, until Wesley is set up.
+  function applyLookOnly(){
+    if (!user) return;
+    // Until Wesley is set up, the BankSmart page stays greyed out and locked behind the banner.
+    var locked = !wz().onboarded;
+    document.querySelectorAll('.page[data-page="banksmart"]').forEach(function(sec){
+      sec.classList.toggle('bs-locked', locked);
+    });
+    document.querySelectorAll('.lookonly-banner').forEach(function(b){ b.hidden = !locked; });
+  }
+  // Wesley is only "ready" (chat button visible, features live) once it's set up and switched on.
+  function wesleyReady(){ return !!(user && wz().aiEnabled && wz().onboarded && !wz().lookOnly); }
+  // Opting out / declining setup wipes Wesley's own data for this profile — everyday banking is untouched.
+  function clearWesleyData(){
+    if (!user) return;
+    user.wesley = {};
+    user.learn = { facts: [], checks: [], moments: [], known: [], travelNotice: null, extra: 0 };
+    user.bsSettings = null; ensureUserBSSettings(user);
+  }
+  function lockWesley(){
+    clearWesleyData();
+    var w = wz();                 // re-applies defaults after the wipe
+    w.onboarded = false; w.lookOnly = true; w.welcomeSeen = true;
+    saveStore();
+    try { closeWesley(); } catch(e){}
+  }
+  function enterLookOnly(){
+    lockWesley();
+    document.getElementById('onboardModal').hidden = true;
+    renderAll();
+    window.scrollTo(0, 0);
+    showToast('Having a look around 👀 — set up Wesley any time to unlock everything.');
   }
   function syncWesleyVisibility(){
     if (!user) return;
@@ -2871,9 +2926,12 @@
       el.classList.remove('off');
     });
 
+    var ready = wesleyReady();
     var fab = document.querySelector('.wesley-fab');
-    if (fab) fab.hidden = !on;
-    if (!on) closeWesley();
+    if (fab) fab.hidden = !ready;
+    var ms = document.getElementById('momentStack');
+    if (ms) ms.style.display = ready ? '' : 'none';
+    if (!ready) closeWesley();
 
     ['ovPersonalPromoBs', 'ovPersonalPromoAsk', 'ovBusinessPromoLoan'].forEach(function(id){
       var el = document.getElementById(id);
@@ -3069,7 +3127,7 @@
   function applyAiState(){
     if (!user) return;
     var on = wz().aiEnabled;
-    var fab = document.querySelector('.wesley-fab'); if (fab) fab.style.display = on ? '' : 'none';
+    var fab = document.querySelector('.wesley-fab'); if (fab) fab.style.display = wesleyReady() ? '' : 'none';
     // Show the disabled overlay box and grey out the content on both BankSmart pages.
     ['bsDisabledOverlay', 'bsDisabledOverlayBiz'].forEach(function(id){
       var ov = document.getElementById(id); if (ov) ov.hidden = on;
@@ -3086,7 +3144,12 @@
     if (w.onboarded || w.welcomeSeen) return;
     document.getElementById('welcomeModal').hidden = false;
   }
-  function welcomeNotNow(){ var w = wz(); w.welcomeSeen = true; saveStore(); document.getElementById('welcomeModal').hidden = true; obPromptUpdate(); showToast('No worries — you can set up Wesley any time on the BankSmart page.'); }
+  function welcomeNotNow(){
+    lockWesley();
+    document.getElementById('welcomeModal').hidden = true;
+    renderAll();
+    showToast('No worries — Wesley is locked for now. You can set it up any time from BankSmart.');
+  }
   function welcomeTakeMeThere(){
     var w = wz(); w.welcomeSeen = true; saveStore();
     document.getElementById('welcomeModal').hidden = true;
@@ -3160,7 +3223,12 @@
     if (obI > 0) html += '<div style="margin-top:6px"><a href="#" onclick="obBack();return false" style="font-size:13px">‹ Back</a></div>';
     document.getElementById('obBody').innerHTML = html;
   }
-  function obPick(idx){ var steps = obSteps(); var s = steps[obI]; obA[s.key] = s.opts[idx].v; obI++; obRender(); }
+  function obPick(idx){
+    var steps = obSteps(); var s = steps[obI]; var v = s.opts[idx].v;
+    // "Just having a look for now" stops setup here and drops into the locked preview.
+    if (s.key === 'focus' && v === 'explore') { enterLookOnly(); return; }
+    obA[s.key] = v; obI++; obRender();
+  }
   function obToggle(idx){
     var steps = obSteps(), s = steps[obI], v = s.opts[idx].v;
     var arr = obA[s.key] || (obA[s.key] = []);
@@ -3221,7 +3289,7 @@
         if (user.bsSettings && user.bsSettings.roundUp) user.bsSettings.roundUp.enabled = false;
       }
     }
-    w.onboarded = true; w.aiEnabled = true;
+    w.onboarded = true; w.aiEnabled = true; w.lookOnly = false;
     saveStore();
     document.getElementById('onboardModal').hidden = true;
     renderAll();
@@ -3234,7 +3302,7 @@
   function obPromptUpdate(){
     var el = document.getElementById('obPrompt'); if (!el || !user) return;
     var w = wz();
-    el.hidden = !!(w.onboarded) || !w.aiEnabled;
+    el.hidden = !!(w.onboarded) || !w.aiEnabled || !!w.lookOnly;
   }
 
   // ===== Looking ahead: last 6 months bar graph =====
@@ -3381,6 +3449,7 @@
     renderLookAhead();
     obPromptUpdate();
     applyAiState();
+    applyLookOnly();
   }
 
   // ==========================================
