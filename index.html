@@ -698,6 +698,12 @@
   .ob-cont:hover{filter:brightness(1.05)}
   .bs-disabled-overlay{position:absolute;inset:0;background:rgba(244,245,247,.82);display:flex;align-items:flex-start;justify-content:center;padding:70px 16px 16px;z-index:40;border-radius:8px}
   .bs-disabled-overlay[hidden]{display:none}
+  /* When Wesley is off, grey out the BankSmart content behind the overlay box */
+  .bs-off > :not(.bs-disabled-overlay){filter:grayscale(.6);opacity:.5;pointer-events:none;user-select:none}
+  .banksmart-tab.off{opacity:.45}
+  .wp-foot{padding:8px 12px;border-top:1px solid var(--line);background:#fffaf9;text-align:center}
+  .wp-reset{font-family:inherit;font-size:12.5px;color:var(--muted);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:6px}
+  .wp-reset:hover{color:var(--brand);background:var(--soft)}
   .bs-disabled-card{background:#fff;border:1px solid var(--line2);border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.14);padding:28px;max-width:380px;text-align:center}
   .bs-disabled-card .ic{font-size:34px}
   .bs-disabled-card h3{font-size:19px;margin:8px 0 6px}
@@ -1303,7 +1309,15 @@
         <div class="placeholder">Explore business accounts, loans, cards and merchant services.</div>
       </section>
 
-      <section class="page" data-page="banksmart" hidden>
+      <section class="page" data-page="banksmart" hidden style="position:relative">
+        <div id="bsDisabledOverlayBiz" class="bs-disabled-overlay" hidden>
+          <div class="bs-disabled-card">
+            <div class="ic">⏸️</div>
+            <h3>Wesley is turned off</h3>
+            <p>Your AI tools are disabled. Turn Wesley back on to use BankSmart's business features — it's instant, and your settings are saved.</p>
+            <button onclick="aiMasterEnable()">Enable Wesley</button>
+          </div>
+        </div>
         <div class="bs-hero"><svg width="36" height="36" viewBox="0 0 24 24" fill="url(#sgrad)" aria-hidden="true"><use href="#spark"/></svg><h1>BankSmart</h1></div>
         <div class="bs-tag">Powered by <strong>Wesley</strong>, your AI assistant for business banking. Here's your snapshot — to act on anything, just chat with Wesley in the corner.</div>
         <div class="ask-wesley">
@@ -1592,6 +1606,9 @@
     <div class="chat-input">
       <input id="chatBox" placeholder="Ask Wesley…" onkeydown="if(event.key==='Enter'){wesleySend();}">
       <button class="wp-send" onclick="wesleySend()">➤</button>
+    </div>
+    <div class="wp-foot">
+      <button class="wp-reset" onclick="resetDemo()">↺ Start over &amp; replay onboarding</button>
     </div>
   </div>
 </div>
@@ -2418,9 +2435,8 @@
   }
 
   function go(page){
-    if (user && !wz().aiEnabled && page === 'banksmart') {
-      page = 'settings';
-    }
+    // When Wesley is off we still show the BankSmart page, but greyed out behind
+    // a disabled overlay (handled in applyAiState) rather than redirecting away.
     var m = document.querySelector('.mode:not([hidden])');
     if (!m) return;
     if (page === 'bs-settings' && m.getAttribute('data-mode') !== 'personal') {
@@ -2768,8 +2784,11 @@
     if (!user) return;
     var on = !!wz().aiEnabled;
 
+    // Keep the BankSmart tab reachable when Wesley is off, just visually muted —
+    // the page itself shows a greyed-out disabled state.
     document.querySelectorAll('.banksmart-tab').forEach(function(el){
-      el.hidden = !on;
+      el.hidden = false;
+      el.classList.toggle('off', !on);
     });
 
     var fab = document.querySelector('.wesley-fab');
@@ -2914,6 +2933,21 @@
   }
   function uiConfirmClose(){ document.getElementById('uiConfirmModal').hidden = true; _uiConfirmCb = null; }
   function uiConfirmRun(){ var cb = _uiConfirmCb; uiConfirmClose(); if (cb) cb(); }
+  // Demo reset: wipe saved data and reload so the welcome + onboarding run fresh.
+  function resetDemo(){
+    uiConfirm({
+      title: 'Start over?',
+      body: 'This clears all demo accounts and settings saved in this browser and reloads, so the Wesley welcome and onboarding run from scratch. Handy for demos.',
+      confirmLabel: 'Clear & restart',
+      cancelLabel: 'Cancel',
+      danger: true,
+      onConfirm: function(){
+        try { localStorage.removeItem(STORE_KEY); } catch(e){}
+        try { localStorage.removeItem('banksmart_savings_plan_items'); } catch(e){}
+        location.reload();
+      }
+    });
+  }
 
   // ===== AI master toggle / disabled state =====
   function aiMasterToggle(el){
@@ -2938,7 +2972,13 @@
     if (!user) return;
     var on = wz().aiEnabled;
     var fab = document.querySelector('.wesley-fab'); if (fab) fab.style.display = on ? '' : 'none';
-    var ov = document.getElementById('bsDisabledOverlay'); if (ov) ov.hidden = on;
+    // Show the disabled overlay box and grey out the content on both BankSmart pages.
+    ['bsDisabledOverlay', 'bsDisabledOverlayBiz'].forEach(function(id){
+      var ov = document.getElementById(id); if (ov) ov.hidden = on;
+    });
+    document.querySelectorAll('.page[data-page="banksmart"]').forEach(function(sec){
+      sec.classList.toggle('bs-off', !on);
+    });
     if (!on) { try { closeWesley(); } catch(e){} }
   }
 
