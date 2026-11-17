@@ -680,8 +680,22 @@
   .signinbtn.danger:hover{background:#9c0e15}
   .fp-bar-wrap{height:6px;background:#eee;border-radius:999px;overflow:hidden;margin-bottom:18px}
   .fp-bar-fill{height:100%;background:var(--brand);transition:width .25s}
-  .ob-opt{display:block;width:100%;text-align:left;font-family:inherit;font-size:15px;border:1px solid var(--line2);background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer}
+  .ob-opt{display:block;width:100%;text-align:left;font-family:inherit;font-size:15px;border:1px solid var(--line2);background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:border-color .12s, background .12s}
   .ob-opt:hover{border-color:var(--brand);background:var(--soft)}
+  .ob-opt.sel{border-color:var(--brand);background:var(--soft);font-weight:700}
+  .ob-opt.multi{position:relative;padding-left:46px}
+  .ob-opt.multi .obx{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:20px;height:20px;border:1.5px solid var(--line2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;background:#fff}
+  .ob-opt.multi.sel .obx{background:var(--brand);border-color:var(--brand)}
+  .ob-hint{font-size:12.5px;color:var(--muted);margin:-4px 0 14px}
+  .ob-amts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+  .ob-amt{flex:1 1 0;min-width:70px;text-align:center;font-family:inherit;font-size:15px;font-weight:700;border:1px solid var(--line2);background:#fff;border-radius:10px;padding:14px 10px;cursor:pointer;transition:border-color .12s, background .12s}
+  .ob-amt:hover{border-color:var(--brand)}
+  .ob-amt.sel{border-color:var(--brand);background:var(--soft);color:var(--brand)}
+  .ob-custom{display:flex;align-items:center;gap:8px;margin:2px 0 14px}
+  .ob-custom input{flex:1;font-family:inherit;font-size:15px;padding:12px 14px;border:1px solid var(--line2);border-radius:10px;background:#fff}
+  .ob-custom input:focus{outline:2px solid var(--info);border-color:var(--info)}
+  .ob-cont{width:100%;font-family:inherit;font-size:15px;font-weight:700;background:var(--brand);color:#fff;border:none;border-radius:999px;padding:13px;cursor:pointer;margin-top:2px}
+  .ob-cont:hover{filter:brightness(1.05)}
   .bs-disabled-overlay{position:absolute;inset:0;background:rgba(244,245,247,.82);display:flex;align-items:flex-start;justify-content:center;padding:70px 16px 16px;z-index:40;border-radius:8px}
   .bs-disabled-overlay[hidden]{display:none}
   .bs-disabled-card{background:#fff;border:1px solid var(--line2);border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.14);padding:28px;max-width:380px;text-align:center}
@@ -2589,6 +2603,7 @@
     if (w.shield === undefined) w.shield = true;
     if (w.forecast === undefined) w.forecast = true;
     if (w.digest === undefined) w.digest = 'weekly';
+    if (w.autoSaveWeekly === undefined) w.autoSaveWeekly = 0;
     return w;
   }
   function syncWesleyVisibility(){
@@ -2779,6 +2794,8 @@
   function welcomeTakeMeThere(){ var w = wz(); w.welcomeSeen = true; saveStore(); document.getElementById('welcomeModal').hidden = true; setMode('personal'); go('banksmart'); setTimeout(startOnboarding, 250); }
   // Questions are relaxed and optional; some only appear based on earlier answers,
   // so the progress bar moves at its own pace (no "x of y" count shown).
+  // Step types: 'single' (tap to advance), 'multi' (tick several, then Continue),
+  // 'amount' (pick a preset or type your own, then Continue).
   var OB_STEPS = [
     { key: 'focus', q: "What's on your mind with money right now?", opts: [
       { v: 'save', l: '💭 Saving towards something' },
@@ -2789,28 +2806,77 @@
       { v: 'trip', l: '✈️ A trip or holiday' }, { v: 'home', l: '🏡 A home or rental bond' }, { v: 'car', l: '🚗 A car or a big buy' }, { v: 'rainy', l: '☔ A rainy-day fund' }, { v: 'other', l: '✨ Something else' }] },
     { key: 'style', q: 'How would you like Wesley to work with you?', opts: [
       { v: 'auto', l: '🤝 Take care of the small stuff for me' }, { v: 'suggest', l: '💡 Suggest things, I\'ll decide' }, { v: 'insights', l: '📊 Just show me the insights' }] },
-    { key: 'intensity', q: 'And how keen are you to grow your savings?', show: function(a){ return a.focus !== 'explore'; }, opts: [
-      { v: '1×', l: '🪶 Easy does it' }, { v: '2×', l: '⚖️ A steady pace' }, { v: '5×', l: '🚀 Full speed ahead' }] },
+    { key: 'helps', type: 'multi', q: 'What would you like Wesley to keep an eye on?', hint: 'Pick as many as you like — you can change these any time.', show: function(a){ return a.focus !== 'explore'; }, opts: [
+      { v: 'billCover', l: '🛡️ Make sure bills don\'t bounce' },
+      { v: 'feeCover', l: '💳 Help me dodge avoidable fees' },
+      { v: 'sweeps', l: '⟳ Move spare money into savings on good weeks' },
+      { v: 'forecast', l: '📈 Give me a heads-up before a tight week' },
+      { v: 'spendMoments', l: '💭 A gentle nudge on big purchases' },
+      { v: 'fraudChecks', l: '🔎 Flag anything that looks unusual' }] },
     { key: 'roundupsOn', q: 'Fancy popping your spare change into savings as you spend?', show: function(a){ return a.style !== 'insights'; }, opts: [
       { v: true, l: '🪙 Sure, round up my purchases' }, { v: false, l: '🙆 Maybe later' }] },
+    { key: 'roundStep', type: 'amount', q: 'Round each purchase up to the nearest…', hint: 'The spare change goes straight into your savings.', show: function(a){ return a.roundupsOn === true; }, opts: [
+      { v: 1, l: '$1' }, { v: 2, l: '$2' }, { v: 5, l: '$5' }] },
+    { key: 'autoSave', type: 'amount', q: 'Add a set amount to savings each week?', hint: 'Totally optional — set it to Not now and change it whenever.', custom: true, show: function(a){ return a.style !== 'insights'; }, opts: [
+      { v: 0, l: 'Not now' }, { v: 10, l: '$10' }, { v: 25, l: '$25' }, { v: 50, l: '$50' }] },
     { key: 'digest', q: 'Last one — how often should Wesley check in?', opts: [
       { v: 'weekly', l: '🗓️ A weekly wrap-up' }, { v: 'daily', l: '☀️ A daily note' }, { v: 'off', l: '🔕 Only when it really matters' }] }
   ];
   function obSteps(){ return OB_STEPS.filter(function(s){ return !s.show || s.show(obA); }); }
   var obI = 0, obA = {};
-  function startOnboarding(){ obI = 0; obA = {}; document.getElementById('onboardModal').hidden = false; obRender(); }
+  function startOnboarding(){ obI = 0; obA = { helps: ['billCover', 'forecast', 'sweeps'], roundStep: 1, autoSave: 0 }; document.getElementById('onboardModal').hidden = false; obRender(); }
   function obRender(){
     var steps = obSteps();
     if (obI >= steps.length) { obLoading(); return; }
     var s = steps[obI];
     document.getElementById('obBar').style.width = Math.round((obI + 1) / (steps.length + 1) * 100) + '%';
-    document.getElementById('obBody').innerHTML =
-      '<div class="fp-step" style="margin-bottom:4px">Getting Wesley ready</div>' +
-      '<h3 style="font-size:19px;margin-bottom:14px">' + s.q + '</h3>' +
-      s.opts.map(function(o, idx){ return '<button type="button" class="ob-opt" onclick="obPick(' + idx + ')">' + o.l + '</button>'; }).join('') +
-      (obI > 0 ? '<div style="margin-top:6px"><a href="#" onclick="obBack();return false" style="font-size:13px">‹ Back</a></div>' : '');
+    var html = '<div class="fp-step" style="margin-bottom:4px">Getting Wesley ready</div>' +
+      '<h3 style="font-size:19px;margin-bottom:' + (s.hint ? '8px' : '14px') + '">' + s.q + '</h3>' +
+      (s.hint ? '<div class="ob-hint">' + s.hint + '</div>' : '');
+    if (s.type === 'multi') {
+      var sel = obA[s.key] || [];
+      html += s.opts.map(function(o, idx){
+        var on = sel.indexOf(o.v) !== -1;
+        return '<button type="button" class="ob-opt multi' + (on ? ' sel' : '') + '" onclick="obToggle(' + idx + ')"><span class="obx">' + (on ? '✓' : '') + '</span>' + o.l + '</button>';
+      }).join('') + '<button type="button" class="ob-cont" onclick="obNext()">Continue</button>';
+    } else if (s.type === 'amount') {
+      var cur = obA[s.key], isPreset = s.opts.some(function(o){ return o.v === cur; });
+      html += '<div class="ob-amts">' + s.opts.map(function(o){
+        return '<button type="button" class="ob-amt' + (o.v === cur ? ' sel' : '') + '" onclick="obSetAmt(' + o.v + ')">' + o.l + '</button>';
+      }).join('') + '</div>';
+      if (s.custom) {
+        var customVal = (!isPreset && cur > 0) ? cur : '';
+        html += '<div class="ob-custom"><span style="font-weight:700;color:var(--muted)">$</span><input type="number" min="1" step="1" id="obCustomAmt" placeholder="Or type your own amount" value="' + customVal + '" oninput="obCustomAmt()"></div>';
+      }
+      html += '<button type="button" class="ob-cont" onclick="obNext()">Continue</button>';
+    } else {
+      html += s.opts.map(function(o, idx){
+        var on = obA[s.key] === o.v;
+        return '<button type="button" class="ob-opt' + (on ? ' sel' : '') + '" onclick="obPick(' + idx + ')">' + o.l + '</button>';
+      }).join('');
+    }
+    if (obI > 0) html += '<div style="margin-top:6px"><a href="#" onclick="obBack();return false" style="font-size:13px">‹ Back</a></div>';
+    document.getElementById('obBody').innerHTML = html;
   }
   function obPick(idx){ var steps = obSteps(); var s = steps[obI]; obA[s.key] = s.opts[idx].v; obI++; obRender(); }
+  function obToggle(idx){
+    var steps = obSteps(), s = steps[obI], v = s.opts[idx].v;
+    var arr = obA[s.key] || (obA[s.key] = []);
+    var at = arr.indexOf(v);
+    if (at === -1) arr.push(v); else arr.splice(at, 1);
+    obRender();
+  }
+  function obSetAmt(v){ var steps = obSteps(), s = steps[obI]; obA[s.key] = v; obRender(); }
+  function obCustomAmt(){
+    var steps = obSteps(), s = steps[obI], el = document.getElementById('obCustomAmt');
+    if (!el) return;
+    var n = parseFloat(el.value);
+    obA[s.key] = (isNaN(n) || n < 0) ? 0 : Math.round(n);
+    // Update preset highlight without stealing focus from the input.
+    document.querySelectorAll('.ob-amt').forEach(function(b){ b.classList.remove('sel'); });
+    s.opts.forEach(function(o, i){ if (o.v === obA[s.key]) { var b = document.querySelectorAll('.ob-amt')[i]; if (b) b.classList.add('sel'); } });
+  }
+  function obNext(){ obI++; obRender(); }
   function obBack(){ if (obI > 0) { obI--; obRender(); } }
   function obLoading(){
     document.getElementById('obBar').style.width = '100%';
@@ -2823,8 +2889,22 @@
   }
   function obFinish(){
     var w = wz();
-    if (obA.intensity) { w.intensity = obA.intensity; try { ctx.intensity = obA.intensity; } catch(e){} }
-    if (obA.roundupsOn !== undefined) w.roundupsOn = obA.roundupsOn;
+    // What Wesley keeps an eye on (multi-select) → the real feature flags.
+    if (Array.isArray(obA.helps)) {
+      ['billCover', 'feeCover', 'sweeps', 'forecast', 'spendMoments', 'fraudChecks'].forEach(function(f){
+        w[f] = obA.helps.indexOf(f) !== -1;
+      });
+    }
+    // Weekly auto-save → drives savings pace so we don't need a separate abstract question.
+    var weekly = (typeof obA.autoSave === 'number') ? obA.autoSave : 0;
+    w.autoSaveWeekly = weekly;
+    w.intensity = weekly >= 40 ? '5×' : weekly >= 15 ? '2×' : '1×';
+    try { ctx.intensity = w.intensity; } catch(e){}
+    // Round-ups → the real BankSmart round-up settings.
+    user.bsSettings = user.bsSettings || {};
+    if (!user.bsSettings.roundUp) user.bsSettings.roundUp = { enabled: true, step: 1, dest: '', rules: [] };
+    if (obA.roundupsOn !== undefined) { w.roundupsOn = obA.roundupsOn; user.bsSettings.roundUp.enabled = !!obA.roundupsOn; }
+    if (obA.roundupsOn === true && obA.roundStep) user.bsSettings.roundUp.step = obA.roundStep;
     if (obA.digest) { w.digest = obA.digest; try { ctx.digest = obA.digest; } catch(e){} }
     if (obA.focus) w.focus = obA.focus;
     if (obA.goalKind) w.goalKind = obA.goalKind;
@@ -2833,7 +2913,10 @@
     saveStore();
     document.getElementById('onboardModal').hidden = true;
     renderAll();
-    showToast('🎉 You\'re all set — Wesley\'s tuned to you.');
+    var bits = [];
+    if (obA.roundupsOn === true) bits.push('rounding up to the nearest $' + (obA.roundStep || 1));
+    if (weekly > 0) bits.push('saving $' + weekly + '/week');
+    showToast('🎉 You\'re all set' + (bits.length ? ' — ' + bits.join(' and ') : '') + '. You can tweak anything in Settings.');
     setTimeout(animateBankSmartEntry, 120);
   }
   function obPromptUpdate(){
