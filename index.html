@@ -672,6 +672,30 @@
   .lp-demo button:hover{background:var(--brand);color:#fff}
   .lp-demo button.ghost{border-color:var(--line2);color:var(--muted)}
   @media(max-width:760px){.lp-grid,.lp-stats{grid-template-columns:1fr}.moment-stack{top:auto;bottom:96px;right:16px}}
+
+  /* ===== Brand & Logo Appearance Setting (GEL Selector pattern) ===== */
+  .logo-setting-panel{margin-top:26px}
+  .logo-setting-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:6px}
+  .logo-setting-head h2{font-size:19px;font-weight:700;color:var(--navy);margin:0}
+  .logo-setting-desc{font-size:13.5px;color:var(--muted);margin-bottom:16px;line-height:1.5}
+  .logo-selector{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  @media(max-width:600px){.logo-selector{grid-template-columns:1fr}}
+  .logo-opt{position:relative;display:flex;align-items:center;gap:16px;padding:16px 18px;border:1px solid #767676;border-radius:6px;background:#fff;cursor:pointer;text-align:left;font-family:inherit;transition:border-color .15s,background .15s,box-shadow .15s}
+  .logo-opt:hover{background:#fffaf9;border-color:var(--brand)}
+  .logo-opt:focus-visible{outline:2px solid #1a6fd4;outline-offset:2px}
+  .logo-opt[aria-checked="true"]{border:2px solid var(--brand);padding:15px 17px;background:#fffaf9;box-shadow:0 2px 10px rgba(218,23,16,.08)}
+  .logo-preview{flex:0 0 88px;height:52px;border:1px solid var(--line);border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;padding:6px}
+  .logo-opt[aria-checked="true"] .logo-preview{border-color:#f3c4c1}
+  .logo-opt-body{flex:1;min-width:0}
+  .logo-opt-title{font-size:15px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .logo-opt-hint{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.4}
+  .logo-opt-check{flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:1.5px solid #999;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:transparent;background:#fff;transition:.15s}
+  .logo-opt[aria-checked="true"] .logo-opt-check{border-color:var(--brand);background:var(--brand);color:#fff}
+  .demo-logo-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 16px;border-top:1px solid var(--line);background:#fafafa;font-size:12px;color:var(--muted);font-weight:700}
+  .demo-logo-seg{display:inline-flex;border:1px solid #c7c7c7;border-radius:4px;overflow:hidden;background:#fff}
+  .demo-logo-seg button{border:none;background:transparent;padding:4px 9px;font-size:11.5px;font-weight:700;font-family:inherit;color:var(--ink);cursor:pointer}
+  .demo-logo-seg button + button{border-left:1px solid #c7c7c7}
+  .demo-logo-seg button.active{background:var(--brand2);color:#fff}
 </style>
 </head>
 <body>
@@ -683,6 +707,14 @@
     <path transform="translate(18.6 6.3) scale(2.7)" d="M0 -1 Q0.16 -0.16 1 0 Q0.16 0.16 0 1 Q-0.16 0.16 -1 0 Q-0.16 -0.16 0 -1 Z"/>
     <path transform="translate(18 17.6) scale(4.2)" d="M0 -1 Q0.16 -0.16 1 0 Q0.16 0.16 0 1 Q-0.16 0.16 -1 0 Q-0.16 -0.16 0 -1 Z"/>
   </symbol>
+  <symbol id="logo-wbc-gel" viewBox="0 0 69 28">
+    <path d="M24.0303 25.0896L17.3333 4.1147C16.447 0.903226 14.7727 0 12.4091 0H0C0.984848 0.401434 1.57576 2.91039 1.57576 2.91039L7.58333 23.9857C8.27273 26.595 10.4394 28 12.9015 28H26C25.0152 27.8996 24.0303 25.0896 24.0303 25.0896Z" fill="#da1710"/>
+    <path d="M44.9697 25.0896L51.6667 4.1147C52.553 0.903226 54.2273 0 56.5909 0H69C68.0152 0.401434 67.4242 2.91039 67.4242 2.91039L61.4167 23.9857C60.7273 26.595 58.5606 28 56.0985 28H43C43.9848 27.8996 44.9697 25.0896 44.9697 25.0896Z" fill="#da1710"/>
+    <path d="M42 0H27V28H42V0Z" fill="#da1710"/>
+  </symbol>
+  <symbol id="logo-w-custom" viewBox="0 0 100 64">
+    <polyline points="10,6 30,58 50,24 70,58 90,6" fill="none" stroke="#da1710" stroke-width="16" stroke-linejoin="miter"/>
+  </symbol>
 </defs></svg>
 
 <!-- ===================== LOGIN ===================== -->
@@ -692,7 +724,7 @@
     <a onclick="return false">Locate us</a><a class="strong" onclick="return false">Register for Westpac Online Banking</a>
   </div></div>
   <div class="sitehead"><div class="in">
-    <span class="wmark" role="button" tabindex="0" title="Westpac" aria-label="Westpac" onclick="playWah(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><svg width="56" height="40" viewBox="0 0 100 64" aria-label="Westpac"><polyline points="10,6 30,58 50,24 70,58 90,6" fill="none" stroke="#da1710" stroke-width="16" stroke-linejoin="miter"/></svg></span>
+    <span class="wmark" data-logo-slot="login-head" role="button" tabindex="0" title="Westpac" aria-label="Westpac" onclick="playWah(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><svg width="56" height="40" viewBox="0 0 100 64" aria-label="Westpac"><use href="#logo-w-custom"/></svg></span>
     <span class="divider"></span>
     <div class="sitenav"><a onclick="return false">Home</a><a onclick="return false">Personal</a><a class="active" onclick="return false">Business</a><a onclick="return false">Corporate</a><a onclick="return false">About us</a></div>
   </div></div>
@@ -726,7 +758,7 @@
     <div><a onclick="return false"><span class="chev">›</span>Security Guarantee</a><a onclick="return false"><span class="chev">›</span>Westpac Protect™ SMS Code</a><a onclick="return false"><span class="chev">›</span>SecurID® Token</a></div>
   </div>
   <div class="sitefoot"><div class="in">
-    <span class="wmark" role="button" tabindex="0" title="Westpac" aria-label="Westpac" onclick="playWah(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><svg width="40" height="28" viewBox="0 0 100 64" aria-label="Westpac"><polyline points="10,6 30,58 50,24 70,58 90,6" fill="none" stroke="#da1710" stroke-width="16" stroke-linejoin="miter"/></svg></span>
+    <span class="wmark" data-logo-slot="login-foot" role="button" tabindex="0" title="Westpac" aria-label="Westpac" onclick="playWah(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><svg width="40" height="28" viewBox="0 0 100 64" aria-label="Westpac"><use href="#logo-w-custom"/></svg></span>
     <div class="fine">Conditions, fees and charges apply. These may change or we may introduce new ones in the future. Full details are available on request. Lending criteria apply to approval of credit products.<br><br><strong>Concept prototype for demonstration only — not affiliated with or endorsed by Westpac.</strong></div>
   </div></div>
 
@@ -737,6 +769,13 @@
   <div class="demo-pop" id="demoMenu" hidden>
     <div class="demo-pop-head">Select a demo profile to sign in</div>
     <div id="demoUserList"></div>
+    <div class="demo-logo-bar">
+      <span>Header logo</span>
+      <div class="demo-logo-seg" role="radiogroup" aria-label="Header logo style">
+        <button type="button" data-logo-btn="custom" role="radio" aria-checked="true" onclick="setLogoStyle('custom')">Custom W</button>
+        <button type="button" data-logo-btn="westpac" role="radio" aria-checked="false" onclick="setLogoStyle('westpac')">Westpac</button>
+      </div>
+    </div>
     <button type="button" class="demo-reset-btn" onclick="resetDemoData()">↺ Reset all demo data</button>
   </div>
 </div>
@@ -745,7 +784,7 @@
 <div id="app" class="screen" hidden>
   <header class="wbc">
     <div class="in">
-      <span class="wmark" role="button" tabindex="0" title="Westpac" aria-label="Westpac" onclick="playWah(this); go('overview')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><svg width="52" height="38" viewBox="0 0 100 64" aria-label="Westpac"><polyline points="10,6 30,58 50,24 70,58 90,6" fill="none" stroke="#da1710" stroke-width="16" stroke-linejoin="miter"/></svg></span>
+      <span class="wmark" data-logo-slot="app-head" role="button" tabindex="0" title="Westpac" aria-label="Westpac" onclick="playWah(this); go('overview')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}"><svg width="52" height="38" viewBox="0 0 100 64" aria-label="Westpac"><use href="#logo-w-custom"/></svg></span>
       <div class="entity">
         <div class="dropdown" onclick="toggleMenu(event)">
           <span id="modeLabel">Personal banking</span><span>▾</span>
@@ -1049,6 +1088,30 @@
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">BankSmart preferences (Income splitting &amp; Round-ups)</div><div class="v"><a onclick="go('bs-settings')">Manage</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Notifications &amp; alert rules</div><div class="v"><a onclick="go('inbox')">Manage</a></div></div>
         </div>
+        <div class="panelbox logo-setting-panel">
+          <div class="logo-setting-head">
+            <h2>Brand &amp; Appearance — Header Logo</h2>
+          </div>
+          <p class="logo-setting-desc">Choose between the custom geometric W mark and the official Westpac GEL ribbon logo across the sign-in screen and online banking header.</p>
+          <div class="logo-selector" role="radiogroup" aria-label="Header logo style">
+            <button type="button" class="logo-opt" data-logo-opt="custom" role="radio" aria-checked="true" onclick="setLogoStyle('custom')">
+              <span class="logo-preview" aria-hidden="true"><svg width="48" height="32" viewBox="0 0 100 64"><use href="#logo-w-custom"/></svg></span>
+              <span class="logo-opt-body">
+                <span class="logo-opt-title">Custom W Logo</span>
+                <span class="logo-opt-hint">Custom geometric W mark with interactive bounce &amp; sound.</span>
+              </span>
+              <span class="logo-opt-check" aria-hidden="true">✓</span>
+            </button>
+            <button type="button" class="logo-opt" data-logo-opt="westpac" role="radio" aria-checked="false" onclick="setLogoStyle('westpac')">
+              <span class="logo-preview" aria-hidden="true"><svg width="64" height="26" viewBox="0 0 69 28"><use href="#logo-wbc-gel"/></svg></span>
+              <span class="logo-opt-body">
+                <span class="logo-opt-title">Westpac Logo</span>
+                <span class="logo-opt-hint">Official Westpac GEL ribbon symbol (WBCLogo).</span>
+              </span>
+              <span class="logo-opt-check" aria-hidden="true">✓</span>
+            </button>
+          </div>
+        </div>
       </section>
 
       <section class="page" data-page="inbox" hidden>
@@ -1156,6 +1219,30 @@
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Approval settings</div><div class="v"><a onclick="go('approval')">Manage</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Daily limits</div><div class="v"><a onclick="return false">Manage</a></div></div>
           <div class="arow" style="grid-template-columns:1fr 160px;border-bottom:1px solid var(--line)"><div class="nm" style="font-size:15px">Notifications &amp; alert rules</div><div class="v"><a onclick="go('inbox')">Manage</a></div></div>
+        </div>
+        <div class="panelbox logo-setting-panel">
+          <div class="logo-setting-head">
+            <h2>Brand &amp; Appearance — Header Logo</h2>
+          </div>
+          <p class="logo-setting-desc">Choose between the custom geometric W mark and the official Westpac GEL ribbon logo across the sign-in screen and online banking header.</p>
+          <div class="logo-selector" role="radiogroup" aria-label="Header logo style">
+            <button type="button" class="logo-opt" data-logo-opt="custom" role="radio" aria-checked="true" onclick="setLogoStyle('custom')">
+              <span class="logo-preview" aria-hidden="true"><svg width="48" height="32" viewBox="0 0 100 64"><use href="#logo-w-custom"/></svg></span>
+              <span class="logo-opt-body">
+                <span class="logo-opt-title">Custom W Logo</span>
+                <span class="logo-opt-hint">Custom geometric W mark with interactive bounce &amp; sound.</span>
+              </span>
+              <span class="logo-opt-check" aria-hidden="true">✓</span>
+            </button>
+            <button type="button" class="logo-opt" data-logo-opt="westpac" role="radio" aria-checked="false" onclick="setLogoStyle('westpac')">
+              <span class="logo-preview" aria-hidden="true"><svg width="64" height="26" viewBox="0 0 69 28"><use href="#logo-wbc-gel"/></svg></span>
+              <span class="logo-opt-body">
+                <span class="logo-opt-title">Westpac Logo</span>
+                <span class="logo-opt-hint">Official Westpac GEL ribbon symbol (WBCLogo).</span>
+              </span>
+              <span class="logo-opt-check" aria-hidden="true">✓</span>
+            </button>
+          </div>
         </div>
       </section>
 
@@ -1838,6 +1925,9 @@
       if (saved) {
         var parsed = JSON.parse(saved);
         if (parsed && parsed.version === 1 && parsed.users) {
+          if (parsed.logoStyle !== 'westpac' && parsed.logoStyle !== 'custom') {
+            parsed.logoStyle = 'custom';
+          }
           Object.keys(parsed.users).forEach(function(k){
             ensureUserBSSettings(parsed.users[k]);
             ensureUserNotifications(parsed.users[k]);
@@ -1846,7 +1936,7 @@
         }
       }
     } catch(e) {}
-    var fresh = { version: 1, users: clone(DEMO_USERS) };
+    var fresh = { version: 1, logoStyle: 'custom', users: clone(DEMO_USERS) };
     // migrate legacy single-user plan if present
     try {
       var legacy = localStorage.getItem('banksmart_savings_plan_items');
@@ -1874,13 +1964,81 @@
   }
 
   function resetStore(){
-    store = { version: 1, users: clone(DEMO_USERS) };
+    store = { version: 1, logoStyle: 'custom', users: clone(DEMO_USERS) };
     Object.keys(store.users).forEach(function(k){
       ensureUserBSSettings(store.users[k]);
       ensureUserNotifications(store.users[k]);
     });
     saveStore();
+    renderLogoMarks();
   }
+
+  // ==========================================
+  // BRAND LOGO SETTING (Westpac GEL vs Custom W)
+  // ==========================================
+  var LOGO_SLOT_SPECS = {
+    custom: {
+      symbolId: 'logo-w-custom',
+      viewBox: '0 0 100 64',
+      slots: {
+        'login-head': { width: 56, height: 40 },
+        'login-foot': { width: 40, height: 28 },
+        'app-head': { width: 52, height: 38 }
+      }
+    },
+    westpac: {
+      symbolId: 'logo-wbc-gel',
+      viewBox: '0 0 69 28',
+      slots: {
+        'login-head': { width: 69, height: 28 },
+        'login-foot': { width: 54, height: 22 },
+        'app-head': { width: 69, height: 28 }
+      }
+    }
+  };
+
+  function getLogoStyle(){
+    return (store && store.logoStyle === 'westpac') ? 'westpac' : 'custom';
+  }
+
+  function setLogoStyle(style, silent){
+    var next = (style === 'westpac') ? 'westpac' : 'custom';
+    if (!store) store = { version: 1, users: {} };
+    store.logoStyle = next;
+    saveStore();
+    renderLogoMarks();
+    if (!silent) {
+      showToast(next === 'westpac' ? '✓ Switched to Westpac logo' : '✓ Switched to custom W logo');
+    }
+  }
+
+  function toggleLogoStyle(){
+    setLogoStyle(getLogoStyle() === 'westpac' ? 'custom' : 'westpac');
+  }
+
+  function renderLogoMarks(){
+    var style = getLogoStyle();
+    var spec = LOGO_SLOT_SPECS[style] || LOGO_SLOT_SPECS.custom;
+
+    document.querySelectorAll('.wmark[data-logo-slot]').forEach(function(el){
+      var slot = el.getAttribute('data-logo-slot');
+      var dims = spec.slots[slot] || { width: 56, height: 40 };
+      el.innerHTML = '<svg width="' + dims.width + '" height="' + dims.height + '" viewBox="' + spec.viewBox + '" aria-label="Westpac"><use href="#' + spec.symbolId + '"/></svg>';
+    });
+
+    document.querySelectorAll('[data-logo-opt]').forEach(function(btn){
+      var isSelected = btn.getAttribute('data-logo-opt') === style;
+      btn.setAttribute('aria-checked', isSelected ? 'true' : 'false');
+    });
+
+    document.querySelectorAll('[data-logo-btn]').forEach(function(btn){
+      var isSelected = btn.getAttribute('data-logo-btn') === style;
+      btn.classList.toggle('active', isSelected);
+      btn.setAttribute('aria-checked', isSelected ? 'true' : 'false');
+    });
+  }
+  window.setLogoStyle = setLogoStyle;
+  window.toggleLogoStyle = toggleLogoStyle;
 
   function findAcct(acctId){
     if (!user || !user.accounts) return null;
@@ -2480,6 +2638,7 @@
   function renderAll(){
     if (!user) return;
     ensureUserNotifications(user);
+    renderLogoMarks();
     updateHeaderModeDropdown();
     renderPersonalOverview();
     renderBusinessOverview();
@@ -5883,6 +6042,19 @@
         chips: ["Open dashboard", "Save a bit harder", "All good"]
       };
     }
+    if (/logo|w mark|westpac logo|custom w|swap logo|change logo/.test(t)) {
+      if (/westpac/.test(t) && !/custom|swap|toggle|switch between/.test(t)) {
+        setLogoStyle('westpac');
+        return { html: "Done — switched the header logo to the official <strong>Westpac logo</strong>.", chips: ["Switch to Custom W logo", "All good"] };
+      }
+      if (/custom/.test(t) && !/westpac/.test(t)) {
+        setLogoStyle('custom');
+        return { html: "Done — switched the header logo back to the <strong>Custom W logo</strong>.", chips: ["Switch to Westpac logo", "All good"] };
+      }
+      toggleLogoStyle();
+      var activeLogo = getLogoStyle() === 'westpac' ? 'Westpac logo' : 'Custom W logo';
+      return { html: "Swapped! You're now using the <strong>" + activeLogo + "</strong>. You can change this anytime in <strong>Settings</strong>.", chips: ["Swap logo again", "All good"] };
+    }
     if (/offer|qualify|eligible|deal|discount/.test(t)) {
       ctx.topic = 'offers';
       return { html: "A few tailored insights from your accounts:<br>• <strong>Travel insurance</strong> — automatic quote for your trip dates.<br>• <strong>Fee-free overseas card</strong> — save on foreign transactions.<br>• <strong>Bonus saver rate</strong> — maintain steady deposits to earn peak interest.<br>Nothing happens without your say-so.", chips: ["Travel insurance", "Overseas card", "Maybe later"] };
@@ -5987,6 +6159,7 @@
   initColorSwatches();
   initBSSettingsListeners();
   renderDemoMenu();
+  renderLogoMarks();
 
   var savedUserId = sessionStorage.getItem(SESSION_KEY);
   if (savedUserId && store.users[savedUserId]) {
