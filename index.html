@@ -1044,7 +1044,7 @@
             <div id="lookAheadChart" class="la-chart"></div>
             <div class="fcap"><span class="ic">⟳</span><span><strong>I learn from your trends.</strong> If a tighter month looks likely, I can quietly set a little aside beforehand so things stay comfortable. — Wesley</span></div>
           </div>
-          <div class="panelbox feed" style="margin:0">
+          <div class="panelbox feed" id="wesleyDidFeed" style="margin:0">
             <h3 style="font-size:16px;margin-bottom:8px">What Wesley did for you</h3>
             <div class="move"><div class="mbadge" style="background:var(--soft);color:var(--brand)">🛡️</div><div style="flex:1"><div class="mt">Held back a tempting spend</div><div class="md">I set $80 aside on a Friday night so it wasn't sitting there, and gave it back Saturday.</div><div class="mf"><span class="mtime">Fri 8:02 PM</span><button class="undo">Undo</button></div></div></div>
             <div class="move"><div class="mbadge" style="background:var(--info-bg);color:var(--info)">⤵</div><div style="flex:1"><div class="mt">Covered a shortfall</div><div class="md">A payment was about to bounce, so I moved $45 across from your buffer — no fee.</div><div class="mf"><span class="mtime">Wed 7:14 AM</span><button class="undo">Undo</button></div></div></div>
@@ -2834,6 +2834,15 @@
     var curBal = choiceAcct ? balanceOf(choiceAcct) : 0;
     var safeSpend = getSafeToSpend();
 
+    // Until Wesley is set up, it hasn't worked anything out — show nothing computed.
+    if (!wz().onboarded) {
+      var zero = '$0<small>.00</small>';
+      ['bsSafeToSpend', 'advSafeToSpend'].forEach(function(id){ var e = document.getElementById(id); if (e) e.innerHTML = zero; });
+      ['bankSmartCurrentBal', 'advCurrentBal'].forEach(function(id){ var e = document.getElementById(id); if (e) e.textContent = money(curBal); });
+      var p0 = document.getElementById('overviewPromoSts'); if (p0) p0.textContent = money(0);
+      return;
+    }
+
     var bCur = document.getElementById('bankSmartCurrentBal');
     if (bCur) bCur.textContent = money(curBal);
 
@@ -2891,6 +2900,9 @@
       sec.classList.toggle('bs-locked', locked);
     });
     document.querySelectorAll('.lookonly-banner').forEach(function(b){ b.hidden = !locked; });
+    // Hide the sample "What Wesley did" feed until Wesley is actually set up.
+    var feed = document.getElementById('wesleyDidFeed');
+    if (feed) feed.style.display = locked ? 'none' : '';
   }
   // Wesley is only "ready" (chat button visible, features live) once it's set up and switched on.
   function wesleyReady(){ return !!(user && wz().aiEnabled && wz().onboarded && !wz().lookOnly); }
@@ -2933,10 +2945,13 @@
     if (ms) ms.style.display = ready ? '' : 'none';
     if (!ready) closeWesley();
 
-    ['ovPersonalPromoBs', 'ovPersonalPromoAsk', 'ovBusinessPromoLoan'].forEach(function(id){
+    // Wesley's overview promos only appear once he's set up and on; the loan promo tracks aiEnabled.
+    ['ovPersonalPromoBs', 'ovPersonalPromoAsk'].forEach(function(id){
       var el = document.getElementById(id);
-      if (el) el.hidden = !on;
+      if (el) el.hidden = !ready;
     });
+    var loanPromo = document.getElementById('ovBusinessPromoLoan');
+    if (loanPromo) loanPromo.hidden = !on;
 
     var pTog = document.getElementById('personalWesleyToggle');
     if (pTog) pTog.checked = on;
@@ -3035,6 +3050,7 @@
   function renderWesleyInsights(){
     var box = document.getElementById('wesleyInsights'); if (!box || !user) return;
     var w = wz();
+    if (!w.onboarded) { box.innerHTML = ''; return; }
     if (!w.aiEnabled) { box.innerHTML = '<div class="ai-insight" style="grid-column:1/-1"><div class="ic">⏸️</div><h4>Insights are paused</h4><p>Turn Wesley on in Settings &amp; Rules to see what he spots in your accounts.</p></div>'; return; }
     var txs = (user.transactions || []);
     var debits = txs.filter(function(t){ return (t.amount || 0) < 0; });
@@ -3334,6 +3350,7 @@
   }
   function renderLookAhead(){
     var box = document.getElementById('lookAheadChart'); if (!box || !user) return;
+    if (!wz().onboarded) { box.innerHTML = ''; return; }
     var data = sixMonthData();
     var max = Math.max(1, data.reduce(function(m, d){ return Math.max(m, d.saved, d.spent); }, 0));
     var bars = data.map(function(d, i){
@@ -4479,6 +4496,7 @@
   }
   function renderSubscriptions(){
     var box = document.getElementById('subsPanel'); if (!box || !user) return;
+    if (!wz().onboarded) { box.innerHTML = ''; return; }
     var subs = user.subscriptions || [];
     if (!subs.length) { box.innerHTML = '<div class="muted" style="font-size:13px">No subscriptions spotted yet. Wesley starts looking as soon as one turns up in your transactions.</div>'; return; }
     var onAnnual = 0;
@@ -4686,7 +4704,7 @@
   function renderBillCover(){
     var slots = document.querySelectorAll('.billCoverSlot');
     var bc = user && user.billCover;
-    var aiOn = user ? !!wz().aiEnabled : true;
+    var aiOn = user ? (!!wz().aiEnabled && !!wz().onboarded) : true;
     slots.forEach(function(slot){
       if (!aiOn || !bc || bc.dismissed) { slot.innerHTML = ''; return; }
       var full = slot.getAttribute('data-variant') === 'full';
@@ -4867,7 +4885,7 @@
   function momentDismiss(id){ var m = lrn().moments.find(function(x){ return x.id === id; }); if (m) { m.done = true; var c = lrn().checks.find(function(x){ return x.id === id && x.outcome === 'waiting'; }); if (c) c.outcome = 'Dismissed'; } saveStore(); renderMoments(); renderLearning(); }
   function renderMoments(){
     var box = document.getElementById('momentStack'); if (!box) return;
-    if (!user || !user.learn || !wz().aiEnabled) { box.innerHTML = ''; return; }
+    if (!user || !user.learn || !wz().aiEnabled || !wz().onboarded) { box.innerHTML = ''; return; }
     var open = user.learn.moments.filter(function(m){ return !m.done; }).slice(0, 2);
     box.innerHTML = open.map(function(m){ return '<section class="moment ' + m.type + '" role="status" aria-live="polite">' + momentHtml(m) + '</section>'; }).join('');
   }
@@ -4876,6 +4894,7 @@
   function renderLearning(){
     var box = document.getElementById('learnPanel'); if (!box || !user) return;
     var w = wz();
+    if (!w.onboarded) { box.innerHTML = ''; return; }
     if (!w.aiEnabled) { box.innerHTML = '<div class="muted" style="font-size:14px">Wesley is paused, so he isn\'t learning right now.</div>'; return; }
     var hp = habitProfile(), L = lrn(), s = hp.seed;
     var hrs = s.hours || [7, 22], fmtH = function(h){ return h === 0 ? '12am' : (h < 12 ? h + 'am' : (h === 12 ? '12pm' : (h - 12) + 'pm')); };
