@@ -79,7 +79,26 @@
   .menu[hidden]{display:none}
   .menu a{display:block;padding:11px 14px;font-size:14px;color:#333}
   .menu a:hover{background:var(--soft);text-decoration:none;color:var(--brand)}
-  .hbtns{display:flex;align-items:center;gap:10px}
+  .hbtns{display:flex;align-items:center;gap:10px;position:relative}
+  .notif-dd{position:absolute;top:calc(100% + 8px);right:0;width:360px;max-width:calc(100vw - 32px);max-height:440px;overflow-y:auto;background:#fff;border:1px solid var(--line2);border-radius:12px;box-shadow:0 18px 50px rgba(0,0,0,.22);z-index:300}
+  .notif-dd[hidden]{display:none}
+  .notif-dd-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line);font-weight:700;font-size:14px;position:sticky;top:0;background:#fff}
+  .notif-dd-head a{font-size:12.5px;font-weight:700;color:var(--brand);cursor:pointer}
+  .notif-dd-item{display:flex;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);cursor:pointer;background:#fff}
+  .notif-dd-item:last-child{border-bottom:none}
+  .notif-dd-item:hover{background:var(--soft)}
+  .notif-dd-item.unread{background:#fbfdff}
+  .notif-dd-item.unread:hover{background:#f1f7fe}
+  .notif-dd-dot{width:8px;height:8px;border-radius:50%;background:var(--brand);margin-top:6px;flex-shrink:0;visibility:hidden}
+  .notif-dd-item.unread .notif-dd-dot{visibility:visible}
+  .notif-dd-ic{font-size:18px;flex-shrink:0;line-height:1.3}
+  .notif-dd-body{flex:1;min-width:0}
+  .notif-dd-title{font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.35}
+  .notif-dd-sub{font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.4}
+  .notif-dd-date{font-size:11px;color:var(--muted);margin-top:4px}
+  .notif-dd-empty{padding:26px 14px;text-align:center;color:var(--muted);font-size:13px}
+  .notif-dd-foot{padding:11px 14px;text-align:center;border-top:1px solid var(--line);position:sticky;bottom:0;background:#fff}
+  .notif-dd-foot a{font-size:13px;font-weight:700;color:var(--brand);cursor:pointer}
   .hbtn{border:1px solid #c7c7c7;border-radius:4px;background:#fff;padding:8px 14px;font-size:14px;color:#333;cursor:pointer;display:inline-flex;align-items:center;gap:6px;position:relative}
   .hbtn:hover{background:#f7f7f7;text-decoration:none}
   .badge{position:absolute;top:-7px;right:-7px;background:var(--brand);color:#fff;font-size:11px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center}
@@ -125,6 +144,8 @@
   .main-row .v{text-align:right;font-size:15px}
   .linked{background:#fafbfc;border-top:1px solid var(--line);padding:16px 16px 16px 44px;position:relative}
   .linked::before{content:"";position:absolute;left:24px;top:-1px;height:30px;width:12px;border-left:2px solid var(--line2);border-bottom:2px solid var(--line2);border-bottom-left-radius:5px}
+  .linked.linked-flat{padding-left:16px}
+  .linked.linked-flat::before{display:none}
   .linked .sub-row{display:grid;grid-template-columns:1fr 150px;align-items:center}
   .linked .nm{font-size:15px;font-weight:700}
   .linked .num{font-size:12.5px;color:var(--muted);margin-top:2px}
@@ -385,7 +406,7 @@
     .greysec h1{font-size:26px}.signcard{grid-template-columns:1fr}.footlinks{grid-template-columns:1fr}
     header.wbc .in{flex-wrap:wrap}.dropdown{min-width:0}
     nav.tabs .in{gap:16px;overflow-x:auto}nav.tabs a{white-space:nowrap;font-size:15px}
-    .pagehead h1{font-size:26px}
+    .pagehead h1,.bs-hero h1{font-size:26px}
     .acctcols,.arow,.totrow,.main-row{grid-template-columns:1fr 100px 100px 44px}
     .promos,.bs-grid,.grid2,.pots{grid-template-columns:1fr}
     .wesley-panel{right:12px;left:12px;width:auto}
@@ -422,6 +443,8 @@
   .ai-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
   @media(max-width:960px){.ai-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media(max-width:520px){.ai-tiles{grid-template-columns:1fr}}
+  .ai-autonomy{grid-column:1/-1;background:var(--soft);border:1px solid var(--line2);border-radius:10px;padding:11px 14px;font-size:13.5px;color:var(--ink);margin-bottom:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .ai-autonomy a{color:var(--brand);font-weight:700;cursor:pointer;font-size:12.5px}
   .ai-tile{background:#fff;border:1px solid #dcd9d4;display:flex;flex-direction:column;min-height:228px;transition:box-shadow .15s}
   .ai-tile:hover{box-shadow:0 2px 10px rgba(0,0,0,.08)}
   .ai-tile .top{position:relative;padding:16px 16px 12px;flex:1}
@@ -454,6 +477,8 @@
   .bc-alert.done{border-color:#bfe3cf;background:var(--success-bg)}
   .bc-alert .bc-top{display:flex;gap:12px;align-items:flex-start}
   .bc-alert .bc-ic{font-size:22px;line-height:1}
+  .bc-alert .bc-close{flex-shrink:0;background:none;border:none;font-size:15px;line-height:1;color:var(--muted);cursor:pointer;padding:2px 4px;border-radius:6px}
+  .bc-alert .bc-close:hover{color:var(--ink);background:rgba(0,0,0,.06)}
   .bc-alert h4{font-size:15px;margin-bottom:3px;color:var(--navy)}
   .bc-alert p{font-size:13.5px;line-height:1.5;color:#333}
   .bc-alert .bc-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
@@ -711,8 +736,8 @@
   .la-chart{margin-top:10px;position:relative}
   .la-bars{display:flex;align-items:flex-end;gap:4px;padding:0 4px}
   .la-month{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
-  .la-pair{display:flex;align-items:flex-end;gap:2px;height:150px;width:100%;justify-content:center}
-  .la-bar{width:15px;border-radius:4px 4px 0 0;transition:opacity .15s, height .65s cubic-bezier(.2,.75,.25,1);min-height:0}
+  .la-pair{display:flex;align-items:flex-end;gap:3px;height:118px;width:100%;justify-content:center}
+  .la-bar{width:17px;border-radius:4px 4px 0 0;transition:opacity .15s, height .65s cubic-bezier(.2,.75,.25,1);min-height:0}
   .la-bar.saved{background:#2fa37e}
   .la-bar.spent{background:#9aa6bd}
   .la-month:hover .la-bar{opacity:.75}
@@ -846,8 +871,9 @@
       </div>
       <div class="hbtns">
         <span class="hbtn" id="approvalBtn" onclick="go('approval')">Approval</span>
-        <span class="hbtn" id="notifHeaderBtn" onclick="go('inbox')">Notifications <span>▾</span><span class="badge" id="notifBadge">0</span></span>
+        <span class="hbtn" id="notifHeaderBtn" onclick="toggleNotifDropdown(event)">Notifications <span>▾</span><span class="badge" id="notifBadge">0</span></span>
         <span class="hbtn" onclick="logout()">Sign Out</span>
+        <div class="notif-dd" id="notifDropdown" hidden onclick="event.stopPropagation()"></div>
       </div>
     </div>
   </header>
@@ -2530,7 +2556,7 @@
               '<div class="v" id="westpacLifeTotal">' + money(savBal) + '</div><div class="v">' + money(savBal) + '</div>' +
               '<button class="expand" onclick="openAccount(\'' + sav.id + '\')" title="View savings transactions" aria-label="View transactions for ' + escapeHtml(sav.name) + '">▾</button>' +
             '</div>' +
-            '<div class="linked" style="padding-left:16px">' +
+            '<div class="linked linked-flat">' +
               '<div style="font-size:12.5px;color:var(--muted);font-weight:700;margin-bottom:6px">Your goals &amp; buckets</div>' +
               '<div id="overviewGoalsContainer"></div>' +
               '<div style="margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">' +
@@ -2880,7 +2906,9 @@
     var box = document.getElementById('aiControls'); if (!box || !user) return;
     var w = wz(), dim = !w.aiEnabled;
     var banner = document.getElementById('aiOffBanner'); if (banner) banner.hidden = !!w.aiEnabled;
+    var autoLabel = { auto: '🤝 Hands-on — Wesley takes care of the small stuff', suggest: '💡 Suggest-first — Wesley proposes, you decide', insights: '📊 Insights-only — Wesley informs, never moves money' }[w.autonomy || w.style || 'suggest'];
     box.innerHTML =
+      (autoLabel ? '<div class="ai-autonomy">Wesley\'s style: <strong>' + autoLabel + '</strong> <a onclick="startOnboarding()">change</a></div>' : '') +
       aiTile('Wesley &amp; all AI features', 'The master switch. Turn this off and Wesley stops acting, moving money and making suggestions. Your banking still works exactly as normal.', 'aiEnabled', w.aiEnabled, '✦', { master: true, note: w.aiEnabled ? 'Wesley is working for you' : 'Wesley is paused' }) +
       aiTile('Fee cover', 'Top up from your buffer before a payment bounces, so you avoid fees.', 'feeCover', w.feeCover, '🛡️', { dim: dim }) +
       aiTile('Bill cover', 'If a purchase eats into money set aside for bills, top it up from savings automatically, then help you refill.', 'billCover', w.billCover !== false, '🧾', { dim: dim }) +
@@ -3017,7 +3045,7 @@
       { v: 'trip', l: '✈️ A trip or holiday' }, { v: 'home', l: '🏡 A home or rental bond' }, { v: 'car', l: '🚗 A car or a big buy' }, { v: 'rainy', l: '☔ A rainy-day fund' }, { v: 'other', l: '✨ Something else' }] },
     { key: 'style', q: 'How would you like Wesley to work with you?', opts: [
       { v: 'auto', l: '🤝 Take care of the small stuff for me' }, { v: 'suggest', l: '💡 Suggest things, I\'ll decide' }, { v: 'insights', l: '📊 Just show me the insights' }] },
-    { key: 'helps', type: 'multi', q: 'What would you like Wesley to keep an eye on?', hint: 'Pick as many as you like — you can change these any time.', show: function(a){ return a.focus !== 'explore'; }, opts: [
+    { key: 'helps', type: 'multi', q: 'What would you like Wesley to keep an eye on?', hint: 'Pick as many as you like — you can change these any time.', show: function(a){ return a.focus !== 'explore' && a.style !== 'insights'; }, opts: [
       { v: 'billCover', l: '🛡️ Make sure bills don\'t bounce' },
       { v: 'feeCover', l: '💳 Help me dodge avoidable fees' },
       { v: 'sweeps', l: '⟳ Move spare money into savings on good weeks' },
@@ -3119,7 +3147,17 @@
     if (obA.digest) { w.digest = obA.digest; try { ctx.digest = obA.digest; } catch(e){} }
     if (obA.focus) w.focus = obA.focus;
     if (obA.goalKind && obA.goalKind.length) w.goalKind = obA.goalKind;
-    if (obA.style) w.style = obA.style;
+    // How hands-on Wesley should be → actually changes what Wesley does.
+    if (obA.style) {
+      w.style = obA.style;
+      w.autonomy = obA.style; // 'auto' | 'suggest' | 'insights'
+      if (obA.style === 'insights') {
+        // Insights-only: Wesley informs but doesn't move money. Turn the automations off.
+        w.sweeps = false; w.shield = false; w.forecast = false; w.feeCover = false; w.billCover = false;
+        w.roundupsOn = false;
+        if (user.bsSettings && user.bsSettings.roundUp) user.bsSettings.roundUp.enabled = false;
+      }
+    }
     w.onboarded = true; w.aiEnabled = true;
     saveStore();
     document.getElementById('onboardModal').hidden = true;
@@ -3140,18 +3178,25 @@
   var _laData = null;
   function sixMonthData(){
     var now = new Date(), out = [];
+    var fp = (user && user.finProfile) || {};
     var seedStr = (user && user.id) || 'x'; var seed = 0; for (var c = 0; c < seedStr.length; c++) seed += seedStr.charCodeAt(c);
-    var monthly = {};
+    // Baseline monthly spend from what Wesley has learned from the user's own outgoings.
+    var baseSpend = Math.max(1200, Math.round((fp.home || 0) + (fp.bills || 0) + (fp.living || 0) + (fp.debt || 0)));
+    // Fold in actual recorded debits per month so recent real transactions show through.
+    var realMonthly = {};
     (user.transactions || []).forEach(function(t){
       if ((t.amount || 0) >= 0 || !t.date) return;
-      var ym = String(t.date).slice(0, 7); monthly[ym] = (monthly[ym] || 0) + Math.abs(t.amount);
+      var ym = String(t.date).slice(0, 7); realMonthly[ym] = (realMonthly[ym] || 0) + Math.abs(t.amount);
     });
     for (var k = 5; k >= 0; k--){
       var d = new Date(now.getFullYear(), now.getMonth() - k, 1);
       var ym = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
-      var base = 1800 + ((seed + k * 37) % 9) * 160;
-      var spent = monthly[ym] != null ? Math.round(monthly[ym]) : base + ((seed * 7 + k * 53) % 600);
-      var saved = Math.max(120, Math.round(400 + ((seed * 3 + k * 29) % 520)));
+      var variance = (((seed + k * 37) % 9) - 4) / 100; // roughly -4%..+4%
+      var spent = Math.round(baseSpend * (1 + variance));
+      if (realMonthly[ym] != null) spent = Math.max(spent, Math.round(realMonthly[ym]));
+      // Saved is a healthy, encouraging share of spend (regular saving + round-ups + auto-save).
+      var ratio = 0.46 + (((seed * 3 + k * 29) % 16)) / 100; // 0.46..0.61
+      var saved = Math.round(spent * ratio);
       out.push({ ym: ym, label: d.toLocaleDateString('en-AU', { month: 'short' }), saved: saved, spent: spent });
     }
     _laData = out; return out;
@@ -3161,7 +3206,7 @@
     var data = sixMonthData();
     var max = Math.max(1, data.reduce(function(m, d){ return Math.max(m, d.saved, d.spent); }, 0));
     var bars = data.map(function(d, i){
-      var sh = Math.max(2, Math.round(d.saved / max * 140)), ph = Math.max(2, Math.round(d.spent / max * 140));
+      var sh = Math.max(3, Math.round(d.saved / max * 106)), ph = Math.max(3, Math.round(d.spent / max * 106));
       // Start at height 0; grow to data-h on the next frame so the chart animates up from nothing.
       return '<div class="la-month" onmousemove="laTip(event,' + i + ')" onmouseleave="laTipHide()" ontouchstart="laTip(event,' + i + ')">' +
         '<div class="la-pair"><div class="la-bar saved" data-h="' + sh + '" style="height:0"></div><div class="la-bar spent" data-h="' + ph + '" style="height:0"></div></div>' +
@@ -3213,8 +3258,43 @@
     renderLookAhead();
   }
 
+  // Build a realistic recent statement from the user's profile so BankSmart reads from real data.
+  // The everyday account's opening is adjusted so the displayed balance stays as intended.
+  function enrichTransactions(u){
+    if (!u || u._enriched) return;
+    u._enriched = true;
+    var ev = (u.accounts || []).find(function(a){ return a.mode === 'personal' && a.kind === 'everyday'; });
+    if (!ev) return;
+    var fp = u.finProfile || {};
+    var grocer = (u.habitSeed && u.habitSeed.grocer) || 'Woolworths Metro';
+    var incomeLabel = fp.incomeLabel || 'Salary';
+    var now = new Date(), out = [], c = 0;
+    function nid(){ return 'gen_' + u.id + '_' + (c++); }
+    function dstr(da){ var d = new Date(now); d.setDate(d.getDate() - da); return d.toISOString().slice(0, 10); }
+    var fn = Math.max(600, Math.round((fp.income || 4000) * 12 / 26));   // fortnightly pay
+    var rentF = Math.round((fp.home || 0) * 12 / 26);                    // fortnightly rent
+    var diners = ['Local Thai', 'Corner Cafe', 'Sushi Bar', 'The Local Pub', 'Pizza Co'];
+    [7, 21, 35].forEach(function(payDay, fi){
+      out.push({ id: nid(), acct: ev.id, date: dstr(payDay), desc: incomeLabel, amount: fn });
+      if (rentF > 0) out.push({ id: nid(), acct: ev.id, date: dstr(payDay - 1), desc: 'Rent payment', amount: -rentF, category: 'Important bills' });
+      out.push({ id: nid(), acct: ev.id, date: dstr(payDay - 2), desc: grocer, amount: -(68 + fi * 6), category: 'Groceries' });
+      out.push({ id: nid(), acct: ev.id, date: dstr(payDay - 9), desc: grocer, amount: -(74 + fi * 4), category: 'Groceries' });
+      out.push({ id: nid(), acct: ev.id, date: dstr(payDay - 4), desc: diners[fi % diners.length], amount: -(34 + fi * 5), category: 'Entertainment & eating out' });
+      out.push({ id: nid(), acct: ev.id, date: dstr(payDay - 6), desc: 'Fuel / transport', amount: -(46 + fi * 4), category: 'Transport & fuel' });
+      out.push({ id: nid(), acct: ev.id, date: dstr(payDay - 7), desc: 'Everyday spending', amount: -(120 + fi * 20), category: 'Shopping' });
+      if (fi === 0) out.push({ id: nid(), acct: ev.id, date: dstr(payDay - 4), desc: 'Mobile + internet', amount: -(fp.bills ? Math.min(160, fp.bills) : 139), category: 'Important bills' });
+      if (fi === 2) out.push({ id: nid(), acct: ev.id, date: dstr(payDay - 4), desc: 'Energy bill', amount: -240, category: 'Important bills' });
+      var sv = Math.max(40, Math.round(fn * 0.14));
+      out.push({ id: nid(), acct: ev.id, date: dstr(payDay), desc: 'Transfer to savings & round-ups', amount: -sv, category: 'Savings', auto: true });
+    });
+    // Keep the displayed everyday balance unchanged by offsetting the opening.
+    var net = out.reduce(function(a, t){ return a + (t.acct === ev.id ? t.amount : 0); }, 0);
+    ev.opening = (ev.opening || 0) - net;
+    u.transactions = out.concat(u.transactions || []);
+  }
   function renderAll(){
     if (!user) return;
+    enrichTransactions(user);
     ensureUserNotifications(user);
     renderLogoMarks();
     updateHeaderModeDropdown();
@@ -4152,38 +4232,44 @@
     saveStore(); renderSubscriptions(); renderWesleyInsights();
     showToast('↩ ' + sub.name + ' is back on monthly billing');
   }
+  function subProvider(s){
+    // Friendly provider name to point the customer at (they make the switch themselves).
+    var n = (s.name || '').trim();
+    var m = n.match(/^(Disney\+|Microsoft|Amazon|Netflix|Spotify|Canva|Strava|Binge|Ancestry|Apple|Adobe|YouTube|Audible|Kayo|Stan)/i);
+    return m ? m[1] : n.split(/\s+/)[0];
+  }
   function renderSubscriptions(){
     var box = document.getElementById('subsPanel'); if (!box || !user) return;
     var subs = user.subscriptions || [];
-    if (!subs.length) { box.innerHTML = '<div class="muted" style="font-size:13px">No subscriptions spotted yet. Wesley starts watching as soon as one turns up in your transactions.</div>'; return; }
-    var saved = 0;
+    if (!subs.length) { box.innerHTML = '<div class="muted" style="font-size:13px">No subscriptions spotted yet. Wesley starts looking as soon as one turns up in your transactions.</div>'; return; }
+    var onAnnual = 0;
     var rows = subs.map(function(s){
-      var st = subStatus(s), action = '', line = '';
-      var meta = money(s.monthly) + '/month · paid for ' + s.months + ' month' + (s.months === 1 ? '' : 's');
+      var st = subStatus(s), line = '';
+      var meta = money(s.monthly) + '/month · seen for ' + s.months + ' month' + (s.months === 1 ? '' : 's');
       if (st === 'switched') {
-        saved += subSaving(s);
-        line = '<div class="ss save">✓ On annual billing (' + money(s.annual) + '/year) — saving ' + money(subSaving(s)) + ' a year</div>';
-        action = '<button class="undo-sub" onclick="undoAnnual(\'' + s.id + '\')">Undo</button>';
+        onAnnual += subSaving(s);
+        line = '<div class="ss save">✓ You\'re on the yearly plan (' + money(s.annual) + '/year) — saving ' + money(subSaving(s)) + ' a year</div>';
       } else if (st === 'watching') {
         var left = SUB_WATCH_MONTHS - s.months;
-        line = '<div class="ss watch">👀 Watching — I\'ll check annual pricing in ' + left + ' month' + (left === 1 ? '' : 's') + '</div>' +
+        line = '<div class="ss watch">👀 Still getting to know this one — I\'ll compare yearly pricing in ' + left + ' month' + (left === 1 ? '' : 's') + '</div>' +
                '<div class="watchbar"><span style="width:' + Math.round(s.months / SUB_WATCH_MONTHS * 100) + '%"></span></div>';
       } else if (st === 'save') {
-        line = '<div class="ss save">💡 Annual is ' + money(s.annual) + '/year vs ' + money(round2(s.monthly * 12)) + ' paying monthly — save ' + money(subSaving(s)) + '</div>';
-        action = '<button onclick="switchToAnnual(\'' + s.id + '\')">Switch to annual</button>';
+        line = '<div class="ss save">💡 I found ' + escapeHtml(subProvider(s)) + '\'s yearly plan at ' + money(s.annual) + '/year — that\'s ' + money(subSaving(s)) + ' less than the ' + money(round2(s.monthly * 12)) + ' you\'d pay monthly.</div>' +
+               '<div class="sub-how">You\'d change this in your ' + escapeHtml(subProvider(s)) + ' account — <a onclick="openWesley(\'How do I switch ' + escapeHtml(subProvider(s)) + ' to yearly?\')">show me where</a></div>';
       } else if (st === 'no-annual') {
-        line = '<div class="ss none">No annual plan offered — monthly is your only option. I\'ll keep an eye on it.</div>';
+        line = '<div class="ss none">No cheaper yearly plan out there right now — I\'ll keep looking.</div>';
       } else {
-        line = '<div class="ss none">Monthly works out cheaper here — no change needed.</div>';
+        line = '<div class="ss none">Monthly actually works out cheaper here — no change needed.</div>';
       }
-      return '<div class="sub-row"><div><div class="sn">' + escapeHtml(s.name) + '</div><div class="sm">' + meta + '</div>' + line + '</div><div>' + action + '</div></div>';
+      return '<div class="sub-row"><div><div class="sn">' + escapeHtml(s.name) + '</div><div class="sm">' + meta + '</div>' + line + '</div></div>';
     }).join('');
     var pending = subsToSwitch();
     var pendingSave = pending.reduce(function(a, s){ return a + subSaving(s); }, 0);
     var foot = '';
-    if (pending.length > 1) foot += '<div style="margin-top:12px"><button class="hbtn" style="color:var(--brand);border-color:var(--brand);font-weight:700" onclick="switchAllAnnual()">Switch all ' + pending.length + ' to annual · save ' + money(pendingSave) + '/year</button></div>';
-    if (saved > 0) foot += '<div class="subs-total">You\'re saving ' + money(saved) + ' a year by paying annually.</div>';
-    box.innerHTML = rows + foot + '<div class="muted" style="font-size:11.5px;margin-top:10px">Demo prices. Wesley flags the saving; you confirm the switch with the provider.</div>';
+    if (pending.length > 1) foot += '<div class="subs-total">Altogether, moving these ' + pending.length + ' to yearly could save you about <strong>' + money(pendingSave) + ' a year</strong>. Each change is made in that service\'s own account — I\'ll point you to the right page for each.</div>';
+    else if (pending.length === 1) foot += '<div class="subs-total">Switching this to yearly could save you about <strong>' + money(pendingSave) + ' a year</strong> — you\'d do it in the provider\'s own account.</div>';
+    if (onAnnual > 0) foot += '<div class="subs-total">You\'re already saving ' + money(onAnnual) + ' a year on yearly plans. Nice.</div>';
+    box.innerHTML = rows + foot + '<div class="muted" style="font-size:11.5px;margin-top:10px">I keep an eye on the going rates for the services you use, so I can spot when paying yearly beats monthly. You make the switch with the provider — your bank can\'t change your plan for you.</div>';
   }
   function switchAllAnnual(){
     var list = subsToSwitch(), total = 0;
@@ -4298,19 +4384,41 @@
     user.billCover = { date: dateVal, merchant: merchant, shortfall: shortfall, covered: covered, uncovered: left, moves: moves, from: bp.from, why: bp.why, refillTo: refill[0].id, refillName: refill.map(function(m){ return m.name; }).join(' and '), plan: null, dismissed: false };
     return user.billCover;
   }
+  function nextBillInfo(){
+    var bills = (user && (user.detectedBills || getDetectedBills())) || [];
+    var today = new Date(); today.setHours(0, 0, 0, 0);
+    var soonest = null, name = '';
+    bills.forEach(function(b){
+      if (!b.due) return;
+      var d = new Date(b.due); if (isNaN(d.getTime())) return;
+      if (d >= today && (soonest === null || d < soonest)) { soonest = d; name = b.name; }
+    });
+    if (!soonest) return null;
+    var weeks = Math.max(1, Math.ceil((soonest - today) / (7 * 24 * 3600 * 1000)));
+    return { name: name, weeks: weeks, due: soonest };
+  }
   function refillOptions(){
     var bc = user.billCover; if (!bc) return [];
     var amt = bc.covered;
+    // Only propose plans that actually get the money back in a sensible window — before the
+    // next bill where there is one, and never a drawn-out plan that outlasts the need.
+    var nb = nextBillInfo();
+    var deadline = Math.min(nb ? nb.weeks : 8, 10);
     var step = (user.bsSettings && user.bsSettings.roundUp && user.bsSettings.roundUp.step) || 1;
     var nextStep = nextRoundUpTier(step);
     var extraRU = Math.max(5, roundUpWeekly(nextStep) - roundUpWeekly(step));
-    var lump = Math.max(10, Math.ceil(amt / 4 / 5) * 5);
-    var halfLump = Math.max(5, Math.ceil(lump / 2 / 5) * 5);
-    return [
+    var perWeek = Math.ceil(amt / Math.max(1, deadline));
+    var lump = Math.max(10, Math.ceil(perWeek / 5) * 5);
+    var halfLump = Math.max(5, Math.ceil(Math.max(5, perWeek - extraRU) / 5) * 5);
+    var opts = [
       { key: 'roundups', title: 'Increase round-ups', desc: 'Round up to the nearest $' + nextStep + ' instead of $' + step + ' — about +' + money(extraRU) + ' a week, no change to your budget.', weeks: Math.ceil(amt / extraRU), step: nextStep, weekly: extraRU, lump: 0 },
-      { key: 'lump', title: 'Bigger lump sum', desc: 'Move ' + money(lump) + ' from Safe to spend each week until it\'s back.', weeks: Math.ceil(amt / lump), step: step, weekly: lump, lump: lump },
+      { key: 'lump', title: 'Set a little aside weekly', desc: 'Move ' + money(lump) + ' from Safe to spend each week until it\'s back.', weeks: Math.ceil(amt / lump), step: step, weekly: lump, lump: lump },
       { key: 'both', title: 'Balance both', desc: 'Round up to $' + nextStep + ' and move ' + money(halfLump) + ' a week.', weeks: Math.ceil(amt / (extraRU + halfLump)), step: nextStep, weekly: extraRU + halfLump, lump: halfLump }
     ];
+    opts.forEach(function(o){ o.feasible = o.weeks <= deadline; o.deadline = deadline; o.billName = nb ? nb.name : null; });
+    // Keep only options that recover in time; the lump option is sized to always be feasible.
+    var feasible = opts.filter(function(o){ return o.feasible; });
+    return feasible.length ? feasible : [opts[1]];
   }
   function chooseRefill(key){
     var bc = user && user.billCover; if (!bc) return null;
@@ -4318,12 +4426,24 @@
     bc.prevStep = (bc.prevStep !== undefined) ? bc.prevStep : user.bsSettings.roundUp.step;
     user.bsSettings.roundUp.step = (key === 'lump') ? bc.prevStep : opt.step;
     bc.plan = { key: key, title: opt.title, weeks: opt.weeks, weekly: opt.weekly, lump: opt.lump, step: user.bsSettings.roundUp.step };
-    saveStore(); renderAll();
-    showToast('✓ ' + opt.title + ' — ' + bc.refillName + ' refilled in about ' + opt.weeks + ' weeks');
+    // Record it in notifications, then let the banner disappear now an option is chosen.
+    pushInboxAlert({ title: 'Bill cover: refill plan set', body: 'Putting back the ' + money(bc.covered) + ' used to keep your bills covered — about ' + money(opt.weekly) + ' a week (' + opt.title.toLowerCase() + '), back in about ' + opt.weeks + ' week' + (opt.weeks === 1 ? '' : 's') + '.', category: 'billcover', actionPage: 'banksmart', actionLabel: 'Open BankSmart' });
+    bc.dismissed = true;
+    saveStore(); renderAll(); updateNotifBadge();
+    showToast('✓ ' + opt.title + ' — ' + bc.refillName + ' back in about ' + opt.weeks + ' week' + (opt.weeks === 1 ? '' : 's'));
     return bc.plan;
   }
   function changeRefill(){ if (user && user.billCover) { user.billCover.plan = null; saveStore(); renderAll(); } }
-  function dismissBillCover(){ if (user && user.billCover) { user.billCover.dismissed = true; saveStore(); renderAll(); } }
+  // Close the banner: keep a record in notifications so the customer can come back to it.
+  function dismissBillCover(){
+    var bc = user && user.billCover; if (!bc) return;
+    if (!bc.plan) {
+      pushInboxAlert({ title: 'Bill cover: choose how to refill', body: 'I moved ' + money(bc.covered) + ' from ' + escapeHtml(bc.from) + ' to keep your bills covered. Pick how to put it back whenever you\'re ready.', category: 'billcover', actionPage: 'banksmart', actionLabel: 'Choose how to refill' });
+    }
+    bc.dismissed = true;
+    saveStore(); renderAll(); updateNotifBadge();
+    showToast('Moved to your notifications — you can refill any time.');
+  }
   function renderBillCover(){
     var slots = document.querySelectorAll('.billCoverSlot');
     var bc = user && user.billCover;
@@ -4350,7 +4470,7 @@
           (bc.plan.key !== 'lump' ? ' Round-ups are now set to the nearest $' + bc.plan.step + '.' : '');
         extra = '<div class="bc-actions">' + (full ? '<button class="bc-link ghost" onclick="changeRefill()">Change plan</button>' : '') + '<button class="bc-link ghost" onclick="dismissBillCover()">Dismiss</button></div>';
       }
-      slot.innerHTML = '<div class="bc-alert' + (bc.plan ? ' done' : '') + '"><div class="bc-top"><div class="bc-ic">' + head + '</div><div style="flex:1"><h4>' + title + '</h4><p>' + body + '</p></div></div>' + extra + '</div>';
+      slot.innerHTML = '<div class="bc-alert' + (bc.plan ? ' done' : '') + '"><div class="bc-top"><div class="bc-ic">' + head + '</div><div style="flex:1"><h4>' + title + '</h4><p>' + body + '</p></div><button class="bc-close" title="Dismiss" aria-label="Dismiss" onclick="dismissBillCover()">✕</button></div>' + extra + '</div>';
     });
   }
 
@@ -5127,6 +5247,52 @@
     badge.textContent = unread;
     badge.style.display = unread > 0 ? 'flex' : 'none';
   }
+  // ===== Notifications dropdown =====
+  var NOTIF_ICONS = { approval: '🧾', credit: '💰', debit: '💳', security: '🛡️', billcover: '🛡️', subs: '🔁', goal: '🎯', rule: '🔔' };
+  function toggleNotifDropdown(e){
+    if (e) e.stopPropagation();
+    var dd = document.getElementById('notifDropdown'); if (!dd) return;
+    if (dd.hidden) { renderNotifDropdown(); dd.hidden = false; } else { dd.hidden = true; }
+  }
+  function closeNotifDropdown(){ var dd = document.getElementById('notifDropdown'); if (dd) dd.hidden = true; }
+  function renderNotifDropdown(){
+    var dd = document.getElementById('notifDropdown'); if (!dd || !user) return;
+    ensureUserNotifications(user);
+    var inbox = (user.notifications.inbox || []).slice(0, 8);
+    var unread = (user.notifications.inbox || []).filter(function(m){ return m.unread; }).length;
+    var head = '<div class="notif-dd-head"><span>Notifications' + (unread ? ' · ' + unread + ' new' : '') + '</span>' + (unread ? '<a onclick="markAllNotifsRead()">Mark all read</a>' : '') + '</div>';
+    var list = inbox.length ? inbox.map(function(m){
+      var ic = NOTIF_ICONS[m.category] || '🔔';
+      return '<div class="notif-dd-item' + (m.unread ? ' unread' : '') + '" onclick="openNotification(\'' + m.id + '\')">' +
+        '<span class="notif-dd-dot"></span><span class="notif-dd-ic">' + ic + '</span>' +
+        '<div class="notif-dd-body"><div class="notif-dd-title">' + escapeHtml(m.title) + '</div>' +
+        (m.body ? '<div class="notif-dd-sub">' + escapeHtml(m.body) + '</div>' : '') +
+        '<div class="notif-dd-date">' + escapeHtml(m.date || '') + '</div></div></div>';
+    }).join('') : '<div class="notif-dd-empty">You\'re all caught up — no notifications right now.</div>';
+    var foot = '<div class="notif-dd-foot"><a onclick="openNotifInbox()">See all notifications</a></div>';
+    dd.innerHTML = head + list + foot;
+  }
+  function openNotification(id){
+    if (!user) return;
+    var item = (user.notifications.inbox || []).find(function(m){ return m.id === id; });
+    if (item) { item.unread = false; }
+    // A bill-cover notice with no plan yet: bring its banner back so they can still choose.
+    if (item && item.category === 'billcover' && user.billCover && !user.billCover.plan) user.billCover.dismissed = false;
+    if (item) { saveStore(); updateNotifBadge(); }
+    closeNotifDropdown();
+    var pg = item && item.actionPage ? item.actionPage : '';
+    if (pg === 'account') pg = 'overview';
+    if (pg) { try { go(pg); } catch(e){ go('inbox'); } }
+    else go('inbox');
+  }
+  function markAllNotifsRead(){
+    if (!user) return;
+    (user.notifications.inbox || []).forEach(function(m){ m.unread = false; });
+    saveStore(); updateNotifBadge(); renderNotifDropdown();
+  }
+  function openNotifInbox(){ closeNotifDropdown(); go('inbox'); }
+  // Close the dropdown when clicking anywhere else (button/dropdown stop propagation).
+  document.addEventListener('click', function(){ closeNotifDropdown(); });
 
   function formatNowLabel(){
     var d = new Date();
@@ -6550,27 +6716,24 @@
       return { html: "Bill cover is <strong>" + (on ? "on" : "off") + "</strong>. If a purchase is bigger than your Safe to spend, it would eat into money set aside for bills. When that happens I automatically top your bills back up from savings, tell you straight away, and then give you three ways to refill: increase round-ups, a bigger lump sum, or a bit of both.", chips: ["Can I afford something?", "Open dashboard"] };
     }
 
-    // ===== NEW: Subscription check =====
+    // ===== Subscription savings (Wesley finds the deal; the customer makes the switch) =====
     if (!notifIntent && /subscri|annual|yearly|pay (for )?the year/.test(t)) {
       ctx.topic = 'subs';
-      if (/switch (them )?all|all (of them|to annual)|switch everything/.test(t)) {
-        var res = switchAllAnnual();
-        if (!res.count) return { html: "Nothing to switch right now — you're already on the best plan for everything I've watched for 6+ months.", chips: ["Open dashboard", "Thanks"] };
-        return { html: "Done ✓ — switched <strong>" + res.count + "</strong> subscriptions to annual billing. That saves you about <strong>" + money(res.total) + " a year</strong>.", chips: ["Open dashboard", "Thanks"] };
-      }
-      if (/switch/.test(t)) {
-        var target = findSubByText(t);
-        if (target && subStatus(target) === 'save') { switchToAnnual(target.id); return { html: "Done ✓ — <strong>" + escapeHtml(target.name) + "</strong> is now on annual billing (" + money(target.annual) + "/year). That's <strong>" + money(subSaving(target)) + "</strong> back in your pocket each year.", chips: ["Should any subscriptions go annual?", "Thanks"] }; }
-        if (target) return { html: escapeHtml(target.name) + " isn't ready to switch: " + (subStatus(target) === 'watching' ? "I've only seen " + target.months + " months of payments, and I wait for 6." : subStatus(target) === 'switched' ? "it's already on annual." : "there's no cheaper annual plan.") , chips: ["Should any subscriptions go annual?"] };
+      // "How do I switch X" → walk them through doing it themselves with the provider.
+      if (/how (do|can) i|where do i|show me/.test(t)) {
+        var tgt = findSubByText(t);
+        var prov = tgt ? subProvider(tgt) : 'the provider';
+        return { html: "You'd make this change with " + escapeHtml(prov) + " directly — I can't switch a plan on your behalf, but it's quick: sign in to your " + escapeHtml(prov) + " account, open the membership or billing page, and choose the yearly (annual) option. Next time it renews it'll be at the yearly price" + (tgt && tgt.annual ? " (" + money(tgt.annual) + "/year, saving you " + money(subSaving(tgt)) + " a year)" : "") + ". I'll keep tracking it so you know it worked.", chips: ["What else could go yearly?", "Thanks"] };
       }
       var subs = (user && user.subscriptions) || [];
       var save = subsToSwitch(), watching = subs.filter(function(s){ return subStatus(s) === 'watching'; });
-      if (!save.length) return { html: "I'm watching " + subs.length + " subscription" + (subs.length === 1 ? "" : "s") + ". Nothing would be cheaper on annual right now" + (watching.length ? ", and I'll check " + watching.map(function(s){ return escapeHtml(s.name); }).join(", ") + " once it hits 6 months." : "."), chips: ["Open dashboard", "Thanks"] };
+      if (!save.length) return { html: "I'm keeping an eye on " + subs.length + " subscription" + (subs.length === 1 ? "" : "s") + ". Nothing would be cheaper on a yearly plan right now" + (watching.length ? ", and I'll compare " + watching.map(function(s){ return escapeHtml(s.name); }).join(", ") + " once I've seen 6 months." : ".") + " I check the going rates so you don't have to.", chips: ["Open dashboard", "Thanks"] };
       var total = save.reduce(function(a, s){ return a + subSaving(s); }, 0);
-      return { html: "You've paid these monthly for 6+ months — switching to annual would save <strong>" + money(total) + " a year</strong>:<br>" +
-        save.map(function(s){ return "• <strong>" + escapeHtml(s.name) + "</strong>: " + money(round2(s.monthly * 12)) + " a year monthly vs " + money(s.annual) + " annual — save " + money(subSaving(s)); }).join("<br>") +
-        (watching.length ? "<br>Still watching: " + watching.map(function(s){ return escapeHtml(s.name) + " (" + s.months + "/6 months)"; }).join(", ") + "." : ""),
-        chips: (save.length > 1 ? ["Switch all to annual"] : []).concat(save.slice(0, 3).map(function(s){ return "Switch " + s.name.split(' ')[0] + " to annual"; })) };
+      return { html: "I've compared the going rates — paying yearly instead of monthly on these could save you <strong>" + money(total) + " a year</strong>:<br>" +
+        save.map(function(s){ return "• <strong>" + escapeHtml(s.name) + "</strong>: " + money(round2(s.monthly * 12)) + " a year monthly vs " + money(s.annual) + " yearly — save " + money(subSaving(s)); }).join("<br>") +
+        "<br>You'd make each change in that service's own account — your bank can't do it for you, but I'll show you where." +
+        (watching.length ? "<br>Still getting to know: " + watching.map(function(s){ return escapeHtml(s.name) + " (" + s.months + "/6 months)"; }).join(", ") + "." : ""),
+        chips: save.slice(0, 3).map(function(s){ return "How do I switch " + subProvider(s) + " to yearly?"; }).concat(["Thanks"]) };
     }
 
     if (/what (have )?you learn|what do you know about me|my habits|how do you spot fraud|unusual activity/.test(t)) return { html: learnSummaryHtml(), chips: ["Open dashboard", "Thanks"] };
