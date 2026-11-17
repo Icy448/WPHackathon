@@ -1607,7 +1607,7 @@
       <button class="wp-send" onclick="wesleySend()">➤</button>
     </div>
     <div class="wp-foot">
-      <button class="wp-reset" onclick="resetDemo()">↺ Start over &amp; replay onboarding</button>
+      <button class="wp-reset" onclick="resetDemo()">↺ Reset what Wesley's learned &amp; set up again</button>
     </div>
   </div>
 </div>
@@ -2936,17 +2936,30 @@
   // Demo reset: wipe saved data and reload so the welcome + onboarding run fresh.
   function resetDemo(){
     uiConfirm({
-      title: 'Start over?',
-      body: 'This clears all demo accounts and settings saved in this browser and reloads, so the Wesley welcome and onboarding run from scratch. Handy for demos.',
-      confirmLabel: 'Clear & restart',
+      title: 'Reset what Wesley has learned?',
+      body: 'This clears everything Wesley has tuned for you — your focus, savings pace, round-ups, weekly auto-save and feature choices — and runs the quick setup again from the start. Your accounts and transactions stay exactly as they are.',
+      confirmLabel: 'Reset & set up again',
       cancelLabel: 'Cancel',
       danger: true,
-      onConfirm: function(){
-        try { localStorage.removeItem(STORE_KEY); } catch(e){}
-        try { localStorage.removeItem('banksmart_savings_plan_items'); } catch(e){}
-        location.reload();
-      }
+      onConfirm: function(){ resetWesleyLearning(); }
     });
+  }
+  function resetWesleyLearning(){
+    if (!user) return;
+    // Wipe Wesley's tuned/learned state back to defaults, but keep AI enabled and
+    // leave the user's accounts/transactions untouched. wz() backfills the defaults.
+    user.wesley = { aiEnabled: true };
+    wz();
+    user.bsSettings = user.bsSettings || {};
+    user.bsSettings.roundUp = { enabled: true, step: 1, dest: (user.bsSettings.roundUp && user.bsSettings.roundUp.dest) || '', rules: [] };
+    saveStore();
+    try { resetChat(); } catch(e){}      // clear Wesley's chat memory too
+    try { closeWesley(); } catch(e){}
+    setMode('personal');
+    go('banksmart');
+    renderAll();
+    // Run the onboarding flow again so the user re-tunes Wesley.
+    setTimeout(startOnboarding, 200);
   }
 
   // ===== AI master toggle / disabled state =====
