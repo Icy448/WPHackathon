@@ -700,7 +700,6 @@
   .bs-disabled-overlay[hidden]{display:none}
   /* When Wesley is off, grey out the BankSmart content behind the overlay box */
   .bs-off > :not(.bs-disabled-overlay){filter:grayscale(.6);opacity:.5;pointer-events:none;user-select:none}
-  .banksmart-tab.off{opacity:.45}
   .wp-foot{padding:8px 12px;border-top:1px solid var(--line);background:#fffaf9;text-align:center}
   .wp-reset{font-family:inherit;font-size:12.5px;color:var(--muted);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:6px}
   .wp-reset:hover{color:var(--brand);background:var(--soft)}
@@ -2117,7 +2116,7 @@
         var parsed = JSON.parse(saved);
         if (parsed && parsed.version === 1 && parsed.users) {
           if (parsed.logoStyle !== 'westpac' && parsed.logoStyle !== 'custom') {
-            parsed.logoStyle = 'custom';
+            parsed.logoStyle = 'westpac';
           }
           Object.keys(parsed.users).forEach(function(k){
             ensureUserBSSettings(parsed.users[k]);
@@ -2127,7 +2126,7 @@
         }
       }
     } catch(e) {}
-    var fresh = { version: 1, logoStyle: 'custom', users: clone(DEMO_USERS) };
+    var fresh = { version: 1, logoStyle: 'westpac', users: clone(DEMO_USERS) };
     // migrate legacy single-user plan if present
     try {
       var legacy = localStorage.getItem('banksmart_savings_plan_items');
@@ -2155,7 +2154,7 @@
   }
 
   function resetStore(){
-    store = { version: 1, logoStyle: 'custom', users: clone(DEMO_USERS) };
+    store = { version: 1, logoStyle: 'westpac', users: clone(DEMO_USERS) };
     Object.keys(store.users).forEach(function(k){
       ensureUserBSSettings(store.users[k]);
       ensureUserNotifications(store.users[k]);
@@ -2189,7 +2188,8 @@
   };
 
   function getLogoStyle(){
-    return (store && store.logoStyle === 'westpac') ? 'westpac' : 'custom';
+    // Default to the Westpac logo; only use the custom W when explicitly chosen.
+    return (store && store.logoStyle === 'custom') ? 'custom' : 'westpac';
   }
 
   function setLogoStyle(style, silent){
@@ -2784,11 +2784,11 @@
     if (!user) return;
     var on = !!wz().aiEnabled;
 
-    // Keep the BankSmart tab reachable when Wesley is off, just visually muted —
-    // the page itself shows a greyed-out disabled state.
+    // The BankSmart nav tab always looks the same, on or off. The page itself
+    // shows the greyed-out disabled state when Wesley is off.
     document.querySelectorAll('.banksmart-tab').forEach(function(el){
       el.hidden = false;
-      el.classList.toggle('off', !on);
+      el.classList.remove('off');
     });
 
     var fab = document.querySelector('.wesley-fab');
